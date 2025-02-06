@@ -56,6 +56,24 @@ en:
       duplicate_claim:
         short: *duplicate_claim_short
         long: *duplicate_claim_long
+      stayed_quashed_indictment:
+        short: &stayed_quashed_indictment_short Second fee for stayed/quashed indictment refused
+        long: &stayed_quashed_indictment_long Second fee not payable for stayed/quashed indictment. More information provided on previous note.
+      predate_rep_order:
+        short: &predate_rep_order_short Hearings not covered by legal aid
+        long: &predate_rep_order_long Hearings predate the rep order so are unable to be paid.
+      paid_elsewhere:
+        short: &paid_elsewhere_short Main hearing paid elsewhere as an uplift
+        long: &paid_elsewhere_long Main hearing was heard concurrently with another case. This case has been paid as an uplift on the separate case.
+      continuation_of_trial:
+        short: &continuation_of_trial_short Continuous trial fees paid
+        long: &continuation_of_trial_long Unable to confirm the matter as a retrial, rather a continuation of first trial, and fees have been added to the first trial
+      prescribed_proceedings:
+        short: &prescribed_proceedings_short Fees should be claimed as prescribed proceedings
+        long: &prescribed_proceedings_long The hearing is payable as prescribed proceedings. Please approach your instructing solicitors to submit on their monthly submission using the code PROH.
+      incorrect_supplemental_case:
+        short: &incorrect_supplemental_case_short Supplemental fee claimed under the incorrect case
+        long: &incorrect_supplemental_case_long Supplemental fee claimed under the incorrect case. More information provided on previous note.
       other_refuse:
         short: *other
         long: *blank
@@ -66,6 +84,24 @@ en:
       duplicate_claim:
         short: *duplicate_claim_short
         long: *duplicate_claim_long
+      stayed_quashed_indictment:
+        short: *stayed_quashed_indictment_short
+        long: *stayed_quashed_indictment_long
+      predate_rep_order:
+        short: *predate_rep_order_short
+        long: *predate_rep_order_long
+      paid_elsewhere:
+        short: *paid_elsewhere_short
+        long: *paid_elsewhere_long
+      continuation_of_trial:
+        short: *continuation_of_trial_short
+        long: *continuation_of_trial_long
+      prescribed_proceedings:
+        short: *prescribed_proceedings_short
+        long: *prescribed_proceedings_long
+      incorrect_supplemental_case:
+        short: *incorrect_supplemental_case_short
+        long: *incorrect_supplemental_case_long
       other_refuse:
         short: *other
         long: *blank
@@ -82,6 +118,24 @@ en:
       short_trial:
         short: *short_trial_short
         long: *short_trial_long
+      stayed_quashed_indictment:
+        short: *stayed_quashed_indictment_short
+        long: *stayed_quashed_indictment_long
+      predate_rep_order:
+        short: *predate_rep_order_short
+        long: *predate_rep_order_long
+      paid_elsewhere:
+        short: *paid_elsewhere_short
+        long: *paid_elsewhere_long
+      continuation_of_trial:
+        short: *continuation_of_trial_short
+        long: *continuation_of_trial_long
+      prescribed_proceedings:
+        short: *prescribed_proceedings_short
+        long: *prescribed_proceedings_long
+      incorrect_supplemental_case:
+        short: *incorrect_supplemental_case_short
+        long: *incorrect_supplemental_case_long
       other_refuse:
         short: *other
         long: *blank
@@ -89,6 +143,24 @@ en:
       wrong_ia:
         short: &wrong_ia_short Incorrect trial advocate
         long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
+      stayed_quashed_indictment:
+        short: *stayed_quashed_indictment_short
+        long: *stayed_quashed_indictment_long
+      predate_rep_order:
+        short: *predate_rep_order_short
+        long: *predate_rep_order_long
+      paid_elsewhere:
+        short: *paid_elsewhere_short
+        long: *paid_elsewhere_long
+      continuation_of_trial:
+        short: *continuation_of_trial_short
+        long: *continuation_of_trial_long
+      prescribed_proceedings:
+        short: *prescribed_proceedings_short
+        long: *prescribed_proceedings_long
+      incorrect_supplemental_case:
+        short: *incorrect_supplemental_case_short
+        long: *incorrect_supplemental_case_long
     refused_litigator_claims:
       duplicate_claim:
         short: *duplicate_claim_short

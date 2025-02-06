@@ -108,21 +108,42 @@ RSpec.describe ClaimStateTransitionReason do
       let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
       let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee]) }
 
-      it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
+      it {
+        is_expected.to match_array %w[wrong_ia duplicate_claim stayed_quashed_indictment predate_rep_order
+                                      paid_elsewhere continuation_of_trial prescribed_proceedings
+                                      incorrect_supplemental_case other_refuse]
+      }
     end
 
     context 'with an advocate interim claim' do
       let(:claim) { create(:advocate_interim_claim) }
 
-      it do
-        is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial other_refuse]
-      end
+      it {
+        is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial
+                                      stayed_quashed_indictment predate_rep_order paid_elsewhere
+                                      continuation_of_trial prescribed_proceedings
+                                      incorrect_supplemental_case other_refuse]
+      }
     end
 
     context 'with an advocate supplementary claim' do
       let(:claim) { create(:advocate_supplementary_claim) }
 
-      it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
+      it {
+        is_expected.to match_array %w[wrong_ia duplicate_claim stayed_quashed_indictment predate_rep_order
+                                      paid_elsewhere continuation_of_trial prescribed_proceedings
+                                      incorrect_supplemental_case other_refuse]
+      }
+    end
+
+    context 'with an advocate hardship claim' do
+      let(:claim) { create(:advocate_hardship_claim) }
+
+      it {
+        is_expected.to match_array %w[wrong_ia stayed_quashed_indictment predate_rep_order paid_elsewhere
+                                      continuation_of_trial prescribed_proceedings
+                                      incorrect_supplemental_case]
+      }
     end
   end
 

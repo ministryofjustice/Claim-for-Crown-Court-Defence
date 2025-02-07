@@ -67,8 +67,8 @@
               = fee.amount
 
     .govuk-summary-list
-      %dl.govuk-summary-list__row.total-fees
-        %dt.govuk-summary-list__key.total-fees
+      = govuk_summary_list_row do
+        = govuk_summary_list_key do
           = t('.fees_total')
-        %dd.govuk-summary-list__value
+        = govuk_summary_list_value(class: 'govuk-!-text-align-right') do
           = claim.fees_total

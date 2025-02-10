@@ -59,7 +59,7 @@
     "webpack-remove-empty-scripts": "^1.0.4"
   },
   "devDependencies": {
-    "expose-loader": "^5.0.0",
+    "expose-loader": "^5.0.1",
     "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.5.0",
     "standard": "^17.1.2",

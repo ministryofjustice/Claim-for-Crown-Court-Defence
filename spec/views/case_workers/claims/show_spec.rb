@@ -41,6 +41,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   context 'fee summaries' do
+    headings = ['Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount']
+
     context 'AGFS' do
       before do
         claim.save
@@ -52,8 +54,10 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         let(:claim) { build(:advocate_claim, :without_misc_fees, :submitted) }
 
         it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
+          within '.fees-summary' do
+            headings.each do |heading|
+              expect(rendered).to have_css('th', text: heading)
+            end
           end
         end
       end
@@ -62,8 +66,10 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :without_misc_fees, :submitted) }
 
         it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
+          within '.fees-summary' do
+            headings.each do |heading|
+              expect(rendered).to have_css('th', text: heading)
+            end
           end
         end
       end

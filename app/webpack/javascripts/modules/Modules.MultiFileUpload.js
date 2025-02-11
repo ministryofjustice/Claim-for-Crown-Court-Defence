@@ -1,6 +1,7 @@
 moj.Modules.MultiFileUpload = {
   init: function () {
     let container = document.querySelector('.moj-multi-file-upload');
+    if (!container) return;
     let fields = container.querySelector('.moj-multi-file__uploaded-fields');
 
     let multiFileUpload = new MOJFrontend.MultiFileUpload({

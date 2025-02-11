@@ -267,7 +267,6 @@ GEM
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
     ffi (1.17.1-arm64-darwin)
-    ffi (1.17.1-x86_64-darwin)
     ffi (1.17.1-x86_64-linux-gnu)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
@@ -411,8 +410,6 @@ GEM
     net-ssh (7.3.0)
     nio4r (2.7.4)
     nokogiri (1.18.2-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.2-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.18.2-x86_64-linux-gnu)
       racc (~> 1.4)
@@ -689,7 +686,6 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
-  x86_64-darwin-22
   x86_64-linux-gnu
 
 DEPENDENCIES

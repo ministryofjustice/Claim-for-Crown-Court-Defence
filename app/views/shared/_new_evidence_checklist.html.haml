@@ -4,7 +4,5 @@
       %h2.govuk-summary-card__title= (t('shared.evidence_checklist.caption'))
     .govuk-summary-card__content
       = govuk_summary_list do
-        %ul(class="govuk-!-margin-0")
         - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
-          %div
-            = dt.name
+          %dt #{dt.name}

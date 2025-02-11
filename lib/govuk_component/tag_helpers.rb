@@ -2,6 +2,7 @@
 
 module GovukComponent
   module TagHelpers
+    include SharedHelpers
     def govuk_tag(body = nil, color = nil, **tag_options)
       tag_options = prepend_classes('govuk-tag--' + color, tag_options) if color.present?
       tag_options = prepend_classes('govuk-tag', tag_options)

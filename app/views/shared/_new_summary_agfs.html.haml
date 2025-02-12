@@ -11,7 +11,7 @@
     = render partial:'shared/new_warrant_fees_details', locals: { claim: claim }
 
   - if claim.expenses.empty?
-    %h3.govuk-heading-m
+    %h2.govuk-heading-l
       = t('common.expenses')
     %p.govuk-body
       = t('shared.summary.no_values.expenses')

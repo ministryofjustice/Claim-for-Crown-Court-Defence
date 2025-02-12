@@ -10,7 +10,7 @@
     = render partial:'shared/new_warrant_fees_details', locals: { claim: claim }
 
   - if claim.expenses.empty?
-    %h3.govuk-heading-m
+    %h2.govuk-heading-l
       = t('common.expenses')
 
     %p.govuk-body
@@ -20,7 +20,7 @@
 
   - if claim.can_have_disbursements?
     - if claim.disbursements.empty?
-      %h3.govuk-heading-m
+      %h2.govuk-heading-l
         = t('common.disbursements')
 
       %p.govuk-body

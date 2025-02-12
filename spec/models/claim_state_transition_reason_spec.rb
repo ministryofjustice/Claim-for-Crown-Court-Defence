@@ -50,8 +50,9 @@ RSpec.describe ClaimStateTransitionReason do
 
     let(:agfs_reasons) do
       %w[no_indictment no_rep_order time_elapsed no_amend_rep_order case_still_live wrong_case_no wrong_maat_ref
-         advocate_request rep_order_required further_clarification hardship_requirements supplemental_fee
-         invalid_supplier_code soft_reject_no_response soft_reject_attendance_notes other]
+         agfs_advocate_request agfs_breach_or_appeal agfs_further_clarification agfs_hardship_requirements
+         agfs_supplemental_fee agfs_invalid_supplier_code agfs_soft_reject_no_response agfs_soft_reject_attendance_notes
+         other]
     end
 
     let(:lgfs_reasons) do
@@ -115,9 +116,9 @@ RSpec.describe ClaimStateTransitionReason do
       let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee]) }
 
       it {
-        is_expected.to match_array %w[wrong_ia duplicate_claim stayed_quashed_indictment predate_rep_order
-                                      paid_elsewhere continuation_of_trial prescribed_proceedings
-                                      incorrect_supplemental_case other_refuse]
+        is_expected.to match_array %w[wrong_ia duplicate_claim agfs_stayed_quashed_indictment agfs_predate_rep_order
+                                      agfs_paid_elsewhere agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case other_refuse]
       }
     end
 
@@ -126,9 +127,9 @@ RSpec.describe ClaimStateTransitionReason do
 
       it {
         is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial
-                                      stayed_quashed_indictment predate_rep_order paid_elsewhere
-                                      continuation_of_trial prescribed_proceedings
-                                      incorrect_supplemental_case other_refuse]
+                                      agfs_stayed_quashed_indictment agfs_predate_rep_order agfs_paid_elsewhere
+                                      agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case other_refuse]
       }
     end
 
@@ -136,9 +137,9 @@ RSpec.describe ClaimStateTransitionReason do
       let(:claim) { create(:advocate_supplementary_claim) }
 
       it {
-        is_expected.to match_array %w[wrong_ia duplicate_claim stayed_quashed_indictment predate_rep_order
-                                      paid_elsewhere continuation_of_trial prescribed_proceedings
-                                      incorrect_supplemental_case other_refuse]
+        is_expected.to match_array %w[wrong_ia duplicate_claim agfs_stayed_quashed_indictment agfs_predate_rep_order
+                                      agfs_paid_elsewhere agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case other_refuse]
       }
     end
 
@@ -146,9 +147,9 @@ RSpec.describe ClaimStateTransitionReason do
       let(:claim) { create(:advocate_hardship_claim) }
 
       it {
-        is_expected.to match_array %w[wrong_ia stayed_quashed_indictment predate_rep_order paid_elsewhere
-                                      continuation_of_trial prescribed_proceedings
-                                      incorrect_supplemental_case]
+        is_expected.to match_array %w[wrong_ia agfs_stayed_quashed_indictment agfs_predate_rep_order agfs_paid_elsewhere
+                                      agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case]
       }
     end
   end

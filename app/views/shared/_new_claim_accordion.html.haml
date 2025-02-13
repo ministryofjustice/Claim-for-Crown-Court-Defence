@@ -21,23 +21,6 @@
   .js-accordion__panel
     = render partial: 'shared/new_claim', locals: { claim: claim, hide_totals: true }
 
-  - if claim.defendants.any?
-    %h2.govuk-heading-l
-      = t('.h2_defendant_details')
-    .js-accordion__panel
-      = render partial: 'shared/new_claim_defendants', locals: { defendants: claim.defendants }
-  -else
-    = render partial: 'shared/new_defendant_details', locals: { claim: claim }
-
-  %h2.govuk-heading-l
-    = t('.h2_offence_details')
-  - if claim.offence
-    - unless claim.fixed_fee_case?
-      = render partial: 'shared/offence_details/new_summary', locals: { claim: claim }
-  - else
-    %p.govuk-body
-      = t('shared.summary.no_values.offence_details')
-
   %h2.govuk-heading-l
     = t('.h2_evidence')
   .js-accordion__panel

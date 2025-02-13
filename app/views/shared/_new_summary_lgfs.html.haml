@@ -28,5 +28,7 @@
 
     - else
       - if claim.disbursements.with_vat.any?
+        %h2.govuk-heading-l
+          = t('shared.disbursements_gross')
         = render partial: 'shared/new_lgfs_disbursements', locals: { claim: claim }
 

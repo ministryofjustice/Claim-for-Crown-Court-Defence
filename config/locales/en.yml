@@ -2144,7 +2144,6 @@ en:
       j_a: Judicial apportionment
       offence: Offence
       offence_class: Offence class
-      h2_defendant_details: Defendant details
       no_defendant: *no_defendant
     new_claim_accordion:
       additional_information: Additional information
@@ -2172,6 +2171,8 @@ en:
       reporders: Represention order
       maat_reference: 'MAAT reference:'
       no_reporder: No representation orders have been supplied for this defendant.
+    new_claim_defendants:
+      h2_defendant_details: Defendant details
     new_claim_retrial_details:
       retrial_started_at: 'First day of retrial'
       retrial_estimated_length: 'Estimated retrial length'

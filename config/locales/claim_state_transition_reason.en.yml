@@ -84,6 +84,18 @@ en:
         agfs_soft_reject_attendance_notes:
           short: &agfs_soft_reject_attendance_notes_short Main hearing attendance note(s) required
           long: &agfs_soft_reject_attendance_notes_long Soft Reject – we rejected your claim because you have not responded to our request for an attendance note to confirm counsel had attended the main hearing/first day of trial.
+        lgfs_litigator_request:
+          short: &lgfs_litigator_request_short Rejected at the request of the Litigator
+          long: &lgfs_litigator_request_long Your claim has been rejected as per your request.
+        lgfs_no_breakdown:
+          short: &lgfs_no_breakdown_short Invoice does not include a breakdown of work completed
+          long: &lgfs_no_breakdown_long We have rejected your claim for disbursement because the invoice provided does not include an hourly breakdown and the rate per hour claimed for the work completed. We require such a breakdown to be able to assess if the disbursement claimed is reasonable.
+        lgfs_no_reference:
+          short: &lgfs_no_reference_short Invoice does not include any recognisable reference to this case
+          long: &lgfs_no_reference_long We have rejected your claim for disbursement because the invoice provided does not include any reference to associate it with the case against the defendant. We need to see a reference to the case such as a case number or defendants name so that we can validate the work completed was for this case.
+        lgfs_breach_or_appeal:
+          short: &lgfs_breach_or_appeal_short Rep Order does not cover Breach or Appeal Proceedings
+          long: &lgfs_breach_or_appeal_long We have rejected your claim because the representation order provided does not cover the breach or appeal proceedings. For this type of proceedings and separate application for legal aid must be made. Appeal rep orders will be denoted with the word (Appeal) in the heading. Breach rep orders may be granted by the Court or the LAA and will not have a MAAT reference attached.
   claim_state_transition_reason:
     disbursement:
       no_prior_authority:
@@ -312,6 +324,18 @@ en:
       wrong_maat_ref:
         short: *wrong_maat_ref_short
         long: *wrong_maat_ref_long
+      lgfs_litigator_request:
+        short: *lgfs_litigator_request_short
+        long: *lgfs_litigator_request_long
+      lgfs_no_breakdown:
+        short: *lgfs_no_breakdown_short
+        long: *lgfs_no_breakdown_long
+      lgfs_no_reference:
+        short: *lgfs_no_reference_short
+        long: *lgfs_no_reference_long
+      lgfs_breach_or_appeal:
+        short: *lgfs_breach_or_appeal_short
+        long: *lgfs_breach_or_appeal_long
       other:
         short: *other
         long: *blank

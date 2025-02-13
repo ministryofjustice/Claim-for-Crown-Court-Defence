@@ -56,7 +56,8 @@ RSpec.describe ClaimStateTransitionReason do
     end
 
     let(:lgfs_reasons) do
-      %w[no_indictment no_rep_order time_elapsed no_amend_rep_order case_still_live wrong_case_no wrong_maat_ref other]
+      %w[no_indictment no_rep_order time_elapsed no_amend_rep_order case_still_live wrong_case_no wrong_maat_ref
+         lgfs_litigator_request lgfs_no_breakdown lgfs_no_reference lgfs_breach_or_appeal other]
     end
 
     let(:disbursement_only_reasons) { %w[no_prior_authority no_invoice] }

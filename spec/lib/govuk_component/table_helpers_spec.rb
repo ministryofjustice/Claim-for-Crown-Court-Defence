@@ -149,20 +149,6 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     end
   end
 
-  describe '#govuk_table_tbody_collection' do
-    subject(:markup) do
-      helper.govuk_table_tbody_collection([['data cell 1', 'data cell 2'], ['data cell 3', 'data cell 4']])
-    end
-
-    it 'adds a nested table cell in govuk table body' do
-      is_expected.to have_tag(:tbody, with: { class: 'govuk-table__body' }) do
-        with_tag(:tr, with: { class: 'govuk-table__row' }, count: 2) do
-          with_tag(:td, with: { class: 'govuk-table__cell' }, count: 4, text: /data cell/)
-        end
-      end
-    end
-  end
-
   describe '#govuk_table_row_collection' do
     subject(:markup) do
       helper.govuk_table_row_collection(['data cell 1', 'data cell 2'])

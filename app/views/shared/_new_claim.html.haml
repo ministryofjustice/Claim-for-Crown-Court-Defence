@@ -32,9 +32,7 @@
         = render partial: 'shared/new_main_hearing_date_details', locals: { claim: claim }
 
 - if claim.defendants.any?
-  %h2.govuk-heading-l
-    = t('.h2_defendant_details')
-    = render partial: 'shared/new_claim_defendants', locals: { defendants: claim.defendants }
+  = render partial: 'shared/new_claim_defendants', locals: { defendants: claim.defendants }
 -else
   .govuk-grid-row
     .govuk-grid-column-two-thirds

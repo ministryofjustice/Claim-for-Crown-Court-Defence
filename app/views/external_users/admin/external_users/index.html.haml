@@ -42,7 +42,4 @@
           = govuk_tag_active_user?(advocate)
 
         = govuk_table_td('data-label': t('.actions')) do
-          - if advocate.active? && advocate.enabled?
-            = render partial: 'edit_delete_links', locals: { advocate: advocate }
-          - elsif advocate.active? && !advocate.enabled?
-            = render partial: 'edit_delete_links', locals: { advocate: advocate }
+          = render partial: 'edit_delete_links', locals: { advocate: advocate }

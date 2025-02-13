@@ -83,20 +83,6 @@ module GovukComponent
       end
     end
 
-    def govuk_table_tbody_collection(data_collections)
-      govuk_table_tbody do
-        table_rows = data_collections.map do |row|
-          row.map do |data_cell|
-            govuk_table_td { data_cell }
-          end.join
-        end
-
-        table_rows.each do |table_row|
-          concat(govuk_table_row { sanitize(table_row, tags: %w[td]) })
-        end
-      end
-    end
-
     def govuk_table_row_collection(data_collections)
       govuk_table_row do
         data_collections.each do |datum|

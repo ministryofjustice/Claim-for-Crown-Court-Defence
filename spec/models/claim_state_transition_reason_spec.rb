@@ -97,6 +97,13 @@ RSpec.describe ClaimStateTransitionReason do
          lgfs_prescribed_proceedings lgfs_rep_order_not_in_place other_refuse]
     end
 
+    let(:common_agfs_reasons) do
+      %w[wrong_ia duplicate_claim agfs_stayed_quashed_indictment agfs_predate_rep_order agfs_paid_elsewhere
+         agfs_continuation_of_trial agfs_prescribed_proceedings agfs_incorrect_supplemental_case other_refuse]
+    end
+
+    let(:interim_reasons) { %w[no_effective_pcmh no_effective_trial short_trial] }
+
     context 'with a litigator final claim' do
       let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: create(:fixed_fee, :lgfs)) }
 
@@ -112,7 +119,7 @@ RSpec.describe ClaimStateTransitionReason do
     context 'with a litigator interim claim' do
       let(:claim) { create(:interim_claim, interim_fee: build(:interim_fee)) }
 
-      it { is_expected.to match_array(common_lgfs_reasons + %w[no_effective_pcmh no_effective_trial short_trial]) }
+      it { is_expected.to match_array(common_lgfs_reasons + interim_reasons) }
     end
 
     context 'with a litigator hardship claim' do
@@ -145,7 +152,7 @@ RSpec.describe ClaimStateTransitionReason do
       context 'with a litigator interim claim' do
         let(:claim) { create(:interim_claim, :redetermination, interim_fee: build(:interim_fee)) }
 
-        it { is_expected.to match_array(common_lgfs_reasons + %w[no_effective_pcmh no_effective_trial short_trial]) }
+        it { is_expected.to match_array(common_lgfs_reasons + interim_reasons) }
       end
 
       context 'with a litigator hardship claim' do
@@ -159,42 +166,25 @@ RSpec.describe ClaimStateTransitionReason do
       let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
       let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee]) }
 
-      it {
-        is_expected.to match_array %w[wrong_ia duplicate_claim agfs_stayed_quashed_indictment agfs_predate_rep_order
-                                      agfs_paid_elsewhere agfs_continuation_of_trial agfs_prescribed_proceedings
-                                      agfs_incorrect_supplemental_case other_refuse]
-      }
+      it { is_expected.to match_array(common_agfs_reasons) }
     end
 
     context 'with an advocate interim claim' do
       let(:claim) { create(:advocate_interim_claim) }
 
-      it {
-        is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial
-                                      agfs_stayed_quashed_indictment agfs_predate_rep_order agfs_paid_elsewhere
-                                      agfs_continuation_of_trial agfs_prescribed_proceedings
-                                      agfs_incorrect_supplemental_case other_refuse]
-      }
+      it { is_expected.to match_array(common_agfs_reasons + interim_reasons - ['wrong_ia']) }
     end
 
     context 'with an advocate supplementary claim' do
       let(:claim) { create(:advocate_supplementary_claim) }
 
-      it {
-        is_expected.to match_array %w[wrong_ia duplicate_claim agfs_stayed_quashed_indictment agfs_predate_rep_order
-                                      agfs_paid_elsewhere agfs_continuation_of_trial agfs_prescribed_proceedings
-                                      agfs_incorrect_supplemental_case other_refuse]
-      }
+      it { is_expected.to match_array(common_agfs_reasons) }
     end
 
     context 'with an advocate hardship claim' do
       let(:claim) { create(:advocate_hardship_claim) }
 
-      it {
-        is_expected.to match_array %w[wrong_ia agfs_stayed_quashed_indictment agfs_predate_rep_order agfs_paid_elsewhere
-                                      agfs_continuation_of_trial agfs_prescribed_proceedings
-                                      agfs_incorrect_supplemental_case]
-      }
+      it { is_expected.to match_array(common_agfs_reasons - %w[duplicate_claim other_refuse]) }
     end
   end
 

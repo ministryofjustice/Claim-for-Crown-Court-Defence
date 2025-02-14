@@ -60,6 +60,7 @@ RSpec.describe 'offences details' do
 
     context 'when fee reform filter is provided' do
       let(:params) { { fee_scheme: 'AGFS 10' } }
+      let(:expected_params) { ActionController::Parameters.new(fee_scheme: 'AGFS 10').permit(:fee_scheme) }
 
       before do
         allow(FeeReform::SearchOffences).to receive(:call).and_call_original
@@ -71,7 +72,7 @@ RSpec.describe 'offences details' do
       end
 
       it 'calls the fee reform search offences service with the provided filters' do
-        expect(FeeReform::SearchOffences).to have_received(:call).with('fee_scheme' => 'AGFS 10')
+        expect(FeeReform::SearchOffences).to have_received(:call).with(expected_params)
       end
     end
   end

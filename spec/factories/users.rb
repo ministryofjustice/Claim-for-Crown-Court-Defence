@@ -47,5 +47,13 @@ FactoryBot.define do
     trait :disabled do
       disabled_at { 10.minutes.ago }
     end
+
+    trait :enabled do
+      disabled_at { nil }
+    end
+
+    trait :active do
+      deleted_at { false }
+    end
   end
 end

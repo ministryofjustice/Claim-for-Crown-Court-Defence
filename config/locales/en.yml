@@ -369,7 +369,7 @@ en:
     transfer_detail_summary: Transfer details
     transfer_date: Transfer date
     defendant: Defendant
-    expenses: Expenses
+    expenses: Travel expenses
     disbursements: Disbursements
     fees: Fees
     or: or
@@ -2148,12 +2148,12 @@ en:
     new_claim_accordion:
       additional_information: Additional information
       created_by: 'Created by:'
-      h2_basic_info: Basic claim information
+      basic_info: Basic claim information
       h2_offence_details: Offence details
-      h2_evidence: Evidence
-      h2_messages: Messages and claim status
+      evidence: Evidence
+      messages: Messages and claim status
       h2_status: Status
-      h2_summary: Fees
+      fees: Fees
       heading: Claim
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
@@ -2647,7 +2647,7 @@ en:
     claim_total: 'Claim total'
     description: 'Description'
     disbursement_type: 'Disbursement type'
-    disbursements_gross: 'Disbursements with VAT'
+    disbursements_gross: 'Disbursements'
     disbursements_no_vat: 'Disbursements without VAT'
     disbursements_total: 'Disbursements total'
     download_all_html: Download all <span class="govuk-visually-hidden">%{context}</span>

@@ -9,15 +9,6 @@
   - if claim.final? && claim.interim_claim_info.present?
     = render partial:'shared/new_warrant_fees_details', locals: { claim: claim }
 
-  - if claim.expenses.empty?
-    %h2.govuk-heading-l
-      = t('common.expenses')
-
-    %p.govuk-body
-      = t('shared.summary.no_values.expenses')
-  - else
-    = render partial: 'shared/summary/new_expenses', locals: { claim: claim }
-
   - if claim.can_have_disbursements?
     - if claim.disbursements.empty?
       %h2.govuk-heading-l

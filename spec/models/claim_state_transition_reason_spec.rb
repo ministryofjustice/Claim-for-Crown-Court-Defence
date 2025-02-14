@@ -92,23 +92,66 @@ RSpec.describe ClaimStateTransitionReason do
   describe '.refuse_reasons_for' do
     subject(:refuse_reasons_for) { described_class.refuse_reasons_for(claim).map(&:code) }
 
+    let(:common_lgfs_reasons) do
+      %w[duplicate_claim lgfs_second_fee lgfs_unjustified_disbursement lgfs_wrong_maat_ref lgfs_proceed_of_crime_act
+         lgfs_prescribed_proceedings lgfs_rep_order_not_in_place other_refuse]
+    end
+
     context 'with a litigator final claim' do
       let(:claim) { create(:litigator_claim, :fixed_fee, fixed_fee: create(:fixed_fee, :lgfs)) }
 
-      it { is_expected.to match_array %w[duplicate_claim other_refuse] }
+      it { is_expected.to match_array(common_lgfs_reasons) }
     end
 
     context 'with a litigator transfer claim' do
       let(:claim) { create(:transfer_claim, transfer_fee: build(:transfer_fee)) }
 
-      it { is_expected.to match_array %w[duplicate_claim other_refuse] }
+      it { is_expected.to match_array(common_lgfs_reasons) }
     end
 
     context 'with a litigator interim claim' do
       let(:claim) { create(:interim_claim, interim_fee: build(:interim_fee)) }
 
-      it do
-        is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial other_refuse]
+      it { is_expected.to match_array(common_lgfs_reasons + %w[no_effective_pcmh no_effective_trial short_trial]) }
+    end
+
+    context 'with a litigator hardship claim' do
+      let(:claim) { create(:litigator_hardship_claim, hardship_fee: build(:hardship_fee)) }
+
+      it { is_expected.to match_array(common_lgfs_reasons) }
+    end
+
+    context 'when a redetermination has been requested' do
+      let(:common_lgfs_reasons) do
+        %w[duplicate_claim lgfs_redet_second_fee lgfs_redet_unjustified_disbursement lgfs_redet_wrong_maat_ref
+           lgfs_redet_proceed_of_crime_act lgfs_redet_prescribed_proceedings lgfs_redet_rep_order_not_in_place
+           lgfs_redet_request_info lgfs_redet_relevance_electronic_material lgfs_redet_no_exlectronic_material
+           lgfs_redet_offence_class lgfs_redet_written_reasons lgfs_redet_ppe lgfs_redet_incorrect_case_type
+           other_refuse]
+      end
+
+      context 'with a litigator final claim' do
+        let(:claim) { create(:litigator_claim, :fixed_fee, :redetermination, fixed_fee: create(:fixed_fee, :lgfs)) }
+
+        it { is_expected.to match_array(common_lgfs_reasons) }
+      end
+
+      context 'with a litigator transfer claim' do
+        let(:claim) { create(:transfer_claim, :redetermination, transfer_fee: build(:transfer_fee)) }
+
+        it { is_expected.to match_array(common_lgfs_reasons) }
+      end
+
+      context 'with a litigator interim claim' do
+        let(:claim) { create(:interim_claim, :redetermination, interim_fee: build(:interim_fee)) }
+
+        it { is_expected.to match_array(common_lgfs_reasons + %w[no_effective_pcmh no_effective_trial short_trial]) }
+      end
+
+      context 'with a litigator hardship claim' do
+        let(:claim) { create(:litigator_hardship_claim, :redetermination, hardship_fee: build(:hardship_fee)) }
+
+        it { is_expected.to match_array(common_lgfs_reasons) }
       end
     end
 

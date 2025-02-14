@@ -32,7 +32,16 @@ class ClaimStateTransitionReason
     end
 
     def refuse_reasons_for(claim)
-      reasons_for("refused_#{claim.class.to_s.demodulize.tableize}")
+      reasons = reasons_for("refused_#{claim.class.to_s.demodulize.tableize}")
+      if claim.lgfs?
+        reason_key = if claim.redetermination? || claim.awaiting_written_reasons?
+                       :refused_litigator_redetermination_claims
+                     else
+                       :refused_litigator_new_claims
+                     end
+        reasons.insert(1, reasons_for(reason_key))
+      end
+      reasons.flatten
     end
 
     def transition_reasons

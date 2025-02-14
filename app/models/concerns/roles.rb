@@ -3,7 +3,7 @@ module Roles
 
   included do |klass|
     klass.extend(ClassMethods)
-    klass.serialize :roles, Array
+    klass.serialize :roles, type: Array
     klass.before_validation :strip_empty_role
     klass.validate :roles_valid
 

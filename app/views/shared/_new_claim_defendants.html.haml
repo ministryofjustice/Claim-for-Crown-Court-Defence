@@ -1,0 +1,5 @@
+%h2.govuk-heading-l{ class:'govuk-!-static-margin-bottom-6'}
+  = t('.h2_defendant_details')
+
+- defendants.each_with_index do | defendant, index |
+  = render partial: 'shared/new_claim_defendant_details', locals: { defendant: present(defendant, CaseWorkers::DefendantPresenter), index: index += 1 }

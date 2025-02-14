@@ -1,0 +1,3 @@
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('common.main_hearing_date') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.main_hearing_date&.strftime(Settings.date_format) }

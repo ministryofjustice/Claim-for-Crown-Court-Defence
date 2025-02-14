@@ -1,0 +1,28 @@
+= render partial: 'shared/new_evidence_checklist'
+
+- if current_user_persona_is?(CaseWorker) && @claim.documents.none?
+  %p.govuk-body
+    = t('.no_documents_uploaded')
+
+- else
+  .govuk-summary-card
+    .govuk-summary-card__title-wrapper
+      %h2.govuk-summary-card__title=t('.existing_evidence')
+      = govuk_link_to t('shared.download_all_html', context: t('.existing_evidence')), download_zip_case_workers_claim_path(@claim), class: 'govuk-!-font-weight-bold'
+    .govuk-summary-card__content
+      = govuk_table do
+        = govuk_table_thead do
+          = govuk_table_row do
+            = govuk_table_th { t('.name_of_file') }
+            = govuk_table_th_numeric { t('.file_size') }
+            = govuk_table_th_numeric { t('.date_added') }
+
+        = govuk_table_tbody do
+          - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
+            = govuk_table_row do
+              = govuk_table_td { govuk_link_to document.document_file_name, download_document_path(document) }
+              = govuk_table_td_numeric { number_to_human_size(document.document_file_size) }
+              = govuk_table_td_numeric { document.created_at.strftime(Settings.date_format) }
+
+- if claim.additional_information.present?
+  = render partial: 'shared/new_additional_information', locals: { claim: claim }

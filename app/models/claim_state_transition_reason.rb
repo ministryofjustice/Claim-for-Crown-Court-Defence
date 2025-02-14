@@ -26,7 +26,7 @@ class ClaimStateTransitionReason
     end
 
     def reject_reasons_for(claim)
-      reasons = reasons_for('rejected')
+      reasons = reasons_for("rejected_#{claim.agfs? ? 'advocate' : 'litigator'}_claims")
       reasons.insert(6, reasons_for(:disbursement)) if disbursement_only?(claim)
       reasons.flatten
     end

@@ -48,24 +48,31 @@ RSpec.describe ClaimStateTransitionReason do
   describe '.reject_reasons_for' do
     subject(:reject_reasons_for) { described_class.reject_reasons_for(claim) }
 
-    let(:reasons) do
+    let(:agfs_reasons) do
+      %w[no_indictment no_rep_order time_elapsed no_amend_rep_order case_still_live wrong_case_no wrong_maat_ref
+         agfs_advocate_request agfs_breach_or_appeal agfs_further_clarification agfs_hardship_requirements
+         agfs_supplemental_fee agfs_invalid_supplier_code agfs_soft_reject_no_response agfs_soft_reject_attendance_notes
+         other]
+    end
+
+    let(:lgfs_reasons) do
       %w[no_indictment no_rep_order time_elapsed no_amend_rep_order case_still_live wrong_case_no wrong_maat_ref other]
     end
 
     let(:disbursement_only_reasons) { %w[no_prior_authority no_invoice] }
-    let(:all_reasons) { (reasons + disbursement_only_reasons) }
 
     context 'with an advocate claim' do
       let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
       let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee], state: 'refused') }
 
       it 'returns base rejection reasons' do
-        expect(reject_reasons_for.map(&:code)).to match_array(reasons)
+        expect(reject_reasons_for.map(&:code)).to match_array(agfs_reasons)
       end
     end
 
     context 'with a Litigator interim, disbursement only claim' do
       let(:claim) { create(:interim_claim, :disbursement_only_fee, state: 'rejected') }
+      let(:all_reasons) { (lgfs_reasons + disbursement_only_reasons) }
 
       it 'returns base rejection reasons and disbursement specific reasons' do
         expect(reject_reasons_for.map(&:code)).to match_array(all_reasons)
@@ -76,7 +83,7 @@ RSpec.describe ClaimStateTransitionReason do
       let(:claim) { build(:advocate_claim, :without_fees, state: 'rejected') }
 
       it 'returns base rejection reasons' do
-        expect(reject_reasons_for.map(&:code)).to match_array(reasons)
+        expect(reject_reasons_for.map(&:code)).to match_array(agfs_reasons)
       end
     end
   end
@@ -108,21 +115,42 @@ RSpec.describe ClaimStateTransitionReason do
       let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, amount: 21.01) }
       let(:claim) { create(:advocate_claim, :with_graduated_fee_case, basic_fees: [basic_fee]) }
 
-      it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
+      it {
+        is_expected.to match_array %w[wrong_ia duplicate_claim agfs_stayed_quashed_indictment agfs_predate_rep_order
+                                      agfs_paid_elsewhere agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case other_refuse]
+      }
     end
 
     context 'with an advocate interim claim' do
       let(:claim) { create(:advocate_interim_claim) }
 
-      it do
-        is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial other_refuse]
-      end
+      it {
+        is_expected.to match_array %w[duplicate_claim no_effective_pcmh no_effective_trial short_trial
+                                      agfs_stayed_quashed_indictment agfs_predate_rep_order agfs_paid_elsewhere
+                                      agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case other_refuse]
+      }
     end
 
     context 'with an advocate supplementary claim' do
       let(:claim) { create(:advocate_supplementary_claim) }
 
-      it { is_expected.to match_array %w[wrong_ia duplicate_claim other_refuse] }
+      it {
+        is_expected.to match_array %w[wrong_ia duplicate_claim agfs_stayed_quashed_indictment agfs_predate_rep_order
+                                      agfs_paid_elsewhere agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case other_refuse]
+      }
+    end
+
+    context 'with an advocate hardship claim' do
+      let(:claim) { create(:advocate_hardship_claim) }
+
+      it {
+        is_expected.to match_array %w[wrong_ia agfs_stayed_quashed_indictment agfs_predate_rep_order agfs_paid_elsewhere
+                                      agfs_continuation_of_trial agfs_prescribed_proceedings
+                                      agfs_incorrect_supplemental_case]
+      }
     end
   end
 

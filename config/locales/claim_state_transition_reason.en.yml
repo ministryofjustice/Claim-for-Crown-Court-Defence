@@ -1,47 +1,90 @@
 en:
   dictionary:
     claim_state_transition_reason:
-      other:
-        short: &other Other
-        long: &blank ''
-      duplicate_claim:
-        short: &duplicate_claim_short Duplicate claim
-        long: &duplicate_claim_long We refused your claim because our records show this bill has already been paid.
-      no_effective_pcmh:
-        short: &no_effective_pcmh_short No effective PCMH has taken place
-        long: &no_effective_pcmh_long We refused your claim because the court records do not show that an effective PCMH has taken place. Check the case details and submit the claim again.The ‘effective PCMH payment can be made at any time after the PCMH has taken place up until the trial conclusion.
-      no_effective_trial:
-        short: &no_effective_trial_short No effective trial start has taken place
-        long: &no_effective_trial_long We refused your claim because the court records do not show that the trial has commenced. Check the case details and submit the claim again.
-      short_trial:
-        short: &short_trial_short The trial estimate was less than 10 days
-        long: &short_trial_long We refused your claim because the trial is estimated to last for less than 10 days, this interim payment can only be claimed where the trial has commenced and is set to last for more than 10 days.
+      refused:
+        other:
+          short: &other Other
+          long: &blank ''
+        duplicate_claim:
+          short: &duplicate_claim_short Duplicate claim
+          long: &duplicate_claim_long We refused your claim because our records show this bill has already been paid.
+        no_effective_pcmh:
+          short: &no_effective_pcmh_short No effective PCMH has taken place
+          long: &no_effective_pcmh_long We refused your claim because the court records do not show that an effective PCMH has taken place. Check the case details and submit the claim again.The ‘effective PCMH payment can be made at any time after the PCMH has taken place up until the trial conclusion.
+        no_effective_trial:
+          short: &no_effective_trial_short No effective trial start has taken place
+          long: &no_effective_trial_long We refused your claim because the court records do not show that the trial has commenced. Check the case details and submit the claim again.
+        short_trial:
+          short: &short_trial_short The trial estimate was less than 10 days
+          long: &short_trial_long We refused your claim because the trial is estimated to last for less than 10 days, this interim payment can only be claimed where the trial has commenced and is set to last for more than 10 days.
+        wrong_ia:
+          short: &wrong_ia_short Incorrect trial advocate
+          long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
+        agfs_stayed_quashed_indictment:
+          short: &agfs_stayed_quashed_indictment_short Second fee for stayed/quashed indictment refused
+          long: &agfs_stayed_quashed_indictment_long We refused your claim because a second fee is not payable for a stayed/quashed indictment. More information provided on previous note.
+        agfs_predate_rep_order:
+          short: &agfs_predate_rep_order_short Hearings not covered by legal aid
+          long: &agfs_predate_rep_order_long We refused your claim because hearings predate the representation order so are unable to be paid.
+        agfs_paid_elsewhere:
+          short: &agfs_paid_elsewhere_short Main hearing paid elsewhere as an uplift
+          long: &agfs_paid_elsewhere_long We refused your claim because the main hearing was heard concurrently with another case. This case has been paid as an uplift on the separate case.
+        agfs_continuation_of_trial:
+          short: &agfs_continuation_of_trial_short Continuous trial fees paid
+          long: &agfs_continuation_of_trial_long We refused your claim because we are unable to confirm the matter as a retrial, rather a continuation of first trial, and fees have been added to the first trial.
+        agfs_prescribed_proceedings:
+          short: &agfs_prescribed_proceedings_short Fees should be claimed as prescribed proceedings
+          long: &agfs_prescribed_proceedings_long We refused your claim because the hearing is payable as prescribed proceedings. Please approach your instructing solicitors to submit on their monthly submission using the code PROH.
+        agfs_incorrect_supplemental_case:
+          short: &agfs_incorrect_supplemental_case_short Supplemental fee claimed under the incorrect case
+          long: &agfs_incorrect_supplemental_case_long We refused your claim because the supplemental fee was claimed under the incorrect case. More information provided on previous note.
+      rejected:
+        no_indictment:
+          short: &no_indictment_short No indictment attached
+          long: &no_indictment_long We rejected your claim because you didn’t attach the indictment. Submit the claim again with the indictment. You can download a copy from the Digital Case System.
+        no_rep_order:
+          short: &no_rep_order_short No Magistrates’ representation order attached (granted before 1/8/2015)
+          long: &no_rep_order_long We rejected your claim because you didn’t attach the representation order. Submit the claim again with the representation order. You can get a copy from the Magistrates’ Court where it was issued.
+        time_elapsed:
+          short: &time_elapsed_short Claim significantly out of time with no explanation
+          long: &time_elapsed_long We rejected your claim because the case ended over 3 months ago. Submit the claim again explaining why it is late.
+        no_amend_rep_order:
+          short: &no_amend_rep_order_short No amending representation order
+          long: &no_amend_rep_order_long We rejected your claim because you didn’t attach the amending representation order – both the original and the amended order confirming a change in representation. Submit the claim again with both representation orders.
+        case_still_live:
+          short: &case_still_live_short Case still live
+          long: &case_still_live_long We rejected your claim because our records show the case hasn’t ended. Submit the claim again when the case has ended, including any hearings for sentencing.
+        wrong_case_no:
+          short: &wrong_case_no_short Incorrect case number
+          long: &wrong_case_no_long We rejected your claim because the case number didn’t match court records for this defendant. Check the case details and submit the claim again.
+        wrong_maat_ref:
+          short: &wrong_maat_ref_short Wrong MAAT reference
+          long: &wrong_maat_ref_long We rejected your claim because the MAAT reference you provided does not match the defendant records. Check the MAAT reference number for this defendant and submit the claim again.
+        agfs_advocate_request:
+          short: &agfs_advocate_request_short Rejected at the request of the Advocate
+          long: &agfs_advocate_request_long We rejected your claim at your request.
+        agfs_breach_or_appeal:
+          short: &agfs_breach_or_appeal_short A copy of the breach/appeal rep order is required
+          long: &agfs_breach_or_appeal_long We rejected your claim because a copy of the breach/appeal rep order is required.
+        agfs_further_clarification:
+          short: &agfs_further_clarification_short Further clarification required to consider basic fee
+          long: &agfs_further_clarification_long We rejected your claim because further clarification is required to consider the basic fee claimed. More information provided on previous note.
+        agfs_hardship_requirements:
+          short: &agfs_hardship_requirements_short Hardship requirements not satisfied
+          long: &agfs_hardship_requirements_long We rejected your claim because hardship requirements are not satisfied. More information provided on previous note.
+        agfs_supplemental_fee:
+          short: &agfs_supplemental_fee_short Supplementary claim made prior to main hearing
+          long: &agfs_supplemental_fee_long We rejected your claim because this is a supplemental fee, but the main hearing is yet to be paid. You need to submit the claim for the main hearing first.
+        agfs_invalid_supplier_code:
+          short: &agfs_invalid_supplier_code_short Supplier account code invalid
+          long: &agfs_invalid_supplier_code_long We rejected your claim because the supplier account code you provided is invalid.
+        agfs_soft_reject_no_response:
+          short: &agfs_soft_reject_no_response_short No response to soft reject
+          long: &agfs_soft_reject_no_response_long Soft Reject – we rejected your claim because you have not responded to a soft reject, or incorrect content was supplied.
+        agfs_soft_reject_attendance_notes:
+          short: &agfs_soft_reject_attendance_notes_short Main hearing attendance note(s) required
+          long: &agfs_soft_reject_attendance_notes_long Soft Reject – we rejected your claim because you have not responded to our request for an attendance note to confirm counsel had attended the main hearing/first day of trial.
   claim_state_transition_reason:
-    rejected:
-      no_indictment:
-        short: No indictment attached
-        long: We rejected your claim because you didn’t attach the indictment. Submit the claim again with the indictment. You can download a copy from the Digital Case System.
-      no_rep_order:
-        short: No Magistrates’ representation order attached (granted before 1/8/2015)
-        long: We rejected your claim because you didn’t attach the representation order. Submit the claim again with the representation order. You can get a copy from the Magistrates’ Court where it was issued.
-      time_elapsed:
-        short: Claim significantly out of time with no explanation
-        long: We rejected your claim because the case ended over 3 months ago. Submit the claim again explaining why it is late.
-      no_amend_rep_order:
-        short: No amending representation order
-        long: We rejected your claim because you didn’t attach the amending representation order – both the original and the amended order confirming a change in representation. Submit the claim again with both representation orders.
-      case_still_live:
-        short: Case still live
-        long: We rejected your claim because our records show the case hasn’t ended. Submit the claim again when the case has ended, including any hearings for sentencing.
-      wrong_case_no:
-        short: Incorrect case number
-        long: We rejected your claim because the case number didn’t match court records for this defendant. Check the case details and submit the claim again.
-      wrong_maat_ref:
-        short: Wrong MAAT reference
-        long: We rejected your claim because the MAAT reference you provided does not match the defendant records. Check the MAAT reference number for this defendant and submit the claim again.
-      other:
-        short: *other
-        long: *blank
     disbursement:
       no_prior_authority:
         short: No prior authority provided
@@ -51,11 +94,29 @@ en:
         long: We rejected your claim because you didn’t attach the final invoice. Submit the claim again with the final invoice clearly stating the breakdown of costs and defendant’s name. We cannot accept estimated costs.
     refused_advocate_claims:
       wrong_ia:
-        short: &wrong_ia_short Incorrect trial advocate
-        long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
+        short: *wrong_ia_short
+        long: *wrong_ia_long
       duplicate_claim:
         short: *duplicate_claim_short
         long: *duplicate_claim_long
+      agfs_stayed_quashed_indictment:
+        short: *agfs_stayed_quashed_indictment_short
+        long: *agfs_stayed_quashed_indictment_long
+      agfs_predate_rep_order:
+        short: *agfs_predate_rep_order_short
+        long: *agfs_predate_rep_order_long
+      agfs_paid_elsewhere:
+        short: *agfs_paid_elsewhere_short
+        long: *agfs_paid_elsewhere_long
+      agfs_continuation_of_trial:
+        short: *agfs_continuation_of_trial_short
+        long: *agfs_continuation_of_trial_long
+      agfs_prescribed_proceedings:
+        short: *agfs_prescribed_proceedings_short
+        long: *agfs_prescribed_proceedings_long
+      agfs_incorrect_supplemental_case:
+        short: *agfs_incorrect_supplemental_case_short
+        long: *agfs_incorrect_supplemental_case_long
       other_refuse:
         short: *other
         long: *blank
@@ -66,6 +127,24 @@ en:
       duplicate_claim:
         short: *duplicate_claim_short
         long: *duplicate_claim_long
+      agfs_stayed_quashed_indictment:
+        short: *agfs_stayed_quashed_indictment_short
+        long: *agfs_stayed_quashed_indictment_long
+      agfs_predate_rep_order:
+        short: *agfs_predate_rep_order_short
+        long: *agfs_predate_rep_order_long
+      agfs_paid_elsewhere:
+        short: *agfs_paid_elsewhere_short
+        long: *agfs_paid_elsewhere_long
+      agfs_continuation_of_trial:
+        short: *agfs_continuation_of_trial_short
+        long: *agfs_continuation_of_trial_long
+      agfs_prescribed_proceedings:
+        short: *agfs_prescribed_proceedings_short
+        long: *agfs_prescribed_proceedings_long
+      agfs_incorrect_supplemental_case:
+        short: *agfs_incorrect_supplemental_case_short
+        long: *agfs_incorrect_supplemental_case_long
       other_refuse:
         short: *other
         long: *blank
@@ -82,9 +161,49 @@ en:
       short_trial:
         short: *short_trial_short
         long: *short_trial_long
+      agfs_stayed_quashed_indictment:
+        short: *agfs_stayed_quashed_indictment_short
+        long: *agfs_stayed_quashed_indictment_long
+      agfs_predate_rep_order:
+        short: *agfs_predate_rep_order_short
+        long: *agfs_predate_rep_order_long
+      agfs_paid_elsewhere:
+        short: *agfs_paid_elsewhere_short
+        long: *agfs_paid_elsewhere_long
+      agfs_continuation_of_trial:
+        short: *agfs_continuation_of_trial_short
+        long: *agfs_continuation_of_trial_long
+      agfs_prescribed_proceedings:
+        short: *agfs_prescribed_proceedings_short
+        long: *agfs_prescribed_proceedings_long
+      agfs_incorrect_supplemental_case:
+        short: *agfs_incorrect_supplemental_case_short
+        long: *agfs_incorrect_supplemental_case_long
       other_refuse:
         short: *other
         long: *blank
+    refused_advocate_hardship_claims:
+      wrong_ia:
+        short: *wrong_ia_short
+        long: *wrong_ia_long
+      agfs_stayed_quashed_indictment:
+        short: *agfs_stayed_quashed_indictment_short
+        long: *agfs_stayed_quashed_indictment_long
+      agfs_predate_rep_order:
+        short: *agfs_predate_rep_order_short
+        long: *agfs_predate_rep_order_long
+      agfs_paid_elsewhere:
+        short: *agfs_paid_elsewhere_short
+        long: *agfs_paid_elsewhere_long
+      agfs_continuation_of_trial:
+        short: *agfs_continuation_of_trial_short
+        long: *agfs_continuation_of_trial_long
+      agfs_prescribed_proceedings:
+        short: *agfs_prescribed_proceedings_short
+        long: *agfs_prescribed_proceedings_long
+      agfs_incorrect_supplemental_case:
+        short: *agfs_incorrect_supplemental_case_short
+        long: *agfs_incorrect_supplemental_case_long
     refused_litigator_claims:
       duplicate_claim:
         short: *duplicate_claim_short
@@ -115,15 +234,85 @@ en:
       other_refuse:
         short: *other
         long: *blank
-    refused_advocate_hardship_claims:
-      wrong_ia:
-        short: &wrong_ia_short Incorrect trial advocate
-        long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
     refused_litigator_hardship_claims:
       duplicate_claim:
         short: *duplicate_claim_short
         long: *duplicate_claim_long
       other_refuse:
+        short: *other
+        long: *blank
+    rejected_advocate_claims:
+      no_indictment:
+        short: *no_indictment_short
+        long: *no_indictment_long
+      no_rep_order:
+        short: *no_rep_order_short
+        long: *no_rep_order_long
+      time_elapsed:
+        short: *time_elapsed_short
+        long: *time_elapsed_long
+      no_amend_rep_order:
+        short: *no_amend_rep_order_short
+        long: *no_amend_rep_order_long
+      case_still_live:
+        short: *case_still_live_short
+        long: *case_still_live_long
+      wrong_case_no:
+        short: *wrong_case_no_short
+        long: *wrong_case_no_long
+      wrong_maat_ref:
+        short: *wrong_maat_ref_short
+        long: *wrong_maat_ref_long
+      agfs_advocate_request:
+        short: *agfs_advocate_request_short
+        long: *agfs_advocate_request_long
+      agfs_breach_or_appeal:
+        short: *agfs_breach_or_appeal_short
+        long: *agfs_breach_or_appeal_long
+      agfs_further_clarification:
+        short: *agfs_further_clarification_short
+        long: *agfs_further_clarification_long
+      agfs_hardship_requirements:
+        short: *agfs_hardship_requirements_short
+        long: *agfs_hardship_requirements_long
+      agfs_supplemental_fee:
+        short: *agfs_supplemental_fee_short
+        long: *agfs_supplemental_fee_long
+      agfs_invalid_supplier_code:
+        short: *agfs_invalid_supplier_code_short
+        long: *agfs_invalid_supplier_code_long
+      agfs_soft_reject_no_response:
+        short: *agfs_soft_reject_no_response_short
+        long: *agfs_soft_reject_no_response_long
+      agfs_soft_reject_attendance_notes:
+        short: *agfs_soft_reject_attendance_notes_short
+        long: *agfs_soft_reject_attendance_notes_long
+      other:
+        short: *other
+        long: *blank
+    rejected_litigator_claims:
+      no_indictment:
+        short: *no_indictment_short
+        long: *no_indictment_long
+      no_rep_order:
+        short: *no_rep_order_short
+        long: *no_rep_order_long
+      time_elapsed:
+        short: *time_elapsed_short
+        long: *time_elapsed_long
+      no_amend_rep_order:
+        short: *no_amend_rep_order_short
+        long: *no_amend_rep_order_long
+      case_still_live:
+        short: *case_still_live_short
+        long: *case_still_live_long
+      wrong_case_no:
+        short: *wrong_case_no_short
+        long: *wrong_case_no_long
+      wrong_maat_ref:
+        short: *wrong_maat_ref_short
+        long: *wrong_maat_ref_long
+      other:
         short: *other
         long: *blank
     global:

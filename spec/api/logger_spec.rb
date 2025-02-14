@@ -158,7 +158,7 @@ RSpec.describe API::Logger do
             .once.with(:error,
                        type: 'api-response-body',
                        data: { request_id: nil },
-                       error: "Error parsing API response body: \nJSON::ParserError - unexpected token at 'i'")
+                       error: "Error parsing API response body: \nJSON::ParserError - unexpected character: 'i'")
         end
       end
 

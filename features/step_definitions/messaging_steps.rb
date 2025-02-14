@@ -41,8 +41,10 @@ end
 When(/^I upload a file$/) do
   available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/*.pdf"
   @uploaded_file_path = available_docs.first
-  file_field = page.find('input[type="file"]')
-  file_field.attach_file(@uploaded_file_path)
+  page.execute_script("$('.moj-multi-file-upload__input').css('position','unset')")
+  input_field = page.find("input[name='attachments']")
+  input_field.attach_file(@uploaded_file_path)
+  sleep 1
 end
 
 When(/^I click send$/) do

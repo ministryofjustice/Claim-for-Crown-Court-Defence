@@ -30,7 +30,7 @@ class ClaimShowPage < BasePage
     element :send, 'button.govuk-button', text: 'Send'
 
     def upload_file(path)
-      attach_file("message-attachment-field", path)
+      attach_file("attachments", path)
     end
 
     sections :messages, '.message-body' do

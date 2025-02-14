@@ -28,12 +28,21 @@
             link_errors: true,
             label: { text: t('.written_reasons') }
 
-    = f.govuk_file_field :attachments,
-      label: { text: t('.attachment_label') },
-      hint: { text: t('.accepted_files_help_text') }
+    .moj-multi-file-upload
+      .moj-multi-file__uploaded-files
+        %h2.govuk-headings-m Files added
+        .govuk-summary-list.moj-multi-file-upload__list
+      .govuk-error-summary{"aria-labelledby" => "error-summary-title", role: "alert", tabindex: "-1", style: "display: none"}
+        %h2.error-summary-title.govuk-error-summary__title There is a problem
+        .govuk-list.govuk-error-summary__list
+      .moj-multi-file__uploaded-fields
+      .moj-multi-file-upload__upload
+        .govuk-form-group
+          %label.govuk-label.govuk-label--m{for: "attachments"}
+            Upload a file
+          %input#attachments.govuk-file-upload.moj-multi-file-upload__input{multiple: "multiple", name: "attachments", type: "file"}/
 
-    .file-to-be-uploaded.govuk-form-group
-      %span.filename
-      = govuk_link_to t('.remove_file_html'), '#'
-
-    = f.govuk_submit t('.send'), class: 'govuk-button--secondary'
+        %button.govuk-button.govuk-button--secondary.moj-multi-file-upload__button{"data-module" => "govuk-button", type: "submit"}
+          Upload file
+    %button.govuk-button{"data-module" => "govuk-button", type: "submit", onclick: "document.querySelector('.govuk-summary-list.moj-multi-file-upload__list').innerHTML = ''"}
+      Send

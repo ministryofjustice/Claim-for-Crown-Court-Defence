@@ -40,16 +40,16 @@ en:
           long: &agfs_incorrect_supplemental_case_long We refused your claim because the supplemental fee was claimed under the incorrect case. More information provided on previous note.
         lgfs_second_fee:
           short: &lgfs_second_fee_short Second fee not payable (Stayed Indictment)
-          long: &lgfs_second_fee_long We have refused your claim because, although an indictment was stayed, that nature of the criminality alleged against the defendant did not significantly change. To amend and indictment it is often necessary to upload a new version to the Digital Case System. This creates multiple versions of the indictment which may need to be stayed whereas, in reality, there was only ever one case against the defendant. A second fee for a 'new' indictment will only be payable if there has been a significant change in the alleged criminality.
+          long: &lgfs_second_fee_long We have refused your claim because, although an indictment was stayed, the nature of the criminality alleged against the defendant did not significantly change. To amend an indictment it is often necessary to upload a new version to the Digital Case System. This creates multiple versions of the indictment which may need to be stayed whereas, in reality, there was only ever one case against the defendant. A second fee for a 'new' indictment will only be payable if there has been a significant change in the alleged criminality.
         lgfs_unjustified_disbursement:
           short: &lgfs_unjustified_disbursement_short Disbursement has not been justified
           long: &lgfs_unjustified_disbursement_long Your claim has been refused because you have not provided a Prior authority for the disbursement or explained why it was necessary to the case to incur the expense of the disbursement/s claimed.
         lgfs_wrong_maat_ref:
           short: &lgfs_wrong_maat_ref_short MAAT number provided does not match the defendant name and date of birth given
-          long: &lgfs_wrong_maat_ref_long We have refused your claim because the MAAT reference provided does not relate to the defendant named and we have been unable to validate that in your claim was granted Legal Aid.
+          long: &lgfs_wrong_maat_ref_long We have refused your claim because the MAAT reference provided does not relate to the defendant named and we have been unable to validate that your client was granted Legal Aid.
         lgfs_proceed_of_crime_act:
           short: &lgfs_proceed_of_crime_act_short Out of Scope of LGFS - Proceeds of Crime Act
-          long: &lgfs_proceed_of_crime_act_long We have refused your claim because it relates to proceeding under the Proceeds of Crime Act 2002 (POCA). Work relating to POCA proceedings is not remunerated under the Litigator Graduated Fee Scheme and should be claimed from the Criminal Cases Unit (CCU). Please see Appendix Q of the Crown Court Fee Guidance.
+          long: &lgfs_proceed_of_crime_act_long We have refused your claim because it relates to proceedings under the Proceeds of Crime Act 2002 (POCA). Work relating to POCA proceedings is not remunerated under the Litigator Graduated Fee Scheme and should be claimed from the Criminal Cases Unit (CCU). Please see Appendix Q of the Crown Court Fee Guidance.
         lgfs_prescribed_proceedings:
           short: &lgfs_prescribed_proceedings_short Out of Scope of LGFS - Prescribed Proceedings
           long: &lgfs_prescribed_proceedings_long We have refused your claim because it relates to prescribed proceedings. Prescribed proceedings are proceedings which have been prescribed as criminal for the purposes of Legal Aid listed under Regulation 9 of the Criminal Legal Aid (General) Regulations 2013. Work under prescribed proceedings are not remunerated under the Litigator Graduated Fee Scheme and should be claimed in your monthly submission on CWA. Please see Appendix N of the Crown Court Fee Guidance.
@@ -64,10 +64,10 @@ en:
           long: &lgfs_redet_unjustified_disbursement_long Your appeal has been refused because you have not provided a Prior authority for the disbursement or explained why it was necessary to the case to incur the expense of the disbursement/s claimed.
         lgfs_redet_wrong_maat_ref:
           short: &lgfs_redet_wrong_maat_ref_short MAAT number provided does not match the defendant name and date of birth given
-          long: &lgfs_redet_wrong_maat_ref_long We have refused your appeal because the MAAT reference provided does not relate to the defendant named and we have been unable to validate that in your claim was granted Legal Aid.
+          long: &lgfs_redet_wrong_maat_ref_long We have refused your appeal because the MAAT reference provided does not relate to the defendant named and we have been unable to validate that your client was granted Legal Aid.
         lgfs_redet_proceed_of_crime_act:
           short: &lgfs_redet_proceed_of_crime_act_short Out of Scope of LGFS - Proceeds of Crime Act
-          long: &lgfs_redet_proceed_of_crime_act_long We have refused your appeal because it relates to proceeding under the Proceeds of Crime Act 2002 (POCA). Work relating to POCA proceedings is not remunerated under the Litigator Graduated Fee Scheme and should be claimed from the Criminal Cases Unit (CCU). Please see Appendix Q of the Crown Court Fee Guidance.
+          long: &lgfs_redet_proceed_of_crime_act_long We have refused your appeal because it relates to proceedings under the Proceeds of Crime Act 2002 (POCA). Work relating to POCA proceedings is not remunerated under the Litigator Graduated Fee Scheme and should be claimed from the Criminal Cases Unit (CCU). Please see Appendix Q of the Crown Court Fee Guidance.
         lgfs_redet_prescribed_proceedings:
           short: &lgfs_redet_prescribed_proceedings_short Out of Scope of LGFS - Prescribed Proceedings
           long: &lgfs_redet_prescribed_proceedings_long We have refused your appeal because it relates to prescribed proceedings. Prescribed proceedings are proceedings which have been prescribed as criminal for the purposes of Legal Aid listed under Regulation 9 of the Criminal Legal Aid (General) Regulations 2013. Work under prescribed proceedings are not remunerated under the Litigator Graduated Fee Scheme and should be claimed in your monthly submission on CWA. Please see Appendix N of the Crown Court Fee Guidance.
@@ -79,13 +79,13 @@ en:
           long: &lgfs_redet_request_info_long We have refused your appeal because you have not asked that we redetermine any element of this claim. Your request was for further information only.
         lgfs_redet_relevance_electronic_material:
           short: &lgfs_redet_relevance_electronic_material_short No Submissions on relevance of electronic material
-          long: &lgfs_redet_relevance_electronic_material_long We have refused your appeal because you have not provided submission explaining the relevance of the electronic material to the case. Electronic material is subject to a qualitative assessment in which the determining officer must take into account the nature of the document and any other relevant circumstances. To do this we need an explanation of how the material was of central importance to the prosecution’s case.
+          long: &lgfs_redet_relevance_electronic_material_long We have refused your appeal because you have not provided submissions explaining the relevance of the electronic material to the case. Electronic material is subject to a qualitative assessment in which the determining officer must take into account the nature of the document and any other relevant circumstances. To do this we need an explanation of how the material was of central importance to the prosecution’s case.
         lgfs_redet_no_exlectronic_material:
           short: &lgfs_redet_no_exlectronic_material_short Electronic material has not been provided for assessment
-          long: &lgfs_redet_no_exlectronic_material_long We have refused your appeal because the electronic material being claimed has not been provide for assessment. Electronic material is subject to a qualitative assessment in which the determining officer must take into account the nature of the document and any other relevant circumstances. To do this we need to see the electronic material to consider if it is appropriate to include as PPE.
+          long: &lgfs_redet_no_exlectronic_material_long  We have refused your appeal because the electronic material being claimed has not been provided for assessment. Electronic material is subject to a qualitative assessment in which the determining officer must take into account the nature of the document and any other relevant circumstances. To do this we need to see the electronic material to consider if it is appropriate to include as PPE.
         lgfs_redet_offence_class:
           short: &lgfs_redet_offence_class_short Incorrect Offence Class claimed
-          long: &lgfs_redet_offence_class_long We have refused your appeal because the offences on the indictment does not fall under the classification of offence claimed. Offence classifications are dictated by the Table of Offences in The Criminal Legal Aid (Remuneration) Regulations 2013. If the offence does not appear in the Table of Offences then is defaults to class H.
+          long: &lgfs_redet_offence_class_long We have refused your appeal because the offences on the indictment does not fall under the classification of the offence claimed. Offence classifications are dictated by the Table of Offences in The Criminal Legal Aid (Remuneration) Regulations 2013. If the offence does not appear in the Table of Offences then is defaults to class H, but reclassifcation may be considered based on the specific facts of the case.
         lgfs_redet_written_reasons:
           short: &lgfs_redet_written_reasons_short Formal Written Reasons already provided
           long: &lgfs_redet_written_reasons_long We have refused your appeal because we have already provided you with our formal written reasons on the point/s in dispute. You can appeal the determining officer's decision to the Senior Courts Cost Office (SCCO). Guidance on how to do so is included at the bottom of our written reasons letter.
@@ -146,13 +146,13 @@ en:
           long: &lgfs_litigator_request_long Your claim has been rejected as per your request.
         lgfs_no_breakdown:
           short: &lgfs_no_breakdown_short Invoice does not include a breakdown of work completed
-          long: &lgfs_no_breakdown_long We have rejected your claim for disbursement because the invoice provided does not include an hourly breakdown and the rate per hour claimed for the work completed. We require such a breakdown to be able to assess if the disbursement claimed is reasonable.
+          long: &lgfs_no_breakdown_long We have rejected your claim for disbursement because the invoice provided does not include an hourly breakdown and the rate per hour claimed for the work completed. We require such a breakdown to be able to assess whether the disbursement claimed is reasonable.
         lgfs_no_reference:
           short: &lgfs_no_reference_short Invoice does not include any recognisable reference to this case
-          long: &lgfs_no_reference_long We have rejected your claim for disbursement because the invoice provided does not include any reference to associate it with the case against the defendant. We need to see a reference to the case such as a case number or defendants name so that we can validate the work completed was for this case.
+          long: &lgfs_no_reference_long We have rejected your claim for disbursement/s because the invoice provided does not include any reference to associate it with the case against the defendant. We need to see a reference to the case such as a case number or defendant's name so that we can validate the work completed was for this case.
         lgfs_breach_or_appeal:
           short: &lgfs_breach_or_appeal_short Rep Order does not cover Breach or Appeal Proceedings
-          long: &lgfs_breach_or_appeal_long We have rejected your claim because the representation order provided does not cover the breach or appeal proceedings. For this type of proceedings and separate application for legal aid must be made. Appeal rep orders will be denoted with the word (Appeal) in the heading. Breach rep orders may be granted by the Court or the LAA and will not have a MAAT reference attached.
+          long: &lgfs_breach_or_appeal_long We have rejected your claim because the representation order provided does not cover the breach or appeal proceedings. For this type of proceedings a separate application for legal aid must be made. Appeal rep orders will be denoted with the word (Appeal) in the heading. Breach rep orders may be granted by the Court or the LAA and will not have a MAAT reference attached.
   claim_state_transition_reason:
     disbursement:
       no_prior_authority:

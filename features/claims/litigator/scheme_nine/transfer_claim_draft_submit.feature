@@ -15,7 +15,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then I choose the litigator type option 'New'
     And I choose the elected case option 'No'
     And I select the transfer stage 'Before trial transfer'
-    And I enter the transfer date '2015-05-21'
+    And I enter the transfer date '2014-05-21'
     And I select a case conclusion of 'Cracked'
 
     And I click "Continue" in the claim form
@@ -125,7 +125,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then I choose the litigator type option 'New'
     And I choose the elected case option 'Yes'
     And I select the transfer stage 'Before trial transfer'
-    And I enter the transfer date '2015-05-21'
+    And I enter the transfer date '2014-05-21'
 
     When I click "Continue" in the claim form
     Then I should see a page title "Enter case details for litigator transfer fees claim"

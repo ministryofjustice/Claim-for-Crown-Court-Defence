@@ -197,7 +197,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
         litigator_type: 'new',
         elected_case: false,
         transfer_stage_id: 20,
-        transfer_date: Date.parse('2015-05-21'),
+        transfer_date: Date.parse('2014-05-21'),
         case_conclusion_id: 30
       )
     end
@@ -215,7 +215,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
     end
 
     it '#transfer_date' do
-      expect(presenter.transfer_date).to eql '21/05/2015'
+      expect(presenter.transfer_date).to eql '21/05/2014'
     end
 
     it '#case_conclusion_description' do

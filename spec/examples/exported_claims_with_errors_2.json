@@ -8,19 +8,19 @@
       "creator_email": "advocateadmin@example.com",
       "case_number": "A20161234",
       "case_type_id": 1,
-      "first_day_of_trial": "2015-06-01",
+      "first_day_of_trial": "2014-06-01",
       "estimated_trial_length": 3,
       "actual_trial_length": 3,
-      "trial_concluded_at": "2015-06-03",
+      "trial_concluded_at": "2014-06-03",
       "advocate_category": "QC",
       "offence_id": 1,
       "court_id": 1,
       "cms_number": "12345678",
       "additional_information": "string",
       "apply_vat": true,
-      "trial_fixed_notice_at": "2015-06-01",
-      "trial_fixed_at": "2015-06-01",
-      "trial_cracked_at": "2015-06-01",
+      "trial_fixed_notice_at": "2014-06-01",
+      "trial_fixed_at": "2014-06-01",
+      "trial_cracked_at": "2014-06-01",
       "defendants": [
         {
           "first_name": "case",
@@ -30,7 +30,7 @@
           "representation_orders": [
             {
               "maat_reference": "2345678",
-              "representation_order_date": "2015-05-01"
+              "representation_order_date": "2014-05-01"
             }
           ]
         }
@@ -43,8 +43,8 @@
           "dates_attended": [
             {
               "attended_item_type": "fee",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }
@@ -58,8 +58,8 @@
           "dates_attended": [
             {
               "attended_item_type": "expense",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }
@@ -70,19 +70,19 @@
     "claim": {
       "creator_email": "advocateadmin@example.com",
       "case_type_id": 1,
-      "first_day_of_trial": "2015-06-01",
+      "first_day_of_trial": "2014-06-01",
       "estimated_trial_length": 3,
       "actual_trial_length": 3,
-      "trial_concluded_at": "2015-06-03",
+      "trial_concluded_at": "2014-06-03",
       "advocate_category": "QC",
       "offence_id": 1,
       "court_id": 1,
       "cms_number": "12345678",
       "additional_information": "string",
       "apply_vat": true,
-      "trial_fixed_notice_at": "2015-06-01",
-      "trial_fixed_at": "2015-06-01",
-      "trial_cracked_at": "2015-06-01",
+      "trial_fixed_notice_at": "2014-06-01",
+      "trial_fixed_at": "2014-06-01",
+      "trial_cracked_at": "2014-06-01",
       "defendants": [
         {
           "first_name": "case",
@@ -92,7 +92,7 @@
           "representation_orders": [
             {
               "maat_reference": "2345679",
-              "representation_order_date": "2015-05-01"
+              "representation_order_date": "2014-05-01"
             }
           ]
         }
@@ -105,8 +105,8 @@
           "dates_attended": [
             {
               "attended_item_type": "fee",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }
@@ -120,8 +120,8 @@
           "dates_attended": [
             {
               "attended_item_type": "expense",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }
@@ -134,19 +134,19 @@
       "advocate_email": "advocate@example.com",
       "case_number": "A20161234",
       "case_type_id": 1,
-      "first_day_of_trial": "2015-06-01",
+      "first_day_of_trial": "2014-06-01",
       "estimated_trial_length": 3,
       "actual_trial_length": 3,
-      "trial_concluded_at": "2015-06-03",
+      "trial_concluded_at": "2014-06-03",
       "advocate_category": "QC",
       "offence_id": 1,
       "court_id": 1,
       "cms_number": "12345678",
       "additional_information": "string",
       "apply_vat": true,
-      "trial_fixed_notice_at": "2015-06-01",
-      "trial_fixed_at": "2015-06-01",
-      "trial_cracked_at": "2015-06-01",
+      "trial_fixed_notice_at": "2014-06-01",
+      "trial_fixed_at": "2014-06-01",
+      "trial_cracked_at": "2014-06-01",
       "defendants": {
         "first_name": "case",
         "last_name": "system",
@@ -155,7 +155,7 @@
         "representation_orders": [
           {
             "maat_reference": "2345671",
-            "representation_order_date": "2015-05-01"
+            "representation_order_date": "2014-05-01"
           }
         ]
       },
@@ -167,8 +167,8 @@
           "dates_attended": [
             {
               "attended_item_type": "fee",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }
@@ -182,8 +182,8 @@
           "dates_attended": [
             {
               "attended_item_type": "expense",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }
@@ -196,19 +196,19 @@
       "advocate_email": "advocate@example.com",
       "case_number": "A20161234",
       "case_type_id": 1,
-      "first_day_of_trial": "2015-06-01",
+      "first_day_of_trial": "2014-06-01",
       "estimated_trial_length": 3,
       "actual_trial_length": 3,
-      "trial_concluded_at": "2015-06-03",
+      "trial_concluded_at": "2014-06-03",
       "advocate_category": "QC",
       "offence_id": 1,
       "court_id": 1,
       "cms_number": "12345678",
       "additional_information": "string",
       "apply_vat": true,
-      "trial_fixed_notice_at": "2015-06-01",
-      "trial_fixed_at": "2015-06-01",
-      "trial_cracked_at": "2015-06-01",
+      "trial_fixed_notice_at": "2014-06-01",
+      "trial_fixed_at": "2014-06-01",
+      "trial_cracked_at": "2014-06-01",
       "defendants": [
         {
           "first_name": "case",
@@ -218,7 +218,7 @@
           "representation_orders": [
             {
               "maat_reference": "2345672",
-              "representation_order_date": "2015-05-01"
+              "representation_order_date": "2014-05-01"
             }
           ]
         }
@@ -231,8 +231,8 @@
           "dates_attended": [
             {
               "attended_item_type": "fee",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }
@@ -246,8 +246,8 @@
           "dates_attended": [
             {
               "attended_item_type": "expense",
-              "date": "2015-06-01",
-              "date_to": "2015-06-01"
+              "date": "2014-06-01",
+              "date_to": "2014-06-01"
             }
           ]
         }

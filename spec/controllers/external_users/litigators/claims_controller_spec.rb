@@ -431,7 +431,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
         put :update, params: {
           id: subject,
           claim: {
-            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(1i)' => '2014',
             'first_day_of_trial(2i)' => 'JAN',
             'first_day_of_trial(3i)' => '4'
           },
@@ -445,13 +445,13 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
         put :update, params: {
           id: subject,
           claim: {
-            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(1i)' => '2014',
             'first_day_of_trial(2i)' => '11',
             'first_day_of_trial(3i)' => '4'
           },
           commit_submit_claim: 'Submit to LAA'
         }
-        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2014, 11, 4)
       end
     end
   end
@@ -472,15 +472,15 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
       'offence_id' => offence.id.to_s,
       'first_day_of_trial(3i)' => '13',
       'first_day_of_trial(2i)' => '5',
-      'first_day_of_trial(1i)' => '2015',
+      'first_day_of_trial(1i)' => '2014',
       'estimated_trial_length' => '2',
       'actual_trial_length' => '2',
       'trial_concluded_at(3i)' => '15',
       'trial_concluded_at(2i)' => '05',
-      'trial_concluded_at(1i)' => '2015',
+      'trial_concluded_at(1i)' => '2014',
       'case_concluded_at(3i)' => '15',
       'case_concluded_at(2i)' => '05',
-      'case_concluded_at(1i)' => '2015',
+      'case_concluded_at(1i)' => '2014',
       'evidence_checklist_ids' => ['1', '5', ''],
       'defendants_attributes' => {
         '0' => {
@@ -494,7 +494,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
             '0' => {
               'representation_order_date_dd' => '13',
               'representation_order_date_mm' => '05',
-              'representation_order_date_yyyy' => '2015',
+              'representation_order_date_yyyy' => '2014',
               'maat_reference' => '1594851269'
             }
           }
@@ -502,7 +502,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
       },
       'additional_information' => '',
       'graduated_fee_attributes' => {
-        'fee_type_id' => graduated_fee_type_1.id.to_s, 'quantity' => '12', 'amount' => '2000', 'date(3i)' => '15', 'date(2i)' => '05', 'date(1i)' => '2015', '_destroy' => 'false'
+        'fee_type_id' => graduated_fee_type_1.id.to_s, 'quantity' => '12', 'amount' => '2000', 'date(3i)' => '15', 'date(2i)' => '05', 'date(1i)' => '2014', '_destroy' => 'false'
       },
       'misc_fees_attributes' => {
         '0' => { 'fee_type_id' => misc_fee_type_1.id.to_s, 'amount' => '125', '_destroy' => 'false' },
@@ -518,7 +518,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
   def fixed_fee_attributes
     {
       fixed_fee_attributes: {
-        fee_type_id: fixed_fee_type_1.id.to_s, quantity: 5, rate: 77.66, amount: nil, 'date(3i)': '15', 'date(2i)': '05', 'date(1i)': '2015', _destroy: 'false'
+        fee_type_id: fixed_fee_type_1.id.to_s, quantity: 5, rate: 77.66, amount: nil, 'date(3i)': '15', 'date(2i)': '05', 'date(1i)': '2014', _destroy: 'false'
       }
     }.with_indifferent_access
   end

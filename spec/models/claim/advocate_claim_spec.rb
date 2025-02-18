@@ -1264,12 +1264,12 @@ RSpec.describe Claim::AdvocateClaim do
           'offence_id' => offence.id,
           'first_day_of_trial(3i)' => '8',
           'first_day_of_trial(2i)' => '9',
-          'first_day_of_trial(1i)' => '2015',
+          'first_day_of_trial(1i)' => '2014',
           'estimated_trial_length' => '0',
           'actual_trial_length' => '0',
           'trial_concluded_at(3i)' => '11',
           'trial_concluded_at(2i)' => '9',
-          'trial_concluded_at(1i)' => '2015',
+          'trial_concluded_at(1i)' => '2014',
           'defendants_attributes' => {
             '0' => {
               'first_name' => 'Foo',
@@ -1282,7 +1282,7 @@ RSpec.describe Claim::AdvocateClaim do
                 '0' => {
                   'representation_order_date(3i)' => '30',
                   'representation_order_date(2i)' => '08',
-                  'representation_order_date(1i)' => '2015',
+                  'representation_order_date(1i)' => '2014',
                   'maat_reference' => '1234567890',
                   '_destroy' => 'false'
                 }

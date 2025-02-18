@@ -240,7 +240,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController do
                   '0' => {
                     'representation_order_date_dd' => '2',
                     'representation_order_date_mm' => '7',
-                    'representation_order_date_yyyy' => '2015',
+                    'representation_order_date_yyyy' => '2014',
                     'maat_reference' => '2345678',
                     '_destroy' => 'false',
                     'id' => '115'
@@ -409,7 +409,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController do
         put :update, params: {
           id: subject,
           claim: {
-            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(1i)' => '2014',
             'first_day_of_trial(2i)' => 'JAN',
             'first_day_of_trial(3i)' => '4'
           },
@@ -421,11 +421,11 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController do
 
       it 'transforms dates with numbered months into dates' do
         put :update, params: { id: subject, claim: {
-          'first_day_of_trial(1i)' => '2015',
+          'first_day_of_trial(1i)' => '2014',
           'first_day_of_trial(2i)' => '11',
           'first_day_of_trial(3i)' => '4'
         }, commit_submit_claim: 'Submit to LAA' }
-        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2014, 11, 4)
       end
     end
   end

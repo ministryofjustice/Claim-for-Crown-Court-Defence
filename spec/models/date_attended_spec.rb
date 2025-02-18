@@ -19,18 +19,18 @@ RSpec.describe DateAttended do
 
   describe '#to_s' do
     context 'when date_to present' do
-      subject { create(:date_attended, date: Date.parse('1/1/2015'), date_to: Date.parse('5/1/2015')) }
+      subject { create(:date_attended, date: Date.parse('1/1/2014'), date_to: Date.parse('5/1/2014')) }
 
       it 'formats the date and date_to' do
-        expect(subject.to_s).to eq('01/01/2015 - 05/01/2015')
+        expect(subject.to_s).to eq('01/01/2014 - 05/01/2014')
       end
     end
 
     context 'when only date present' do
-      subject { create(:date_attended, date: Date.parse('1/1/2015'), date_to: nil) }
+      subject { create(:date_attended, date: Date.parse('1/1/2014'), date_to: nil) }
 
       it 'formats the date' do
-        expect(subject.to_s).to eq('01/01/2015')
+        expect(subject.to_s).to eq('01/01/2014')
       end
     end
   end

@@ -86,7 +86,7 @@ RSpec.describe Stats::StatsReport do
 
     describe '.record_start' do
       it 'creates and incomplete record' do
-        frozen_time = Time.zone.local(2015, 3, 16, 13, 36, 12)
+        frozen_time = Time.zone.local(2014, 3, 16, 13, 36, 12)
         travel_to(frozen_time) do
           record = described_class.record_start(:my_new_report)
           expect(record.report_name).to eq 'my_new_report'

@@ -196,10 +196,10 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
   end
 
   describe '#case_concluded_at' do
-    let(:claim) { create(:claim, case_concluded_at: Time.utc(2015, 12, 31, 20, 15)) }
+    let(:claim) { create(:claim, case_concluded_at: Time.utc(2014, 12, 31, 20, 15)) }
 
     it 'returns the case_concluded_at formatted' do
-      expect(subject.case_concluded_at).to eq('31/12/2015')
+      expect(subject.case_concluded_at).to eq('31/12/2014')
     end
   end
 

@@ -105,7 +105,7 @@ class BaseClaimTest
       api_key:,
       defendant_id: @defendant_id,
       maat_reference: '4546963',
-      representation_order_date: '2015-05-21'
+      representation_order_date: '2014-05-21'
     }
   end
 

@@ -133,12 +133,12 @@ RSpec.describe RepresentationOrder do
 
   describe '#detail' do
     let(:rep_order) do
-      create(:representation_order, maat_reference: '1234567', representation_order_date: Date.parse('20150925'))
+      create(:representation_order, maat_reference: '1234567', representation_order_date: Date.parse('20140925'))
     end
 
     context 'when rep order date present' do
       it 'returns a string with the MAAT reference and rep order date' do
-        expect(rep_order.detail).to eq('25/09/2015 1234567')
+        expect(rep_order.detail).to eq('25/09/2014 1234567')
       end
     end
 

@@ -21,12 +21,12 @@ RSpec.describe VatRatesController do
   describe 'GET vat' do
     context 'advocate claims' do
       it 'if vat applies, it should return JSON struct with details' do
-        get :index, params: { :format => 'json', 'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
+        get :index, params: { :format => 'json', 'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2014-07-15', 'scheme' => 'agfs' }
         expect(response).to be_successful
         expect(response.body).to eq(
           {
             'net_amount' => '£115.76',
-            'date' => '15/07/2015',
+            'date' => '15/07/2014',
             'rate' => '20%',
             'vat_amount' => '£23.15',
             'total_inc_vat' => '£138.91'
@@ -49,7 +49,7 @@ RSpec.describe VatRatesController do
       end
 
       it 'if vat does not apply, it should return JSON struct with details and total_inc_vat = net_amount' do
-        get :index, params: { :format => 'json',  'apply_vat' => 'false', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
+        get :index, params: { :format => 'json',  'apply_vat' => 'false', 'net_amount' => '115.76', 'date' => '2014-07-15', 'scheme' => 'agfs' }
         expect(response).to be_successful
         expect(response.body).to eq(
           {

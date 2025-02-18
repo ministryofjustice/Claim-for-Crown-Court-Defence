@@ -10,15 +10,15 @@ RSpec.describe ExpensePresenter do
   describe '#dates_attended_delimited_string' do
     before {
       claim.expenses.each do |fee|
-        expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2015'), date_to: Date.parse('23/05/2015'))
-        expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('25/05/2015'), date_to: nil)
+        expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2014'), date_to: Date.parse('23/05/2014'))
+        expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('25/05/2014'), date_to: nil)
       end
     }
 
     it 'outputs string of dates or date ranges separated by comma' do
       claim.expenses.each do |fee|
         expense = ExpensePresenter.new(fee, view)
-        expect(expense.dates_attended_delimited_string).to eql('21/05/2015 - 23/05/2015, 25/05/2015')
+        expect(expense.dates_attended_delimited_string).to eql('21/05/2014 - 23/05/2014, 25/05/2014')
       end
     end
   end

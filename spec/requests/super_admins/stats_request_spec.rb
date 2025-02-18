@@ -144,12 +144,12 @@ RSpec.describe 'Stats' do
     describe 'POST stats' do
       describe 'valid parameters' do
         before do
-          travel_to Time.zone.local(2015, 6, 10) do
+          travel_to Time.zone.local(2014, 6, 10) do
             create(:advocate_final_claim, :submitted)
             create(:litigator_final_claim, :submitted)
             create(:litigator_final_claim, :submitted)
           end
-          post_with_params('1/6/2015', '30/6/2015')
+          post_with_params('1/6/2014', '30/6/2014')
         end
 
         it 'returns http success' do

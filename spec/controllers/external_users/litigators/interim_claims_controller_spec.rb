@@ -330,7 +330,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController do
       context 'when there are invalid dates' do
         let(:date_params) do
           {
-            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(1i)' => '2014',
             'first_day_of_trial(2i)' => 'JAN',
             'first_day_of_trial(3i)' => '4'
           }
@@ -342,13 +342,13 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController do
       context 'with numbered months' do
         let(:date_params) do
           {
-            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(1i)' => '2014',
             'first_day_of_trial(2i)' => '11',
             'first_day_of_trial(3i)' => '4'
           }
         end
 
-        it { expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4) }
+        it { expect(assigns(:claim).first_day_of_trial).to eq Date.new(2014, 11, 4) }
       end
     end
   end

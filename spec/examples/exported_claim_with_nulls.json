@@ -5,10 +5,10 @@
       "advocate_email": "advocate@example.com",
       "case_number": "A20161234",
       "case_type_id": 1,
-      "first_day_of_trial": "2015-06-01",
+      "first_day_of_trial": "2014-06-01",
       "estimated_trial_length": 3,
       "actual_trial_length": 3,
-      "trial_concluded_at": "2015-06-03",
+      "trial_concluded_at": "2014-06-03",
       "advocate_category": "QC",
       "offence_id": 1,
       "court_id": 1,
@@ -27,7 +27,7 @@
           "representation_orders": [
             {
               "maat_reference": "2345678",
-              "representation_order_date": "2015-05-01"
+              "representation_order_date": "2014-05-01"
             }
           ]
         }
@@ -40,7 +40,7 @@
           "dates_attended": [
             {
               "attended_item_type": "fee",
-              "date": "2015-06-01",
+              "date": "2014-06-01",
               "date_to": null
             }
           ]
@@ -55,7 +55,7 @@
           "dates_attended": [
             {
               "attended_item_type": "expense",
-              "date": "2015-06-01",
+              "date": "2014-06-01",
               "date_to": null
             }
           ]

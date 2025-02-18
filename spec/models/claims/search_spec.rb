@@ -68,7 +68,7 @@ RSpec.describe Claims::Search do
         let(:authorised_claim) {
           create(
             :litigator_claim, :authorised,
-            case_number: 'T20158665',
+            case_number: 'T20148665',
             defendants: create_list(
               :defendant,
               1,

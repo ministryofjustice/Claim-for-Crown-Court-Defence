@@ -7,32 +7,32 @@ RSpec.describe ClaimHistoryPresenter do
 
   describe '#history_items_by_date' do
     let(:first_message) do
-      travel_to(Time.zone.local(2015, 9, 21, 13, 0, 0)) do
+      travel_to(Time.zone.local(2014, 9, 21, 13, 0, 0)) do
         create(:message, claim:, body: 'Hello world')
       end
     end
 
     let(:second_message) do
-      travel_to(Time.zone.local(2015, 9, 21, 14, 0, 0)) do
+      travel_to(Time.zone.local(2014, 9, 21, 14, 0, 0)) do
         create(:message, claim:, body: 'Lorem ipsum')
       end
     end
 
     let(:third_message) do
-      travel_to(Time.zone.local(2015, 9, 23, 14, 0, 0)) do
+      travel_to(Time.zone.local(2014, 9, 23, 14, 0, 0)) do
         create(:message, claim:, body: 'Lorem ipsum')
       end
     end
 
     let(:first_redetermination) do
-      travel_to(Time.zone.local(2015, 9, 25, 14, 0, 0)) do
+      travel_to(Time.zone.local(2014, 9, 25, 14, 0, 0)) do
         claim.redeterminations.create(fees: 500, expenses: 300, disbursements: 0)
         claim.redeterminations.last.versions.last
       end
     end
 
     let(:assessment) do
-      travel_to(Time.zone.local(2015, 9, 24, 14, 0, 0)) do
+      travel_to(Time.zone.local(2014, 9, 24, 14, 0, 0)) do
         claim.assessment.fees = 100
         claim.assessment.expenses = 200
         claim.assessment.disbursements = 0
@@ -42,25 +42,25 @@ RSpec.describe ClaimHistoryPresenter do
     end
 
     let!(:expected_hash) do
-      travel_to(Time.zone.local(2015, 9, 21, 13, 50, 9)) do
+      travel_to(Time.zone.local(2014, 9, 21, 13, 50, 9)) do
         claim.submit!
       end
 
       claim.reload
 
       hash = {
-        '21/09/2015' => [
+        '21/09/2014' => [
           first_message,
           claim.claim_state_transitions.first,
           second_message
         ],
-        '23/09/2015' => [
+        '23/09/2014' => [
           third_message
         ],
-        '24/09/2015' => [
+        '24/09/2014' => [
           assessment
         ],
-        '25/09/2015' => [
+        '25/09/2014' => [
           first_redetermination
         ]
       }

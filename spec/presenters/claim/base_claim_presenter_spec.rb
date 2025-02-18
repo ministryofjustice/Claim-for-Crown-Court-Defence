@@ -172,8 +172,8 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#assessment_date' do
-    let(:assessment_date) { Time.zone.local(2015, 9, 1, 12, 34, 55) }
-    let(:claim) { create(:submitted_claim, created_at: Time.zone.local(2015, 8, 13, 14, 55, 23)) }
+    let(:assessment_date) { Time.zone.local(2014, 9, 1, 12, 34, 55) }
+    let(:claim) { create(:submitted_claim, created_at: Time.zone.local(2014, 8, 13, 14, 55, 23)) }
 
     context 'with a blank assessment' do
       it { expect(presenter.assessment_date).to eq 'not yet assessed' }
@@ -184,19 +184,19 @@ RSpec.describe Claim::BaseClaimPresenter do
         claim.assessment.update!(fees: 100.0, expenses: 200.0, created_at: assessment_date, updated_at: assessment_date)
       end
 
-      it { expect(presenter.assessment_date).to eq '01/09/2015' }
+      it { expect(presenter.assessment_date).to eq '01/09/2014' }
     end
 
     context 'with multiple redeterminations' do
-      let(:first_redetermination) { create(:redetermination, created_at: Time.zone.local(2015, 9, 4, 7, 33, 22)) }
-      let(:second_redetermination) { create(:redetermination, created_at: Time.zone.local(2015, 9, 9, 13, 33, 55)) }
+      let(:first_redetermination) { create(:redetermination, created_at: Time.zone.local(2014, 9, 4, 7, 33, 22)) }
+      let(:second_redetermination) { create(:redetermination, created_at: Time.zone.local(2014, 9, 9, 13, 33, 55)) }
 
       before do
         claim.assessment.update!(fees: 100.0, expenses: 200.0, created_at: assessment_date, updated_at: assessment_date)
         claim.redeterminations = [first_redetermination, second_redetermination]
       end
 
-      it { expect(presenter.assessment_date).to eq '09/09/2015' }
+      it { expect(presenter.assessment_date).to eq '09/09/2014' }
     end
   end
 
@@ -325,8 +325,8 @@ RSpec.describe Claim::BaseClaimPresenter do
       build(:defendant).tap do |defendant|
         travel_to 5.days.ago do
           defendant.representation_orders = [
-            build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '222222'),
-            build(:representation_order, representation_order_date: Date.new(2015, 8, 13), maat_reference: '333333')
+            build(:representation_order, representation_order_date: Date.new(2014, 3, 1), maat_reference: '222222'),
+            build(:representation_order, representation_order_date: Date.new(2014, 8, 13), maat_reference: '333333')
           ]
         end
       end
@@ -336,7 +336,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       build(:defendant).tap do |defendant|
         travel_to 2.days.ago do
           defendant.representation_orders = [build(:representation_order,
-                                                   representation_order_date: Date.new(2015, 3, 1),
+                                                   representation_order_date: Date.new(2014, 3, 1),
                                                    maat_reference: '444444')]
         end
       end
@@ -344,7 +344,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     it 'returns a string of all the dates' do
       expect(presenter.representation_order_details).to eq(
-        '01/03/2015 222222<br>13/08/2015 333333<br>01/03/2015 444444'
+        '01/03/2014 222222<br>13/08/2014 333333<br>01/03/2014 444444'
       )
     end
   end

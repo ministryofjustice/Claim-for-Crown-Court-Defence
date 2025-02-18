@@ -115,7 +115,7 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     end
 
     it 'when quantity and number of additional cases do not match' do
-      noc_fee.case_numbers = 'A20161234 , A20158888'
+      noc_fee.case_numbers = 'A20161234 , A20148888'
       should_error_with(noc_fee, :case_numbers, noc_case_number_mismatch_error_message)
     end
 
@@ -133,7 +133,7 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     end
 
     it 'when any case number is of invalid format' do
-      noc_fee.case_numbers = 'A20161234,Z123*,A20158888'
+      noc_fee.case_numbers = 'A20161234,Z123*,A20148888'
       should_error_with(noc_fee, :case_numbers, noc_case_number_invalid_error_message)
     end
 
@@ -151,19 +151,19 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     context 'case number list formatting' do
       context 'valid' do
         it 'when comma separated' do
-          noc_fee.case_numbers = 'A20161234,A20158888'
+          noc_fee.case_numbers = 'A20161234,A20148888'
           should_not_error(noc_fee, :case_numbers)
         end
 
         it 'when commas and whitespace separated' do
-          noc_fee.case_numbers = 'A20161234 , A20158888'
+          noc_fee.case_numbers = 'A20161234 , A20148888'
           should_not_error(noc_fee, :case_numbers)
         end
       end
 
       context 'invalid' do
         it 'when other delimiters used' do
-          noc_fee.case_numbers = 'A20161234;A20158888'
+          noc_fee.case_numbers = 'A20161234;A20148888'
           should_error_with(noc_fee, :case_numbers, noc_case_number_invalid_error_message)
         end
       end

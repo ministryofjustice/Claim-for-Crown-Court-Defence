@@ -9,15 +9,15 @@ RSpec.describe Fee::BaseFeePresenter do
   describe '#dates_attended_delimited_string' do
     before {
       claim.fees.each do |fee|
-        fee.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2015'), date_to: Date.parse('23/05/2015'))
-        fee.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('25/05/2015'), date_to: nil)
+        fee.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2014'), date_to: Date.parse('23/05/2014'))
+        fee.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('25/05/2014'), date_to: nil)
       end
     }
 
     it 'outputs string of dates or date ranges separated by comma' do
       claim.fees.each do |fee|
         fee = Fee::BaseFeePresenter.new(fee, view)
-        expect(fee.dates_attended_delimited_string).to eql('21/05/2015 - 23/05/2015, 25/05/2015')
+        expect(fee.dates_attended_delimited_string).to eql('21/05/2014 - 23/05/2014, 25/05/2014')
       end
     end
   end
@@ -69,8 +69,8 @@ RSpec.describe Fee::BaseFeePresenter do
 
   describe '#date' do
     it 'formats as date' do
-      fee.date = Date.parse('21/05/2015')
-      expect(presenter.date).to eq '21/05/2015'
+      fee.date = Date.parse('21/05/2014')
+      expect(presenter.date).to eq '21/05/2014'
     end
 
     it 'returns nil if date attribute is nil' do

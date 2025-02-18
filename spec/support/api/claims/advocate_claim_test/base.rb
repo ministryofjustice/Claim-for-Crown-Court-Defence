@@ -19,7 +19,7 @@ module AdvocateClaimTest
         providers_ref: SecureRandom.uuid[3..15].upcase,
         advocate_category: fetch_value(ADVOCATE_CATEGORY_ENDPOINT, index: 3), # QC
         apply_vat: true,
-        main_hearing_date: '2015-06-02'
+        main_hearing_date: '2014-06-02'
       )
     end
 
@@ -56,8 +56,8 @@ module AdvocateClaimTest
         api_key:,
         attended_item_id: @attended_item_id,
         attended_item_type: 'fee',
-        date: '2015-06-01',
-        date_to: '2015-06-01'
+        date: '2014-06-01',
+        date_to: '2014-06-01'
       }
     end
   end

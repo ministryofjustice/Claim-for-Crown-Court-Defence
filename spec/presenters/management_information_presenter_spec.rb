@@ -396,7 +396,7 @@ RSpec.describe ManagementInformationPresenter do
     describe '#originally_submitted_at' do
       subject { presenter.originally_submitted_at }
 
-      let(:original_submission_date) { Date.new(2015, 6, 18) }
+      let(:original_submission_date) { Date.new(2014, 6, 18) }
 
       before do
         claim.original_submission_date = original_submission_date

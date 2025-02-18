@@ -95,7 +95,7 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
     end
 
     it 'validates absence of case numbers' do
-      fee.case_numbers = 'T20150111,T20150222'
+      fee.case_numbers = 'T20140111,T20140222'
       expect(fee).not_to be_valid
     end
   end

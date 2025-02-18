@@ -38,7 +38,7 @@ RSpec.describe HeartbeatController do
       let(:expected_json) do
         {
           'version_number' => '123',
-          'build_date' => '20150721',
+          'build_date' => '20140721',
           'commit_id' => 'afb12cb3',
           'build_tag' => 'test',
           'app_branch' => 'test_branch'
@@ -47,7 +47,7 @@ RSpec.describe HeartbeatController do
 
       before do
         ENV['VERSION_NUMBER']   = '123'
-        ENV['BUILD_DATE']       = '20150721'
+        ENV['BUILD_DATE']       = '20140721'
         ENV['COMMIT_ID']        = 'afb12cb3'
         ENV['BUILD_TAG']        = 'test'
         ENV['APP_BRANCH']       = 'test_branch'

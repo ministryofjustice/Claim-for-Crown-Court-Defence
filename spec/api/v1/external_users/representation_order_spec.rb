@@ -154,7 +154,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
     end
 
     it 'returns 400 and JSON error when dates are not in acceptable format' do
-      valid_params[:representation_order_date] = '10-06-2015'
+      valid_params[:representation_order_date] = '10-06-2014'
       post_to_validate_endpoint
       expect_error_response('representation_order_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])')
     end

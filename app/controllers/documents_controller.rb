@@ -53,10 +53,8 @@ class DocumentsController < ApplicationController
   end
 
   def delete
-    # TODO: This does not do any checking to see if the document is owned by the current user
-    @document = Document.find(params[:delete])
-
-    @document.destroy
+    document = Document.find_by(id: params[:delete], creator: current_user, claim: nil)
+    document.destroy if document.present?
 
     render json: { file: { filename: params[:delete] } }
   end

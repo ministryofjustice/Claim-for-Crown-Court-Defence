@@ -11,8 +11,6 @@ moj.Modules.MultiFileUpload = {
       uploadUrl: '/documents/upload',
       deleteUrl: '/documents/delete',
       uploadFileExitHook: function (_uploader, _file, response) {
-        console.log('Success fields')
-        console.log(fields)
         const input = document.createElement('input')
         input.type = 'hidden'
         input.name = 'message[document_ids][]'
@@ -20,8 +18,6 @@ moj.Modules.MultiFileUpload = {
         fields.appendChild(input)
       },
       uploadFileErrorHook: function (_uploader, file, _jqXHR, _textStatus, errorThrown) {
-        console.log('Error fields')
-        console.log(fields)
         const input = document.createElement('input')
         input.type = 'hidden'
         input.name = 'message[document_ids][]'
@@ -38,8 +34,6 @@ moj.Modules.MultiFileUpload = {
       },
       fileDeleteHook: function (_uploader, response) {
         const input = fields.querySelector('input[value="' + response.file.filename + '"]')
-        console.log('remove input')
-        console.log(input)
         input.parentNode.removeChild(input)
       }
     })

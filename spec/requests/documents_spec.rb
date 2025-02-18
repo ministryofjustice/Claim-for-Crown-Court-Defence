@@ -251,4 +251,93 @@ RSpec.describe 'Document management' do
       end
     end
   end
+
+  describe 'POST /documents/delete' do
+    subject(:delete_document) { post delete_documents_path, params: }
+
+    let!(:document) { create(:document, creator_id: document_owner.user.id, claim: nil) }
+    let(:document_owner) { external_user }
+    let(:params) { { delete: document.id } }
+
+    context 'when the document exists and is owned by the user' do
+      it { expect { delete_document }.to change(Document, :count).by(-1) }
+      it { expect { delete_document }.to change { Document.find_by(id: document.id) }.to(nil) }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the document exists and is owned by another user' do
+      let(:document_owner) { create(:external_user) }
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+      it { expect { delete_document }.not_to change { Document.find_by(id: document.id) } }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the document is attached to a claim as an evidence document' do
+      before do
+        claim = create(:claim)
+        document.claim_id = claim.id
+        document.save
+      end
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+      it { expect { delete_document }.not_to change { Document.find_by(id: document.id) } }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the document does not exist' do
+      let!(:document) { build(:document, id: Document.maximum(:id).to_i.next) }
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the user is not signed in' do
+      before { sign_out document_owner.user }
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+      it { expect { delete_document }.not_to change { Document.find_by(id: document.id) } }
+
+      it do
+        delete_document
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+  end
 end

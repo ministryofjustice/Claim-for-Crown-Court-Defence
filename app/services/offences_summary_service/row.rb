@@ -1,11 +1,11 @@
 class OffencesSummaryService
   class Row
+    delegate :id, to: :@offence
+
     def initialize(offence, fee_schemes: [])
       @offence = offence
       @fee_schemes = fee_schemes
     end
-
-    def id = @offence.id
 
     def label
       return @offence.offence_class.class_letter if @offence.offence_class_id

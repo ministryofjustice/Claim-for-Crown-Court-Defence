@@ -30,6 +30,7 @@ module Claim
     validates_with ::Claim::AdvocateClaimSubModelValidator
 
     delegate :requires_cracked_dates?, to: :case_type, allow_nil: true
+    delegate :agfs?, to: :class
 
     after_initialize do
       instantiate_basic_fees
@@ -143,10 +144,6 @@ module Claim
 
     def external_user_type
       :advocate
-    end
-
-    def agfs?
-      self.class.agfs?
     end
 
     def final?

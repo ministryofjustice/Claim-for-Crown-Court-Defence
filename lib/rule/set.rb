@@ -6,13 +6,11 @@ module Rule
 
     attr_reader :object
 
+    delegate :<<, to: :@rules
+
     def initialize(object)
       @object = object
       @rules = []
-    end
-
-    def <<(rule)
-      @rules << rule
     end
 
     def each(&)

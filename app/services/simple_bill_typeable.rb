@@ -12,12 +12,7 @@ module SimpleBillTypeable
   end
 
   included do
-    def bill_type
-      self.class.bill_type
-    end
-
-    def bill_subtype
-      self.class.bill_subtype
-    end
+    delegate :bill_type, to: :class
+    delegate :bill_subtype, to: :class
   end
 end

@@ -79,6 +79,8 @@ module Claim
             inverse_of: :claim,
             validate: proc { |claim| claim.step_validation_required?(:transfer_fees) }
 
+    delegate :lgfs?, to: :class
+
     accepts_nested_attributes_for :transfer_detail, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :transfer_fee, reject_if: :all_blank, allow_destroy: false
 
@@ -167,10 +169,6 @@ module Claim
         dependencies: %i[transfer_fee_details]
       }
     ].freeze
-
-    def lgfs?
-      self.class.lgfs?
-    end
 
     def transfer?
       true

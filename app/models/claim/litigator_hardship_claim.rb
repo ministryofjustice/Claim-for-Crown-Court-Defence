@@ -15,6 +15,7 @@ module Claim
             validate: proc { |claim| claim.step_validation_required?(:hardship_fees) }
 
     delegate :case_type, to: :case_stage, allow_nil: true
+    delegate :lgfs?, to: :class
 
     accepts_nested_attributes_for :hardship_fee, reject_if: :all_blank, allow_destroy: false
 
@@ -59,10 +60,6 @@ module Claim
       },
       { name: :supporting_evidence }
     ].freeze
-
-    def lgfs?
-      self.class.lgfs?
-    end
 
     def hardship?
       true

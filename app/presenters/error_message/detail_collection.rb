@@ -4,6 +4,8 @@
 #
 module ErrorMessage
   class DetailCollection
+    delegate :[], to: :@detail_collection
+
     def initialize
       @detail_collection = {}
     end
@@ -18,10 +20,6 @@ module ErrorMessage
 
     def errors_for?(fieldname)
       @detail_collection.key?(fieldname)
-    end
-
-    def [](fieldname)
-      @detail_collection[fieldname]
     end
 
     def short_messages_for(fieldname)

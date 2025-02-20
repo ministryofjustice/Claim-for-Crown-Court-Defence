@@ -32,6 +32,9 @@ module Claims
         end
       end
 
+      UPLIFT_MODIFIERS = %i[number_of_defendants number_of_cases].freeze
+      private_constant :UPLIFT_MODIFIERS
+
       private
 
       def fee_per_unit
@@ -52,7 +55,6 @@ module Claims
         price.fixed_fee.to_f.nonzero?
       end
 
-      UPLIFT_MODIFIERS = %i[number_of_defendants number_of_cases].freeze
       def uplift_modifier?
         unit_modifiers.map(&:name).intersect?(UPLIFT_MODIFIERS)
       end

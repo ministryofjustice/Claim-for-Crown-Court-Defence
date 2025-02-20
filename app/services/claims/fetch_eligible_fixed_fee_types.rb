@@ -10,8 +10,6 @@ module Claims
       eligible_fee_types
     end
 
-    private
-
     AGFS_FIXED_FEE_ELIGIBILITY = {
       FXACV: %w[FXACV FXNOC FXNDR FXSAF FXADJ],
       FXASE: %w[FXASE FXNOC FXNDR FXSAF FXADJ],
@@ -20,6 +18,9 @@ module Claims
       FXCON: %w[FXCON FXSAF FXADJ],
       FXENP: %w[FXENP FXNOC FXNDR]
     }.with_indifferent_access.freeze
+    private_constant :AGFS_FIXED_FEE_ELIGIBILITY
+
+    private
 
     delegate :case_type, :agfs?, :lgfs?, to: :claim, allow_nil: true
     attr_reader :claim

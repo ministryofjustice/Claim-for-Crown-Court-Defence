@@ -10,12 +10,15 @@ module Claims
       eligible_fee_types
     end
 
-    private
-
     LGFS_GENERAL_ELIGIBILITY = %w[MICJA MICJP MIEVI MISPF].freeze
     LGFS_FIXED_CLAIM_ELIGIBILITY = (LGFS_GENERAL_ELIGIBILITY + %w[MIUPL]).freeze
     LGFS_TRIAL_CLAIM_ELIGIBILITY = (LGFS_GENERAL_ELIGIBILITY + Fee::MiscFeeType::TRIAL_ONLY_TYPES).freeze
     LGFS_HARDSHIP_CLAIM_ELIGIBILITY = (LGFS_TRIAL_CLAIM_ELIGIBILITY - %w[MICJA MICJP]).freeze
+
+    private_constant :LGFS_GENERAL_ELIGIBILITY, :LGFS_FIXED_CLAIM_ELIGIBILITY, :LGFS_TRIAL_CLAIM_ELIGIBILITY,
+                     :LGFS_HARDSHIP_CLAIM_ELIGIBILITY
+
+    private
 
     attr_reader :claim
     delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :agfs_scheme_13?, :agfs_scheme_14?,

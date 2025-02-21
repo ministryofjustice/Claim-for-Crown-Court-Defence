@@ -132,7 +132,6 @@ Rails.application.routes.draw do
     resources :claims, except: [:new, :create, :edit, :update] do
       get 'confirmation',           on: :member
       get 'summary',                on: :member
-      get 'show_message_controls',  on: :member
       get 'outstanding',            on: :collection
       get 'authorised',             on: :collection
       get 'archived',               on: :collection
@@ -172,7 +171,6 @@ Rails.application.routes.draw do
     root to: 'claims#index'
 
     resources :claims, only: [:index, :show, :update] do
-      get 'show_message_controls', on: :member
       get 'messages', on: :member
       get 'archived', on: :collection
       get 'download_zip', on: :member

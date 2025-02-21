@@ -12,7 +12,7 @@
         inline: true,
         legend: { text: t('.update_claim_status') }
 
-  - if messaging_permitted?(message) || claim.redeterminable? || current_user_is_caseworker?
+  - if messaging_permitted?(message) || @claim.redeterminable? || current_user_is_caseworker?
     #js-message-form{ class: @claim.redeterminable? ? 'govuk-!-display-none' : '' }
       .message-column
         = f.govuk_text_area :body,

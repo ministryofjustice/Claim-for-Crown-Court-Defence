@@ -12,37 +12,38 @@
         inline: true,
         legend: { text: t('.update_claim_status') }
 
-  - if messaging_permitted?(message) || current_user_is_caseworker?
-    .message-column
-      = f.govuk_text_area :body,
-        label: { text: t('.message_placeholder') },
-        rows: 10
+  - if messaging_permitted?(message) || claim.redeterminable? || current_user_is_caseworker?
+    #js-message-form{ class: @claim.redeterminable? ? 'govuk-!-display-none' : '' }
+      .message-column
+        = f.govuk_text_area :body,
+          label: { text: t('.message_placeholder') },
+          rows: 10
 
-    - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
-      .written-reasons-checkbox
-        = f.govuk_check_boxes_fieldset :written_reasons_submitted, multiple: false, legend: { text: t('.written_reasons_heading'), size: 'm' } do
-          = f.govuk_check_box :written_reasons_submitted,
-            1,
-            0,
-            multiple: false,
-            link_errors: true,
-            label: { text: t('.written_reasons') }
+      - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
+        .written-reasons-checkbox
+          = f.govuk_check_boxes_fieldset :written_reasons_submitted, multiple: false, legend: { text: t('.written_reasons_heading'), size: 'm' } do
+            = f.govuk_check_box :written_reasons_submitted,
+              1,
+              0,
+              multiple: false,
+              link_errors: true,
+              label: { text: t('.written_reasons') }
 
-    .moj-multi-file-upload
-      .moj-multi-file__uploaded-files
-        %h2.govuk-headings-m Files added
-        .govuk-summary-list.moj-multi-file-upload__list
-      .govuk-error-summary.govuk-visually-hidden{"aria-labelledby" => "error-summary-title", role: "alert", tabindex: "-1"}
-        %h2.error-summary-title.govuk-error-summary__title There is a problem
-        .govuk-list.govuk-error-summary__list
-      .moj-multi-file__uploaded-fields
-      .moj-multi-file-upload__upload
-        .govuk-form-group
-          %label.govuk-label.govuk-label--m{for: "attachments"}
-            Upload a file
-          %input#attachments.govuk-file-upload.moj-multi-file-upload__input{multiple: "multiple", name: "attachments", type: "file"}/
+      .moj-multi-file-upload
+        .moj-multi-file__uploaded-files
+          %h2.govuk-headings-m Files added
+          .govuk-summary-list.moj-multi-file-upload__list
+        .govuk-error-summary.govuk-visually-hidden{"aria-labelledby" => "error-summary-title", role: "alert", tabindex: "-1"}
+          %h2.error-summary-title.govuk-error-summary__title There is a problem
+          .govuk-list.govuk-error-summary__list
+        .moj-multi-file__uploaded-fields
+        .moj-multi-file-upload__upload
+          .govuk-form-group
+            %label.govuk-label.govuk-label--m{for: "attachments"}
+              Upload a file
+            %input#attachments.govuk-file-upload.moj-multi-file-upload__input{multiple: "multiple", name: "attachments", type: "file"}/
 
-        %button.govuk-button.govuk-button--secondary.moj-multi-file-upload__button{"data-module" => "govuk-button", type: "submit"}
-          Upload file
-    %button.govuk-button{"data-module" => "govuk-button", type: "submit"}
-      Send
+          %button.govuk-button.govuk-button--secondary.moj-multi-file-upload__button{"data-module" => "govuk-button", type: "submit"}
+            Upload file
+      %button.govuk-button{"data-module" => "govuk-button", type: "submit"}
+        Send

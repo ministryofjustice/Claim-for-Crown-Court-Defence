@@ -12,8 +12,7 @@ moj.Modules.Messaging = {
     self.removeSelectedFile()
 
     self.messageControls.on('change', ':radio', function () {
-      const data = $('.js-test-claim-action :radio:checked').val()
-      $.getScript(self.messageControls.data('auth-url') + '?claim_action=' + data)
+      const mf = $('#js-message-form').removeClass('govuk-!-display-none')
     })
   },
   /******************************
@@ -39,7 +38,7 @@ moj.Modules.Messaging = {
       $('.file-to-be-uploaded').hide()
       $('#message-attachment-field').val('')
       this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop('scrollHeight'))
-    // If there was an error
+      // If there was an error
     } else {
       $('.message-column').addClass('govuk-form-group--error')
       $('.govuk-textarea').addClass('govuk-textarea--error')

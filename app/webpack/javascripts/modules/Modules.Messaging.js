@@ -12,7 +12,7 @@ moj.Modules.Messaging = {
     self.removeSelectedFile()
 
     self.messageControls.on('change', ':radio', function () {
-      const mf = $('#js-message-form').removeClass('govuk-!-display-none')
+      $('#js-message-form').removeClass('govuk-!-display-none')
     })
   },
   /******************************

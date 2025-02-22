@@ -16,7 +16,8 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
-    config.load_defaults 7.0
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 7.1
 
     config.middleware.use Rack::Deflater
     # Settings in config/environments/* take precedence over those specified here.
@@ -54,11 +55,14 @@ module AdvocateDefencePayments
       ::Symbol,
       ::Time
     ]
+    config.active_record.default_column_serializer = YAML
+
     config.active_storage.queues.analysis = :active_storage_analysis
     config.active_storage.queues.purge = :active_storage_purge
     config.active_storage.urls_expire_in = 5.minutes # default
 
 
+    config.autoload_lib(ignore: %w(assets tasks))
     config.autoload_paths << config.root.join('lib')
     config.eager_load_paths << config.root.join('lib')
     config.exceptions_app = self.routes

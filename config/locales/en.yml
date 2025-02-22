@@ -368,6 +368,7 @@ en:
     transfer_case_number: Transfer case number
     transfer_detail_summary: Transfer details
     transfer_date: Transfer date
+    case_concluded_at: Date case concluded
     defendant: Defendant
     expenses: Expenses
     disbursements: Disbursements

@@ -27,6 +27,23 @@ require 'rails_helper'
 require 'fileutils'
 
 RSpec.describe Document do
+  let(:valid_mime_types) do
+    %w[
+      application/pdf
+      application/msword
+      application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      application/vnd.oasis.opendocument.text
+      application/vnd.ms-excel
+      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      application/vnd.oasis.opendocument.spreadsheet
+      application/rtf
+      image/jpeg
+      image/png
+      image/tiff
+      image/bmp
+    ]
+  end
+
   it { is_expected.to belong_to(:external_user) }
   it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
   it { is_expected.to belong_to(:claim) }
@@ -37,11 +54,9 @@ RSpec.describe Document do
   it { is_expected.to validate_size_of(:document).less_than_or_equal_to(20.megabytes) }
 
   it do
-    is_expected.to validate_content_type_of(:document).allowing(
-      'application/pdf', 'application/msword', 'application/vnd.oasis.opendocument.text', 'application/rtf',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'image/jpeg', 'image/png', 'image/tiff', 'image/bmp'
-    ).rejecting('text/plain', 'text/html')
+    is_expected.to validate_content_type_of(:document)
+      .allowing(*valid_mime_types)
+      .rejecting('text/plain', 'text/html')
   end
 
   it { is_expected.to have_one_attached(:converted_preview_document) }

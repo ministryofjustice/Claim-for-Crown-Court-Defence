@@ -2,7 +2,7 @@ describe('Modules.MultiFileUpload', () => {
   const module = moj.Modules.MultiFileUpload
   const multiFileUploadFixtureDOM = $(['<div class="moj-multi-file-upload">',
     '<div class="moj-multi-file__uploaded-fields"></div>',
-    '<div aria-labelledby="error-summary-title" class="govuk-error-summary" role="alert" style="display: none" tabindex="-1">',
+    '<div aria-labelledby="error-summary-title" class="govuk-error-summary govuk-visually-hidden" role="alert" tabindex="-1">',
     '<h2 class="error-summary-title govuk-error-summary__title">There is a problem</h2>',
     '<div class="govuk-list govuk-error-summary__list"></div>',
     '</div>',
@@ -73,7 +73,7 @@ describe('Modules.MultiFileUpload', () => {
     it('should display an error message in the error summary', () => {
       multiFileUpload.params.uploadFileErrorHook(null, file, jqXHR, null, errorThrown)
       const errorContainer = document.querySelector('.govuk-error-summary')
-      expect(errorContainer.style.display).not.toBe('none')
+      expect(errorContainer).not.toHaveClass('govuk-visually-hidden')
       const error = errorContainer.querySelector('.govuk-list.govuk-error-summary__list span')
       expect(error).not.toBeNull()
       expect(error.innerHTML).toContain(file.name)

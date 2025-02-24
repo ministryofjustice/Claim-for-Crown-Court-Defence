@@ -15,6 +15,9 @@
   <% end %>
 
   document.querySelector('.govuk-summary-list.moj-multi-file-upload__list').innerHTML = '';
+  const errorContainer = document.querySelector('.govuk-error-summary').classList.add('govuk-visually-hidden');
+  errorContainer.querySelector('.govuk-list.govuk-error-summary__list').innerHTML = '';
+
 <% else %>
   var data = {
     success : false,

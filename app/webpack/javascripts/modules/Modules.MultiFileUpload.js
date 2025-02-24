@@ -36,7 +36,7 @@ moj.Modules.MultiFileUpload = {
 
         const errorContainer = document.querySelector('.govuk-error-summary')
         const errors = errorContainer.querySelector('.govuk-list.govuk-error-summary__list')
-        errorContainer.style.display = ''
+        errorContainer.classList.remove('govuk-visually-hidden')
         const error = document.createElement('span')
         error.style = 'color:#d4351c;font-weight:bold'
         error.innerHTML = file.name + ': ' + httpStatus[jqXHR.status] + '.<br/>'

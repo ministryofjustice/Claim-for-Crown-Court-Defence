@@ -18,7 +18,6 @@ module CaseWorkers
     before_action :set_claim, only: %i[show messages download_zip]
 
     include ReadMessages
-    include MessageControlsDisplay
 
     def index; end
 

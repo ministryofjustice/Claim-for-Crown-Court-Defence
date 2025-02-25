@@ -369,7 +369,7 @@ en:
     transfer_detail_summary: Transfer details
     transfer_date: Transfer date
     defendant: Defendant
-    expenses: Expenses
+    expenses: Travel expenses
     disbursements: Disbursements
     fees: Fees
     or: or
@@ -1580,6 +1580,8 @@ en:
           warrant_fee_paid: 'Have you previously been paid for an interim warrant fee?'
           date_issued: Warrant issued date
           date_executed: Warrant executed date
+        new_warrant_fees_lgfs_details:
+          fields: *interim_claim_info_fields
         summary:
           caption: 'Warrant fees: This section contains info related to interim claimed warrant fees.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
@@ -2055,7 +2057,6 @@ en:
       reason_text: Reason text
       reason_hint: These reasons will be displayed to providers
       update_the_claim_status: Update the claim status
-      reason_text: Reason text
       laa_heading: Total authorised by LAA
       laa_heading_hint: include any amount already authorised
     determinations_table:
@@ -2084,7 +2085,7 @@ en:
       invalid_claim: 'Claim is not in a state to be submitted'
     claim:
       advocate_category: Advocate category
-      assignee: "Assigned to:"
+      assignee: &assignee "Assigned to"
       case: Case
       case_cracked: Case cracked in
       case_num: Case number
@@ -2095,7 +2096,7 @@ en:
       defendant: Defendant names
       defendants: Defendants
       j_a: Judicial apportionment
-      no_defendant: No defendant details have been supplied for this claim
+      no_defendant: &no_defendant 'No defendant details have been supplied for this claim'
       offence: Offence
       offence_class: Offence class
       q:
@@ -2123,7 +2124,162 @@ en:
       additional_prep_fee_warning:
         header: 'Warning: Additional preparation fee was not injected'
         message: 'The provider has claimed an additional preparation fee on this claim, but it has not been injected. Enter it manually.'
-
+    new_certification:
+      certification_box_title: Certification
+      certified_by: Certified by
+      certification_reason: Reason
+      certification_caption: Certification details
+      instructed_heading: Instructed advocate
+      alert: 'Cannot certify a claim in submitted state'
+      invalid_claim: 'Claim is not in a state to be submitted'
+    new_claim:
+      advocate_category: Advocate category
+      provider_reference: Provider reference number
+      case: Case
+      case_cracked: Case cracked in
+      case_worker: Case worker
+      claim_type: Claim and case type
+      defendant: Defendant names
+      defendants: Defendants
+      j_a: Judicial apportionment
+      offence: Offence
+      offence_class: Offence class
+      no_defendant: *no_defendant
+    new_claim_accordion:
+      additional_information: Additional information
+      created_by: 'Created by:'
+      basic_info: Basic claim information
+      h2_offence_details: Offence details
+      evidence: Evidence
+      messages: Messages and claim status
+      h2_status: Status
+      fees: Fees
+      heading: Claim
+    new_claim_and_case_type_details:
+      provider_reference: Provider reference number
+      claim_submitted: Claim submitted on
+      assignee: *assignee
+      case_num: Case number
+      case_stage: *case_stage
+      case_type: *case_type
+    new_claim_defendant_details:
+      title_defendant: Defendant
+      first_name: First name
+      last_name: Last name
+      date_of_birth: Date of birth
+      order_of_judicial_apportionment: Order of judicial apportionment
+      reporders: Represention order
+      maat_reference: 'MAAT reference:'
+      no_reporder: No representation orders have been supplied for this defendant.
+    new_claim_defendants:
+      h2_defendant_details: Defendant details
+    new_claim_retrial_details:
+      retrial_started_at: 'First day of retrial'
+      retrial_estimated_length: 'Estimated retrial length'
+      retrial_actual_length: 'Actual retrial length'
+      retrial_concluded_at: 'Retrial concluded on'
+      retrial_reduction: 'Apply reduced rate to retrial?'
+    new_evidence_checklist:
+      evidence_address: "Please send evidence to the following address:"
+    new_warrant_fees_details:
+      fields: *interim_claim_info_fields
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+    new_evidence_list:
+      existing_evidence: Existing evidence
+      no_documents_uploaded: No documents have been uploaded.
+      name_of_file: File
+      file_size: File size
+      date_added: Date added
+    new_basic_and_additional_fees_details:
+      caption: Basic and additional fees
+      fee_category: Fee category
+      fee_type: Fee type
+      rate: Rate
+      days_claimed: Days
+      actual_trial_length: Actual trial length
+      quantity: *quantity
+      amount: Amount
+      dates_attended: Dates attended
+      date: Date
+      fee_subtype: &fee_subtype 'Fee subtype'
+      case_numbers: *case_numbers
+      fees_total: Fees total
+    new_agfs_fee_details:
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      quantity: 'Quantity'
+      rate: 'Rate'
+      net_amount: *net_amount
+      first_day_of_trial: 'First day of trial'
+      retrial_started_at: 'Retrial started at'
+      dates_attended: 'Dates attended'
+      fee_subtype: *fee_subtype
+      case_numbers: *case_numbers
+      fees_total: 'Fees total:'
+      date: 'Date'
+    new_lgfs_fee_details:
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      quantity: *quantity
+      rate: 'Rate'
+      net_amount: *net_amount
+      first_day_of_trial: 'First day of trial'
+      retrial_started_at: 'Retrial started at'
+      dates_attended: 'Dates attended'
+      fee_subtype: *fee_subtype
+      case_numbers: *case_numbers
+      fees_total: 'Fees total:'
+      date: 'Date'
+      actual_trial_length: *actual_trial_length
+      amount: 'Amount'
+      days_claimed: 'Days'
+    new_lgfs_disbursements:
+      disbursements_gross: 'Disbursements with VAT'
+      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
+      disbursement_type: "Disbursement type"
+      net_amount: *net_amount
+      vat_amount: *vat_amount
+      vat: 'VAT'
+      gross_amount: Gross amount
+      total: "Total"
+    new_summary_lgfs:
+      mileage_rate: Mileage rate
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      vat_amount: *vat_amount
+      date: Date
+      distance: Distance
+      fee_subtype: *fee_subtype
+      case_numbers: *case_numbers
+      expense_type: Expense type
+      location: Destination
+      quantity_hours: 'Hours'
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: Additional information
+    new_summary_agfs:
+      mileage_rate: 'Mileage rate'
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      amount: 'Amount'
+      vat_amount: 'VAT Amount'
+      distance: 'Distance'
+      dates_attended: 'Dates attended'
+      expense_type: 'Expense type'
+      location: 'Destination'
+      quantity_hours: 'Hours'
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: 'Additional information'
+      net_amount: 'Net amount'
+      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
     message_controls:
       attachment_label: Optionally attach a file
       update_claim_status: Update your claim status
@@ -2135,6 +2291,9 @@ en:
       remove: Remove
       written_reasons_heading: Written reasons
       written_reasons: I have submitted written reasons
+    offence_details:
+      new_summary:
+        header: Offence details
 
     providers:
       new:
@@ -2175,7 +2334,7 @@ en:
       summary: 'Note: View and Download links are in 4th column, Actions'
       existing_evidence: Existing evidence
       no_documents_uploaded: No documents have been uploaded.
-      name_of_file: Name of file
+      name_of_file: File
       file_size: File size
       date_added: Date added
       actions: Actions
@@ -2193,32 +2352,62 @@ en:
         travel_expenses: Travel expenses
         travel_details: Travel details
         index:
-          calculated_distance: Calculated distance
+          calculated_distance: &calculated_distance 'Calculated distance'
           caption: *expenses_caption
-          date: Date of expense
-          details: Details
-          expense_type: Type of expense
+          date: &date 'Date of expense'
+          details: &details 'Details'
+          expense_type: &expense_type 'Type of expense'
           gross_amount: Gross amount
-          header_with_vat: Expenses with VAT
-          header_without_vat: Expenses without VAT
+          header_with_vat: &with_vat 'Expenses with VAT'
+          header_without_vat: &with_out_vat 'Expenses without VAT'
           net_amount: *net_amount
-          reason: Reason for travel
-          totals_with_vat: Expenses with VAT total
-          totals_without_vat: Expenses without VAT total
+          reason: &reason Reason for travel
+          totals_with_vat: &totals_with_vat 'Expenses with VAT total'
+          totals_without_vat: &totals_without_vat 'Expenses without VAT total'
+          vat: *vat_amount
+        new_index:
+          destination: "Destination: "
+          distance: "Distance: "
+          cost: "Cost per mile: "
+          calculated_distance: *calculated_distance
+          caption: *expenses_caption
+          date: *date
+          details: *details
+          expense_type: *expense_type
+          total_amount: Total amount
+          header_with_vat: *with_vat
+          header_without_vat: *with_out_vat
+          net_amount: *net_amount
+          reason: *reason
+          totals_with_vat: *totals_with_vat
+          totals_without_vat: *totals_without_vat
           vat: *vat_amount
         details:
-          distance_calculated: Distance calculated
-          distance_claimed: Distance claimed
-          distance: Distance
-          cost: Cost per mile
-          origin: Origin
-          destination: Destination
-          view_map_link: View on a map
-          hours: Hours
+          distance_calculated: &distance_calculated 'Distance calculated'
+          distance_claimed: &distance_claimed 'Distance claimed'
+          distance: &distance 'Distance'
+          cost: &cost 'Cost per mile'
+          origin: &origin 'Origin'
+          destination: &destination 'Destination'
+          view_map_link: &view_map_link 'View on a map'
+          hours: &hours 'Hours'
           distance_count:
-            one: '1 mile'
-            other: '%{count} miles'
-            zero: 'not applicable'
+            one: &distance_count_one '1 mile'
+            other: &distance_count_other '%{count} miles'
+            zero: &distance_count_zero 'not applicable'
+        new_details:
+          distance_calculated: *distance_calculated
+          distance_claimed: *distance_claimed
+          distance: *distance
+          cost: *cost
+          origin: *origin
+          destination: *destination
+          view_map_link: *view_map_link
+          hours: *hours
+          distance_count:
+            one: *distance_count_one
+            other: *distance_count_other
+            zero: *distance_count_zero
         distance_warnings:
           title:
             one: There is an error with the travel expenses
@@ -2227,12 +2416,20 @@ en:
             one: The distance claimed by the provider is greater than the calculated distance for one expense. Please see the table below for details.
             other: The distance claimed by the provider is greater than the calculated distance for %{count} expenses. Please see the table below for details.
         show:
-          date: Date of expense
-          details: Details
-          expense_type: Type of expense
+          date: &date 'Date of expense'
+          details: &details 'Details'
+          expense_type: &expense_type 'Type of expense'
           gross_amount: Gross amount
           net_amount: *net_amount
-          reason: Reason for travel
+          reason: &reason 'Reason for travel'
+          vat: *vat_amount
+        new_show:
+          date: *date
+          details: *details
+          expense_type: *expense_type
+          gross_amount: Total amount
+          net_amount: *net_amount
+          reason: *reason
           vat: *vat_amount
       fee: Fee
       fee_index: Fee %{index}
@@ -2257,7 +2454,7 @@ en:
       distance: Distance
       fee_category: Fee category
       fee_type: *fee_type
-      fee_subtype: Fee subtype
+      fee_subtype: *fee_subtype
       first_day_of_hearing: First day of hearing
       case_numbers: *case_numbers
       quantity: *quantity
@@ -2315,40 +2512,39 @@ en:
       dates: Dates
       rate: Rate
     summary_agfs:
-      mileage_rate: Mileage rate
+      mileage_rate: 'Mileage rate'
       expenses:
         caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
-      amount: Amount
-      vat_amount: *vat_amount
-      date: Date
-      distance: Distance
-      fee_category: Fee category
-      fee_type: Fee type
-      fee_subtype: Fee subtype
-      case_numbers: *case_numbers
-      quantity: *quantity
-      dates_attended: Dates attended
+      amount: 'Amount'
+      vat_amount: 'VAT Amount'
+      date: 'Date'
+      distance: 'Distance'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      fee_subtype: *fee_subtype
+      case_numbers: 'Case Numbers'
+      quantity: 'Quantity'
+      dates_attended: 'Dates attended'
       fees_total: 'Fees total:'
-      expense_type: Expense type
-      location: Destination
+      expense_type: 'Expense type'
+      location: 'Destination'
       quantity_hours: 'Hours'
-      rate: Rate
+      rate: 'Rate'
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       reason: 'Reason'
-      additional_information: Additional information
-      disbursements:
-        caption: 'Disbursements: A detailed list Type including amounts'
-        type: "Disbursement type"
-        net_amount: *net_amount
-        vat_amount: *vat_amount
-        total: "Total"
-      warrant_fee:
-        date_issued: "Warrant issued"
-        date_executed: "Warrant executed"
-        total: "Total"
+      additional_information: 'Additional information'
+    disbursements:
+      caption: 'Disbursements: A detailed list Type including amounts'
+      type: "Disbursement type"
+      net_amount: *net_amount
+      vat_amount: *vat_amount
+      total: "Total"
+    warrant_fee:
+      date_issued: "Warrant issued"
+      date_executed: "Warrant executed"
       total: "Total"
       ppe_total: "PPE total at the time"
       effective_pcmh_date: "Effective PCMH"
@@ -2376,7 +2572,7 @@ en:
       fee_category: Fee category
       fee_type: Fee type
       actual_trial_length: *actual_trial_length
-      fee_subtype: Fee subtype
+      fee_subtype: *fee_subtype
       case_numbers: *case_numbers
       days_claimed: Days
       quantity: *quantity
@@ -2400,19 +2596,18 @@ en:
         date_issued: "Warrant issued"
         date_executed: "Warrant executed"
         total: "Total"
-      total: "Total"
-      ppe_total: "PPE total at the time"
-      effective_pcmh_date: "Effective PCMH"
-      trial_start: "Trial start"
-      estimated_trial_length: "Trial estimated length"
-      retrial_start: "Re-trial start"
-      estimated_retrial_length: "Re-trial estimated length"
-      legal_aid_transfer_date: "Legal aid transfer"
-      trial_concluded_at: "First trial concluded"
-      no_values:
-        fees: "There are no fees for this claim"
-        expenses: "There are no expenses for this claim"
-        disbursements: "There are no disbursements for this claim"
+        ppe_total: "PPE total at the time"
+        effective_pcmh_date: "Effective PCMH"
+        trial_start: "Trial start"
+        estimated_trial_length: "Trial estimated length"
+        retrial_start: "Re-trial start"
+        estimated_retrial_length: "Re-trial estimated length"
+        legal_aid_transfer_date: "Legal aid transfer"
+        trial_concluded_at: "First trial concluded"
+        no_values:
+          fees: "There are no fees for this claim"
+          expenses: "There are no expenses for this claim"
+          disbursements: "There are no disbursements for this claim"
 
     supplier_numbers:
       add_supplier: Add another supplier
@@ -2452,7 +2647,7 @@ en:
     claim_total: 'Claim total'
     description: 'Description'
     disbursement_type: 'Disbursement type'
-    disbursements_gross: 'Disbursements with VAT'
+    disbursements_gross: 'Disbursements'
     disbursements_no_vat: 'Disbursements without VAT'
     disbursements_total: 'Disbursements total'
     download_all_html: Download all <span class="govuk-visually-hidden">%{context}</span>

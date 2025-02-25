@@ -88,8 +88,6 @@ module TransferBrainHelpers
   end
 
   included do
-    def data_item_collection_hash
-      self.class.data_item_collection_hash
-    end
+    delegate :data_item_collection_hash, to: :class
   end
 end

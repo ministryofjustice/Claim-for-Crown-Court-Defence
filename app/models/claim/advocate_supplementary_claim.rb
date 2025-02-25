@@ -4,6 +4,8 @@ module Claim
 
     include ProviderDelegation
 
+    delegate :agfs?, to: :class
+
     validates_with ::Claim::AdvocateSupplementaryClaimValidator,
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateSupplementaryClaimSubModelValidator
@@ -62,10 +64,6 @@ module Claim
 
     def external_user_type
       :advocate
-    end
-
-    def agfs?
-      self.class.agfs?
     end
 
     def final?

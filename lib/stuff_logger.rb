@@ -8,9 +8,7 @@ module StuffLogger
       LogStuff.error(class: self.class.name,
                      action: caller_locations(1, 1)[0].label,
                      error_message: "#{error.class} - #{error.message}",
-                     error_backtrace: error.backtrace.inspect.to_s) do
-                       message
-                     end
+                     error_backtrace: error.backtrace.inspect) { message }
     end
 
     def log_info(message)

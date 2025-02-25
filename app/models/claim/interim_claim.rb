@@ -77,6 +77,8 @@ module Claim
             inverse_of: :claim,
             validate: proc { |claim| claim.step_validation_required?(:interim_fees) }
 
+    delegate :lgfs?, to: :class
+
     accepts_nested_attributes_for :interim_fee, reject_if: :all_blank, allow_destroy: false
 
     before_validation do
@@ -126,10 +128,6 @@ module Claim
       },
       { name: :supporting_evidence }
     ].freeze
-
-    def lgfs?
-      self.class.lgfs?
-    end
 
     def interim?
       true

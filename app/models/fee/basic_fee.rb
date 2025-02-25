@@ -24,6 +24,8 @@ class Fee::BasicFee < Fee::BaseFee
 
   attr_writer :toggle
 
+  delegate :validation_order, to: :class
+
   validates_with Fee::BasicFeeValidator
 
   default_scope { order(claim_id: :asc, fee_type_id: :asc) }
@@ -34,9 +36,5 @@ class Fee::BasicFee < Fee::BaseFee
 
   def self.validation_order
     :position
-  end
-
-  def validation_order
-    self.class.validation_order
   end
 end

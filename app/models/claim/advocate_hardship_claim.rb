@@ -13,6 +13,7 @@ module Claim
 
     delegate :case_type, to: :case_stage, allow_nil: true
     delegate :requires_cracked_dates?, to: :case_type, allow_nil: true
+    delegate :agfs?, to: :class
 
     accepts_nested_attributes_for :basic_fees, reject_if: all_blank_or_zero, allow_destroy: true
 
@@ -120,10 +121,6 @@ module Claim
 
     def case_stage_unique_code=(code)
       self.case_stage = CaseStage.find_by!(unique_code: code)
-    end
-
-    def agfs?
-      self.class.agfs?
     end
 
     def hardship?

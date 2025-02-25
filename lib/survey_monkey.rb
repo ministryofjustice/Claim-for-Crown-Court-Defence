@@ -2,6 +2,8 @@ require 'survey_monkey/configuration'
 
 module SurveyMonkey
   class << self
+    delegate :connection, to: :@configuration
+
     def configuration
       @configuration ||= Configuration.new
     end
@@ -14,10 +16,6 @@ module SurveyMonkey
     def page_by_name(name) = configuration.pages[name]
 
     def collector_by_name(name) = configuration.collectors[name]
-
-    def connection
-      @configuration.connection
-    end
 
     def log(level, message)
       return if @configuration.logger.nil?

@@ -1,9 +1,7 @@
 - if current_user.persona.is_a?(CaseWorker)
   - open_messages_url = messages_case_workers_claim_path(claim)
-  - message_controls_url = show_message_controls_case_workers_claim_path(claim)
 - else
   - open_messages_url = messages_external_users_claim_path(claim)
-  - message_controls_url = show_message_controls_external_users_claim_path(claim)
 
 .messages-container.no-print
   .messages-list{ 'aria-label': t('shared.claim_accordion.h2_messages'), role: 'region', tabindex: 0 }
@@ -13,7 +11,7 @@
     = govuk_link_to t('.print_messages'), open_messages_url
 
   - if show_message_controls?(claim)
-    .js-controls.message-controls{ 'data-auth-url': message_controls_url }
+    .js-controls.message-controls
       = render partial: 'shared/message_controls', locals: { message: @message }
 
   .govuk-grid-row.message-status{ class: 'govuk-!-margin-0 govuk-!-margin-bottom-1', role: 'status' }

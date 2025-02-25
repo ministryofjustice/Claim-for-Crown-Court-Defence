@@ -27,7 +27,6 @@ module ExternalUsers
     before_action :initialize_submodel_counts
 
     include ReadMessages
-    include MessageControlsDisplay
 
     before_action :enable_breadcrumb, only: %i[new create edit update]
 

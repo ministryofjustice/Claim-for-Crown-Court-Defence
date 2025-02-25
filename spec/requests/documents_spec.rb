@@ -178,4 +178,166 @@ RSpec.describe 'Document management' do
       it { expect { delete_document }.not_to change(ActiveStorage::Blob, :count) }
     end
   end
+
+  describe 'POST /documents/upload' do
+    subject(:create_document) { post upload_documents_path, params: }
+
+    let(:params) do
+      {
+        documents: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
+      }
+    end
+
+    context 'when the document is valid' do
+      it 'creates a document' do
+        expect { create_document }.to change(Document, :count).by(1)
+      end
+
+      it 'returns status created' do
+        create_document
+        expect(response).to have_http_status(:created)
+      end
+
+      it 'returns the id of the created document' do
+        create_document
+        # The MultiFileUpload uses the filename as the only paramater to identify the document for the delte button
+        # For this reason the 'filename' in the response is the document id
+        expect(response.parsed_body['file']['filename']).to eq Document.last.id
+      end
+
+      it 'returns a success message' do
+        create_document
+        expect(response.parsed_body['success']).to have_key('messageHtml')
+      end
+    end
+
+    context 'when the document is invalid' do
+      let(:params) do
+        {
+          documents: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.html', 'text/html')
+        }
+      end
+
+      it 'does not create a document' do
+        expect { create_document }.not_to change(Document, :count)
+      end
+
+      it 'returns status unprocessable entity' do
+        create_document
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it 'returns errors in response' do
+        create_document
+        expect(response.parsed_body['error']).to have_key('message')
+      end
+    end
+
+    context 'when the document is missing' do
+      let(:params) { { documents: nil } }
+
+      it 'does not create a document' do
+        expect { create_document }.not_to change(Document, :count)
+      end
+
+      it 'returns status unprocessable entity' do
+        create_document
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it 'returns errors in response' do
+        create_document
+        expect(response.parsed_body['error']).to have_key('message')
+      end
+    end
+  end
+
+  describe 'POST /documents/delete' do
+    subject(:delete_document) { post delete_documents_path, params: }
+
+    let!(:document) { create(:document, creator_id: document_owner.user.id, claim: nil) }
+    let(:document_owner) { external_user }
+    let(:params) { { delete: document.id } }
+
+    context 'when the document exists and is owned by the user' do
+      it { expect { delete_document }.to change(Document, :count).by(-1) }
+      it { expect { delete_document }.to change { Document.find_by(id: document.id) }.to(nil) }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the document exists and is owned by another user' do
+      let(:document_owner) { create(:external_user) }
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+      it { expect { delete_document }.not_to change { Document.find_by(id: document.id) } }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the document is attached to a claim as an evidence document' do
+      before do
+        claim = create(:claim)
+        document.claim_id = claim.id
+        document.save
+      end
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+      it { expect { delete_document }.not_to change { Document.find_by(id: document.id) } }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the document does not exist' do
+      let!(:document) { build(:document, id: Document.maximum(:id).to_i.next) }
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+
+      it do
+        delete_document
+        expect(response).to have_http_status(:ok)
+      end
+
+      it do
+        delete_document
+        expect(response.parsed_body['file']).to eq({ 'filename' => document.id.to_s })
+      end
+    end
+
+    context 'when the user is not signed in' do
+      before { sign_out document_owner.user }
+
+      it { expect { delete_document }.not_to change(Document, :count) }
+      it { expect { delete_document }.not_to change { Document.find_by(id: document.id) } }
+
+      it do
+        delete_document
+        expect(response).to redirect_to(new_user_session_url)
+      end
+    end
+  end
 end

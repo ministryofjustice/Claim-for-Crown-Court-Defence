@@ -43,6 +43,22 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def upload
+    @document = Document.new(creator_id: current_user.id, document: params[:documents])
+    if @document.save_and_verify
+      render_success_response
+    else
+      render_error_response
+    end
+  end
+
+  def delete
+    document = Document.find_by(id: params[:delete], creator: current_user, claim: nil)
+    document.destroy if document.present?
+
+    render json: { file: { filename: params[:delete] } }
+  end
+
   private
 
   def document
@@ -55,5 +71,22 @@ class DocumentsController < ApplicationController
       :form_id,
       :creator_id
     )
+  end
+
+  def render_success_response
+    render json: {
+      file: { originalname: @document.document.filename, filename: @document.id },
+      success: {
+        messageHtml: "#{@document.document.filename} uploaded"
+      }
+    }, status: :created
+  end
+
+  def render_error_response
+    render json: {
+      error: {
+        message: "#{@document.document.filename} #{@document.errors[:document].join(', ')}"
+      }
+    }, status: :accepted
   end
 end

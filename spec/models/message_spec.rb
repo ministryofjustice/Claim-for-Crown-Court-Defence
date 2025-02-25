@@ -17,6 +17,23 @@
 require 'rails_helper'
 
 RSpec.describe Message do
+  let(:valid_mime_types) do
+    %w[
+      application/pdf
+      application/msword
+      application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      application/vnd.oasis.opendocument.text
+      application/vnd.ms-excel
+      application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+      application/vnd.oasis.opendocument.spreadsheet
+      application/rtf
+      image/jpeg
+      image/png
+      image/tiff
+      image/bmp
+    ]
+  end
+
   it { is_expected.to belong_to(:claim) }
   it { is_expected.to belong_to(:sender).class_name('User').inverse_of(:messages_sent) }
   it { is_expected.to have_many(:user_message_statuses) }
@@ -29,20 +46,8 @@ RSpec.describe Message do
 
   it do
     is_expected.to validate_content_type_of(:attachments)
-      .allowing(
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/vnd.oasis.opendocument.text',
-        'application/vnd.ms-excel',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.oasis.opendocument.spreadsheet',
-        'application/rtf',
-        'image/jpeg',
-        'image/png',
-        'image/tiff',
-        'image/bmp'
-      ).rejecting('text/plain', 'text/html')
+      .allowing(*valid_mime_types)
+      .rejecting('text/plain', 'text/html')
   end
 
   it { is_expected.to validate_size_of(:attachments).less_than_or_equal_to(20.megabytes) }

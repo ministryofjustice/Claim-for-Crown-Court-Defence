@@ -850,22 +850,6 @@ RSpec.describe ExternalUsers::ClaimsController do
       end
     end
   end
-
-  describe 'GET #show_message_controls' do
-    let(:claim) { create(:refused_claim, external_user: advocate) }
-
-    before do
-      get(
-        :show_message_controls,
-        params: { id: claim, claim_action: 'Apply for redetermination' },
-        xhr: true,
-        format: :js
-      )
-    end
-
-    it { expect(response).to have_http_status :ok }
-    it { is_expected.to render_template('shared/show_message_controls') }
-  end
 end
 
 def build_sortable_claims_sample(advocate)

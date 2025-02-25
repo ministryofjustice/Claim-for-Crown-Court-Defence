@@ -41,22 +41,23 @@ RSpec.describe GovukComponent::TagHelpers, type: :helper do
     end
 
     context 'when external user is inactive' do
+      subject { helper.govuk_tag_active_user?(user) }
+
       let(:user) { create(:user, :active, :disabled) }
       let(:tag_class) { 'govuk-tag govuk-tag--red' }
       let(:tag_text) { 'Inactive' }
-      subject { helper.govuk_tag_active_user?(user) }
 
       it { is_expected.to have_tag(:strong, with: { class: tag_class }, text: tag_text) }
     end
 
     context 'when external user is active' do
-      let(:user) { create(:user, :active, :enabled) }
+      subject { helper.govuk_tag_active_user?(user) }
 
-      it 'displays a green inactive tag' do
-        tag_class = 'govuk-tag govuk-tag--green'
-        tag_text = 'Active'
-        expect(govuk_tag_active_user?(user)).to have_tag(:strong, with: { class: tag_class }, text: tag_text)
-      end
+      let(:user) { create(:user, :active, :enabled) }
+      let(:tag_class) { 'govuk-tag govuk-tag--green' }
+      let(:tag_text) { 'Active' }
+
+      it { is_expected.to have_tag(:strong, with: { class: tag_class }, text: tag_text) }
     end
   end
 end

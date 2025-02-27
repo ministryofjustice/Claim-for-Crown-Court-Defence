@@ -26,6 +26,7 @@ module CaseWorkers
 
     def show
       prepare_show_action
+      @active_tab = params[:tab] || 'information'
     end
 
     def status

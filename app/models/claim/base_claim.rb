@@ -617,7 +617,7 @@ module Claim
     end
 
     def last_state_transition_later_than_redetermination?(last_state_transition)
-      last_redetermination.nil? ? true : last_redetermination.created_at < last_state_transition.created_at
+      last_redetermination.nil? || (last_redetermination.created_at < last_state_transition.created_at)
     end
 
     def build_associations

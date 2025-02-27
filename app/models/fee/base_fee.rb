@@ -136,7 +136,7 @@ module Fee
 
     # where fee type not available, default calculated? to true
     def calculated?
-      fee_type&.calculated?.nil? ? true : fee_type.calculated?
+      fee_type&.calculated?.nil? || fee_type.calculated?
     end
 
     # NOTE: - agfs fixed fees and misc fees are calculated, except for old claims (non-draft) that can have nil/0 rate

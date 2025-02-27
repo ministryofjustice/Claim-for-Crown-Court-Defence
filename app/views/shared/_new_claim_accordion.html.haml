@@ -1,0 +1,24 @@
+- present(@claim) do |claim|
+  %h2.govuk-heading-l
+    = t('.h2_basic_info')
+    .js-accordion__panel
+      = render partial: 'shared/new_claim', locals: { claim: claim, hide_totals: true }
+
+    %h2.govuk-heading-l
+      = t('.h2_evidence')
+    .js-accordion__panel
+      = render partial: 'shared/evidence_list'
+
+    %h2.govuk-heading-l
+      = t('.h2_summary')
+    .js-accordion__panel.fees-summary
+      - if claim.agfs?
+        = render partial: 'shared/summary_agfs', locals: { claim: claim }
+      - else
+        = render partial: 'shared/summary_lgfs', locals: { claim: claim }
+
+    - if claim.additional_information.present?
+      %h2.govuk-heading-l
+        = t('.additional_information')
+      %p
+        = format_multiline(claim.additional_information)

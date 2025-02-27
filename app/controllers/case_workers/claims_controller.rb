@@ -30,6 +30,12 @@ module CaseWorkers
 
     def status
       prepare_show_action
+      render 'case_workers/claims/_status'
+    end
+
+    def information
+      prepare_show_action
+      render '/shared/_new_claim_accordion'
     end
 
     def download_zip

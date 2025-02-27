@@ -11,10 +11,3 @@
 
             - unless last_claim?
               = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
-
-  %nav.govuk-breadcrumbs{ 'aria-label': t('.sub_navigation') }
-    %ul.govuk-breadcrumbs__list.breadcrumbs_seperator
-      %li.govuk-breadcrumbs__list-item
-        = govuk_link_to t('.claim_status'), status_case_workers_claim_path(claim), class: cp(status_case_workers_claim_path(@claim))
-      %li.govuk-breadcrumbs__list-item
-        = govuk_link_to t('.claim_information'), case_workers_claim_path(claim), class: cp(case_workers_claim_path(@claim))

@@ -41,6 +41,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   context 'fee summaries' do
+    headings = ['Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount']
+
     context 'AGFS' do
       before do
         claim.save
@@ -52,8 +54,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         let(:claim) { build(:advocate_claim, :without_misc_fees, :submitted) }
 
         it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
+          headings.each do |heading|
+            expect(rendered).to have_css('th', text: heading)
           end
         end
       end
@@ -62,60 +64,64 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :without_misc_fees, :submitted) }
 
         it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount')
+          headings.each do |heading|
+            expect(rendered).to have_css('th', text: heading)
           end
         end
       end
     end
+  end
 
-    context 'LGFS' do
-      before do
-        claim.save
-        assign(:claim, claim)
-        render
-      end
+  context 'LGFS' do
+    before do
+      claim.save
+      assign(:claim, claim)
+      render
+    end
 
-      context 'graduated fee' do
-        let(:claim) { build(:litigator_claim, :trial, :submitted) }
+    context 'graduated fee' do
+      headings = ['Fee category', 'Fee type', 'PPE', 'Actual trial length', 'Amount']
+      let(:claim) { build(:litigator_claim, :trial, :submitted) }
 
-        it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'PPE', 'Actual trial length', 'Amount')
-          end
+      it 'displays expected table headers' do
+        headings.each do |heading|
+          expect(rendered).to have_css('th', text: heading)
         end
       end
+    end
 
-      context 'fixed fee' do
-        let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted) }
+    context 'fixed fee' do
+      headings = ['Fee category', 'Fee type', 'Quantity', 'Rate', 'Amount']
+      let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted) }
 
-        it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Quantity', 'Rate', 'Amount')
-            expect(summary).to_not include_table_headers('Actual trial length')
-          end
+      it 'displays expected table headers' do
+        headings.each do |heading|
+          expect(rendered).to have_css('th', text: heading)
+          expect(rendered).to have_no_css('th', text: 'Actual trial length')
         end
       end
+    end
 
-      context 'interim fee' do
-        let(:claim) { build(:interim_claim, :interim_warrant_fee, :submitted) }
+    context 'interim fee' do
+      headings = ['Fee category', 'Fee type', 'Amount']
+      let(:claim) { build(:interim_claim, :interim_warrant_fee, :submitted) }
 
-        it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Amount')
-            expect(summary).to_not include_table_headers('Actual trial length')
-          end
+      it 'displays expected table headers' do
+        headings.each do |heading|
+          expect(rendered).to have_css('th', text: heading)
+          expect(rendered).to have_no_css('th', text: 'Actual trial length')
         end
       end
+    end
 
-      context 'transfer fee' do
-        let(:claim) { build(:transfer_claim, :submitted) }
+    context 'transfer fee' do
+      headings = ['Fee category', 'Fee type', 'Days', 'PPE', 'Amount']
+      let(:claim) { build(:transfer_claim, :submitted) }
 
-        it 'displays expected table headers' do
-          within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'Days', 'PPE', 'Amount')
-            expect(summary).to_not include_table_headers('Actual trial length')
-          end
+      it 'displays expected table headers' do
+        headings.each do |heading|
+          expect(rendered).to have_css('th', text: heading)
+          expect(rendered).to have_no_css('th', text: 'Actual trial length')
         end
       end
     end
@@ -421,6 +427,59 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       it 'displays the expected text' do
         expect(rendered).to have_text('Warning: Additional preparation fee was not injected')
       end
+    end
+  end
+
+  describe 'offence details information' do
+    context 'when the claim is for a fixed fee case type' do
+      let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
+
+      it 'does NOT displays offence details section' do
+        assign(:claim, claim)
+        render
+        expect(rendered).to have_no_content('Offence details')
+      end
+    end
+
+    context 'when the claim is NOT for a fixed fee case type' do
+      let(:claim) { create(:advocate_claim, :with_graduated_fee_case) }
+
+      it 'displays offence details section' do
+        assign(:claim, claim)
+        render
+        expect(rendered).to have_content('Offence details')
+      end
+    end
+  end
+
+  describe 'all the main headings' do
+    let(:claim) { create(:claim) }
+
+    before do
+      @expense = create(:expense, :with_date_attended, claim:)
+      create(:date_attended, attended_item: @expense)
+      assign(:claim, claim)
+      render
+    end
+
+    it 'displays basic claim' do
+      expect(rendered).to have_content('Basic claim information')
+    end
+
+    it 'displays defendant heading' do
+      expect(rendered).to have_content('Defendant details')
+    end
+
+    it 'displays evidence heading' do
+      expect(rendered).to have_content('Evidence')
+    end
+
+    it 'displays Fees heading' do
+      expect(rendered).to have_content('Fees')
+    end
+
+    it 'displays travel expenses heading' do
+      expect(rendered).to have_content('Travel expenses')
     end
   end
 

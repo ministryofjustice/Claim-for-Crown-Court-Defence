@@ -8,5 +8,9 @@ module GovukComponent
 
       tag.strong(body, **tag_options)
     end
+
+    def govuk_tag_active_user?(user)
+      user.active? && user.enabled? ? govuk_tag('Active', 'green') : govuk_tag('Inactive', 'red')
+    end
   end
 end

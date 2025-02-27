@@ -16,8 +16,6 @@ module Fee
 
     private
 
-    def agfs?
-      fee&.claim&.agfs? ? true : false
-    end
+    def agfs? = fee&.claim&.agfs?
   end
 end

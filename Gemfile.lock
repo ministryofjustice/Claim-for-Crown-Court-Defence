@@ -353,7 +353,7 @@ GEM
       faraday (~> 2.9)
       faraday-http-cache (~> 2.2)
     language_server-protocol (3.17.0.4)
-    launchy (3.1.0)
+    launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
       logger (~> 1.6)
@@ -741,7 +741,7 @@ DEPENDENCIES
   json_spec
   laa-cda!
   laa-fee-calculator-client (~> 2.0)
-  launchy (~> 3.1.0)
+  launchy (~> 3.1.1)
   libreconv (~> 0.9.5)
   listen (~> 3.9.0)
   logstasher (= 2.1.5)

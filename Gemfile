@@ -105,7 +105,7 @@ group :test do
   gem 'database_cleaner'
   gem 'i18n-tasks'
   gem 'json_spec'
-  gem 'launchy', '~> 3.1.0'
+  gem 'launchy', '~> 3.1.1'
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers', '~> 0.10.0'
   gem 'rspec-mocks'

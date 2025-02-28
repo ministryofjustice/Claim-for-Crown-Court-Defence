@@ -1,3 +1,5 @@
+/* global File, FormData */
+
 describe('Modules.MultiFileUpload', () => {
   const module = moj.Modules.MultiFileUpload
   const multiFileUploadFixtureDOM = $(['<div class="moj-multi-file-upload">',
@@ -89,6 +91,65 @@ describe('Modules.MultiFileUpload', () => {
       expect(input).not.toBeNull()
       multiFileUpload.params.fileDeleteHook(null, response)
       expect(fields.querySelector('input[type="hidden"]')).toBeNull()
+    })
+  })
+
+  xdescribe('uploadFile', () => {
+    let file
+    let formIdElement
+
+    beforeEach(() => {
+      file = new File(['dummy content'], 'test-file.txt', { type: 'text/plain' })
+
+      formIdElement = document.createElement('input')
+      formIdElement.id = 'claim_form_id'
+      formIdElement.value = '123'
+      container.appendChild(formIdElement)
+
+      if (window.FormData && window.FormData.calls) {
+        window.FormData.calls.reset()
+      }
+    })
+
+    it('should create FormData with the correct file and formId', () => {
+      const formDataMock = {
+        append: jasmine.createSpy('append')
+      }
+
+      spyOn(window, 'FormData').and.returnValue(formDataMock)
+
+      multiFileUpload.uploadFile(file)
+
+      expect(FormData).toHaveBeenCalled()
+      expect(formDataMock.append).toHaveBeenCalledWith('document[document]', file)
+      expect(formDataMock.append).toHaveBeenCalledWith('document[form_id]', '123')
+    })
+
+    it('should handle file upload success response correctly', () => {
+      const response = {
+        file: { filename: 'test-file.txt' },
+        success: { messageText: 'Upload successful' }
+      }
+
+      const item = $(multiFileUpload.getFileRowHtml(file))
+      multiFileUpload.feedbackContainer.find('.moj-multi-file-upload__list').append(item)
+
+      spyOn(multiFileUpload, 'getSuccessHtml').and.returnValue('<div>Success</div>')
+      spyOn(multiFileUpload.status, 'html')
+      spyOn(multiFileUpload, 'getFileRowHtml').and.callThrough()
+
+      spyOn($, 'ajax').and.callFake(function (options) {
+        if (options.success) {
+          options.success(response)
+        }
+      })
+
+      multiFileUpload.uploadFile(file)
+
+      expect(item.find('.moj-multi-file-upload__message').html()).toBe('<div>Success</div>')
+      expect(multiFileUpload.status.html).toHaveBeenCalledWith('Upload successful')
+      expect(item.find('.moj-multi-file-upload__actions').length).toBeGreaterThan(0)
+      expect(multiFileUpload.getFileRowHtml).toHaveBeenCalledWith(file)
     })
   })
 })

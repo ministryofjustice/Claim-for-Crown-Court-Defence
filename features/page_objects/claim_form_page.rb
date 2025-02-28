@@ -126,8 +126,9 @@ class ClaimFormPage < BasePage
     available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"
     available_docs[0...count].each do |path|
       # element needs to be visible in order to attach_file
-      page.execute_script("$('.dropzone-enhanced [type=file]').css('position','unset')");
-      attach_file("claim-documents-field", path)
+      page.execute_script("$('.moj-multi-file-upload__input').css('position','unset')")
+      input_field = page.find("input[name='attachments']")
+      input_field.attach_file(path)
     end
   end
 

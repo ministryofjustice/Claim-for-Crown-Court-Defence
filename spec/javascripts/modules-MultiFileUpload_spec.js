@@ -1,44 +1,51 @@
+/* global File */
+
 describe('Modules.MultiFileUpload', () => {
   const module = moj.Modules.MultiFileUpload
-  const multiFileUploadFixtureDOM = $(['<div class="moj-multi-file-upload">',
-    '<div class="moj-multi-file__uploaded-fields"></div>',
-    '<div aria-labelledby="error-summary-title" class="govuk-error-summary govuk-visually-hidden" role="alert" tabindex="-1">',
-    '<h2 class="error-summary-title govuk-error-summary__title">There is a problem</h2>',
-    '<div class="govuk-list govuk-error-summary__list"></div>',
-    '</div>',
-    '<div class="moj-multi-file-upload__upload">',
-    '<div class="govuk-form-group">',
-    '<div class="moj-multi-file-upload__dropzone">',
-    '<input class="govuk-file-upload moj-multi-file-upload__input" id="attachments" multiple="multiple" name="attachments" type="file">',
-    '<div aria-live="polite" role="status" class="govuk-visually-hidden"></div>',
-    '</div>',
-    '</div>',
-    '</div>',
+  const multiFileUploadFixtureDOM = $([
+    '<div class="moj-multi-file-upload">',
+    '  <div class="moj-multi-file__uploaded-fields"></div>',
+    '  <div aria-labelledby="error-summary-title" class="govuk-error-summary govuk-visually-hidden" role="alert" tabindex="-1">',
+    '    <h2 class="error-summary-title govuk-error-summary__title">There is a problem</h2>',
+    '    <div class="govuk-list govuk-error-summary__list"></div>',
+    '  </div>',
+    '  <div class="moj-multi-file-upload__upload">',
+    '    <div class="govuk-form-group">',
+    '      <div class="moj-multi-file-upload__dropzone">',
+    '        <input class="govuk-file-upload moj-multi-file-upload__input" id="attachments" multiple="multiple" name="attachments" type="file">',
+    '        <div aria-live="polite" role="status" class="govuk-visually-hidden"></div>',
+    '        <div class="moj-multi-file__uploaded-files">',
+    '          <div class="moj-multi-file-upload__list"></div>',
+    '        </div>',
+    '      </div>',
+    '    </div>',
+    '  </div>',
     '</div>'].join(''))
 
-  it('...should exist', function () {
-    expect(module).toBeDefined()
-  })
-
-  let container
-  let fields
-  let multiFileUpload
+  let container, fields, fileList, multiFileUpload
 
   beforeEach(() => {
     $('body').append(multiFileUploadFixtureDOM)
     container = document.querySelector('.moj-multi-file-upload')
     fields = container.querySelector('.moj-multi-file__uploaded-fields')
+    fileList = container.querySelector('.moj-multi-file-upload__list')
     multiFileUpload = module.init()
   })
 
   afterEach(() => {
-    // Clean up the container and fields elements set at the start of the test
     if (container) {
       container.parentNode.removeChild(container)
     }
-    while (fields.firstChild) {
-      fields.removeChild(fields.firstChild)
+    if (fields) {
+      fields.replaceWith(fields.cloneNode(false))
     }
+    if (fileList) {
+      fileList.replaceWith(fileList.cloneNode(false))
+    }
+  })
+
+  it('...should exist', function () {
+    expect(module).toBeDefined()
   })
 
   it('should initialize the multi-file upload component', () => {
@@ -89,6 +96,75 @@ describe('Modules.MultiFileUpload', () => {
       expect(input).not.toBeNull()
       multiFileUpload.params.fileDeleteHook(null, response)
       expect(fields.querySelector('input[type="hidden"]')).toBeNull()
+    })
+  })
+
+  describe('uploadFile', () => {
+    let file, item
+
+    beforeEach(() => {
+      file = new File(['file content'], 'test-file.txt', { type: 'text/plain' })
+
+      spyOn($, 'ajax').and.callFake((params) => {
+        const mockResponse = { success: { messageText: 'Upload successful', messageHtml: 'Upload successful' }, file: { filename: 'test-file.txt' } }
+        setTimeout(() => {
+          params.success(mockResponse)
+        }, 0)
+      })
+
+      spyOn(multiFileUpload, 'getFileRowHtml').and.callFake(() => {
+        item = $('<div class="moj-multi-file-upload__row"><div class="moj-multi-file-upload__message"></div></div>')
+        return item[0]
+      })
+
+      spyOn(multiFileUpload.params, 'uploadFileEntryHook').and.callThrough()
+      spyOn(multiFileUpload.params, 'uploadFileExitHook').and.callThrough()
+      spyOn(multiFileUpload.params, 'uploadFileErrorHook').and.callThrough()
+      multiFileUpload.uploadFile(file)
+    })
+
+    it('should call uploadFileEntryHook before uploading', () => {
+      expect(multiFileUpload.params.uploadFileEntryHook).toHaveBeenCalledWith(multiFileUpload, file)
+    })
+
+    it('should add the file row to the upload list', () => {
+      expect(fileList).not.toBeNull()
+      expect(fileList.children.length).toBe(1)
+      expect(fileList.children[0]).toEqual(item[0])
+    })
+
+    it('should handle a successful upload response', (done) => {
+      setTimeout(() => {
+        expect(multiFileUpload.params.uploadFileExitHook).toHaveBeenCalled()
+        expect(fields.querySelector('input[type="hidden"]')).not.toBeNull()
+        expect(fields.querySelector('input[type="hidden"]').value).toBe('test-file.txt')
+
+        const uploadedItem = fileList.querySelector('.moj-multi-file-upload__row')
+        expect(uploadedItem).not.toBeNull()
+
+        const message = uploadedItem.querySelector('.moj-multi-file-upload__message')
+        expect(message).not.toBeNull()
+        expect(message.textContent).toContain('Upload successful')
+
+        done()
+      }, 10)
+    })
+
+    it('should handle an error response', (done) => {
+      $.ajax.and.callFake((params) => {
+        setTimeout(() => {
+          const mockError = { status: 500 }
+          params.error(mockError, 'error', 'Internal Server Error')
+        }, 0)
+      })
+
+      multiFileUpload.uploadFile(file)
+
+      setTimeout(() => {
+        expect(multiFileUpload.params.uploadFileErrorHook).toHaveBeenCalled()
+
+        done()
+      }, 10)
     })
   })
 })

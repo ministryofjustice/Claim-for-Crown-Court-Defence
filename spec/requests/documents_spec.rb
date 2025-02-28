@@ -184,37 +184,74 @@ RSpec.describe 'Document management' do
 
     let(:params) do
       {
-        documents: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
+        document: {
+          document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
+        }
       }
     end
 
     context 'when the document is valid' do
-      it 'creates a document' do
-        expect { create_document }.to change(Document, :count).by(1)
+      context 'when form_id is missing' do
+        it 'creates a document' do
+          expect { create_document }.to change(Document, :count).by(1)
+        end
+
+        it 'returns status created' do
+          create_document
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'returns the id of the created document' do
+          create_document
+          # The MultiFileUpload uses the filename as the only paramater to identify the document for the delte button
+          # For this reason the 'filename' in the response is the document id
+          expect(response.parsed_body['file']['filename']).to eq Document.last.id
+        end
+
+        it 'returns a success message' do
+          create_document
+          expect(response.parsed_body['success']).to have_key('messageHtml')
+        end
       end
 
-      it 'returns status created' do
-        create_document
-        expect(response).to have_http_status(:created)
-      end
+      context 'when form_id is present' do
+        let(:params) do
+          {
+            document: {
+              document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf',
+                                                     'application/pdf'),
+              form_id: '12345'
+            }
+          }
+        end
 
-      it 'returns the id of the created document' do
-        create_document
-        # The MultiFileUpload uses the filename as the only paramater to identify the document for the delte button
-        # For this reason the 'filename' in the response is the document id
-        expect(response.parsed_body['file']['filename']).to eq Document.last.id
-      end
+        it 'creates a document' do
+          expect { create_document }.to change(Document, :count).by(1)
+        end
 
-      it 'returns a success message' do
-        create_document
-        expect(response.parsed_body['success']).to have_key('messageHtml')
+        it 'returns status created' do
+          create_document
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'returns the id of the created document' do
+          create_document
+          expect(response.parsed_body['file']['filename']).to eq Document.last.id
+        end
+
+        it 'returns a success message' do
+          create_document
+          expect(response.parsed_body['success']).to have_key('messageHtml')
+        end
       end
     end
 
     context 'when the document is invalid' do
       let(:params) do
         {
-          documents: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.html', 'text/html')
+          document: {
+            document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.html', 'text/html')
+          }
         }
       end
 
@@ -234,7 +271,7 @@ RSpec.describe 'Document management' do
     end
 
     context 'when the document is missing' do
-      let(:params) { { documents: nil } }
+      let(:params) { { document: { document: nil } } }
 
       it 'does not create a document' do
         expect { create_document }.not_to change(Document, :count)

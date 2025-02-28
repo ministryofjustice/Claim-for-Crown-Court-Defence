@@ -44,7 +44,7 @@ class DocumentsController < ApplicationController
   end
 
   def upload
-    @document = Document.new(creator_id: current_user.id, document: params[:documents])
+    @document = Document.new(document_params.merge(creator_id: current_user.id))
     if @document.save_and_verify
       render_success_response
     else

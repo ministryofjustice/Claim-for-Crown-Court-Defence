@@ -1,12 +1,64 @@
-/* global MOJFrontend */
+/* global MOJFrontend, FormData, XMLHttpRequest */
 
 moj.Modules.MultiFileUpload = {
   init: function () {
     const container = document.querySelector('.moj-multi-file-upload')
     if (!container) return
     const fields = container.querySelector('.moj-multi-file__uploaded-fields')
+    const formIdElement = document.querySelector('#claim_form_id')
+    let formId = null
 
-    return new MOJFrontend.MultiFileUpload({
+    if (formIdElement) {
+      formId = formIdElement.value
+    }
+
+    const uploadFile = function (file) {
+      this.params.uploadFileEntryHook(this, file)
+      const formData = new FormData()
+      formData.append('document[document]', file)
+
+      if (formId) {
+        formData.append('document[form_id]', formId)
+      }
+
+      const item = $(this.getFileRowHtml(file))
+      this.feedbackContainer.find('.moj-multi-file-upload__list').append(item)
+
+      $.ajax({
+        url: this.params.uploadUrl,
+        type: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: $.proxy(function (response) {
+          if (response.error) {
+            item.find('.moj-multi-file-upload__message').html(this.getErrorHtml(response.error))
+            this.status.html(response.error.message)
+          } else {
+            item.find('.moj-multi-file-upload__message').html(this.getSuccessHtml(response.success))
+            this.status.html(response.success.messageText)
+          }
+          item.find('.moj-multi-file-upload__actions').append(this.getDeleteButtonHtml(response.file))
+          this.params.uploadFileExitHook(this, file, response)
+        }, this),
+        error: $.proxy(function (jqXHR, textStatus, errorThrown) {
+          this.params.uploadFileErrorHook(this, file, jqXHR, textStatus, errorThrown)
+        }, this),
+        xhr: function () {
+          const xhr = new XMLHttpRequest()
+          xhr.upload.addEventListener('progress', function (e) {
+            if (e.lengthComputable) {
+              let percentComplete = e.loaded / e.total
+              percentComplete = parseInt(percentComplete * 100, 10)
+              item.find('.moj-multi-file-upload__progress').text(' ' + percentComplete + '%')
+            }
+          }, false)
+          return xhr
+        }
+      })
+    }
+
+    const uploader = new MOJFrontend.MultiFileUpload({
       container,
       uploadUrl: '/documents/upload',
       deleteUrl: '/documents/delete',
@@ -47,5 +99,9 @@ moj.Modules.MultiFileUpload = {
         input.parentNode.removeChild(input)
       }
     })
+
+    uploader.uploadFile = uploadFile
+
+    return uploader
   }
 }

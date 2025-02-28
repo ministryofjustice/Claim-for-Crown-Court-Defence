@@ -2152,6 +2152,8 @@ en:
       h2_status: Status
       fees: Fees
       heading: Claim
+      claim_information: Claim information
+      claim_status: Claim status
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
       claim_submitted: Claim submitted on

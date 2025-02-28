@@ -31,12 +31,12 @@ module CaseWorkers
 
     def status
       prepare_show_action
-      render 'case_workers/claims/_status'
+      render 'case_workers/claims/_claim_status'
     end
 
     def information
       prepare_show_action
-      render '/shared/_new_claim_accordion'
+      render '/shared/_claim_information'
     end
 
     def download_zip

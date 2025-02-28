@@ -1,56 +1,55 @@
 require 'rails_helper'
 
 RSpec.describe 'case_workers/claims/show.html.haml' do
+  subject { rendered }
+
+  let(:case_worker) { create(:case_worker) }
+
   before do
-    @case_worker = create(:case_worker)
     initialize_view_helpers(view)
-    sign_in(@case_worker.user, scope: :user)
+    sign_in(case_worker.user, scope: :user)
     allow(view).to receive(:current_user_persona_is?).and_return(false)
   end
 
-  context 'certified claims' do
+  context 'with certified claims' do
     before do
-      certified_claim
-      assign(:claim, @claim)
+      assign(:claim, certified_claim)
       render
     end
 
-    it 'displays the name of the external user' do
-      expect(rendered).to include('Stepriponikas Bonstart')
-    end
-
-    it 'shows the reason for certification' do
-      expect(rendered).to include('which ever reason i please')
-    end
+    it { is_expected.to include('Stepriponikas Bonstart') }
+    it { is_expected.to include('which ever reason i please') }
   end
 
-  context 'trial and retrial claims' do
-    it 'shows trial details' do
-      trial_claim
-      assign(:claim, @claim)
+  context 'with a trial' do
+    before do
+      assign(:claim, trial_claim)
       render
-      expect(rendered).to have_content('First day of trial')
     end
 
-    it 'shows retrial details' do
-      trial_claim('re')
-      assign(:claim, @claim)
-      render
-      expect(rendered).to have_content('First day of retrial')
-    end
+    it { is_expected.to have_content('First day of trial') }
   end
 
-  context 'fee summaries' do
-    headings = ['Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount']
+  context 'with a retrial' do
+    before do
+      assign(:claim, trial_claim('re'))
+      render
+    end
 
-    context 'AGFS' do
+    it { is_expected.to have_content('First day of retrial') }
+  end
+
+  context 'with fee summaries' do
+    let(:headings) { ['Fee category', 'Fee type', 'Quantity', 'Rate', 'Net amount'] }
+
+    context 'with an AGFS claim' do
       before do
         claim.save
         assign(:claim, claim)
         render
       end
 
-      context 'basic fees' do
+      context 'with basic fees' do
         let(:claim) { build(:advocate_claim, :without_misc_fees, :submitted) }
 
         it 'displays expected table headers' do
@@ -60,7 +59,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
       end
 
-      context 'fixed fees' do
+      context 'with fixed fees' do
         let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :without_misc_fees, :submitted) }
 
         it 'displays expected table headers' do
@@ -70,88 +69,90 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
       end
     end
+
+    context 'with an LGFS claim' do
+      let(:headings) { ['Fee category', 'Fee type', 'PPE', 'Actual trial length', 'Amount'] }
+
+      before do
+        claim.save
+        assign(:claim, claim)
+        render
+      end
+
+      context 'with a graduated fee' do
+        let(:claim) { build(:litigator_claim, :trial, :submitted) }
+
+        it 'displays expected table headers' do
+          headings.each do |heading|
+            expect(rendered).to have_css('th', text: heading)
+          end
+        end
+      end
+
+      context 'with a fixed fee' do
+        let(:headings) { ['Fee category', 'Fee type', 'Quantity', 'Rate', 'Amount'] }
+        let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted) }
+
+        it 'displays expected table headers' do
+          headings.each do |heading|
+            expect(rendered).to have_css('th', text: heading)
+          end
+        end
+
+        it { expect(rendered).to have_no_css('th', text: 'Actual trial length') }
+      end
+
+      context 'with an interim fee' do
+        let(:headings) { ['Fee category', 'Fee type', 'Amount'] }
+        let(:claim) { build(:interim_claim, :interim_warrant_fee, :submitted) }
+
+        it 'displays expected table headers' do
+          headings.each do |heading|
+            expect(rendered).to have_css('th', text: heading)
+          end
+        end
+
+        it { expect(rendered).to have_no_css('th', text: 'Actual trial length') }
+      end
+
+      context 'with a transfer fee' do
+        let(:headings) { ['Fee category', 'Fee type', 'Days', 'PPE', 'Amount'] }
+        let(:claim) { build(:transfer_claim, :submitted) }
+
+        it 'displays expected table headers' do
+          headings.each do |heading|
+            expect(rendered).to have_css('th', text: heading)
+          end
+        end
+
+        it { expect(rendered).to have_no_css('th', text: 'Actual trial length') }
+      end
+    end
   end
 
-  context 'LGFS' do
-    before do
-      claim.save
-      assign(:claim, claim)
-      render
-    end
-
-    context 'graduated fee' do
-      headings = ['Fee category', 'Fee type', 'PPE', 'Actual trial length', 'Amount']
-      let(:claim) { build(:litigator_claim, :trial, :submitted) }
-
-      it 'displays expected table headers' do
-        headings.each do |heading|
-          expect(rendered).to have_css('th', text: heading)
-        end
-      end
-    end
-
-    context 'fixed fee' do
-      headings = ['Fee category', 'Fee type', 'Quantity', 'Rate', 'Amount']
-      let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted) }
-
-      it 'displays expected table headers' do
-        headings.each do |heading|
-          expect(rendered).to have_css('th', text: heading)
-          expect(rendered).to have_no_css('th', text: 'Actual trial length')
-        end
-      end
-    end
-
-    context 'interim fee' do
-      headings = ['Fee category', 'Fee type', 'Amount']
-      let(:claim) { build(:interim_claim, :interim_warrant_fee, :submitted) }
-
-      it 'displays expected table headers' do
-        headings.each do |heading|
-          expect(rendered).to have_css('th', text: heading)
-          expect(rendered).to have_no_css('th', text: 'Actual trial length')
-        end
-      end
-    end
-
-    context 'transfer fee' do
-      headings = ['Fee category', 'Fee type', 'Days', 'PPE', 'Amount']
-      let(:claim) { build(:transfer_claim, :submitted) }
-
-      it 'displays expected table headers' do
-        headings.each do |heading|
-          expect(rendered).to have_css('th', text: heading)
-          expect(rendered).to have_no_css('th', text: 'Actual trial length')
-        end
-      end
-    end
-  end
-
-  context 'document checklist' do
+  context 'with a document checklist' do
     let!(:claim_with_doc) { create(:claim) }
-    let!(:document) { create(:document, :verified, claim: claim_with_doc) }
 
     before do
       allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
+      create(:document, :verified, claim: claim_with_doc)
       assign(:claim, claim_with_doc)
       render
     end
 
-    it 'displays a `download all` link' do
-      expect(rendered).to have_link('Download all')
-    end
+    it { is_expected.to have_link('Download all') }
   end
 
-  context 'calculated travel expense' do
-    context 'for litigator claims' do
-      subject { rendered }
-
-      let(:claim) { build(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
-      let!(:establishment) { create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW') }
+  context 'with calculated travel expense' do
+    context 'with an LGFS claim' do
+      let(:claim) do
+        build(:litigator_claim, :with_fixed_fee_case, :submitted,
+              travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1))
+      end
 
       before do
         allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
-
+        create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW')
         claim.save
         expense.save
         assign(:claim, claim.reload)
@@ -159,73 +160,77 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       end
 
       context 'with a lower rate, non increased calculated distance' do
-        let(:expense) { build(:expense, :with_calculated_distance, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'does not render a map link' do
-          expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_content('Accepted')
+        let(:expense) do
+          build(:expense, :with_calculated_distance, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_content('Accepted') }
       end
 
       context 'with a lower rate and a calculated and reduced distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'does not render a map link' do
-          expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_content('Accepted')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 1, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_content('Accepted') }
       end
 
       context 'with a lower rate and a calculated but increased distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_increased, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_link('View car journey')
-          expect(rendered).to have_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_increased, mileage_rate_id: 1, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_link('View car journey') }
+        it { is_expected.to have_content('Unverified') }
       end
 
       context 'with a higher rate, non increased calculated distance' do
-        let(:expense) { build(:expense, :with_calculated_distance, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_link('View public transport journey')
-          expect(rendered).to have_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:)
         end
+
+        it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_link('View public transport journey') }
+        it { is_expected.to have_content('Unverified') }
       end
 
       context 'with a higher rate and a calculated and reduced distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_link('View public transport journey')
-          expect(rendered).to have_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 2, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_link('View public transport journey') }
+        it { is_expected.to have_content('Unverified') }
       end
 
       context 'with a higher rate and a calculated but increased distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to have_link_to(%r{www.google.co.uk/maps})
-          expect(rendered).to have_link('View public transport journey')
-          expect(rendered).to have_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_link('View public transport journey') }
+        it { is_expected.to have_content('Unverified') }
       end
     end
 
-    context 'for advocate claims' do
-      subject { rendered }
-
-      let(:claim) { build(:advocate_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
-      let!(:establishment) { create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW') }
+    context 'with an AGFS claim' do
+      let(:claim) do
+        build(:advocate_claim, :with_fixed_fee_case, :submitted,
+              travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1))
+      end
 
       before do
         allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
-
+        create(:establishment, :crown_court, name: 'Basildon', postcode: 'SS14 2EW')
         claim.save
         expense.save
         assign(:claim, claim.reload)
@@ -233,200 +238,168 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       end
 
       context 'with a lower rate, non increased calculated distance' do
-        let(:expense) { build(:expense, :with_calculated_distance, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'does not render a map link' do
-          expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_no_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_no_content('Unverified') }
       end
 
       context 'with a lower rate and a calculated and reduced distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'does not render a map link' do
-          expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_no_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 1, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_no_content('Unverified') }
       end
 
       context 'with a lower rate and a calculated but increased distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_increased, mileage_rate_id: 1, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_no_link('View car journey')
-          expect(rendered).to have_no_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_increased, mileage_rate_id: 1, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_no_link('View car journey') }
+        it { is_expected.to have_no_content('Unverified') }
       end
 
       context 'with a higher rate, non increased calculated distance' do
-        let(:expense) { build(:expense, :with_calculated_distance, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_no_link('View public transport journey')
-          expect(rendered).to have_no_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_no_link('View public transport journey') }
+        it { is_expected.to have_no_content('Unverified') }
       end
 
       context 'with a higher rate and a calculated and reduced distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to have_no_link('View public transport journey')
-          expect(rendered).to have_no_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_decreased, mileage_rate_id: 2, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_no_link('View public transport journey') }
+        it { is_expected.to have_no_content('Unverified') }
       end
 
       context 'with a higher rate and a calculated but increased distance' do
-        let(:expense) { build(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:) }
-
-        it 'renders a map link' do
-          expect(rendered).to_not have_link_to(%r{www.google.co.uk/maps})
-          expect(rendered).to have_no_link('View public transport journey')
-          expect(rendered).to have_no_content('Unverified')
+        let(:expense) do
+          build(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon',
+                                                               date: 3.days.ago, claim:)
         end
+
+        it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
+        it { is_expected.to have_no_link('View public transport journey') }
+        it { is_expected.to have_no_content('Unverified') }
       end
     end
   end
 
-  context 'reject/refuse reasons' do
+  context 'with reject/refuse reasons' do
     let(:claim) { create(:allocated_claim) }
 
-    context 'after messaging feature released' do
-      context 'rejected claims' do
+    context 'when the claim was created after messaging feature released' do
+      context 'with rejected claims' do
         let(:reason_code) { %w[no_amend_rep_order other] }
 
         before do
           claim.reject!(reason_code:, reason_text: 'rejecting because...')
-          @messages = claim.messages.most_recent_last
-          @message = claim.messages.build
+          assign(:message, claim.messages.build)
           assign(:claim, claim.reload)
           render
         end
 
-        it 'does not render reasons section content' do
-          expect(rendered).to have_no_content(/Reason(s) provided:/)
-          expect(rendered).to have_no_css('li', text: 'No amending representation order')
-          expect(rendered).to have_no_css('li', text: 'Other (rejecting because...)')
-        end
+        it { is_expected.to have_no_content(/Reason(s) provided:/) }
+        it { is_expected.to have_no_css('li', text: 'No amending representation order') }
+        it { is_expected.to have_no_css('li', text: 'Other (rejecting because...)') }
       end
     end
 
-    context 'before messaging feature released' do
+    context 'when the claim was created before messaging feature released' do
       let(:reason_code) { %w[no_amend_rep_order] }
 
-      context 'rejected claims' do
-        before do |example|
-          travel_to(Settings.reject_refuse_messaging_released_at - 1) do
-            claim.reject!(reason_code:, reason_text: 'rejecting because...')
-          end
-          @messages = claim.messages.most_recent_last
-          @message = claim.messages.build
-          if example.metadata[:legacy]
-            allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('wrong_case_no')
-          end
-          assign(:claim, claim)
-          render
+      before do |example|
+        travel_to(Settings.reject_refuse_messaging_released_at - 1) do
+          claim.reject!(reason_code:, reason_text: 'rejecting because...')
         end
 
-        it 'has the correct status display' do
-          expect(rendered).to have_css('strong.govuk-tag.app-tag--rejected', text: 'Rejected')
+        if example.metadata[:legacy]
+          allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('wrong_case_no')
         end
 
-        it 'renders the reason header with the correct tense' do
-          expect(rendered).to have_content('Reason provided:')
-        end
+        assign(:message, claim.messages.build)
+        assign(:claim, claim)
+        render
+      end
 
-        it 'renders the full text of the reason' do
-          expect(rendered).to have_css('li', text: 'No amending representation order')
-        end
+      it { is_expected.to have_css('strong.govuk-tag.app-tag--rejected', text: 'Rejected') }
+      it { is_expected.to have_content('Reason provided:') }
+      it { is_expected.to have_css('li', text: 'No amending representation order') }
 
-        context 'with multiple reasons' do
-          let(:reason_code) { %w[no_amend_rep_order case_still_live other] }
+      context 'with multiple reasons' do
+        let(:reason_code) { %w[no_amend_rep_order case_still_live other] }
 
-          it 'renders the reason header with the correct tense' do
-            expect(rendered).to have_content('Reasons provided:')
-          end
+        it { is_expected.to have_content('Reasons provided:') }
+        it { is_expected.to have_css('li', text: 'No amending representation order') }
+        it { is_expected.to have_css('li', text: 'Case still live') }
+        it { is_expected.to have_css('li', text: 'Other (rejecting because...)') }
+      end
 
-          it 'renders the full text of the reasons' do
-            expect(rendered).to have_css('li', text: 'No amending representation order')
-            expect(rendered).to have_css('li', text: 'Case still live')
-            expect(rendered).to have_css('li', text: 'Other (rejecting because...)')
-          end
-        end
-
-        context 'legacy cases with non-array reason codes', :legacy do
-          it 'renders the full text of the reason' do
-            expect(rendered).to have_css('li', text: 'Incorrect case number')
-          end
-        end
+      context 'with legacy cases with non-array reason codes', :legacy do
+        it { is_expected.to have_css('li', text: 'Incorrect case number') }
       end
     end
   end
 
-  context 'injection errors' do
+  context 'with injection errors' do
     before do
-      certified_claim
-      create(:injection_attempt, :with_errors, claim: @claim)
-      assign(:claim, @claim)
+      claim = certified_claim
+      assign(:claim, claim)
+      create(:injection_attempt, :with_errors, claim:)
       render
     end
 
-    it 'displays summary errors' do
-      expect(rendered).to have_css('div.govuk-error-summary')
-    end
+    it { is_expected.to have_css('div.govuk-error-summary') }
 
-    it 'displays each error message' do
-      expect(rendered).to have_css('ul.govuk-list.govuk-error-summary__list > li > a', text: /injection error/, count: 2)
-    end
+    it {
+      is_expected.to have_css('ul.govuk-list.govuk-error-summary__list > li > a', text: /injection error/, count: 2)
+    }
   end
 
-  context 'fee injection warnings' do
+  context 'with fee injection warnings' do
     before do
-      trial_claim
-      create(:injection_attempt, claim: @claim)
-      create(:misc_fee, fee_type:, claim: @claim, quantity: 1, amount: 100.00)
-      assign(:claim, @claim)
+      claim = trial_claim
+      assign(:claim, claim)
+      create(:injection_attempt, claim:)
+      create(:misc_fee, fee_type:, claim:, quantity: 1, amount: 100.00)
       render
     end
 
     context 'with CLAR fees' do
       let(:fee_type) { build(:misc_fee_type, :miumu) }
 
-      it 'displays an injection warning' do
-        expect(rendered).to have_css('div.js-callout-injection-warning')
-      end
-
-      it 'displays the expected text' do
-        expect(rendered).to have_text('Warning: Paper heavy case or unused materials fees were not injected')
-      end
+      it { is_expected.to have_css('div.js-callout-injection-warning') }
+      it { is_expected.to have_text('Warning: Paper heavy case or unused materials fees were not injected') }
     end
 
     context 'with CAV fees' do
       let(:fee_type) { build(:misc_fee_type, :bacav) }
 
-      it 'displays an injection warning' do
-        expect(rendered).to have_css('div.js-callout-injection-warning')
-      end
-
-      it 'displays the expected text' do
-        expect(rendered).to have_text('Warning: Conferences and views were not injected')
-      end
+      it { is_expected.to have_css('div.js-callout-injection-warning') }
+      it { is_expected.to have_text('Warning: Conferences and views were not injected') }
     end
 
     context 'with Additional Prep fee' do
       let(:fee_type) { build(:misc_fee_type, :miapf) }
 
-      it 'displays an injection warning' do
-        expect(rendered).to have_css('div.js-callout-injection-warning')
-      end
-
-      it 'displays the expected text' do
-        expect(rendered).to have_text('Warning: Additional preparation fee was not injected')
-      end
+      it { is_expected.to have_css('div.js-callout-injection-warning') }
+      it { is_expected.to have_text('Warning: Additional preparation fee was not injected') }
     end
   end
 
@@ -454,10 +427,10 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
   describe 'all the main headings' do
     let(:claim) { create(:claim) }
+    let(:expense) { create(:expense, :with_date_attended, claim:) }
 
     before do
-      @expense = create(:expense, :with_date_attended, claim:)
-      create(:date_attended, attended_item: @expense)
+      create(:date_attended, attended_item: expense)
       assign(:claim, claim)
       render
     end
@@ -485,21 +458,22 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
   def certified_claim
     eu = create(:external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart'))
-    @claim = create(:allocated_claim, external_user: eu)
-    @claim.certification&.destroy
+    claim = create(:allocated_claim, external_user: eu)
+    claim.certification&.destroy
     certification_type = create(:certification_type, name: 'which ever reason i please')
-    create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type:)
-    @case_worker.claims << @claim
-    @claim.reload
-    @message = @claim.messages.build
-    @claim
+    create(:certification, claim: claim, certified_by: 'Bobby Legrand', certification_type:)
+    case_worker.claims << claim
+    claim.reload
+    @message = claim.messages.build
+    claim
   end
 
   def trial_claim(trial_prefix = nil)
-    @claim = create(:submitted_claim, case_type: create(:case_type, :"#{trial_prefix}trial"), evidence_checklist_ids: [1, 9])
-    @case_worker.claims << @claim
-    create(:document, claim_id: @claim.id, form_id: @claim.form_id)
-    @message = @claim.messages.build
-    @claim
+    claim = create(:submitted_claim, case_type: create(:case_type, :"#{trial_prefix}trial"),
+                                     evidence_checklist_ids: [1, 9])
+    case_worker.claims << claim
+    create(:document, claim_id: claim.id, form_id: claim.form_id)
+    @message = claim.messages.build
+    claim
   end
 end

@@ -157,19 +157,17 @@ RSpec.describe CourtData do
                     LAA::Cda::Defendant,
                     id: '12345',
                     name: 'Billy The Kid',
-                    representation_order: instance_double(
-                      LAA::Cda::RepresentationOrder,
-                      reference: '9999999',
-                      start: Date.parse('2024-05-05'),
-                      end: Date.parse('2024-05-06'),
-                      contract_number: 'AA111'
-                    )
+                    representation_order: representation_order,
+                    representation_orders: [representation_order]
                   )
                 ]
               )
             ]
           }
         ]
+      end
+      let(:representation_order) do
+        instance_double(LAA::Cda::RepresentationOrder, reference: '9999999', contract_number: 'AA111')
       end
 
       it { expect(court_data).to have(3).defendants }
@@ -212,19 +210,18 @@ RSpec.describe CourtData do
                     LAA::Cda::Defendant,
                     id: '12345',
                     name: 'Hawley Harvey Crippen',
-                    representation_order: instance_double(
-                      LAA::Cda::RepresentationOrder,
-                      reference: claim_defendants[1].earliest_representation_order.maat_reference,
-                      start: Date.parse('2024-05-05'),
-                      end: Date.parse('2024-05-06'),
-                      contract_number: 'AA111'
-                    )
+                    representation_orders: [representation_order]
                   )
                 ]
               )
             ]
           }
         ]
+      end
+      let(:representation_order) do
+        instance_double(
+          LAA::Cda::RepresentationOrder, reference: claim_defendants[1].earliest_representation_order.maat_reference
+        )
       end
 
       it { expect(court_data).to have(2).defendants }
@@ -251,13 +248,15 @@ RSpec.describe CourtData do
                     LAA::Cda::Defendant,
                     id: '12345',
                     name: 'Hawley Harvey Crippen',
-                    representation_order: nil
+                    representation_order: nil,
+                    representation_orders: []
                   ),
                   instance_double(
                     LAA::Cda::Defendant,
                     id: '12346',
                     name: 'Arthur Justice Raffles',
-                    representation_order: nil
+                    representation_order: nil,
+                    representation_orders: []
                   )
                 ]
               )

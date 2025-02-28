@@ -7,7 +7,7 @@ class CourtData
         @defendant = defendant
       end
 
-      def ==(other) = maat_reference == other.maat_reference
+      def ==(other) = maat_references.intersect?(other.maat_references)
     end
   end
 end

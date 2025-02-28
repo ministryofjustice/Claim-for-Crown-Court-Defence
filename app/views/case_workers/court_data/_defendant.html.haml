@@ -2,7 +2,7 @@
   %h2.govuk-heading-m
     = defendant.claim.name
   %p.govuk-body
-    = t('.show_maat_reference', maat: defendant.maat_reference)
+    = t('.show_maat_reference', maat: defendant.claim.maat_references.join(', '))
 - else
   %h2.govuk-heading-m
     = t('.common_platform_only')
@@ -25,7 +25,7 @@
           %dt.govuk-summary-list__key
             = t('.maat_reference')
           %dd.govuk-summary-list__value
-            = defendant.maat_reference
+            = defendant.hmcts.maat_reference_list
         - if defendant.hmcts.start.present?
           .govuk-summary-list__row
             %dt.govuk-summary-list__key

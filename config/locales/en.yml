@@ -736,7 +736,7 @@ en:
         index:
           title: 'Manage users'
           page_heading: Manage %{provider_name}'s users
-          actions: Manage details
+          actions: Actions
           advocates: 'Users'
           add_advocate: 'Add User'
           edit: *edit
@@ -753,7 +753,10 @@ en:
           option_yes: *global_yes
           option_no: *global_no
           email_title: Email %{external_user}
-          email_confirmation: Email notifications of messages?
+          email_confirmation: Email notifications?
+          status: Status
+          active: Active
+          inactive: Inactive
           table_caption: "%{provider_name} users"
         edit_delete_links:
           delete_html: Delete<span class="govuk-visually-hidden"> user %{context}</span>

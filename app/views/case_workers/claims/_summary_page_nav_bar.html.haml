@@ -1,6 +1,7 @@
-%nav.govuk-breadcrumbs{ 'aria-label': t('.sub_navigation') }
-  %ul.govuk-breadcrumbs__list.breadcrumbs_seperator
-    %li.govuk-breadcrumbs__list-item{ class: ('active' if @active_tab == 'status') }
-      = link_to t('.claim_status'), case_workers_claim_path(@claim, tab: 'status')
-    %li.govuk-breadcrumbs__list-item{ class: ('active' if @active_tab == 'information') }
-      = link_to t('.claim_information'), case_workers_claim_path(@claim, tab: 'information')
+
+%nav.moj-sub-navigation{"aria-label" => t('.sub_navigation')}
+  %ul.moj-sub-navigation__list
+    %li.moj-sub-navigation__item{ class: ('active' if @active_tab == 'status') }
+      = link_to t('.claim_status'), case_workers_claim_path(@claim, tab: 'status'), class: 'moj-sub-navigation__link'
+    %li.moj-sub-navigation__item{ class: ('active' if @active_tab == 'information') }
+      = link_to t('.claim_information'), case_workers_claim_path(@claim, tab: 'information'), class: 'moj-sub-navigation__link'

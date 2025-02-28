@@ -1,0 +1,3 @@
+- present(@claim) do |claim|
+  = render partial: 'shared/claim_history', locals: { claim: claim }
+  = render partial: 'shared/claim_status', locals: { claim: claim, status_disabled: false }

@@ -5,6 +5,11 @@
   = render 'errors/error_summary', ep: @claim, error_summary: t('.error_summary')
   = render 'errors/injection_error_summary', ep: claim
   = render 'warnings/injection_warnings_summary', claim: claim
-
   = render partial: 'shared/claim_header', locals: { claim: claim }
-  = render partial: 'shared/new_claim_accordion', locals: { claim: claim, status_disabled: false }
+  = render partial: 'shared/case_summary', locals: { claim: claim }
+  = render 'case_workers/claims/summary_page_nav_bar', claim: claim
+
+  - if  @active_tab == 'status'
+    = render 'case_workers/claims/status', claim: claim
+  - else
+    = render 'shared/new_claim_accordion', claim: claim

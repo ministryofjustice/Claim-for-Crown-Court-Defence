@@ -7,7 +7,7 @@ class CourtData
         @defendant = defendant
       end
 
-      def ==(other) = maat_reference == other.maat_reference
+      def ==(other) = (maat_references & other.maat_references).any?
     end
   end
 end

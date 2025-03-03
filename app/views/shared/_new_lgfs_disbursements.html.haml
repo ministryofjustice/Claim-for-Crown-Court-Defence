@@ -1,7 +1,10 @@
 .govuk-summary-card
   .govuk-summary-card__title-wrapper
     %h2.govuk-summary-card__title
-      = t('.disbursements_gross')
+      - if vat_total
+        = t('.disbursements_gross')
+      - else
+        = t('.disbursements_without_vat')
   .govuk-summary-card__content
     = govuk_table(class: 'govuk-table--custom govuk-!-margin-bottom-0') do
       = govuk_table_caption(class: 'govuk-visually-hidden') do
@@ -15,14 +18,15 @@
           = govuk_table_th_numeric do
             = t('.net_amount')
 
-          = govuk_table_th_numeric do
-            = t('.vat_amount')
+          - if vat_total
+            = govuk_table_th_numeric do
+              = t('.vat_amount')
 
           = govuk_table_th_numeric do
             = t('.gross_amount')
 
       = govuk_table_tbody do
-        - present_collection(claim.disbursements.with_vat).each do |disbursement|
+        - present_collection(disbursements).each do |disbursement|
           = govuk_table_row do
             = govuk_table_td('data-label': t('.disbursement_type')) do
               = disbursement.name
@@ -30,8 +34,9 @@
             = govuk_table_td_numeric('data-label': t('.net_amount')) do
               = disbursement.net_amount
 
-            = govuk_table_td_numeric('data-label': t('.vat')) do
-              = disbursement.vat_amount
+            - if vat_total
+              = govuk_table_td_numeric('data-label': t('.vat')) do
+                = disbursement.vat_amount
 
             = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
               = disbursement.total
@@ -39,13 +44,18 @@
       = govuk_table_tfoot do
         = govuk_table_row(class: 'govuk-table__row--no-bottom-border') do
           = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
-            = t('shared.disbursements_gross')
+            - if vat_total
+              = t('.disbursements_gross')
+            - else
+              = t('.disbursements_without_vat')
+
 
           = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
-            = claim.disbursements_with_vat_net
+            = net_total
 
-          = govuk_table_td_numeric('data-label': t('shared.vat')) do
-            = claim.disbursements_vat
+          - if vat_total
+            = govuk_table_td_numeric('data-label': t('shared.vat')) do
+              = vat_total
 
           = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
-            = claim.disbursements_with_vat_gross
+            = gross_total

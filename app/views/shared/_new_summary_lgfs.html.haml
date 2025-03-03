@@ -10,16 +10,16 @@
     = render partial:'shared/new_warrant_fees_details', locals: { claim: claim }
 
   - if claim.can_have_disbursements?
-    - if claim.disbursements.empty?
-      %h2.govuk-heading-l
-        = t('common.disbursements')
+    %h2.govuk-heading-l
+      = t('common.disbursements')
 
+    - if claim.disbursements.empty?
       %p.govuk-body
         = t('shared.summary.no_values.disbursements')
 
     - else
       - if claim.disbursements.with_vat.any?
-        %h2.govuk-heading-l
-          = t('shared.disbursements_gross')
-        = render partial: 'shared/new_lgfs_disbursements', locals: { claim: claim }
+        = render partial: 'shared/new_lgfs_disbursements', locals: { disbursements: claim.disbursements.with_vat, net_total: claim.disbursements_with_vat_net, vat_total: claim.disbursements_vat, gross_total: claim.disbursements_with_vat_gross }
+      - if claim.disbursements.without_vat.any?
+        = render partial: 'shared/new_lgfs_disbursements', locals: { disbursements: claim.disbursements.without_vat, net_total: claim.disbursements_without_vat_net, vat_total: nil, gross_total: claim.disbursements_without_vat_gross }
 

@@ -39,7 +39,14 @@ moj.Modules.Messaging = {
       $('.file-to-be-uploaded').hide()
       $('#message-attachment-field').val('')
       this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop('scrollHeight'))
-    // If there was an error
+
+      document.querySelector('.govuk-summary-list.moj-multi-file-upload__list').innerHTML = ''
+      const errorContainer = document.querySelector('.govuk-error-summary')
+      if (errorContainer) {
+        errorContainer.classList.add('govuk-visually-hidden')
+        errorContainer.querySelector('.govuk-list.govuk-error-summary__list').innerHTML = ''
+      }
+      // If there was an error
     } else {
       $('.message-column').addClass('govuk-form-group--error')
       $('.govuk-textarea').addClass('govuk-textarea--error')

@@ -2240,6 +2240,7 @@ en:
       days_claimed: 'Days'
     new_lgfs_disbursements:
       disbursements_gross: 'Disbursements with VAT'
+      disbursements_without_vat: 'Disbursements without VAT'
       disbursements_caption: 'Disbursements: A detailed list Type including amounts'
       disbursement_type: "Disbursement type"
       net_amount: *net_amount

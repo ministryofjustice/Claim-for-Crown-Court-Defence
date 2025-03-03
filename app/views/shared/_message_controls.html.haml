@@ -38,6 +38,8 @@
         .govuk-form-group
           %label.govuk-label.govuk-label--m{for: "attachments"}
             = t('.upload_file')
+          %div.govuk-hint{for: "attachments"}
+            = t('.accepted_files_help_text')
           %input#attachments.govuk-file-upload.moj-multi-file-upload__input{multiple: "multiple", name: "attachments", type: "file"}/
       .moj-multi-file__uploaded-files
         %h2.govuk-heading-m

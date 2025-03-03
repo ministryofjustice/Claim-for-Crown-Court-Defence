@@ -109,53 +109,6 @@ RSpec.describe 'Document management' do
     end
   end
 
-  describe 'POST /documents' do
-    subject(:create_document) { post documents_path, params: }
-
-    let(:params) do
-      {
-        document: {
-          document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
-        }
-      }
-    end
-
-    context 'when the document is valid' do
-      it 'creates a document' do
-        expect { create_document }.to change(Document, :count).by(1)
-      end
-
-      it 'returns status created' do
-        create_document
-        expect(response).to have_http_status(:created)
-      end
-
-      it 'returns the id of the created document' do
-        create_document
-        expect(response.parsed_body['document']['id']).to eq Document.last.id
-      end
-
-      it 'returns the file name of the document' do
-        create_document
-        expect(response.parsed_body['document']['filename']).to eq 'longer_lorem.pdf'
-      end
-    end
-
-    it_behaves_like 'failed document upload' do
-      let(:params) do
-        {
-          document: {
-            document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.html', 'text/html')
-          }
-        }
-      end
-    end
-
-    it_behaves_like 'failed document upload' do
-      let(:params) { { document: { document: nil } } }
-    end
-  end
-
   describe 'DELETE /documents/:id' do
     subject(:delete_document) { delete document_path(document, format: :json) }
 

@@ -3,7 +3,6 @@ class CourtData
     class Hmcts < Base
       delegate :id, to: :@defendant
 
-      def maat_reference = @defendant.representation_order&.reference || 'No representation order recorded'
       def maat_references = @defendant.representation_orders.map(&:reference)
       def start = @defendant.representation_order&.start
       def end = @defendant.representation_order&.end

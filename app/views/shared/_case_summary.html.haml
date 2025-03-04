@@ -2,7 +2,7 @@
   .govuk-grid-row
     .govuk-grid-column-one-half
       %h2.govuk-heading-m
-        = t('.messages')
+        = t('shared.claim_information.messages')
 
     .govuk-grid-column-one-half
       - if current_user.persona.is_a?(CaseWorker)

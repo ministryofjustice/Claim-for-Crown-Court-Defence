@@ -5,21 +5,13 @@ moj.Modules.MultiFileUpload = {
     const container = document.querySelector('.moj-multi-file-upload')
     if (!container) return
     const fields = container.querySelector('.moj-multi-file__uploaded-fields')
-    const formIdElement = document.querySelector('#claim_form_id')
-    let formId = null
-
-    if (formIdElement) {
-      formId = formIdElement.value
-    }
 
     const uploadFile = function (file) {
       this.params.uploadFileEntryHook(this, file)
       const formData = new FormData()
       formData.append('document[document]', file)
 
-      if (formId) {
-        formData.append('document[form_id]', formId)
-      }
+      this.params.uploadFileParamsHook(this, formData)
 
       const item = $(this.getFileRowHtml(file))
       this.feedbackContainer.find('.moj-multi-file-upload__list').append(item)
@@ -62,6 +54,10 @@ moj.Modules.MultiFileUpload = {
       container,
       uploadUrl: '/documents/upload',
       deleteUrl: '/documents/delete',
+      uploadFileParamsHook: function (_uploader, formData) {
+        const formIdElement = document.querySelector('#claim_form_id')
+        if (formIdElement) { formData.append('document[form_id]', formIdElement.value) }
+      },
       uploadFileExitHook: function (_uploader, _file, response) {
         const input = document.createElement('input')
         input.type = 'hidden'

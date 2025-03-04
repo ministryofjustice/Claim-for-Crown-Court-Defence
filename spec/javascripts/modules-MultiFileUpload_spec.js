@@ -1,4 +1,4 @@
-/* global File */
+/* global File, FormData */
 
 describe('Modules.MultiFileUpload', () => {
   const module = moj.Modules.MultiFileUpload
@@ -99,6 +99,41 @@ describe('Modules.MultiFileUpload', () => {
     })
   })
 
+  describe('uploadFileParamsHook', () => {
+    let formData
+    let formIdElement
+
+    beforeEach(() => {
+      formData = new FormData()
+    })
+
+    afterEach(() => {
+      if (formIdElement && formIdElement.parentNode) {
+        formIdElement.parentNode.removeChild(formIdElement)
+      }
+    })
+
+    it('should append the form_id to formData if #claim_form_id exists', () => {
+      formIdElement = document.createElement('input')
+      formIdElement.id = 'claim_form_id'
+      formIdElement.value = '12345'
+      document.body.appendChild(formIdElement)
+
+      multiFileUpload.params.uploadFileParamsHook(multiFileUpload, formData)
+
+      expect(formData.has('document[form_id]')).toBeTrue()
+      expect(formData.get('document[form_id]')).toBe('12345')
+    })
+
+    it('should not modify formData if #claim_form_id does not exist', () => {
+      document.querySelector('#claim_form_id')?.remove()
+
+      multiFileUpload.params.uploadFileParamsHook(multiFileUpload, formData)
+
+      expect(formData.has('document[form_id]')).toBeFalse()
+    })
+  })
+
   describe('uploadFile', () => {
     let file, item
 
@@ -120,7 +155,14 @@ describe('Modules.MultiFileUpload', () => {
       spyOn(multiFileUpload.params, 'uploadFileEntryHook').and.callThrough()
       spyOn(multiFileUpload.params, 'uploadFileExitHook').and.callThrough()
       spyOn(multiFileUpload.params, 'uploadFileErrorHook').and.callThrough()
+      spyOn(multiFileUpload.params, 'uploadFileParamsHook').and.callThrough()
+
       multiFileUpload.uploadFile(file)
+    })
+
+    it('should call uploadFileParamsHook before uploading', () => {
+      const formData = new FormData()
+      expect(multiFileUpload.params.uploadFileParamsHook).toHaveBeenCalledWith(multiFileUpload, formData)
     })
 
     it('should call uploadFileEntryHook before uploading', () => {

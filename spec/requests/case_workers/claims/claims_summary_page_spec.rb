@@ -1,4 +1,3 @@
-
 RSpec.describe 'Sub Navigation Tab' do
   before do
     sign_in case_worker.user
@@ -31,6 +30,7 @@ RSpec.describe 'Sub Navigation Tab' do
         expect(response.body).to include('Assessment summary')
       end
     end
+
     context 'when claim information tab is clicked' do
       before { get case_workers_claim_path(claim.id, tab: 'information') }
 

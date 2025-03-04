@@ -81,13 +81,29 @@ RSpec.describe 'Messages' do
 
     context 'when there are documents attached' do
       let(:message_params) { { claim_id: claim.id, body: 'lorem ipsum', document_ids: documents.map(&:id) } }
-      let(:documents) { create_list(:document, 2, creator_id: creator.id) }
+      let(:documents) { create_list(:document, 2, creator_id: creator.user.id) }
 
       it { expect { submit }.to change(Message, :count).by(1) }
 
       it do
         submit
         expect(Message.last.attachments.count).to eq(2)
+      end
+
+      context 'when some documents do not belong to the creator' do
+        let(:documents) { [create(:document, creator_id: creator.user.id), create(:document)] }
+
+        it { expect { submit }.to change(Message, :count).by(1) }
+
+        it do
+          submit
+          expect(Message.last.attachments.count).to eq(1)
+        end
+
+        it do
+          submit
+          expect(Message.last.attachments.first.blob).to eq(documents.first.document.blob)
+        end
       end
     end
   end

@@ -1604,19 +1604,13 @@ en:
           file_name: "File name"
           previously_uploaded_docs: 'Previously uploaded documents'
         new:
-          action: 'Action'
-          status: 'Status'
-          choose_file: 'Choose a file'
-          file_name: "File name"
-          upload_file: 'Upload file'
+          upload_file: &upload_file 'Upload a file'
           supporting_evidence_docs: 'Upload files'
           files accepted: 'Files accepted: pdf, doc, docx, xls, xlsx, rtf, jpeg, png, tiff, bmp'
           maximum_file_size: 'Maximum file size: 20MB'
           supporting_evidence: Supporting evidence
-          file_upload_message: Drag and drop files here
-          upload_supporting_evidence: Upload supporting evidence
-          or: or
-          uploading_docs: 'Documents waiting to be saved'
+          problem: &file_upload_problem There is a problem
+          files_added: &files_added Files added
       supporting_evidence:
         summary:
           header: Supporting evidence
@@ -2285,16 +2279,15 @@ en:
       net_amount: 'Net amount'
       disbursements_caption: 'Disbursements: A detailed list Type including amounts'
     message_controls:
-      attachment_label: Optionally attach a file
       update_claim_status: Update your claim status
-      upload: "+ Upload"
       message_placeholder: Enter a message
       send: *send
       accepted_files_help_text: "Files accepted: pdf, doc, docx, xls, xlsx, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
-      remove_file_html: Remove <span class="govuk-visually-hidden filename"></span>
-      remove: Remove
       written_reasons_heading: Written reasons
       written_reasons: I have submitted written reasons
+      problem: *file_upload_problem
+      files_added: *files_added
+      upload_file: *upload_file
     offence_details:
       new_summary:
         header: Offence details

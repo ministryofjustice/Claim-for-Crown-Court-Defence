@@ -1,7 +1,7 @@
 RSpec.describe 'Sub Navigation Tab' do
   before do
     sign_in case_worker.user
-    case_worker_claim # Ensure the claim-case worker association is created
+    case_worker_claim
   end
 
   let(:case_worker) { create(:case_worker) }
@@ -19,7 +19,7 @@ RSpec.describe 'Sub Navigation Tab' do
       end
 
       it 'defaults to the claim information tab' do
-        expect(response.body).to include('Basic Info')
+        expect(response.body).to include('Basic claim information')
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe 'Sub Navigation Tab' do
       before { get case_workers_claim_path(claim.id, tab: 'information') }
 
       it 'returns to the information page' do
-        expect(response.body).to include('Basic Info')
+        expect(response.body).to include('Basic claim information')
       end
     end
   end

@@ -2160,7 +2160,7 @@ en:
       heading: Claim
       claim_information: Claim information
       claim_status: Claim status
-      sub_navigation: Sub navigation
+      sub_navigation: Sub navigation claim information
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
       claim_submitted: Claim submitted on

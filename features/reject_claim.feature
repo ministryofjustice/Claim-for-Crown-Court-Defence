@@ -11,6 +11,7 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I am signed in as the case worker
     And I select the claim
+    When I click the link 'Claim status'
     And I click the rejected radio button
     And I select the rejection reason 'No indictment attached'
     And I select the rejection reason 'Other'

@@ -63,7 +63,7 @@ class MessagesController < ApplicationController
   end
 
   def attach_documents(message)
-    documents = Document.where(id: params[:message][:document_ids])
+    documents = Document.where(id: params[:message][:document_ids], creator_id: current_user.id)
     documents.each do |doc|
       message.attachments.attach(doc.document.blob)
     end

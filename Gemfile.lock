@@ -497,7 +497,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
-    redis (5.3.0)
+    redis (5.4.0)
       redis-client (>= 0.22.0)
     redis-client (0.23.2)
       connection_pool
@@ -763,7 +763,7 @@ DEPENDENCIES
   rack-livereload (~> 0.5.2)
   rails (~> 7.0.8)
   rails-controller-testing
-  redis (~> 5.3.0)
+  redis (~> 5.4.0)
   remotipart (~> 1.4)
   rspec-collection_matchers
   rspec-html-matchers (~> 0.10.0)

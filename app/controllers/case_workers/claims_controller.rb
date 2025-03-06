@@ -31,12 +31,12 @@ module CaseWorkers
 
     def status
       prepare_show_action
-      render 'case_workers/claims/_claim_status'
+      render 'case_workers/claims/claim_status'
     end
 
     def information
       prepare_show_action
-      render '/shared/_claim_information'
+      render 'case_workers/claims/claim_information'
     end
 
     def download_zip
@@ -56,7 +56,7 @@ module CaseWorkers
       updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user:)).update!
       @claim = updater.claim
       if updater.result == :ok
-        redirect_to case_workers_claim_path(permitted_params)
+        redirect_to case_workers_claim_path(permitted_params.merge({ tab: 'status' }))
       else
         @error_presenter = ErrorMessage::Presenter.new(@claim)
         prepare_show_action

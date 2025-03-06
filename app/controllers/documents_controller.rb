@@ -19,16 +19,6 @@ class DocumentsController < ApplicationController
     redirect_to document.document.blob.url(disposition: :attachment), allow_other_host: true
   end
 
-  def create
-    @document = Document.new(document_params.merge(creator_id: current_user.id))
-
-    if @document.save_and_verify
-      render json: { document: { id: @document.id, filename: @document.document.filename } }, status: :created
-    else
-      render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
-    end
-  end
-
   def destroy
     if document.destroy
       respond_to do |format|
@@ -44,7 +34,7 @@ class DocumentsController < ApplicationController
   end
 
   def upload
-    @document = Document.new(creator_id: current_user.id, document: params[:documents])
+    @document = Document.new(document_params.merge(creator_id: current_user.id))
     if @document.save_and_verify
       render_success_response
     else

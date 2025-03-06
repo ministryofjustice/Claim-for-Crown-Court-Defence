@@ -141,4 +141,23 @@ namespace :claims do
     RakeHelpers::ArchivedClaims.write args[:filename]
     puts 'Done'.green
   end
+
+  desc 'Check the validity of the previous versions of claims'
+  task check_previous_versions: :environment do |_task, args|
+    claims = Claim::BaseClaim.active
+
+    good = bad = 0
+    claims.each do |claim|
+      print "Claim ID: #{claim.id}      \r"
+      test_claim = claim
+      until test_claim.nil? do
+        test_claim = test_claim.paper_trail.previous_version
+      end
+      good += 1
+    rescue ActiveRecord::SerializationTypeMismatch
+      puts "Claim ID: #{claim.id} has a previous version that is invalid"
+      bad += 1
+    end
+    puts "Good: #{good}, Bad: #{bad}"
+  end
 end

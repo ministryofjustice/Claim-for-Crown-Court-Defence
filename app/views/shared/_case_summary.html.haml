@@ -1,14 +1,13 @@
-#claim-accordion
-  .govuk-grid-row
-    .govuk-grid-column-one-half
-      %h2.govuk-heading-m
-        = t('shared.claim_information.messages')
+.govuk-grid-row
+  .govuk-grid-column-one-half
+    %h2.govuk-heading-m
+      = t('shared.claim_information.messages')
 
-    .govuk-grid-column-one-half
-      - if current_user.persona.is_a?(CaseWorker)
-        .other-claims
-          - if claim_ids.present? && claim_ids.include?(@claim.id)
-            = t('shared.position_and_count', position: claim_position_and_count)
+  .govuk-grid-column-one-half
+    - if current_user.persona.is_a?(CaseWorker)
+      .other-claims
+        - if claim_ids.present? && claim_ids.include?(@claim.id)
+          = t('shared.position_and_count', position: claim_position_and_count)
 
-            - unless last_claim?
-              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+          - unless last_claim?
+            = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'

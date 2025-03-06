@@ -1,4 +1,5 @@
 plugins:
+  - rubocop-factory_bot
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
@@ -6,7 +7,6 @@ plugins:
 require:
   - rubocop-rspec_rails
   - rubocop-capybara
-  - rubocop-factory_bot
 
 AllCops:
   DisplayCopNames: true

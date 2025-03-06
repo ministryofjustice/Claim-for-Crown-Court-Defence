@@ -1,14 +1,14 @@
 - present(@claim) do |claim|
   %h2.govuk-heading-l{ class: 'govuk-!-static-margin-bottom-6'}
-    = t('.basic_info')
+    = t('shared.claim_information.basic_info')
   = render partial: 'shared/new_claim', locals: { claim: claim, hide_totals: true }
 
   %h2.govuk-heading-l{ class: 'govuk-!-static-margin-bottom-6'}
-    = t('.evidence')
+    = t('shared.claim_information.evidence')
   = render partial: 'shared/new_evidence_list', locals: { claim: claim }
 
   %h2.govuk-heading-l{ class: 'govuk-!-static-margin-bottom-6'}
-    = t('.fees')
+    = t('shared.claim_information.fees')
   - if claim.agfs?
     = render partial: 'shared/new_summary_agfs', locals: { claim: claim }
   - else

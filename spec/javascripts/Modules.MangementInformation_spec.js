@@ -79,7 +79,9 @@ describe('Modules.ManagementInformation.js', function () {
 
   beforeEach(function () {
     $('body').append(dateView())
+    controller.init()
   })
+
   afterEach(function () {
     $('.fx-dates-chooser').remove()
   })
@@ -103,12 +105,11 @@ describe('Modules.ManagementInformation.js', function () {
         spyOn(controller, 'bindEvents')
         controller.init()
         expect(controller.bindEvents).toHaveBeenCalled()
+      })
 
-        // remove the dom el
-        // reset the calls
-        // init and try again
+      it('...should not call `this.bindEvent` when `this.el` is not present', function () {
+        spyOn(controller, 'bindEvents')
         controller.$el.remove()
-        controller.bindEvents.calls.reset()
         controller.init()
         expect(controller.bindEvents).not.toHaveBeenCalled()
       })
@@ -118,6 +119,7 @@ describe('Modules.ManagementInformation.js', function () {
       it('...should exist', function () {
         expect(controller.extractDates).toBeDefined()
       })
+
       it('...should return a well formed data object', function () {
         $('.fx-dates-chooser').remove()
         $('body').append(dateView({
@@ -145,15 +147,14 @@ describe('Modules.ManagementInformation.js', function () {
       it('...should call `this.extractDates`', function () {
         spyOn(controller, 'extractDates').and.callThrough()
 
-        controller.init()
         controller.buildDataArray()
 
         expect(controller.extractDates).toHaveBeenCalled()
       })
+
       it('...should return a well formed object', function () {
         spyOn(controller, 'extractDates').and.callThrough()
 
-        controller.init()
         let arr = controller.buildDataArray()
 
         expect(controller.extractDates).toHaveBeenCalled()
@@ -218,8 +219,22 @@ describe('Modules.ManagementInformation.js', function () {
       })
     })
 
-    xdescribe('...disableDownloadButton', function () {
-      xit('TODO')
+    describe('...disableDownloadButton', function () {
+      it('should disable the download button', function () {
+        controller.$download = {
+          hasClass: jasmine.createSpy().and.returnValue(false),
+          attr: jasmine.createSpy().and.returnValue(undefined),
+          trigger: jasmine.createSpy()
+        }
+
+        $('body').append(dateView())
+        controller.init()
+        controller.disableDownloadButton()
+
+        expect(controller.$download.hasClass('disabled')).toBeTrue()
+        expect(controller.$download.attr('aria-disabled')).toBe('true')
+        expect(controller.$download.attr('href')).toBeUndefined()
+      })
     })
 
     describe('...enableDownloadButton', function () {
@@ -245,20 +260,92 @@ describe('Modules.ManagementInformation.js', function () {
 
         expect(controller.buildAttributes).toHaveBeenCalled()
         expect(controller.$download.attr('href')).toEqual('/api/mi/provisional_assessments?api_key=abcABC&start_date=2017-2-1&end_date=2018-4-3&format=csv')
-        expect(controller.$download.hasClass('disabled')).toEqual(false)
+        expect(controller.$download.hasClass('disabled')).toBeFalse()
+        expect(controller.$download.attr('aria-disabled')).toBe('false')
       })
     })
 
-    xdescribe('...activateDownload', function () {
-      xit('TODO')
+    describe('...activateDownload', function () {
+      it('should enable the download button for valid dates', function () {
+        spyOn(controller, 'enableDownloadButton')
+
+        $('.fx-dates-chooser').remove()
+        $('body').append(dateView({
+          startDate: {
+            day: '1',
+            month: '01',
+            year: '2025'
+          },
+          endDate: {
+            day: '21',
+            month: '1',
+            year: '2025'
+          }
+        }))
+
+        controller.init()
+
+        expect(controller.activateDownload()).toBeTrue()
+        expect(controller.enableDownloadButton).toHaveBeenCalled()
+      })
+
+      it('should disable the download button for invalid dates', function () {
+        spyOn(controller, 'disableDownloadButton')
+
+        $('.fx-dates-chooser').remove()
+        $('body').append(dateView({
+          startDate: {
+            day: 'invalid',
+            month: 'date',
+            year: '2025'
+          },
+          endDate: {
+            day: 'invalid',
+            month: 'date',
+            year: '2025'
+          }
+        }))
+
+        controller.init()
+
+        expect(controller.activateDownload()).toBeFalse()
+        expect(controller.disableDownloadButton).toHaveBeenCalled()
+      })
     })
 
-    xdescribe('...dateInputEvent', function () {
-      xit('TODO')
+    describe('...dateInputEvent', function () {
+      it('should call activateDownload on keyup', function () {
+        spyOn(controller, 'activateDownload')
+
+        const input = $('.fx-start-date input').first()
+        input.trigger('keyup')
+
+        expect(controller.activateDownload).toHaveBeenCalled()
+      })
     })
 
-    xdescribe('...blockDisabledLinkClick', function () {
-      xit('TODO')
+    describe('...blockDisabledLinkClick', function () {
+      it('should prevent default click event if button is disabled', function () {
+        controller.disableDownloadButton()
+
+        const event = $.Event('click')
+        spyOn(event, 'preventDefault')
+
+        controller.$download.trigger(event)
+
+        expect(event.preventDefault).toHaveBeenCalled()
+      })
+
+      it('should not prevent default click event if button is enabled', function () {
+        controller.enableDownloadButton()
+
+        const event = $.Event('click')
+        spyOn(event, 'preventDefault')
+
+        controller.$download.trigger(event)
+
+        expect(event.preventDefault).not.toHaveBeenCalled()
+      })
     })
   })
 })

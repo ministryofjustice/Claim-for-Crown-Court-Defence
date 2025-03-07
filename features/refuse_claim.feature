@@ -11,6 +11,7 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I am signed in as the case worker
     And I select the claim
+    When I click the link 'Claim status'
     And I click the refused radio button
     And I select the refusal reason 'Duplicate claim'
     And I select the refusal reason 'Other'
@@ -37,6 +38,7 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I am signed in as the case worker
     And I select the claim
+    When I click the link 'Claim status'
     And I click the refused radio button
     And I select the refusal reason 'Incorrect trial advocate'
     And I select the refusal reason 'Other'

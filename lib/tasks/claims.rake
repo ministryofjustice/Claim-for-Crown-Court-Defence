@@ -143,21 +143,45 @@ namespace :claims do
   end
 
   desc 'Check the validity of the previous versions of claims'
-  task check_previous_versions: :environment do |_task, args|
+  task :check_previous_versions, [:filename] => :environment do |_task, args|
+    file = args[:filename]
+    output = File.open(file, 'w')
     claims = Claim::BaseClaim.active
+
+    bar = ProgressBar.create(
+      title: 'Claims',
+      format: "%a [%e] %b\u{15E7}%i %c/%C %t",
+      progress_mark: '#'.green,
+      remainder_mark: "\u{FF65}".yellow,
+      starting_at: 0,
+      total: claims.count
+    )
 
     good = bad = 0
     claims.each do |claim|
-      print "Claim ID: #{claim.id}      \r"
+      bar.increment
       test_claim = claim
       until test_claim.nil? do
         test_claim = test_claim.paper_trail.previous_version
       end
       good += 1
     rescue ActiveRecord::SerializationTypeMismatch
-      puts "Claim ID: #{claim.id} has a previous version that is invalid"
+      output.puts claim.id
       bad += 1
     end
+    output.close
     puts "Good: #{good}, Bad: #{bad}"
+  end
+
+  desc 'Fix the previous versions of claims'
+  task :fix_previous_versions, [:filename] => :environment do |_task, args|
+    file = args[:filename]
+    ids = File.readlines(file).map(&:strip)
+    claims = Claim::BaseClaim.where(id: ids)
+    claims.each do |claim|
+      print claim.id
+      PreviousVersionOfClaim.new(claim).call
+      puts ' Fixed'.green
+    end
   end
 end

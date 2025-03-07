@@ -21,14 +21,15 @@ class PreviousVersionOfClaim
   private
 
   def reset
-    version = PaperTrail::Version.where(item_type: 'Claim::BaseClaim', item_id: @claim.id).last
-    new_object = version.object_deserialized.transform_values do |value|
-      if value.present? && value.is_a?(Array)
-        PaperTrail.serializer.dump value
-      else
-        value
+    PaperTrail::Version.where(item_type: 'Claim::BaseClaim', item_id: @claim.id).find_each do |version|
+      new_object = version.object_deserialized.transform_values do |value|
+        if value.present? && value.is_a?(Array)
+          PaperTrail.serializer.dump value
+        else
+          value
+        end
       end
+      version.update_columns object: PaperTrail.serializer.dump(new_object)
     end
-    version.update_columns object: PaperTrail.serializer.dump(new_object)
   end
 end

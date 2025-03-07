@@ -7,13 +7,9 @@ module NotificationQueue
     let(:client) do
       Aws::SNS::Client.new(
         region: 'eu-west-1',
-        stub_responses:
-          {
-            publish: stub_publish_response
-          }
+        stub_responses: { publish: {} }
       )
     end
-    let(:stub_publish_response) { nil }
 
     before { allow(Aws::SNS::Client).to receive(:new).and_return client }
 

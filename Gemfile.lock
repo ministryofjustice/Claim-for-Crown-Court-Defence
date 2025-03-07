@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ministryofjustice/laa-cda
-  revision: fd3c677a0cc6c51dfdfab8d6b97f75b2b86f213e
+  revision: 66f4bb3c026dc4a0ce58d74bd9191ecc6e16415d
   specs:
     laa-cda (0.0.1)
       faraday (~> 2.0)
@@ -663,7 +663,7 @@ GEM
       activesupport
     vcr (6.3.1)
       base64
-    version_gem (1.1.4)
+    version_gem (1.1.6)
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)

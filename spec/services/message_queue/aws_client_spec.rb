@@ -13,15 +13,15 @@ module MessageQueue
             get_queue_url: stub_queue_response,
             send_message: stub_send_response,
             receive_message: stub_poll_response,
-            delete_message: true
+            delete_message: {}
           }
       )
     end
     let(:claim) { create(:advocate_claim) }
     let(:aws_queue_id) { 'valid_queue_name' }
     let(:stub_queue_response) { stub_queue_response_success }
-    let(:stub_send_response) { nil }
-    let(:stub_poll_response) { nil }
+    let(:stub_send_response) { {} }
+    let(:stub_poll_response) { {} }
     let(:stub_queue_response_success) { { queue_url: 'http://aws_url' } }
     let(:stub_queue_response_failure) do
       Aws::SQS::Errors::NonExistentQueue.new(
@@ -48,7 +48,7 @@ module MessageQueue
               md5_of_body: '06ca6b264e9878e64c76b3b6858a1676',
               body:,
               attributes: {},
-              md5_of_message_attributes: nil,
+              md5_of_message_attributes: 'd41d8cd98f00b204e9800998ecf8427e',
               message_attributes: {}
             }
           )
@@ -73,13 +73,18 @@ module MessageQueue
     context 'when passed a valid queue_url' do
       let(:aws_queue_id) { 'https://aws.queue/name' }
 
-      it { is_expected.to be_a AwsClient }
+      it { is_expected.to be_a described_class }
     end
 
     describe '#send!' do
       subject(:send!) { aws_client.send!(message) }
 
-      let(:message) { { body: 'Claim added', attributes: { uuid: { data_type: 'String', string_value: SecureRandom.uuid } } } }
+      let(:message) do
+        {
+          body: 'Claim added',
+          attributes: { uuid: { data_type: 'String', string_value: SecureRandom.uuid } }
+        }
+      end
 
       context 'when values are good' do
         it { is_expected.to be true }

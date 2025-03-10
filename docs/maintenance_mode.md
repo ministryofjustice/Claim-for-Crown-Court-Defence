@@ -20,7 +20,7 @@ To apply via circleCI:
 
 - commit the above change and push to github
 - run through circleCI and deploy to the relevant environment
-- For production environment you will need to merge to master and use its workflow
+- For production environment you will need to merge to main and use its workflow
 - to take site out of maintenance you would have to commit the reverse and redeploy via circleCI
 
 

@@ -9,7 +9,7 @@ function _cronjob() {
 
   Example:
 
-    # apply changes to archive_stale job in dev AND use pod based on latest master
+    # apply changes to archive_stale job in dev AND use pod based on latest main
     cronjob.sh archive_stale dev latest
 
     # apply changes to archive_stale job in dev AND use pod based on latest for branch

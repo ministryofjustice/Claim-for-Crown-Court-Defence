@@ -14,7 +14,7 @@
 
 CircleCI is configured such that:
 
-1. merges to `master` will automatically build a docker container image for the app, tag it as `app-latest` and push to our AWS elastic container registry (ECR). The image will be smoke tested before then requiring approval for deployment.
+1. merges to `main` will automatically build a docker container image for the app, tag it as `app-latest` and push to our AWS elastic container registry (ECR). The image will be smoke tested before then requiring approval for deployment.
 
 2. branches have 2 separate workflows. The first runs the test suite against the branch without any user interaction. The second workflow requires approval to build a container and then enables deployment to individual non-production environments (approval required).
 
@@ -28,7 +28,7 @@ Build and deploy from your local machine can be achieved using scripts in `.k8s/
 
 
 ```
-# build and deploy master to dev
+# build and deploy main to dev
 .k8s/<context>/scripts/build.sh
 .k8s/<context>/scripts/deploy.sh dev latest
 ```

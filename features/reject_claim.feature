@@ -11,6 +11,7 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I am signed in as the case worker
     And I select the claim
+    When I click the link 'Claim status'
     And I click the rejected radio button
     And I select the rejection reason 'No indictment attached'
     And I select the rejection reason 'Other'
@@ -18,10 +19,10 @@ Feature: Case worker rejects a claim, providing a reason
     Then the page should be accessible
     And I click update
     Then the status at top of page should be Rejected
-    Then message 3 contains 'Claim rejected'
-    Then the last message contains 'Your claim has been rejected'
-    Then the last message contains 'No indictment attached'
-    Then the last message contains 'Whatever will be will be'
+    Then caseworkers claim message 3 contains 'Claim rejected'
+    Then the caseworkers last message contains 'Your claim has been rejected'
+    Then the caseworkers last message contains 'No indictment attached'
+    Then the caseworkers last message contains 'Whatever will be will be'
     Then the page should be accessible
 
     When I click your claims

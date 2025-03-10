@@ -15,7 +15,7 @@ module CaseWorkers
     before_action :filter_current_claims,   only: [:index]
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
-    before_action :set_claim, only: %i[show messages download_zip]
+    before_action :set_claim, only: %i[show messages download_zip information status]
 
     include ReadMessages
     include MessageControlsDisplay
@@ -26,6 +26,17 @@ module CaseWorkers
 
     def show
       prepare_show_action
+      @active_tab = params[:tab] || 'information'
+    end
+
+    def status
+      prepare_show_action
+      render 'case_workers/claims/claim_status'
+    end
+
+    def information
+      prepare_show_action
+      render 'case_workers/claims/claim_information'
     end
 
     def download_zip
@@ -45,7 +56,7 @@ module CaseWorkers
       updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user:)).update!
       @claim = updater.claim
       if updater.result == :ok
-        redirect_to case_workers_claim_path(permitted_params)
+        redirect_to case_workers_claim_path(permitted_params.merge({ tab: 'status' }))
       else
         @error_presenter = ErrorMessage::Presenter.new(@claim)
         prepare_show_action

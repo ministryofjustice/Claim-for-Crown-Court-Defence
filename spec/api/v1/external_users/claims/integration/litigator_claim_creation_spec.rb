@@ -291,7 +291,7 @@ RSpec.describe 'API claim creation for LGFS' do
   let(:expense_car) { ExpenseType.find_by(unique_code: 'CAR') }
   let(:expense_hotel) { ExpenseType.find_by(unique_code: 'HOTEL') }
   let(:disbursement_type) { DisbursementType.find_by(unique_code: 'ARP') } # Accident reconstruction report
-  let(:date_param) { '2018-04-19' }
+  let(:date_param) { (Time.zone.today - 30.days).strftime('%Y-%m-%d') }
 
   let(:claim_params) do
     {
@@ -318,7 +318,7 @@ RSpec.describe 'API claim creation for LGFS' do
       claim_id: nil,
       first_name: 'JohnAPI',
       last_name: 'SmithAPI',
-      date_of_birth: '1980-05-10'
+      date_of_birth: (Time.zone.today - 55.years).strftime('%Y-%m-%d')
     }
   end
 

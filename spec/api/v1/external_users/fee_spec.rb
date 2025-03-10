@@ -118,7 +118,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
                 api_key: provider.api_key,
                 claim_id: claim.uuid,
                 fee_type_id: fee_type.id,
-                date: '2018-04-19',
+                date: (Time.zone.today - 30.days).strftime('%Y-%m-%d'),
                 quantity: nil,
                 rate: nil,
                 amount: 349.47

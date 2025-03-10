@@ -6,7 +6,7 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
   let(:fee_type) { instance_double(Fee::WarrantFeeType, unique_code: 'WARR') }
   let(:case_type) { instance_double(CaseType, fee_type_code: 'FXCBR') }
   let(:claim) { instance_double(Claim::LitigatorClaim, case_type:) }
-  let(:warrant_fee) { instance_double(Fee::WarrantFee, claim:, fee_type:, amount: 111.01, warrant_issued_date: '01-Jun-2017'.to_date, warrant_executed_date: '01-Aug-2017'.to_date) }
+  let(:warrant_fee) { instance_double(Fee::WarrantFee, claim:, fee_type:, amount: 111.01, warrant_issued_date: Time.zone.today - 90.days, warrant_executed_date: Time.zone.today - 30.days) }
 
   it_behaves_like 'a bill types delegator', CCLF::Fee::WarrantFeeAdapter do
     let(:bill) { warrant_fee }
@@ -23,8 +23,8 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
       bill_type: 'FEE_ADVANCE',
       bill_subtype: 'WARRANT',
       amount: '111.01',
-      warrant_issued_date: '2017-06-01',
-      warrant_executed_date: '2017-08-01'
+      warrant_issued_date: (Time.zone.today - 90.days).strftime('%Y-%m-%d'),
+      warrant_executed_date: (Time.zone.today - 30.days).strftime('%Y-%m-%d')
     )
   end
 end

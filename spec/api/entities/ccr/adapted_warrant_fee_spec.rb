@@ -5,7 +5,7 @@ RSpec.describe API::Entities::CCR::AdaptedWarrantFee, type: :adapter do
 
   let(:fee_type) { instance_double(Fee::WarrantFeeType, unique_code: 'WARR') }
   let(:claim) { instance_double(Claim::AdvocateInterimClaim) }
-  let(:warrant_fee) { instance_double(Fee::WarrantFee, claim:, fee_type:, amount: 111.01, warrant_issued_date: '01-Apr-2018'.to_date) }
+  let(:warrant_fee) { instance_double(Fee::WarrantFee, claim:, fee_type:, amount: 111.01, warrant_issued_date: Time.zone.today - 90.days) }
 
   it_behaves_like 'a bill types delegator', CCR::Fee::WarrantFeeAdapter do
     let(:bill) { warrant_fee }
@@ -23,7 +23,7 @@ RSpec.describe API::Entities::CCR::AdaptedWarrantFee, type: :adapter do
       bill_type: 'AGFS_ADVANCE',
       bill_subtype: 'AGFS_WARRANT',
       amount: '111.01',
-      warrant_issued_date: '2018-04-01'
+      warrant_issued_date: (Time.zone.today - 90.days).strftime('%Y-%m-%d')
     )
   end
 end

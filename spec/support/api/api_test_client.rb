@@ -79,7 +79,7 @@ class ApiTestClient
   def get_dropdown_endpoint(resource, **kwargs)
     path = "api/#{resource}"
     debug("GETTING FROM #{path}")
-    debug("Params: #{kwargs}")
+    debug("Params: #{kwargs}\n")
 
     body = Caching::APIRequest.cache("#{path}?#{kwargs.to_query}") do
       connection.get(path, **kwargs).tap { |response| handle_response(response, resource) }
@@ -94,10 +94,10 @@ class ApiTestClient
   def connection = @connection ||= Faraday.new(api_root_url)
 
   def handle_response(response, resource)
-    debug("Code: #{response.status}")
-    debug("Body:\n#{response.body}\n")
+    debug("Code: #{response.status}\n")
     return if response.success?
 
+    debug("Body:\n#{response.body}\n")
     @success = false
     @full_error_messages << "#{resource} Endpoint raised error [HTTP status #{response.status}]"
   end

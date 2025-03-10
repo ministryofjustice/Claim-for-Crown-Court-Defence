@@ -36,8 +36,8 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
     before do
       allow(interim_fee).to receive_messages(
         amount: 101.01,
-        warrant_issued_date: '01-Jun-2017'.to_date,
-        warrant_executed_date: '01-Aug-2017'.to_date,
+        warrant_issued_date: Time.zone.today - 90.days,
+        warrant_executed_date: Time.zone.today - 30.days,
         is_interim_warrant?: true
       )
     end
@@ -48,8 +48,8 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
         bill_subtype: 'WARRANT',
         amount: '101.01',
         quantity: '0',
-        warrant_issued_date: '2017-06-01',
-        warrant_executed_date: '2017-08-01'
+        warrant_issued_date: (Time.zone.today - 90.days).strftime('%Y-%m-%d'),
+        warrant_executed_date: (Time.zone.today - 30.days).strftime('%Y-%m-%d')
       )
     end
   end

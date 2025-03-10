@@ -31,16 +31,36 @@ module AdvocateClaimTest
     def claim_data
       super.merge(
         case_stage_unique_code: fetch_id(CASE_STAGE_ENDPOINT, key: 'unique_code', role: 'agfs'),
-        first_day_of_trial: '2020-04-01',
+        first_day_of_trial: trial_start_date,
         estimated_trial_length: 1,
         actual_trial_length: 1,
-        trial_concluded_at: '2020-04-20',
-        trial_fixed_notice_at: '2020-04-02',
-        trial_fixed_at: '2020-04-04',
-        trial_cracked_at: '2020-04-06',
+        trial_concluded_at: trial_end_date,
+        trial_fixed_notice_at: trial_fixed_notice_date,
+        trial_fixed_at: trial_fixed_date,
+        trial_cracked_at: trial_cracked_date,
         trial_cracked_at_third: 'first_third',
         offence_id: fetch_id(OFFENCE_ENDPOINT)
       )
+    end
+
+    def trial_start_date
+      (Time.zone.today - 50.days).next_weekday.strftime('%Y-%m-%d')
+    end
+
+    def trial_end_date
+      (Time.zone.today - 30.days).next_weekday.strftime('%Y-%m-%d')
+    end
+
+    def trial_fixed_notice_date
+      (Time.zone.today - 49.days).next_weekday.strftime('%Y-%m-%d')
+    end
+
+    def trial_fixed_date
+      (Time.zone.today - 43.days).next_weekday.strftime('%Y-%m-%d')
+    end
+
+    def trial_cracked_date
+      (Time.zone.today - 45.days).next_weekday.strftime('%Y-%m-%d')
     end
   end
 end

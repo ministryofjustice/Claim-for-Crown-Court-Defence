@@ -405,7 +405,7 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-scp (4.0.0)
+    net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
@@ -750,7 +750,7 @@ DEPENDENCIES
   meta_request
   net-imap
   net-pop
-  net-scp (~> 4.0)
+  net-scp (~> 4.1)
   net-smtp
   net-ssh (~> 7.3)
   nokogiri (~> 1.18)

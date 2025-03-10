@@ -39,8 +39,8 @@ function _circleci_build() {
   # push
   docker push $docker_registry_tag
 
-  if [ "${CIRCLE_BRANCH}" == "master" ]; then
-    # Tag the master image twice - once as 'app-latest' and once as 'app-latest-<timestamp>'
+  if [ "${CIRCLE_BRANCH}" == "main" ]; then
+    # Tag the main image twice - once as 'app-latest' and once as 'app-latest-<timestamp>'
     # This will ensure that old production images are persisted in ECR when new images are pushed
     docker_registry_current_production_tag=$docker_registry:app-latest
     docker tag $docker_registry_tag $docker_registry_current_production_tag

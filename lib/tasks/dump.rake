@@ -12,7 +12,7 @@ namespace :db do
     Run dump file job from local machine
       * requires kubectl
       Usage:
-      # runs dump job against staging using latest master branch build
+      # runs dump job against staging using latest main branch build
       rake db:dump:run_job['staging']
 
       # # runs dump job against dev using my-branch-latest build

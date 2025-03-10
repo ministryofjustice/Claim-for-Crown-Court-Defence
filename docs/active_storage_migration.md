@@ -326,7 +326,7 @@ due to timeouts in Kibana logs, for example.
 
 ## Switchover
 
-> **_NOTE:_** This switchover from paperclip to active storage assumes that checksums have been calculated for the model being activated and the target environment has latest master on it - with the `storage.rake` tasks is available on it.
+> **_NOTE:_** This switchover from paperclip to active storage assumes that checksums have been calculated for the model being activated and the target environment has latest main on it - with the `storage.rake` tasks is available on it.
 
 ---
 **Summary**
@@ -336,7 +336,7 @@ due to timeouts in Kibana logs, for example.
 ---
 
   - merge the activating branch \*. Ensure you use a merge commit as this can be easily reverted if necessary.
-  - wait for CircleCI to have successfully built master and be waiting for approval to deploy to the target environment
+  - wait for CircleCI to have successfully built main and be waiting for approval to deploy to the target environment
   - migrate phase 1: shell into the target environments worker pod and run rake task to migrate data from paperclip to active storage
     ```
     rails storage:migrate[model_table_name]

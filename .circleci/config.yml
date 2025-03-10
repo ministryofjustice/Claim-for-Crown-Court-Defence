@@ -326,7 +326,7 @@ commands:
       - run:
           name: Set slack notification options
           command: |
-            if [[ $CIRCLE_BRANCH == "master" ]]; then
+            if [[ $CIRCLE_BRANCH == "main" ]]; then
               echo 'export CUSTOM_SLACK_COLOR="#FF8C00"' >> $BASH_ENV
             else
               echo 'export CUSTOM_SLACK_COLOR="#3AA3E3"' >> $BASH_ENV
@@ -532,13 +532,13 @@ jobs:
 # ------------------
 workflows:
   version: 2
-  test-build-deploy-master:
+  test-build-deploy-main:
     jobs:
       - build-test-container:
           filters:
             branches:
               only:
-                - master
+                - main
       - other-tests:
           requires:
             - build-test-container
@@ -612,7 +612,7 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
       - other-tests:
           requires:
             - build-test-container
@@ -634,13 +634,13 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - main
       - hold-branch-build:
           type: approval
           filters:
             branches:
               ignore:
-                - master
+                - main
       - build-app-container:
           requires:
             - hold-branch-build
@@ -702,7 +702,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
     jobs:
       - smoke-test:
           context:

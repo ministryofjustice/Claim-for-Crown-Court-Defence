@@ -60,8 +60,10 @@ RSpec.describe CourtData do
           defendants: claim_defendants.map do |defendant|
             instance_double(
               LAA::Cda::Defendant,
-              representation_order: instance_double(LAA::Cda::RepresentationOrder,
-                                                    reference: defendant.earliest_representation_order.maat_reference)
+              representation_orders: [
+                instance_double(LAA::Cda::RepresentationOrder,
+                                reference: defendant.earliest_representation_order.maat_reference)
+              ]
             )
           end
         )
@@ -129,7 +131,6 @@ RSpec.describe CourtData do
 
       it do
         is_expected.to include(have_attributes(
-                                 maat_reference: claim_defendants[0].earliest_representation_order.maat_reference,
                                  claim: have_attributes(name: claim_defendants[0].name),
                                  hmcts: nil
                                ))
@@ -137,7 +138,6 @@ RSpec.describe CourtData do
 
       it {
         is_expected.to include(have_attributes(
-                                 maat_reference: claim_defendants[1].earliest_representation_order.maat_reference,
                                  claim: have_attributes(name: claim_defendants[1].name),
                                  hmcts: nil
                                ))
@@ -157,13 +157,7 @@ RSpec.describe CourtData do
                     LAA::Cda::Defendant,
                     id: '12345',
                     name: 'Billy The Kid',
-                    representation_order: instance_double(
-                      LAA::Cda::RepresentationOrder,
-                      reference: '9999999',
-                      start: Date.parse('2024-05-05'),
-                      end: Date.parse('2024-05-06'),
-                      contract_number: 'AA111'
-                    )
+                    representation_orders: [representation_order]
                   )
                 ]
               )
@@ -171,12 +165,14 @@ RSpec.describe CourtData do
           }
         ]
       end
+      let(:representation_order) do
+        instance_double(LAA::Cda::RepresentationOrder, reference: '9999999', contract_number: 'AA111')
+      end
 
       it { expect(court_data).to have(3).defendants }
 
       it do
         is_expected.to include(have_attributes(
-                                 maat_reference: claim_defendants[0].earliest_representation_order.maat_reference,
                                  claim: have_attributes(name: claim_defendants[0].name),
                                  hmcts: nil
                                ))
@@ -184,7 +180,6 @@ RSpec.describe CourtData do
 
       it {
         is_expected.to include(have_attributes(
-                                 maat_reference: claim_defendants[1].earliest_representation_order.maat_reference,
                                  claim: have_attributes(name: claim_defendants[1].name),
                                  hmcts: nil
                                ))
@@ -192,7 +187,6 @@ RSpec.describe CourtData do
 
       it {
         is_expected.to include(have_attributes(
-                                 maat_reference: '9999999',
                                  claim: nil,
                                  hmcts: have_attributes(name: 'Billy The Kid')
                                ))
@@ -212,19 +206,18 @@ RSpec.describe CourtData do
                     LAA::Cda::Defendant,
                     id: '12345',
                     name: 'Hawley Harvey Crippen',
-                    representation_order: instance_double(
-                      LAA::Cda::RepresentationOrder,
-                      reference: claim_defendants[1].earliest_representation_order.maat_reference,
-                      start: Date.parse('2024-05-05'),
-                      end: Date.parse('2024-05-06'),
-                      contract_number: 'AA111'
-                    )
+                    representation_orders: [representation_order]
                   )
                 ]
               )
             ]
           }
         ]
+      end
+      let(:representation_order) do
+        instance_double(
+          LAA::Cda::RepresentationOrder, reference: claim_defendants[1].earliest_representation_order.maat_reference
+        )
       end
 
       it { expect(court_data).to have(2).defendants }
@@ -251,13 +244,13 @@ RSpec.describe CourtData do
                     LAA::Cda::Defendant,
                     id: '12345',
                     name: 'Hawley Harvey Crippen',
-                    representation_order: nil
+                    representation_orders: []
                   ),
                   instance_double(
                     LAA::Cda::Defendant,
                     id: '12346',
                     name: 'Arthur Justice Raffles',
-                    representation_order: nil
+                    representation_orders: []
                   )
                 ]
               )
@@ -270,7 +263,6 @@ RSpec.describe CourtData do
 
       it do
         is_expected.to include(have_attributes(
-                                 maat_reference: claim_defendants[0].earliest_representation_order.maat_reference,
                                  claim: have_attributes(name: claim_defendants[0].name),
                                  hmcts: nil
                                ))
@@ -278,7 +270,6 @@ RSpec.describe CourtData do
 
       it {
         is_expected.to include(have_attributes(
-                                 maat_reference: claim_defendants[1].earliest_representation_order.maat_reference,
                                  claim: have_attributes(name: claim_defendants[1].name),
                                  hmcts: nil
                                ))
@@ -286,7 +277,6 @@ RSpec.describe CourtData do
 
       it {
         is_expected.to include(have_attributes(
-                                 maat_reference: 'No representation order recorded',
                                  claim: nil,
                                  hmcts: have_attributes(name: 'Hawley Harvey Crippen')
                                ))
@@ -294,7 +284,6 @@ RSpec.describe CourtData do
 
       it {
         is_expected.to include(have_attributes(
-                                 maat_reference: 'No representation order recorded',
                                  claim: nil,
                                  hmcts: have_attributes(name: 'Arthur Justice Raffles')
                                ))

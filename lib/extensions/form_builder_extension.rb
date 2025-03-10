@@ -7,7 +7,7 @@
 module Extensions
   module FormBuilderExtension
     def as_json(options = {})
-      amended_options = options.tap { |o| o[:except] = options[:except].to_a << :template }
+      amended_options = options.tap { |o| o[:except] = options[:except].to_a << 'template' }
 
       super(amended_options)
     end

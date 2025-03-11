@@ -1,7 +1,6 @@
 moj.Modules.ManagementInformation = {
   el: '.fx-dates-chooser',
   download: '#provisional_assessments_date_download',
-  disableDownload: true,
 
   init: function () {
     if ($(this.el).length) {
@@ -54,20 +53,16 @@ moj.Modules.ManagementInformation = {
   },
 
   disableDownloadButton: function () {
-    if (!this.$download.hasClass('disabled')) {
-      this.$download
-        .addClass('disabled')
-        .attr('aria-disabled', true)
-    }
-    this.$download
-      .removeAttr('href')
-      .attr('aria-disabled', false)
+    this.$download.removeAttr('href')
+    this.$download.attr('disabled', true)
+    this.$download.attr('aria-disabled', true)
   },
 
   enableDownloadButton: function () {
     const url = '/api/mi/provisional_assessments?' + this.buildAttributes()
     this.$download.attr('href', url)
-    this.$download.removeClass('disabled')
+    this.$download.removeAttr('disabled')
+    this.$download.attr('aria-disabled', false)
   },
 
   activateDownload: function () {
@@ -94,7 +89,7 @@ moj.Modules.ManagementInformation = {
   blockDisabledLinkClick: function () {
     const self = this
     this.$download.on('click', function (e) {
-      if (self.$download.hasClass('disabled')) {
+      if (self.$download.attr('disabled')) {
         e.preventDefault()
         return false
       }

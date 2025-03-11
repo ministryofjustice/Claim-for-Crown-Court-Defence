@@ -83,15 +83,11 @@ describe('Modules.AmountAssessedBlock.js', function () {
 
   describe('Methods..', function () {
     describe('...slider', function () {
-      it('should call correct $.fn', function () {
+      it('should call addClass with "hidden"', function () {
         const block = moj.Modules.AmountAssessed.blocks[0]
-        let x = false
-        $.fn.addClass = function () {
-          x = true
-        }
-        expect(x).toEqual(false)
+        const addClassSpy = spyOn($.fn, 'addClass')
         block.slider(false, $('<div />'))
-        expect(x).toEqual(true)
+        expect(addClassSpy).toHaveBeenCalledWith('hidden')
       })
     })
   })

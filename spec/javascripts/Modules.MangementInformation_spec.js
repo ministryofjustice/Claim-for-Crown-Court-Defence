@@ -231,9 +231,9 @@ describe('Modules.ManagementInformation.js', function () {
         controller.init()
         controller.disableDownloadButton()
 
-        expect(controller.$download.hasClass('disabled')).toBeTrue()
         expect(controller.$download.attr('aria-disabled')).toBe('true')
         expect(controller.$download.attr('href')).toBeUndefined()
+        expect(controller.$download.attr('disabled')).toBe('disabled')
       })
     })
 
@@ -260,8 +260,8 @@ describe('Modules.ManagementInformation.js', function () {
 
         expect(controller.buildAttributes).toHaveBeenCalled()
         expect(controller.$download.attr('href')).toEqual('/api/mi/provisional_assessments?api_key=abcABC&start_date=2017-2-1&end_date=2018-4-3&format=csv')
-        expect(controller.$download.hasClass('disabled')).toBeFalse()
         expect(controller.$download.attr('aria-disabled')).toBe('false')
+        expect(controller.$download.attr('disabled')).toBeUndefined()
       })
     })
 

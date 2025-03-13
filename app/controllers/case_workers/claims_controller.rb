@@ -29,16 +29,6 @@ module CaseWorkers
       @active_tab = params[:tab] || 'information'
     end
 
-    def status
-      prepare_show_action
-      render 'case_workers/claims/claim_status'
-    end
-
-    def information
-      prepare_show_action
-      render 'case_workers/claims/claim_information'
-    end
-
     def download_zip
       zip_file = S3ZipDownloader.new(@claim).generate!
 

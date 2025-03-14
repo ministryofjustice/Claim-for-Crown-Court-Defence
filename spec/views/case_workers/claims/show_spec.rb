@@ -4,11 +4,20 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   subject { rendered }
 
   let(:case_worker) { create(:case_worker) }
+  let(:claim) { create(:claim) }
 
   before do
     initialize_view_helpers(view)
     sign_in(case_worker.user, scope: :user)
     allow(view).to receive(:current_user_persona_is?).and_return(false)
+    params[:tab] = 'information'
+    @active_tab = :information
+    @sub_nav_items = {
+      status: { href: "case_workers/claims/'#{claim.id}'/status",
+                label: 'Claim status' },
+      information: { href: "case_workers/claims/'#{claim.id}'/information",
+                     label: 'Claim information' }
+    }
   end
 
   context 'with certified claims' do

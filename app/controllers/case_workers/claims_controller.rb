@@ -26,7 +26,7 @@ module CaseWorkers
 
     def show
       prepare_show_action
-      @active_tab = params[:tab].nil? ? nil : params[:tab].to_sym || :information
+      @active_tab = params[:tab].nil? ? params[:tab] = :information : params[:tab].to_sym
       @sub_nav_items = {
         status: { href: case_workers_claim_path(@claim, tab: 'status'),
                   label: t('shared.claim_information.claim_status') },

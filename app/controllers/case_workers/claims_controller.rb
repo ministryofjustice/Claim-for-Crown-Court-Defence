@@ -15,7 +15,7 @@ module CaseWorkers
     before_action :filter_current_claims,   only: [:index]
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
-    before_action :set_claim, only: %i[show messages download_zip information status]
+    before_action :set_claim, only: %i[show messages download_zip]
 
     include ReadMessages
     include MessageControlsDisplay
@@ -26,7 +26,13 @@ module CaseWorkers
 
     def show
       prepare_show_action
-      @active_tab = params[:tab] || 'information'
+      @active_tab = params[:tab].nil? ? nil : params[:tab].to_sym || :information
+      @sub_nav_items = {
+        status: { href: case_workers_claim_path(@claim, tab: 'status'),
+                  label: t('shared.claim_information.claim_status') },
+        information: { href: case_workers_claim_path(@claim, tab: 'information'),
+                       label: t('shared.claim_information.claim_information') }
+      }
     end
 
     def download_zip

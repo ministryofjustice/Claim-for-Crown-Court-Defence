@@ -13,6 +13,7 @@ Dotenv::Rails.load
 
 # Custom railties that are not gems can be required here
 require_relative '../lib/govuk_component'
+require_relative '../lib/moj_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application

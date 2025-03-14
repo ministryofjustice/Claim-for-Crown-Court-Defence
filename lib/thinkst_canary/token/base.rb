@@ -19,6 +19,12 @@ module ThinkstCanary
         query(:get, '/api/v1/canarytoken/factory/download', auth: false, json: false, params:)
       end
 
+      def memo=(new_memo)
+        params = { canarytoken: canarytoken, memo: new_memo }
+        query(:post, '/api/v1/canarytoken/update', params: params)
+        @memo = new_memo
+      end
+
       private
 
       def fetch_token

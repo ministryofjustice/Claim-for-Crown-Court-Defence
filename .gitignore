@@ -84,3 +84,12 @@ yarn-debug.log*
 
 # ignore Brewfile changes
 Brewfile.lock.json
+pg_upgrade_dump_*.custom
+pg_upgrade_dump_*.log
+pg_upgrade_globals.sql
+pg_upgrade_internal.log
+pg_upgrade_server.log
+pg_upgrade_utility.log
+pg_upgrade_dump_globals.sql
+pg_upgrade_dump_globals.sql
+pg_upgrade_dump_globals.sql

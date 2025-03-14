@@ -79,3 +79,12 @@ end
 Then(/^the claim I've just updated is no longer in the list$/) do
   expect(@case_worker_home_page).not_to have_content(@claim.case_number)
 end
+
+Then("caseworkers claim message {int} contains {string}") do |position, text|
+
+  expect(@case_worker_claim_show_page.messages_panel.messages[position-1]&.text).to match(text)
+end
+
+Then(/^the caseworkers (last|first) message contains '(.*?)'$/) do |method, text|
+  expect(@case_worker_claim_show_page.messages_panel.messages.send(method.to_sym)&.text).to match(text)
+end

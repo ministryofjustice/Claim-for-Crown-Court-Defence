@@ -1,5 +1,4 @@
 // stylelint-disable scss/at-import-partial-extension
-// stylelint-disable scss/load-no-partial-leading-underscore
 
 $govuk-images-path: "~govuk-frontend/dist/govuk/assets/images/";
 $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
@@ -9,9 +8,8 @@ $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 @import "~govuk-frontend/dist/govuk/base";
 @import "~govuk-frontend/dist/govuk/core/typography";
 
-@import "@ministryofjustice/frontend/moj/components/multi-file-upload/_multi-file-upload.scss";
-@import "@ministryofjustice/frontend/moj/components/sub-navigation/_sub-navigation.scss";
-
+@import "@ministryofjustice/frontend/moj/components/multi-file-upload/multi-file-upload.scss";
+@import "@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation.scss";
 // Project specific
 // Everything below this comment should be project specific.
 // If you absolutely need to override gov.uk styles, don't,

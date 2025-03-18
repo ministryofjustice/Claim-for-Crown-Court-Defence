@@ -147,5 +147,75 @@ describe('Modules.DuplicateExpenseCtrl', function () {
         domFixture.empty()
       })
     })
+
+    describe('...setSelectValue', function () {
+      it('...should select the correct option based on value', function () {
+        const travelReasonHtml = ['<div class="fx-travel-reason">',
+          '                    <select>',
+          '                    <option value="1">Court hearing (Crown court)</option>',
+          '                    <option value="2">Court hearing (Magistrates court)</option>',
+          '                    </select>',
+          '                  </div>'].join('')
+        $('body').append(travelReasonHtml)
+
+        moj.Modules.DuplicateExpenseCtrl.setSelectValue($('.fx-travel-reason'), 'select', '2')
+
+        expect($('.fx-travel-reason select').val()).toBe('2')
+
+        $('.fx-travel-reason').remove()
+      })
+
+      it('...should select the correct option based on data-location-type', function () {
+        const travelReasonHtml = ['<div class="fx-travel-reason">',
+          '                    <select>',
+          '                      <option value="1" data-location-type="crown_court">Court hearing (Crown court)</option>',
+          '                      <option value="2" data-location-type="magistrates_court">Court hearing (Magistrates court)</option>',
+          '                    </select>',
+          '                  </div>'].join('')
+        $('body').append(travelReasonHtml)
+
+        moj.Modules.DuplicateExpenseCtrl.setSelectValue($('.fx-travel-reason'), 'select', '', 'magistrates_court')
+
+        expect($('.fx-travel-reason select').val()).toBe('2')
+
+        $('.fx-travel-reason').remove()
+      })
+    })
+
+    describe('...populateNewItem', function () {
+      it('...should select the correct establishment option based on data.location', function (done) {
+        const locationHtml = ['<select class="fx-establishment-select">',
+          '                      <option value="1">Aylesbury</option>',
+          '                      <option value="2">Basildon</option>',
+          '                    </select>'].join('')
+        $('body').append(locationHtml)
+
+        const data = { location: 'Aylesbury' }
+
+        moj.Modules.DuplicateExpenseCtrl.populateNewItem(data)
+
+        setTimeout(() => {
+          expect($('.fx-establishment-select').val()).toBe('1')
+          $('.fx-establishment-select').remove()
+          done()
+        }, 50)
+      })
+    })
+
+    describe('...setRadioValue', function () {
+      it('...should select the correct radio button based on value', function () {
+        const mileageHtml = ['<div class="fx-travel-mileage">',
+          '                     <input type="radio" value="1" name="mileage_rate">',
+          '                     <input type="radio" value="2" name="mileage_rate">',
+          '                   </div>'].join('')
+        $('body').append(mileageHtml)
+
+        moj.Modules.DuplicateExpenseCtrl.setRadioValue($('.fx-travel-mileage'), 'input', '1')
+
+        expect($('input[value="1"]').prop('checked')).toBe(true)
+
+        $('.fx-travel-mileage').remove()
+      })
+    })
   })
 })

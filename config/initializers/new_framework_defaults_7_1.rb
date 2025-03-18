@@ -76,7 +76,7 @@
 # For example, it is possible to create an index for a non existing column.
 # See https://www.sqlite.org/quirks.html#double_quoted_string_literals_are_accepted for more details.
 #++
-# Rails.application.config.active_record.sqlite3_adapter_strict_strings_by_default = true
+Rails.application.config.active_record.sqlite3_adapter_strict_strings_by_default = true
 
 ###
 # Disable deprecated singular associations names.
@@ -159,9 +159,9 @@
 # `config.load_defaults 7.1` does not set this value for environments other than
 # development and test.
 #++
-# if Rails.env.local?
-#   Rails.application.config.log_file_size = 100 * 1024 * 1024
-# end
+if Rails.env.local?
+  Rails.application.config.log_file_size = 100 * 1024 * 1024
+end
 
 ###
 # Enable raising on assignment to attr_readonly attributes. The previous
@@ -267,7 +267,7 @@
 # Configure the log level used by the DebugExceptions middleware when logging
 # uncaught exceptions during requests.
 #++
-# Rails.application.config.action_dispatch.debug_exception_log_level = :error
+Rails.application.config.action_dispatch.debug_exception_log_level = :error
 
 ###
 # Configure the test helpers in Action View, Action Dispatch, and rails-dom-testing to use HTML5
@@ -277,4 +277,4 @@
 #
 # In previous versions of Rails, these test helpers always used an HTML4 parser.
 #++
-# Rails.application.config.dom_testing_default_html_version = :html5
+Rails.application.config.dom_testing_default_html_version = :html5

@@ -2161,8 +2161,7 @@ en:
       case_type: *case_type
     new_claim_defendant_details:
       title_defendant: Defendant
-      first_name: First name
-      last_name: Last name
+      full_name: Full name
       date_of_birth: Date of birth
       order_of_judicial_apportionment: Order of judicial apportionment
       reporders: Represention order

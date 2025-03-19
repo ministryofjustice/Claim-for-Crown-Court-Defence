@@ -6,12 +6,8 @@
   .govuk-summary-card__content
     = govuk_summary_list do
       = govuk_summary_list_row do
-        = govuk_summary_list_key { t('.first_name') }
-        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.first_name }
-
-      = govuk_summary_list_row do
-        = govuk_summary_list_key { t('.last_name') }
-        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.last_name }
+        = govuk_summary_list_key { t('.full_name') }
+        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.name }
 
       = govuk_summary_list_row do
         = govuk_summary_list_key { t('.date_of_birth') }

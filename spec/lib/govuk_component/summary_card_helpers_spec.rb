@@ -11,11 +11,19 @@ RSpec.describe GovukComponent::SummaryCardHelpers, type: :helper do
 
     it 'adds div tags with govuk class abd displays a title and content' do
       is_expected.to have_tag(:div, with: { class: 'govuk-summary-card' }) do
-        with_tag(:div, with: { class: 'govuk-summary-card__title-wrapper' }) do
-          with_tag(:h2, with: { class: 'govuk-summary-card__title' }, text: title)
-        end
-        with_tag(:div, with: { class: 'govuk-summary-card__content' }, text: content)
+        check_title
+        check_content
       end
+    end
+
+    def check_title
+      with_tag(:div, with: { class: 'govuk-summary-card__title-wrapper' }) do
+        with_tag(:h2, with: { class: 'govuk-summary-card__title' }, text: title)
+      end
+    end
+
+    def check_content
+      with_tag(:div, with: { class: 'govuk-summary-card__content' }, text: content)
     end
   end
 end

@@ -57,6 +57,8 @@ en:
             management_information_v2_html: |
               Management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
             provisional_assessment_html: Provisional assessment
+            provisional_assessment_new_html: Provisional assessment (New)
+            provisional_assessment_summary_html: Provisional assessment (New/Summary)
             rejections_refusals_html: 'Rejections/Refusals'
             submitted_claims_html: Submitted claims
             reports_access_details_html: Reports access details

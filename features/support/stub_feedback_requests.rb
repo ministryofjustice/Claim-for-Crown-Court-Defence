@@ -1,6 +1,5 @@
 require 'webmock/cucumber'
 
-SURVEY_MONKEY_URL = "https://api.eu.surveymonkey.com/v3/.*"
 ZENDESK_URL = "https://ministryofjustice.zendesk.com/api/v2/.*"
 SUCCESSFUL_SURVEY_MONKEY_BODY = { id: '123' }
 UNSUCCESSFUL_SURVEY_MONKEY_BODY =  { error: { id: '1050' } }

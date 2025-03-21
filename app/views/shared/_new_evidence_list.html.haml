@@ -16,13 +16,20 @@
             = govuk_table_th { t('.name_of_file') }
             = govuk_table_th_numeric { t('.file_size') }
             = govuk_table_th_numeric { t('.date_added') }
+            = govuk_table_th { t('.actions') }
 
         = govuk_table_tbody do
           - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
             = govuk_table_row do
-              = govuk_table_td { govuk_link_to document.document_file_name, download_document_path(document) }
+              = govuk_table_td do
+                = document.document_file_name
               = govuk_table_td_numeric { number_to_human_size(document.document_file_size) }
               = govuk_table_td_numeric { document.created_at.strftime(Settings.date_format) }
+              = govuk_table_td do
+                .app-link-group
+                  - if document.converted_preview_document.present?
+                    = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document), target: :_blank
+                  = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)
 
 - if claim.additional_information.present?
   = render partial: 'shared/new_additional_information', locals: { claim: claim }

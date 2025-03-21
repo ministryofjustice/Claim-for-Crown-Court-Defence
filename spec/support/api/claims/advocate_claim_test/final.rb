@@ -29,14 +29,14 @@ module AdvocateClaimTest
     end
 
     def claim_data
-      trial_start = '2015-06-01'
+      trial_start = (Time.zone.today - 30.days).next_weekday.strftime('%Y-%m-%d')
 
       super.merge(
         case_type_id: fetch_id(CASE_TYPE_ENDPOINT, index: 11, role: 'agfs'), # Trial
         first_day_of_trial: trial_start,
         estimated_trial_length: 1,
         actual_trial_length: 1,
-        trial_concluded_at: '2015-06-02',
+        trial_concluded_at: (Time.zone.today - 29.days).next_weekday.strftime('%Y-%m-%d'),
         offence_id: fetch_id(OFFENCE_ENDPOINT),
         trial_fixed_notice_at: trial_start,
         trial_fixed_at: trial_start,

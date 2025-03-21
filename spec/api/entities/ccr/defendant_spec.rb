@@ -4,7 +4,7 @@ describe API::Entities::CCR::Defendant do
   subject(:response) { JSON.parse(described_class.represent(defendant).to_json).deep_symbolize_keys }
 
   let(:claim) { create(:advocate_claim) }
-  let(:rep_orders) { create_list(:representation_order, 1, uuid: 'uuid', maat_reference: '2345678', representation_order_date: Date.new(2016, 1, 10)) }
+  let(:rep_orders) { create_list(:representation_order, 1, uuid: 'uuid', maat_reference: '2345678', representation_order_date: Time.zone.today - 30.days) }
 
   let(:defendant) do
     create(
@@ -12,7 +12,7 @@ describe API::Entities::CCR::Defendant do
       uuid: 'uuid',
       first_name: 'Kaia',
       last_name: 'Casper',
-      date_of_birth: Date.new(1995, 6, 20),
+      date_of_birth: Time.zone.today - 30.years,
       representation_orders: rep_orders,
       claim:,
       created_at: @created_at
@@ -20,7 +20,7 @@ describe API::Entities::CCR::Defendant do
   end
 
   it 'has expected json key-value pairs' do
-    expect(response).to include(main_defendant: false, first_name: 'Kaia', last_name: 'Casper', date_of_birth: '1995-06-20')
+    expect(response).to include(main_defendant: false, first_name: 'Kaia', last_name: 'Casper', date_of_birth: (Time.zone.today - 30.years).strftime('%Y-%m-%d'))
   end
 
   it 'returns main defendant true for the defendant created first' do
@@ -34,14 +34,14 @@ describe API::Entities::CCR::Defendant do
   end
 
   it 'returns representation order' do
-    expect(response[:representation_orders].first).to include(maat_reference: '2345678', representation_order_date: '2016-01-10')
+    expect(response[:representation_orders].first).to include(maat_reference: '2345678', representation_order_date: (Time.zone.today - 30.days).strftime('%Y-%m-%d'))
   end
 
   context 'when the defendant has more than one rep_order' do
     let(:rep_orders) do
       [
-        create(:representation_order, maat_reference: '2345678', representation_order_date: Date.new(2016, 1, 10)),
-        create(:representation_order, maat_reference: '8765432', representation_order_date: Date.new(2016, 1, 11))
+        create(:representation_order, maat_reference: '2345678', representation_order_date: Time.zone.today - 30.days),
+        create(:representation_order, maat_reference: '8765432', representation_order_date: Time.zone.today - 29.days)
       ]
     end
 
@@ -50,7 +50,7 @@ describe API::Entities::CCR::Defendant do
     end
 
     it 'returns the first representation order entered' do
-      expect(response[:representation_orders].first).to include(maat_reference: '2345678', representation_order_date: '2016-01-10')
+      expect(response[:representation_orders].first).to include(maat_reference: '2345678', representation_order_date: (Time.zone.today - 30.days).strftime('%Y-%m-%d'))
     end
   end
 end

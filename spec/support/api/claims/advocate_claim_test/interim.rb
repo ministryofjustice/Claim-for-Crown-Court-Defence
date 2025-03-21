@@ -66,5 +66,13 @@ module AdvocateClaimTest
     def expense_data
       super.merge(date: scheme_10_date)
     end
+
+    private
+
+    def fetch_value(endpoint, index: nil, **)
+      response = @client.get_dropdown_endpoint(endpoint, api_key:, role: 'agfs_scheme_10')
+      index = rand(response.size) if index.nil?
+      response[index]
+    end
   end
 end

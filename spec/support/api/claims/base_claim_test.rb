@@ -74,8 +74,10 @@ class BaseClaimTest
     @client.get_dropdown_endpoint(endpoint, api_key:, **).pluck(key)[index]
   end
 
-  def fetch_value(endpoint, index: 0, **)
-    @client.get_dropdown_endpoint(endpoint, api_key:, **)[index]
+  def fetch_value(endpoint, index: nil, **)
+    response = @client.get_dropdown_endpoint(endpoint, api_key:, **)
+    index = rand(response.size) if index.nil?
+    response[index]
   end
 
   def clean_up
@@ -105,7 +107,7 @@ class BaseClaimTest
       api_key:,
       defendant_id: @defendant_id,
       maat_reference: '4546963',
-      representation_order_date: '2015-05-21'
+      representation_order_date: 10.years.ago.next_weekday.as_json
     }
   end
 

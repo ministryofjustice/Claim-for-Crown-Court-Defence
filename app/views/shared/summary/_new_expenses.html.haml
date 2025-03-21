@@ -12,10 +12,4 @@
     = render template: 'shared/summary/expenses/new_index', locals: { claim: claim, vat: false }
 
   - if claim.travel_expense_additional_information.present?
-    .govuk-summary-card
-      .govuk-summary-card__title-wrapper
-        %h2.govuk-summary-card__title
-          = t('shared.summary.expenses.travel_expense_additional_information')
-
-      .govuk-summary-card__content
-        = claim.travel_expense_additional_information
+    = govuk_summary_card(t('shared.summary.expenses.travel_expense_additional_information'), claim.travel_expense_additional_information )

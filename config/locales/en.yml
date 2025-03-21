@@ -2886,16 +2886,6 @@ en:
         court_data_link: Open in View Court Data
         case_matched_on: Case matched based on %{matcher}
         case_match_failed: Unable to find case in Common Platform
-        report_problem: Report a problem with this result
-      show:
-        page_title: Court Data view feedback
-        title: Court Data View for %{case_number} (#%{claim_id})
-        court_data_link: Open in View Court Data
-        case_matched_on: Case matched based on %{matcher}
-        case_match_failed: Unable to find case in Common Platform
-        feedback_comment_label: What is wrong with this data?
-        submit: Submit
-        cancel: Cancel
       defendant:
         show_maat_reference: 'MAAT Id: %{maat}'
         common_platform_only: Defendant in Common Platform not in claim

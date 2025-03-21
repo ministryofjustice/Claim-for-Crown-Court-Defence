@@ -2187,6 +2187,7 @@ en:
       name_of_file: File
       file_size: File size
       date_added: Date added
+      actions: Actions
     new_basic_and_additional_fees_details:
       caption: Basic and additional fees
       fee_category: Fee category

@@ -12,16 +12,6 @@ module CaseWorkers
       redirect_to error_404_url if @defendant.nil?
     end
 
-    def feedback
-      response = SurveyMonkeySender::CourtData.call(feedback_answers)
-
-      if response[:success]
-        redirect_to case_workers_claim_court_data_index_path(params[:claim_id]), notice: response[:response_message]
-      else
-        redirect_to case_workers_claim_court_data_index_path(params[:claim_id]), alert: response[:response_message]
-      end
-    end
-
     private
 
     def set_court_data
@@ -30,10 +20,6 @@ module CaseWorkers
 
     def set_claim
       @claim = Claim::BaseClaim.find(params[:claim_id])
-    end
-
-    def feedback_answers
-      Feedback.new(params[:case_number], params[:claim_id], params[:defendant_id], params[:comments])
     end
   end
 end

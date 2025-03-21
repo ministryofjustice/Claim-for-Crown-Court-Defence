@@ -18,6 +18,3 @@
 
 - @court_data.defendants.each do |defendant|
   = render partial: 'defendant', locals: { defendant: defendant, case_number: @court_data.case_number[:hmcts] }
-  - if defendant.hmcts.present?
-    %p.govuk-body
-      = govuk_link_to t('.report_problem'), case_workers_claim_court_data_path(@court_data.claim_id, defendant.hmcts.id)

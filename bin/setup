@@ -13,7 +13,7 @@ def copy_sample_file(src, dst)
     puts "\n #{dst} already exists! Skipping..."
   else
     puts "\n Copying #{src} to #{dst}"
-    cp(src, dst)
+    FileUtils.cp(src, dst)
   end
 end
 

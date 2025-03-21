@@ -4,11 +4,20 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   subject { rendered }
 
   let(:case_worker) { create(:case_worker) }
+  let(:claim) { create(:claim) }
 
   before do
     initialize_view_helpers(view)
     sign_in(case_worker.user, scope: :user)
     allow(view).to receive(:current_user_persona_is?).and_return(false)
+    params[:tab] = 'information'
+    @active_tab = :information
+    @sub_nav_items = {
+      status: { href: "case_workers/claims/'#{claim.id}'/status",
+                label: 'Claim status' },
+      information: { href: "case_workers/claims/'#{claim.id}'/information",
+                     label: 'Claim information' }
+    }
   end
 
   context 'with certified claims' do
@@ -339,21 +348,6 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       end
 
       it { is_expected.to have_css('strong.govuk-tag.app-tag--rejected', text: 'Rejected') }
-      it { is_expected.to have_content('Reason provided:') }
-      it { is_expected.to have_css('li', text: 'No amending representation order') }
-
-      context 'with multiple reasons' do
-        let(:reason_code) { %w[no_amend_rep_order case_still_live other] }
-
-        it { is_expected.to have_content('Reasons provided:') }
-        it { is_expected.to have_css('li', text: 'No amending representation order') }
-        it { is_expected.to have_css('li', text: 'Case still live') }
-        it { is_expected.to have_css('li', text: 'Other (rejecting because...)') }
-      end
-
-      context 'with legacy cases with non-array reason codes', :legacy do
-        it { is_expected.to have_css('li', text: 'Incorrect case number') }
-      end
     end
   end
 

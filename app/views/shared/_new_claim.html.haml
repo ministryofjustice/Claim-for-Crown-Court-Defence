@@ -31,13 +31,7 @@
       - if claim.main_hearing_date
         = render partial: 'shared/new_main_hearing_date_details', locals: { claim: claim }
 
-- if claim.defendants.any?
-  = render partial: 'shared/new_claim_defendants', locals: { defendants: claim.defendants }
--else
-  .govuk-grid-row
-    .govuk-grid-column-two-thirds
-      %p.govuk-body
-        = t('.no_defendant')
+= render partial: 'shared/new_claim_defendants', locals: { claim: claim }
 
 - unless claim.fixed_fee_case?
   = render partial: 'shared/offence_details/new_summary', locals: { claim: claim }

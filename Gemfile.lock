@@ -427,7 +427,7 @@ GEM
       version_gem (~> 1.1)
     orm_adapter (0.5.0)
     ostruct (0.6.1)
-    pagy (9.3.3)
+    pagy (9.3.4)
     paper_trail (16.0.0)
       activerecord (>= 6.1)
       request_store (~> 1.4)

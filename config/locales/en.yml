@@ -3014,7 +3014,7 @@ en:
   feedback:
     bug_report:
       page_title: Bug report
-      page_heading: Help us improve this service
+      page_heading: Report a fault
       error_summary: 'The form you submitted has '
       intro: |
         Tell us about your experience of using this service today. Your answers to the following questions will help us improve the service.

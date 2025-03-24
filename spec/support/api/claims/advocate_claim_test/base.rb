@@ -17,9 +17,9 @@ module AdvocateClaimTest
         advocate_email: 'advocate@example.com',
         case_number: 'B20161234',
         providers_ref: SecureRandom.uuid[3..15].upcase,
-        advocate_category: fetch_value(ADVOCATE_CATEGORY_ENDPOINT, index: 3), # QC
+        advocate_category: fetch_value(ADVOCATE_CATEGORY_ENDPOINT, index: nil), # nil is random
         apply_vat: true,
-        main_hearing_date: '2015-06-02'
+        main_hearing_date: 10.years.ago.next_weekday.as_json
       )
     end
 
@@ -56,8 +56,8 @@ module AdvocateClaimTest
         api_key:,
         attended_item_id: @attended_item_id,
         attended_item_type: 'fee',
-        date: '2015-06-01',
-        date_to: '2015-06-01'
+        date: 10.years.ago.next_weekday.as_json,
+        date_to: 10.years.ago.next_weekday.as_json
       }
     end
   end

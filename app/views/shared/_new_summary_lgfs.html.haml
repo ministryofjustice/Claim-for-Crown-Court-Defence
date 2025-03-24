@@ -13,8 +13,7 @@
       = t('common.disbursements')
 
     - if claim.disbursements.empty?
-      %p.govuk-body
-        = t('shared.summary.no_values.disbursements')
+      = govuk_summary_card(t('common.disbursements'), t('shared.summary.no_values.disbursements'))
 
     - else
       - if claim.disbursements.with_vat.any?

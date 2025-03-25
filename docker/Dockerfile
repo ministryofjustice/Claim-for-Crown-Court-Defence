@@ -13,6 +13,7 @@ RUN apk --update-cache upgrade \
                    build-base \
                    git \
                    postgresql-dev \
+                   yaml-dev \
                    yarn
 
 ENV RAILS_ENV production

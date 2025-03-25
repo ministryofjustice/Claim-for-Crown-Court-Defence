@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ExternalUsers::Advocates::ClaimsController do
   let!(:advocate) { create(:external_user, :advocate) }
+  let(:date) { Time.zone.today - 1.year }
+  let(:trial_concluded_date) { date + 2.days }
 
   before { sign_in advocate.user }
 
@@ -488,12 +490,11 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
         put :update, params: {
           id: subject,
           claim: {
-            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(1i)' => date.year,
             'first_day_of_trial(2i)' => 'JAN',
             'first_day_of_trial(3i)' => '4'
           },
           commit_submit_claim: 'Submit to LAA'
-
         }
 
         expect(assigns(:claim).first_day_of_trial).to be_nil
@@ -503,13 +504,13 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
         put :update, params: {
           id: subject,
           claim: {
-            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(1i)' => date.year,
             'first_day_of_trial(2i)' => '11',
             'first_day_of_trial(3i)' => '4'
           },
           commit_submit_claim: 'Submit to LAA'
         }
-        expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
+        expect(assigns(:claim).first_day_of_trial).to eq Date.new(date.year, 11, 4)
       end
     end
   end
@@ -525,14 +526,14 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
       'advocate_category' => 'QC',
       'offence_class_id' => '2',
       'offence_id' => offence.id.to_s,
-      'first_day_of_trial(3i)' => '13',
-      'first_day_of_trial(2i)' => '5',
-      'first_day_of_trial(1i)' => '2015',
+      'first_day_of_trial(3i)' => date.day,
+      'first_day_of_trial(2i)' => date.month,
+      'first_day_of_trial(1i)' => date.year,
       'estimated_trial_length' => '2',
       'actual_trial_length' => '2',
-      'trial_concluded_at(3i)' => '15',
-      'trial_concluded_at(2i)' => '05',
-      'trial_concluded_at(1i)' => '2015',
+      'trial_concluded_at(3i)' => trial_concluded_date,
+      'trial_concluded_at(2i)' => date.month,
+      'trial_concluded_at(1i)' => date.year,
       'evidence_checklist_ids' => ['1', '5', ''],
       'defendants_attributes' => {
         '0' => {
@@ -544,9 +545,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
           '_destroy' => 'false',
           'representation_orders_attributes' => {
             '0' => {
-              'representation_order_date_dd' => '13',
-              'representation_order_date_mm' => '05',
-              'representation_order_date_yyyy' => '2015',
+              'representation_order_date_dd' => date.day,
+              'representation_order_date_mm' => date.month,
+              'representation_order_date_yyyy' => date.year,
               'maat_reference' => '1594851269'
             }
           }

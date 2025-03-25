@@ -23,6 +23,11 @@ And(/^I enter the transfer date '(.*)'$/) do |date_string|
   @litigator_transfer_claim_form_page.transfer_detail.transfer_date.set_date date_string
 end
 
+And('I enter the transfer date {int} years ago') do |years|
+  date = years.years.ago.strftime('%d-%m-%Y')
+  @litigator_transfer_claim_form_page.transfer_detail.transfer_date.set_date date
+end
+
 And(/^I select a case conclusion of '(.*)'$/) do |name|
   @litigator_transfer_claim_form_page.wait_until_case_conclusion_visible
   @litigator_transfer_claim_form_page.case_conclusion.choose_autocomplete_option(name)

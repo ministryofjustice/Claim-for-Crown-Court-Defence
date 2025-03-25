@@ -15,22 +15,24 @@
 require 'rails_helper'
 
 RSpec.describe DateAttended do
+  let(:date) { Time.zone.today - 1.year }
+
   it { should belong_to(:attended_item) }
 
   describe '#to_s' do
     context 'when date_to present' do
-      subject { create(:date_attended, date: Date.parse('1/1/2015'), date_to: Date.parse('5/1/2015')) }
+      subject { create(:date_attended, date: Date.parse("1/1/#{date.year}"), date_to: Date.parse("5/1/#{date.year}")) }
 
       it 'formats the date and date_to' do
-        expect(subject.to_s).to eq('01/01/2015 - 05/01/2015')
+        expect(subject.to_s).to eq("01/01/#{date.year} - 05/01/#{date.year}")
       end
     end
 
     context 'when only date present' do
-      subject { create(:date_attended, date: Date.parse('1/1/2015'), date_to: nil) }
+      subject { create(:date_attended, date: Date.parse("1/1/#{date.year}"), date_to: nil) }
 
       it 'formats the date' do
-        expect(subject.to_s).to eq('01/01/2015')
+        expect(subject.to_s).to eq("01/01/#{date.year}")
       end
     end
   end

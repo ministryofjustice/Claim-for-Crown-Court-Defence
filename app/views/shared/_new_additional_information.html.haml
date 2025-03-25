@@ -1,7 +1,1 @@
-.govuk-summary-card
-  .govuk-summary-card__title-wrapper
-    %h2.govuk-summary-card__title
-      = t('shared.new_claim_accordion.additional_information')
-
-  .govuk-summary-card__content
-    = format_multiline(claim.additional_information)
+= govuk_summary_card(t('shared.new_claim_accordion.additional_information'), claim.additional_information )

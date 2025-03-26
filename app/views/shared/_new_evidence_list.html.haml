@@ -1,8 +1,7 @@
 = render partial: 'shared/new_evidence_checklist'
 
 - if current_user_persona_is?(CaseWorker) && @claim.documents.none?
-  %p.govuk-body
-    = t('.no_documents_uploaded')
+  = govuk_summary_card(t('.existing_evidence'), t('.no_documents_uploaded'))
 
 - else
   .govuk-summary-card

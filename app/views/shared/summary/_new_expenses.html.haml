@@ -1,6 +1,6 @@
 - if claim.expenses.empty?
   %p.govuk-body
-    = t('shared.summary.no_values.expenses')
+    = govuk_summary_card(t('shared.summary.expenses.travel_expenses'), t('shared.summary.no_values.expenses'))
 - else
   - if current_user_is_caseworker? && claim.expenses.map(&:distance_gt_calculated?).any?
     = render partial: 'shared/summary/expenses/distance_warnings', locals: { expenses: claim.expenses }

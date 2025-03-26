@@ -18,6 +18,16 @@ module AdvocateDefencePayments
   class Application < Rails::Application
     config.load_defaults 7.0
 
+    ### New default configuration for Rails 7.1. To be removed when load_defaults is updated.
+    # No longer add autoloaded paths into `$LOAD_PATH`. This means that you won't be able
+    # to manually require files that are managed by the autoloader, which you shouldn't do anyway.
+    #
+    # This will reduce the size of the load path, making `require` faster if you don't use bootsnap, or reduce the size
+    # of the bootsnap cache if you use it.
+    #
+    # To set this configuration, add the following line to `config/application.rb` (NOT this file):
+    config.add_autoload_paths_to_load_path = false
+
     config.middleware.use Rack::Deflater
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

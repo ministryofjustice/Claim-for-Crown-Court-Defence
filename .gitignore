@@ -84,3 +84,4 @@ yarn-debug.log*
 
 # ignore Brewfile changes
 Brewfile.lock.json
+pg_upgrade_*

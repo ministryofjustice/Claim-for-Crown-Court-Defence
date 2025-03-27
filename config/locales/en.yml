@@ -2141,7 +2141,8 @@ en:
       j_a: Judicial apportionment
       offence: Offence
       offence_class: Offence class
-    new_claim_accordion:
+      no_defendant: *no_defendant
+    claim_information:
       additional_information: Additional information
       created_by: 'Created by:'
       basic_info: Basic claim information
@@ -2151,6 +2152,9 @@ en:
       h2_status: Status
       fees: Fees
       heading: Claim
+      claim_information: Claim information
+      claim_status: Claim status
+      sub_navigation: Sub navigation claim information
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
       claim_submitted: Claim submitted on

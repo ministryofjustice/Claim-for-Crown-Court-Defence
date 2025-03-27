@@ -23,7 +23,7 @@ RSpec::Matchers.define :include_field_error_when do |options|
   end
 
   def actual_translated_message
-    translations.fetch(field, nil)&.fetch(message, nil)&.fetch(translated_message_type, nil)
+    translations.dig(field, message, translated_message_type)
   end
 
   def translations

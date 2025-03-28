@@ -24,7 +24,7 @@ And(/^I enter the transfer date '(.*)'$/) do |date_string|
 end
 
 And(/^I enter the transfer date (.*) years ago$/) do |years|
-  date = Time.zone.today.advance(years: -years).strftime('%d-%m-%Y')
+  date = Time.zone.today.advance(years: - years.to_i).strftime('%d-%m-%Y')
   @litigator_transfer_claim_form_page.transfer_detail.transfer_date.set_date date
 end
 

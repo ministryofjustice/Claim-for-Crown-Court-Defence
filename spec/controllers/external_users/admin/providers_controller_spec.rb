@@ -95,7 +95,7 @@ RSpec.describe ExternalUsers::Admin::ProvidersController do
 
         it 'updates the provider' do
           subject.reload
-          expect(subject.lgfs_supplier_numbers.map(&:supplier_number).sort).to eq(%w(1B222Z 2B555Z))
+          expect(subject.lgfs_supplier_numbers.map(&:supplier_number).sort).to eq(%w[1B222Z 2B555Z])
         end
 
         it 'redirects to providers show page' do

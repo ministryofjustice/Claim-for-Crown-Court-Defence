@@ -76,12 +76,12 @@ RSpec.describe Claims::ContextMapper do
 
     context 'AGFS and LGFS providers' do
       [
-        [%w(advocate),                  %i[agfs]],
-        [%w(litigator),                 %i[lgfs]],
-        [%w(admin),                     %i[agfs lgfs]],
-        [%w(litigator admin),           %i[agfs lgfs]],
-        [%w(advocate admin),            %i[agfs lgfs]],
-        [%w(admin advocate litigator),  %i[agfs lgfs]]
+        [%w[advocate],                  %i[agfs]],
+        [%w[litigator],                 %i[lgfs]],
+        [%w[admin],                     %i[agfs lgfs]],
+        [%w[litigator admin],           %i[agfs lgfs]],
+        [%w[advocate admin],            %i[agfs lgfs]],
+        [%w[admin advocate litigator],  %i[agfs lgfs]]
       ].each do |(roles, schemes)|
         it "returns the schemes #{schemes} for roles #{roles}" do
           external_user.roles = roles

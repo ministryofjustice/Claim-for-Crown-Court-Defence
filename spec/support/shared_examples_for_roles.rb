@@ -74,7 +74,7 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
     end
 
     it 'returns false if the subject has none of the specified roles' do
-      different_roles = %w{this that other}
+      different_roles = %w[this that other]
       expect(subject.has_roles?(different_roles)).to be false
     end
 

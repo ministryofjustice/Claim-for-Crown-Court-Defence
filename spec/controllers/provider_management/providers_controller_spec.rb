@@ -119,7 +119,7 @@ RSpec.describe ProviderManagement::ProvidersController do
         end
 
         it 'updates the provider' do
-          expect(subject.reload.lgfs_supplier_numbers.map(&:supplier_number).sort).to eq(%w(1B222Z 2B555Z))
+          expect(subject.reload.lgfs_supplier_numbers.map(&:supplier_number).sort).to eq(%w[1B222Z 2B555Z])
         end
 
         it 'redirects to providers show page' do

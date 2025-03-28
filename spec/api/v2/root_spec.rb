@@ -3,9 +3,9 @@ require 'rails_helper'
 describe API::V2::Root do
   include Rack::Test::Methods
 
-  V2_ENDPOINTS = %w(
+  V2_ENDPOINTS = %w[
     /api/case_workers/claims
-  ).freeze
+  ].freeze
 
   describe 'Endpoints' do
     before(:all) do

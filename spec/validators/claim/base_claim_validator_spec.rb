@@ -236,7 +236,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       end
 
       it 'invalid if contains non alphanumeric characters' do
-        %w(_ - * ? ,).each do |character|
+        %w[_ - * ? ,].each do |character|
           claim.case_number = 'KLMNOPQRST134456789' + character
           should_error_with(claim, :case_number, 'Enter a valid case number or URN')
         end
@@ -276,9 +276,9 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       end
 
       it 'validates against the regex' do
-        %w(A S T U).each do |letter|
+        %w[A S T U].each do |letter|
           (1990..2020).each do |year|
-            %w(0001 1111 9999).each do |number|
+            %w[0001 1111 9999].each do |number|
               case_number = [letter, year, number].join
               expect(case_number.match(BaseValidator::CASE_NUMBER_PATTERN)).to be_truthy
             end
@@ -457,7 +457,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'should be valid if amount assessed is zero' do
-      %w{draft allocated refused rejected submitted}.each do |state|
+      %w[draft allocated refused rejected submitted].each do |state|
         it "for claims in state #{state}" do
           factory_name = :"#{state}_claim"
           claim = create(factory_name)
@@ -468,7 +468,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'should be invalid if amount assessed is not zero' do
-      %w{draft refused rejected submitted}.each do |state|
+      %w[draft refused rejected submitted].each do |state|
         it "errors if amount assessed is not zero for #{state}" do
           factory_name = :"#{state}_claim"
           claim = create(factory_name)

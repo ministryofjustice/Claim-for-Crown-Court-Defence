@@ -83,28 +83,22 @@ end
 
 def publicise_errors(claim)
   yield
-rescue => e
+rescue StandardError => e
   puts "***************** DEBUG validation errors #{__FILE__}::#{__LINE__} **********"
-  ap claim
-  puts claim.errors.full_messages
-  claim.defendants.each do |defendant|
-    ap defendant
-    puts defendant.errors.full_messages
-    defendant.representation_orders.each do |rep|
-      ap rep
-      puts '>>> rep order'
-      puts rep.errors.full_messages
-    end
-  end
-  claim.fees.each do |fee|
-    ap fee
-    puts fee.errors.full_messages
-  end
-  claim.expenses.each do |expense|
-    ap expense
-    puts expense.errors.full_messages
+  show_errors_of([claim]) do |c|
+    show_errors_of(c.defendants) { |defendant| show_errors_of(defendant.representation_orders) }
+    show_errors_of(c.fees)
+    show_errors_of(c.expenses)
   end
   raise e
+end
+
+def show_errors_of(attributes)
+  attributes.each do |attribute|
+    ap attribute
+    puts attribute.errors.full_messages
+    yield(attribute) if block_given?
+  end
 end
 
 def populate_required_fields(claim)
@@ -136,7 +130,7 @@ def populate_retrial_dates(claim)
 end
 
 def random_case_number
-  [%w(A S T).sample, rand(1990..2016), rand(1000..9999)].join
+  [%w[A S T].sample, rand(1990..2016), rand(1000..9999)].join
 end
 
 def assign_fees_and_expenses_for(claim)

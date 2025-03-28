@@ -24,7 +24,7 @@ RSpec.describe ExpenseType do
 
   context 'ROLES' do
     it 'has "agfs" and "lgfs"' do
-      expect(Provider::ROLES).to match_array(%w(agfs lgfs))
+      expect(Provider::ROLES).to match_array(%w[agfs lgfs])
     end
   end
 

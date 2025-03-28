@@ -1,4 +1,4 @@
-FROM ruby:3.3.5-alpine3.20 AS base
+FROM ruby:3.4.2-alpine3.20 AS base
 
 # Stage 1: installs gems and npm packages
 FROM base AS builder
@@ -13,6 +13,7 @@ RUN apk --update-cache upgrade \
                    build-base \
                    git \
                    postgresql-dev \
+                   yaml-dev \
                    yarn
 
 ENV RAILS_ENV production

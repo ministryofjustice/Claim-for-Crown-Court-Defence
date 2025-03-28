@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe ExternalUsers::Advocates::ClaimsController do
   let!(:advocate) { create(:external_user, :advocate) }
-  let!(:date) { Time.zone.today - 1.year }
+  let(:date) { Time.zone.today - 1.year }
+  let(:trial_concluded_date) { date + 2.days }
 
   before { sign_in advocate.user }
 
@@ -530,7 +531,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
       'first_day_of_trial(1i)' => date.year,
       'estimated_trial_length' => '2',
       'actual_trial_length' => '2',
-      'trial_concluded_at(3i)' => date.day + 2,
+      'trial_concluded_at(3i)' => trial_concluded_date,
       'trial_concluded_at(2i)' => date.month,
       'trial_concluded_at(1i)' => date.year,
       'evidence_checklist_ids' => ['1', '5', ''],

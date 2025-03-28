@@ -20,8 +20,12 @@ And(/^I select the transfer stage '(.*)'$/) do |name|
 end
 
 And(/^I enter the transfer date '(.*)'$/) do |date_string|
-  date = (Time.zone.today - 1.year).strftime('%d-%m-%Y')
   @litigator_transfer_claim_form_page.transfer_detail.transfer_date.set_date date_string
+end
+
+And(/^I enter the transfer date (.*) years ago$/) do |years|
+  date = Time.zone.today.advance(years: -years).strftime('%d-%m-%Y')
+  @litigator_transfer_claim_form_page.transfer_detail.transfer_date.set_date date
 end
 
 And(/^I select a case conclusion of '(.*)'$/) do |name|

@@ -14,7 +14,7 @@ FactoryBot.define do
       unique_code { 'PREPTPH' }
       position { 10 }
       case_type { create(:case_type, :discontinuance) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     trait :cracked_trial do
@@ -22,7 +22,7 @@ FactoryBot.define do
       unique_code { 'AFTPTPH' }
       position { 20 }
       case_type { create(:case_type, :cracked_trial) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     trait :trial_not_concluded do
@@ -30,7 +30,7 @@ FactoryBot.define do
       unique_code { 'TRLSBNC' }
       position { 30 }
       case_type { create(:case_type, :trial) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     trait :guilty_plea_not_sentenced do
@@ -38,7 +38,7 @@ FactoryBot.define do
       unique_code { 'GLTNYS' }
       position { 40 }
       case_type { create(:case_type, :guilty_plea) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     trait :trial_not_sentenced do
@@ -46,7 +46,7 @@ FactoryBot.define do
       unique_code { 'TRLENYS' }
       position { 50 }
       case_type { create(:case_type, :trial) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     trait :retrial_not_started do
@@ -54,7 +54,7 @@ FactoryBot.define do
       unique_code { 'RTRLBNS' }
       position { 60 }
       case_type { create(:case_type, :cracked_before_retrial) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     trait :retrial_not_concluded do
@@ -62,7 +62,7 @@ FactoryBot.define do
       unique_code { 'RTRSBNC' }
       position { 70 }
       case_type { create(:case_type, :retrial) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     trait :retrial_not_concluded do
@@ -70,7 +70,7 @@ FactoryBot.define do
       unique_code { 'RTRENYS' }
       position { 80 }
       case_type { create(:case_type, :retrial) }
-      roles { %w(agfs) }
+      roles { %w[agfs] }
     end
 
     # TODO: this is case_stage with unique_code of "OBSOLETE1" on DB
@@ -79,7 +79,7 @@ FactoryBot.define do
       unique_code { 'NOPTPHWPPE' }
       position { 90 }
       case_type { create(:case_type, :guilty_plea) }
-      roles { %w(lgfs) }
+      roles { %w[lgfs] }
     end
 
     # TODO: this is case_stage with unique_code of "OBSOLETE2" on DB
@@ -88,7 +88,7 @@ FactoryBot.define do
       unique_code { 'NOPTPHNOPPE' }
       position { 100 }
       case_type { create(:case_type, :discontinuance) }
-      roles { %w(lgfs) }
+      roles { %w[lgfs] }
     end
 
     trait :pre_ptph_or_ptph_adjourned do
@@ -96,7 +96,7 @@ FactoryBot.define do
       unique_code { 'PREPTPHADJ' }
       position { 110 }
       case_type { create(:case_type, :cracked_trial) }
-      roles { %w(lgfs) }
+      roles { %w[lgfs] }
     end
   end
 end

@@ -52,19 +52,19 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
       context 'when one or more case uplifts exist' do
         it 'includes additional case numbers for all uplift versions of the fixed fee type' do
           create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170003,T20170004')
-          is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
+          is_expected.to match_array %w[T20170001 T20170002 T20170003 T20170004]
           expect(number_of_cases).to eq '5'
         end
 
         it 'includes additional case numbers for Number of cases uplift fixed fees' do
           create(:fixed_fee, fee_type: fxnoc, claim:, quantity: 2, case_numbers: 'T20170005,T20170006')
-          is_expected.to match_array %w(T20170001 T20170002 T20170005 T20170006)
+          is_expected.to match_array %w[T20170001 T20170002 T20170005 T20170006]
           expect(number_of_cases).to eq '5'
         end
 
         it 'strips whitespace' do
           create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: ' T20170003, T20170004 ')
-          is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
+          is_expected.to match_array %w[T20170001 T20170002 T20170003 T20170004]
           expect(number_of_cases).to eq '5'
         end
 

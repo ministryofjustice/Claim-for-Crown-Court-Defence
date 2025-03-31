@@ -9,7 +9,7 @@ describe String do
     end
 
     context 'for numeric non-zero values' do
-      %w(1 0.1 0.01 1.0).each do |value|
+      %w[1 0.1 0.01 1.0].each do |value|
         it "is false for #{value}" do
           expect(value.zero?).to be(false)
         end
@@ -17,7 +17,7 @@ describe String do
     end
 
     context 'for numeric zero values' do
-      %w(0 0.0 0.00 000).each do |value|
+      %w[0 0.0 0.00 000].each do |value|
         it "is true for #{value}" do
           expect(value.zero?).to be(true)
         end
@@ -37,7 +37,7 @@ describe String do
     end
 
     context 'for truthy values' do
-      %w(true t yes y 1).each do |value|
+      %w[true t yes y 1].each do |value|
         it "is true for '#{value}'" do
           expect(value.to_bool).to be(true)
         end
@@ -45,7 +45,7 @@ describe String do
     end
 
     context 'for falsey values' do
-      %w(false f no n 0).each do |value|
+      %w[false f no n 0].each do |value|
         it "is false for '#{value}'" do
           expect(value.to_bool).to be(false)
         end
@@ -65,7 +65,7 @@ describe String do
     end
 
     context 'truthy values' do
-      %w(abc ABC).each do |value|
+      %w[abc ABC].each do |value|
         it "is true for '#{value}'" do
           expect(value.alpha?).to be(true)
         end
@@ -73,7 +73,7 @@ describe String do
     end
 
     context 'falsey values' do
-      %w(123 a1b z1 0).each do |value|
+      %w[123 a1b z1 0].each do |value|
         it "is false for '#{value}'" do
           expect(value.alpha?).to be(false)
         end
@@ -93,7 +93,7 @@ describe String do
     end
 
     context 'truthy values' do
-      %w(0 1 123).each do |value|
+      %w[0 1 123].each do |value|
         it "is true for '#{value}'" do
           expect(value.digit?).to be(true)
         end
@@ -101,7 +101,7 @@ describe String do
     end
 
     context 'falsey values' do
-      %w(a a1b z1 1z 1.5).each do |value|
+      %w[a a1b z1 1z 1.5].each do |value|
         it "is false for '#{value}'" do
           expect(value.digit?).to be(false)
         end

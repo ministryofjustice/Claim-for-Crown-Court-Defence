@@ -134,7 +134,7 @@ RSpec.describe User do
       end
 
       it 'maintains the other settings' do
-        expect(subject.settings.keys.sort).to eq(%w(setting1 setting2 test123))
+        expect(subject.settings.keys.sort).to eq(%w[setting1 setting2 test123])
       end
     end
   end

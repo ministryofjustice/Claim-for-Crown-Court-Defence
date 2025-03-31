@@ -371,7 +371,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
             email: 'bobsmith@example.com'
           }
         },
-        roles: %w{admin advocate litigator}
+        roles: %w[admin advocate litigator]
       }.with_indifferent_access
     end
 

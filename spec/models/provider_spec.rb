@@ -94,7 +94,7 @@ RSpec.describe Provider do
 
   context '::ROLES' do
     it 'has "agfs" and "lgfs"' do
-      expect(Provider::ROLES).to match_array(%w(agfs lgfs))
+      expect(Provider::ROLES).to match_array(%w[agfs lgfs])
     end
   end
 
@@ -281,7 +281,7 @@ RSpec.describe Provider do
       end
 
       it 'returns an array of supplier numbers' do
-        expect(provider.agfs_supplier_numbers).to match_array %w{888AA 999BB}
+        expect(provider.agfs_supplier_numbers).to match_array %w[888AA 999BB]
       end
     end
 

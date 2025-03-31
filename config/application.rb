@@ -17,17 +17,7 @@ require_relative '../lib/moj_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
-    config.load_defaults 7.0
-
-    ### New default configuration for Rails 7.1. To be removed when load_defaults is updated.
-    # No longer add autoloaded paths into `$LOAD_PATH`. This means that you won't be able
-    # to manually require files that are managed by the autoloader, which you shouldn't do anyway.
-    #
-    # This will reduce the size of the load path, making `require` faster if you don't use bootsnap, or reduce the size
-    # of the bootsnap cache if you use it.
-    #
-    # To set this configuration, add the following line to `config/application.rb` (NOT this file):
-    config.add_autoload_paths_to_load_path = false
+    config.load_defaults 7.1
 
     config.middleware.use Rack::Deflater
     # Please, add to the `ignore` list any other `lib` subdirectories that do
@@ -65,6 +55,8 @@ module AdvocateDefencePayments
       ::Symbol,
       ::Time
     ]
+    config.active_record.default_column_serializer = YAML
+
     config.active_storage.queues.analysis = :active_storage_analysis
     config.active_storage.queues.purge = :active_storage_purge
     config.active_storage.urls_expire_in = 5.minutes # default

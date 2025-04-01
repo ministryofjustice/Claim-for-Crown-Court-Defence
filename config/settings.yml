@@ -239,6 +239,5 @@ maat_api_oauth_url: <%=ENV['OAUTH_URL']%>
 
 secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
 google_api_key: <%= ENV["GOOGLE_API_KEY"] %>
-survey_monkey_bearer_token: <%= ENV["SURVEY_MONKEY_BEARER_TOKEN"] %>
 
 research_panel_url: https://forms.office.com/Pages/ResponsePage.aspx?id=KEeHxuZx_kGp4S6MNndq2BpeqOUlDIpGmeYA_28YLbNUMjJaNVJIMzdQMkRLRUFEM05VVEFNSlpCQS4u

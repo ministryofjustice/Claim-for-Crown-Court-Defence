@@ -19,7 +19,6 @@ data:
   SETTINGS__AWS__POLL_MESSAGE_COUNT: '10'
   SETTINGS__AWS__POLL_MESSAGE_WAIT_TIME: '0'
   SETTINGS__AWS__S3__REGION: 'eu-west-2'
-  SURVEY_MONKEY_COURT_DATA_COLLECTOR_ID: '330346602'
   LAA_FEE_CALCULATOR_HOST: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1
   ALLOW_FUTURE_DATES: 'false'
   ZENDESK_FEEDBACK: 'false'

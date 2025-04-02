@@ -33,7 +33,7 @@
           = render partial: 'shared/new_main_hearing_date_details', locals: { claim: claim }
 
 
-  = render partial: 'shared/new_claim_defendants', locals: { claim: claim }
+    = render partial: 'shared/new_claim_defendants', locals: { claim: claim }
 
   - unless claim.fixed_fee_case?
     = render partial: 'shared/offence_details/new_summary', locals: { claim: claim }

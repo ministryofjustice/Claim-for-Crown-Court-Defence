@@ -9,7 +9,7 @@
   = render partial: 'shared/case_summary', locals: { claim: claim }
   = render 'case_workers/claims/sub_navigation_tab', claim: claim
 
-  - if @active_tab == :status
+  - if  @active_tab == 'status'
     = render 'case_workers/claims/claim_status', claim: claim
   - else
     = render 'case_workers/claims/claim_information', claim: claim

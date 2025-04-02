@@ -81,6 +81,7 @@ Then(/^the claim I've just updated is no longer in the list$/) do
 end
 
 Then("caseworkers claim message {int} contains {string}") do |position, text|
+
   expect(@case_worker_claim_show_page.messages_panel.messages[position-1]&.text).to match(text)
 end
 

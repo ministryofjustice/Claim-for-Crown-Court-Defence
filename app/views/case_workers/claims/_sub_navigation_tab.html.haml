@@ -1,1 +1,6 @@
-= moj_subnav(items: @sub_nav_items, active: @active_tab )
+%nav.moj-sub-navigation{"aria-label" => t('shared.claim_information.sub_navigation')}
+  %ul.moj-sub-navigation__list
+    %li.moj-sub-navigation__item{ class: ('active' if @active_tab == 'status') }
+      = link_to t('shared.claim_information.claim_status'), case_workers_claim_path(@claim, tab: 'status'), class: 'moj-sub-navigation__link', aria: { current: @active_tab == 'status' ? 'page' : nil }
+    %li.moj-sub-navigation__item{ class: ('active' if @active_tab == 'information') }
+      = link_to t('shared.claim_information.claim_information'), case_workers_claim_path(@claim, tab: 'information'), class: 'moj-sub-navigation__link', aria: { current: @active_tab == 'information' ? 'page' : nil }

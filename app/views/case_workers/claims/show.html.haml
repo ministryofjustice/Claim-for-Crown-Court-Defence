@@ -6,6 +6,7 @@
   = render 'errors/injection_error_summary', ep: claim
   = render 'warnings/injection_warnings_summary', claim: claim
   = render partial: 'shared/claim_header', locals: { claim: claim }
+  = render partial: 'shared/case_summary', locals: { claim: claim }
   = render 'case_workers/claims/sub_navigation_tab', claim: claim
 
   - if @active_tab == :status

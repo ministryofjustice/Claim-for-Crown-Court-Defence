@@ -339,6 +339,21 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       end
 
       it { is_expected.to have_css('strong.govuk-tag.app-tag--rejected', text: 'Rejected') }
+      it { is_expected.to have_content('Reason provided:') }
+      it { is_expected.to have_css('li', text: 'No amending representation order') }
+
+      context 'with multiple reasons' do
+        let(:reason_code) { %w[no_amend_rep_order case_still_live other] }
+
+        it { is_expected.to have_content('Reasons provided:') }
+        it { is_expected.to have_css('li', text: 'No amending representation order') }
+        it { is_expected.to have_css('li', text: 'Case still live') }
+        it { is_expected.to have_css('li', text: 'Other (rejecting because...)') }
+      end
+
+      context 'with legacy cases with non-array reason codes', :legacy do
+        it { is_expected.to have_css('li', text: 'Incorrect case number') }
+      end
     end
   end
 

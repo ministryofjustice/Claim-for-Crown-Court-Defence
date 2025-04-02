@@ -1,0 +1,36 @@
+#claim-accordion
+  .govuk-grid-row
+    .govuk-grid-column-one-half
+      %h2.govuk-heading-m
+        = t('.messages')
+
+    .govuk-grid-column-one-half
+      - if current_user.persona.is_a?(CaseWorker)
+        .other-claims
+          - if claim_ids.present? && claim_ids.include?(@claim.id)
+            = t('shared.position_and_count', position: claim_position_and_count)
+
+            - unless last_claim?
+              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+
+  = render partial: 'shared/claim_history', locals: { claim: claim }
+  = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }
+
+  %h2.govuk-heading-l{ class: 'govuk-!-static-margin-bottom-6'}
+    = t('.basic_info')
+  = render partial: 'shared/new_claim', locals: { claim: claim, hide_totals: true }
+
+  %h2.govuk-heading-l{ class: 'govuk-!-static-margin-bottom-6'}
+    = t('.evidence')
+  = render partial: 'shared/new_evidence_list', locals: { claim: claim }
+
+  %h2.govuk-heading-l{ class: 'govuk-!-static-margin-bottom-6'}
+    = t('.fees')
+  - if claim.agfs?
+    = render partial: 'shared/new_summary_agfs', locals: { claim: claim }
+  - else
+    = render partial: 'shared/new_summary_lgfs', locals: { claim: claim }
+
+  %h2.govuk-heading-l{class: 'govuk-!-static-margin-bottom-6'}
+    = t('common.expenses')
+  = render partial: 'shared/summary/new_expenses', locals: { claim: claim }

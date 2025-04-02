@@ -11,7 +11,6 @@ Feature: Case worker messages advocate and advocate responds
 
     When I am signed in as the case worker
     And I select the claim
-    And I click the link 'Claim status'
     And I send a message 'More information please'
     Then the page should be accessible
     And I sign out
@@ -32,7 +31,6 @@ Feature: Case worker messages advocate and advocate responds
     Then the claim should be visible with 1 new message
 
     When I open the claim
-    And I click the link 'Claim status'
     Then the response and uploaded file should be visible
     Then the page should be accessible
 

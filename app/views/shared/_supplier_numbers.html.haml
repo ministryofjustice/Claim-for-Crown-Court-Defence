@@ -9,5 +9,4 @@
     .govuk-form-group.form-actions
       = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', class: 'govuk-button govuk-button--secondary', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.supplier-numbers-wrapper', module: 'govuk-button' }, role: 'button', draggable: 'false'
 
-    = govuk_detail t('.postcode_help.heading') do
-      = t('.postcode_help.text_html')
+    = govuk_details(summary_text: t('.postcode_help.heading'), text: t('.postcode_help.text_html'))

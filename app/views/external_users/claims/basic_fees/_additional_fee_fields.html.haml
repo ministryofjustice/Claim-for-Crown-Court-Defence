@@ -51,8 +51,7 @@
         value: f.object.price_calculated?
 
       .fee-calc-help-wrapper.hidden
-        = govuk_detail t('.help_how_we_calculate_rate_title') do
-          = t('.help_how_we_calculate_rate_body')
+        = govuk_details(summary_text: t('.help_how_we_calculate_rate_title'), text: t('.help_how_we_calculate_rate_body'))
 
       - if f.object.fee_type.requires_dates_attended?
         .dates-wrapper.form-group

@@ -30,7 +30,7 @@
 = govuk_link_button_secondary(t('clear_search', scope: "#{locale_scope}.actions"), '#noop', class: 'fx-clear-search hidden')
 
 .form-group
-  = govuk_detail 'Help with the offence classification' do
+  = govuk_details(summary_text: 'Help with the offence classification') do
     %p
       For more information on offence classification for the
       %br

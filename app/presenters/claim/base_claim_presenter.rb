@@ -257,6 +257,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     end
   end
 
+  def all_defendants_name_and_initial
+    claim.defendants.map(&:name_and_initial).join(', ')
+  end
+
   def has_messages?
     if claim.remote?
       claim.messages_count.to_i.positive?

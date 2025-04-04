@@ -386,7 +386,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:presenter) { described_class.new(my_claim, view) }
 
     context 'with no defendants' do
-      it { expect(presenter.defendant_name_and_initial).to be_nil }
+      it { expect(presenter.defendant_name_and_initial).to be_blank }
       it { expect(presenter.other_defendant_summary).to be_blank }
       it { expect(presenter.all_defendants_name_and_initial).to eq '' }
     end

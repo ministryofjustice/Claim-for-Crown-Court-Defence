@@ -26,13 +26,6 @@ module CaseWorkers
 
     def show
       prepare_show_action
-      @active_tab = params[:tab].nil? ? params[:tab] = :information : params[:tab].to_sym
-      @sub_nav_items = {
-        status: { href: case_workers_claim_path(@claim, tab: 'status'),
-                  label: t('shared.claim_information.claim_status') },
-        information: { href: case_workers_claim_path(@claim, tab: 'information'),
-                       label: t('shared.claim_information.claim_information') }
-      }
     end
 
     def download_zip
@@ -52,7 +45,7 @@ module CaseWorkers
       updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user:)).update!
       @claim = updater.claim
       if updater.result == :ok
-        redirect_to case_workers_claim_path(permitted_params.merge({ tab: 'status' }))
+        redirect_to case_workers_claim_path(permitted_params)
       else
         @error_presenter = ErrorMessage::Presenter.new(@claim)
         prepare_show_action

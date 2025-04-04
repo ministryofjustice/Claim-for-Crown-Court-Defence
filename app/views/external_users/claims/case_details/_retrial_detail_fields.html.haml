@@ -34,5 +34,4 @@
     :first,
     legend: { text: t('.retrial_reduction'), size: 's' }
 
-  = govuk_detail t('.retrial_reduction_help_link') do
-    = t('.retrial_reduction_help_html')
+  = govuk_details(summary_text: t('.retrial_reduction_help_link'), text: t('.retrial_reduction_help_html'))

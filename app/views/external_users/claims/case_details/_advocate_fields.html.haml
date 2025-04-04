@@ -16,7 +16,7 @@
     :name_and_number,
     legend: { text: t('.advocate'), class: "govuk-!-padding-top-7" }
 
-= govuk_detail t('.help_missing_advocates_summary_heading') do
+= govuk_details(summary_text: t('.help_missing_advocates_summary_heading')) do
   = t('.help_missing_advocates_summary_body_html',
     link: external_users_admin_external_users_path,
     link_text: t('.help_missing_advocates_summary_link_text'))

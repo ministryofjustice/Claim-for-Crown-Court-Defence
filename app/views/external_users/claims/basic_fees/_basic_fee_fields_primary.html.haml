@@ -37,7 +37,7 @@
     value: f.object.price_calculated?
 
   .help-wrapper.form-group
-    = govuk_detail t('.help_with_basic_fees.title') do
+    = govuk_details(summary_text: t('.help_with_basic_fees.title')) do
       - if fee.claim.agfs_reform?
         = t('.help_with_basic_fees.post_agfs_reform_html')
       - else

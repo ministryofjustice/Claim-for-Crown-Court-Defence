@@ -73,8 +73,7 @@
               width: 'one-quarter'
 
           - if @claim.lgfs?
-            = govuk_detail t('.summary_heading') do
-              = t('.summary_content')
+            = govuk_details(summary_text: t('.summary_heading'), text: t('.summary_content'))
           = f.govuk_radio_buttons_fieldset :mileage_rate_id,
             form_group: { class: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
             legend: { text: t('.cost_html') } do

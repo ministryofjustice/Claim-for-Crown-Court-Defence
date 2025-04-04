@@ -32,8 +32,7 @@
         link_errors: true,
         multiple: false
 
-      = govuk_detail 'Help with judicial apportionment' do
-        = t('.order_for_judicial_apportionment_help')
+      = govuk_details(summary_text: 'Help with judicial apportionment', text: t('.order_for_judicial_apportionment_help'))
 
     - unless f.object.representation_orders.any?
       - f.object.representation_orders << RepresentationOrder.new

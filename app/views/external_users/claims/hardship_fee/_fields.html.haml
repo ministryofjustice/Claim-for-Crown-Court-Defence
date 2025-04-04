@@ -35,5 +35,4 @@
         value: hf.object.price_calculated?
 
       .fee-calc-help-wrapper.hidden
-        = govuk_detail t('.help_how_we_calculate_amount_title') do
-          = t('.help_how_we_calculate_amount_body')
+        = govuk_details(summary_text: t('.help_how_we_calculate_amount_title'), text: t('.help_how_we_calculate_amount_body'))

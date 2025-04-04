@@ -245,7 +245,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def defendant_name_and_initial
-    claim.defendants.first.name_and_initial if claim.defendants.any?
+    claim.defendants.any? ? claim.defendants.first.name_and_initial : ''
   end
 
   def other_defendant_summary

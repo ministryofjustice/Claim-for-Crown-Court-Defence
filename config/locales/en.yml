@@ -2169,6 +2169,11 @@ en:
     new_claim_defendants:
       h2_defendant_details: Defendant details
       no_defendant: *no_defendant
+    new_claim_header:
+      case_number: 'Case number:'
+      assessment_date: 'Claim assessed date:'
+      defendant_names: 'Defendants:'
+      provider_type: 'Firm or Chambers:'
     new_claim_retrial_details:
       retrial_started_at: 'First day of retrial'
       retrial_estimated_length: 'Estimated retrial length'

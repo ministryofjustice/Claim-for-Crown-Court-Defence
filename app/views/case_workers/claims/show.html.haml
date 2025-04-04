@@ -6,5 +6,5 @@
   = render 'errors/injection_error_summary', ep: claim
   = render 'warnings/injection_warnings_summary', claim: claim
 
-  = render partial: 'shared/claim_header', locals: { claim: claim }
+  = render partial: 'shared/new_claim_header', locals: { claim: claim }
   = render partial: 'shared/new_claim_accordion', locals: { claim: claim, status_disabled: false }

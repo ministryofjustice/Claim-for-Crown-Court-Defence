@@ -386,14 +386,17 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:presenter) { described_class.new(my_claim, view) }
 
     context 'with no defendants' do
-      it { expect(presenter.defendant_name_and_initial).to be_nil }
+      it { expect(presenter.defendant_name_and_initial).to be_blank }
       it { expect(presenter.other_defendant_summary).to be_blank }
+      it { expect(presenter.all_defendants_name_and_initial).to eq '' }
     end
 
     context 'with 1 defendant' do
       before { my_claim.defendants = [Defendant.new(first_name: 'Maria', last_name: 'Withers')] }
 
       it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
+      it { expect(presenter.other_defendant_summary).to be_blank }
+      it { expect(presenter.all_defendants_name_and_initial).to eq 'M. Withers' }
     end
 
     context 'with 2 defendants' do
@@ -406,6 +409,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
       it { expect(presenter.other_defendant_summary).to eq '+ 1 other' }
+      it { expect(presenter.all_defendants_name_and_initial).to eq 'M. Withers, A. Jones' }
     end
 
     context 'with 3 defendants' do
@@ -419,6 +423,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       it { expect(presenter.defendant_name_and_initial).to eq 'S. Richards' }
       it { expect(presenter.other_defendant_summary).to eq '+ 2 others' }
+      it { expect(presenter.all_defendants_name_and_initial).to eq 'S. Richards, R. Stirling, S. Hollands' }
     end
   end
 

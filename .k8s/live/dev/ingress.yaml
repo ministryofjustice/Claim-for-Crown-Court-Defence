@@ -24,7 +24,7 @@ metadata:
   name: cccd-app-ingress-v1
   namespace: cccd-dev
 spec:
-  ingressClassName: modsec
+  ingressClassName: modsec-non-prod
   rules:
     - host: dev.claim-crown-court-defence.service.justice.gov.uk
       http:

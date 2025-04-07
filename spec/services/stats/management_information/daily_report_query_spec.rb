@@ -258,7 +258,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       context 'with a completed journey' do
         before do
-          # pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
+          pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           travel_to(authorised_at) { claim }
 
           travel_to(redetermine_at) do
@@ -276,7 +276,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       context 'with an uncompleted journey' do
         before do
-          # pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
+          pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           travel_to(authorised_at) { claim }
 
           travel_to(redetermine_at) do

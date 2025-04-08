@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ministryofjustice/laa-cda
-  revision: 66f4bb3c026dc4a0ce58d74bd9191ecc6e16415d
+  revision: 0eac32d79feb474cb99f12769e0a46abca3ceeef
   specs:
     laa-cda (0.0.1)
       faraday (~> 2.0)

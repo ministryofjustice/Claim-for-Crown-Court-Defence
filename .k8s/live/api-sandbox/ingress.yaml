@@ -22,7 +22,7 @@ metadata:
   name: cccd-app-ingress-v1
   namespace: cccd-api-sandbox
 spec:
-  ingressClassName: modsec
+  ingressClassName: modsec-non-prod
   rules:
     - host: api-sandbox.claim-crown-court-defence.service.justice.gov.uk
       http:

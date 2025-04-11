@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get '/api/landing',   to: 'pages#api_landing',      as: :api_landing_page
   get '/api/release_notes',   to: 'pages#api_release_notes', as: :api_release_notes
   get '/accessibility-statement', to: 'pages#accessibility_statement', as: :accessibility_statement
+  get '/beta/enable', to: 'pages#beta_enable', as: :beta_enable
+  get '/beta/disable', to: 'pages#beta_disable', as: :beta_disable
 
   get 'vat' => "vat_rates#index"
 

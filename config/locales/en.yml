@@ -2023,6 +2023,11 @@ en:
       redraft: 'Redraft this claim'
       archive: Archive
       unarchive: Unarchive
+    claim_header_beta:
+      case_number: 'Case number:'
+      assessment_date: 'Claim assessed date:'
+      defendant_names: 'Defendants:'
+      provider_type: 'Firm or Chambers:'
     downtime_warning:
       banner_title: Important
       banner_heading: This service will be unavailable on %{date_string} from 5pm until midnight.
@@ -2151,6 +2156,16 @@ en:
       h2_status: Status
       fees: Fees
       heading: Claim
+    new_claim_accordion_beta:
+      additional_information: Additional information
+      created_by: 'Created by:'
+      basic_info: Basic claim information
+      h2_offence_details: Offence details
+      evidence: Evidence
+      messages: Messages and claim status
+      h2_status: Status
+      fees: Fees
+      heading: Claim
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
       claim_submitted: Claim submitted on
@@ -2169,11 +2184,6 @@ en:
     new_claim_defendants:
       h2_defendant_details: Defendant details
       no_defendant: *no_defendant
-    new_claim_header:
-      case_number: 'Case number:'
-      assessment_date: 'Claim assessed date:'
-      defendant_names: 'Defendants:'
-      provider_type: 'Firm or Chambers:'
     new_claim_retrial_details:
       retrial_started_at: 'First day of retrial'
       retrial_estimated_length: 'Estimated retrial length'

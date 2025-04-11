@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
 
   before_action :set_default_cookie_usage
+  before_action :beta_test
 
   helper_method :current_user_messages_count
   helper_method :signed_in_user_profile_path
@@ -112,5 +113,9 @@ class ApplicationController < ActionController::Base
 
   def enable_breadcrumb
     @enable_breadcrumb = true
+  end
+
+  def beta_test
+    session['beta_testing'] = params['beta_testing'] if params['beta_testing'].present?
   end
 end

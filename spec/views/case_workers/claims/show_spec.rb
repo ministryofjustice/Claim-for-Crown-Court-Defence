@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'case_workers/claims/show.html.haml' do
@@ -12,8 +14,11 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   context 'with certified claims' do
+    let(:claim) { certified_claim }
+
     before do
-      assign(:claim, certified_claim)
+      assign(:claim, claim)
+      request.path_parameters[:id] = claim.id
       render
     end
 
@@ -22,8 +27,11 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   context 'with a trial' do
+    let(:claim) { trial_claim }
+
     before do
-      assign(:claim, trial_claim)
+      assign(:claim, claim)
+      request.path_parameters[:id] = claim.id
       render
     end
 
@@ -31,8 +39,11 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   context 'with a retrial' do
+    let(:claim) { trial_claim('re') }
+
     before do
-      assign(:claim, trial_claim('re'))
+      assign(:claim, claim)
+      request.path_parameters[:id] = claim.id
       render
     end
 
@@ -46,6 +57,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       before do
         claim.save
         assign(:claim, claim)
+        request.path_parameters[:id] = claim.id
         render
       end
 
@@ -76,6 +88,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       before do
         claim.save
         assign(:claim, claim)
+        request.path_parameters[:id] = claim.id
         render
       end
 
@@ -131,12 +144,13 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   context 'with a document checklist' do
-    let!(:claim_with_doc) { create(:claim) }
+    let!(:claim) { create(:claim) }
 
     before do
       allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)
-      create(:document, :verified, claim: claim_with_doc)
-      assign(:claim, claim_with_doc)
+      create(:document, :verified, claim:)
+      assign(:claim, claim)
+      request.path_parameters[:id] = claim.id
       render
     end
 
@@ -156,6 +170,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         claim.save
         expense.save
         assign(:claim, claim.reload)
+        request.path_parameters[:id] = claim.id
         render
       end
 
@@ -234,6 +249,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         claim.save
         expense.save
         assign(:claim, claim.reload)
+        request.path_parameters[:id] = claim.id
         render
       end
 
@@ -312,6 +328,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
           claim.reject!(reason_code:, reason_text: 'rejecting because...')
           assign(:message, claim.messages.build)
           assign(:claim, claim.reload)
+          request.path_parameters[:id] = claim.id
           render
         end
 
@@ -335,6 +352,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         assign(:message, claim.messages.build)
         assign(:claim, claim)
+        request.path_parameters[:id] = claim.id
         render
       end
 
@@ -361,6 +379,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     before do
       claim = certified_claim
       assign(:claim, claim)
+      request.path_parameters[:id] = claim.id
       create(:injection_attempt, :with_errors, claim:)
       render
     end
@@ -376,6 +395,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     before do
       claim = trial_claim
       assign(:claim, claim)
+      request.path_parameters[:id] = claim.id
       create(:injection_attempt, claim:)
       create(:misc_fee, fee_type:, claim:, quantity: 1, amount: 100.00)
       render
@@ -409,6 +429,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
       it 'does NOT displays offence details section' do
         assign(:claim, claim)
+        request.path_parameters[:id] = claim.id
         render
         expect(rendered).to have_no_content('Offence details')
       end
@@ -419,6 +440,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
       it 'displays offence details section' do
         assign(:claim, claim)
+        request.path_parameters[:id] = claim.id
         render
         expect(rendered).to have_content('Offence details')
       end
@@ -432,6 +454,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     before do
       create(:date_attended, attended_item: expense)
       assign(:claim, claim)
+      request.path_parameters[:id] = claim.id
       render
     end
 

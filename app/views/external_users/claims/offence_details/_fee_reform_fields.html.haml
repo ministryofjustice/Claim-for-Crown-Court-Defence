@@ -14,8 +14,8 @@
               = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
         .govuk-button-group
           .form-group
-            = govuk_button(t('buttons.continue'), name: 'commit_continue')
-            = govuk_link_button_secondary(t('clear_selection', scope: "#{locale_scope}.actions"), '#', class: 'fx-clear-selection')
+            = f.govuk_submit(t('buttons.continue'), name: 'commit_continue')
+            = govuk_button_link_to(t('clear_selection', scope: "#{locale_scope}.actions"), '#', secondary: true, class: 'fx-clear-selection')
 
 = f.govuk_text_field :offence_search,
   value: nil,
@@ -27,7 +27,7 @@
 = f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'fx-model'
 = f.hidden_field :fee_scheme, value: [@claim.fee_scheme.name, @claim.fee_scheme.version], class: 'fx-fee-scheme'
 
-= govuk_link_button_secondary(t('clear_search', scope: "#{locale_scope}.actions"), '#noop', class: 'fx-clear-search hidden')
+= govuk_button_link_to(t('clear_search', scope: "#{locale_scope}.actions"), '#noop', secondary: true, class: 'fx-clear-search hidden')
 
 .form-group
   = govuk_details(summary_text: 'Help with the offence classification') do
@@ -63,4 +63,4 @@
       %span.govuk-body-s.link-grey.contrary
     %div.govuk-grid-column-one-quarter.align-centre
       %br
-      = govuk_link_button('Select and continue','#', 'data-field': '#claim_offence_id', class: 'button offence-item-button set-selection')
+      = govuk_button_link_to('Select and continue','#', 'data-field': '#claim_offence_id', class: 'button offence-item-button set-selection')

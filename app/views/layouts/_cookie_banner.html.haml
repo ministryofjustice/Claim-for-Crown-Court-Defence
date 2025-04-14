@@ -11,8 +11,8 @@
             = t('.content_html')
 
       .govuk-button-group
-        = govuk_link_button(t('.accept_button'), '?usage_opt_in=true&show_confirmation=true')
-        = govuk_link_button(t('.reject_button'), '?usage_opt_in=false&show_confirmation=true')
+        = govuk_button_link_to(t('.accept_button'), '?usage_opt_in=true&show_confirmation=true')
+        = govuk_button_link_to(t('.reject_button'), '?usage_opt_in=false&show_confirmation=true')
 
         = govuk_link_to(t('.view_cookies'), cookies_path)
 
@@ -26,4 +26,4 @@
             = t('.cookie_confirmation_html', link: cookies_path)
 
       .govuk-button-group
-        = govuk_link_button(t('.hide_button'), '?show_confirmation=false')
+        = govuk_button_link_to(t('.hide_button'), '?show_confirmation=false')

@@ -10,12 +10,6 @@ module GovukComponent
       end
     end
 
-    initializer 'govuk_component.button_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::ButtonHelpers }
-      end
-    end
-
     initializer 'govuk_component.inset_text_helpers' do
       config.after_initialize do
         ActiveSupport.on_load(:action_view) { include GovukComponent::InsetTextHelpers }

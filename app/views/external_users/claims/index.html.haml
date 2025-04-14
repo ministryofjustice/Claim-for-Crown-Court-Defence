@@ -9,7 +9,7 @@
   = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
   .govuk-grid-column-one-third
     %p.govuk-heading-l
-      = govuk_button_start(t('link.add_claim'), new_external_users_claim_types_path)
+      = govuk_start_button(text: t('link.add_claim'), href: new_external_users_claim_types_path)
 
 
 = render partial: 'shared/scheme_filters', locals: { available_schemes: @available_schemes }

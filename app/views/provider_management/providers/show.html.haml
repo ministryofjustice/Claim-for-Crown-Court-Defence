@@ -20,4 +20,4 @@
       = govuk_summary_list_row_collection(t('.vat_registered')) { @provider.vat_registered == true ? t('.answer_yes') : t('.answer_no') }
 
     - if can? :edit, @provider
-      = govuk_link_button(t('.edit'), edit_provider_management_provider_path(@provider))
+      = govuk_button_link_to(t('.edit'), edit_provider_management_provider_path(@provider))

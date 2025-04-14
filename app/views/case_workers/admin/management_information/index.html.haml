@@ -39,4 +39,4 @@
             legend: { text: t('.end_date') },
             hint: { text: t('.example_date') }
 
-      = govuk_link_button(t('.download_html', report_name: t('.provisional_assessments_by_date')), '', disabled: 'true', id: 'provisional_assessments_date_download')
+      = govuk_button_link_to(t('.download_html', report_name: t('.provisional_assessments_by_date')), '', disabled: 'true', id: 'provisional_assessments_date_download')

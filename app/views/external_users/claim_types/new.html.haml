@@ -15,4 +15,4 @@
 
   .govuk-button-group
     = f.govuk_submit t('.continue')
-    = govuk_link_button_secondary t('.cancel'), external_users_root_path
+    = govuk_button_link_to(t('.cancel'), external_users_root_path, secondary: true)

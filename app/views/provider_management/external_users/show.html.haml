@@ -28,14 +28,14 @@
 
     .govuk-button-group
       - if can? :edit, @external_user
-        = govuk_link_button(t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user))
+        = govuk_button_link_to(t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user))
 
       - if can? :change_password, @external_user
-        = govuk_link_button_secondary(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user))
+        = govuk_button_link_to(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user), secondary: true)
 
       - if @external_user.enabled?
         - if can? :change_availability, @external_user
-          = govuk_link_button_warning(t('.disable_user'), change_availability_provider_management_provider_external_user_path(@provider, @external_user))
+          = govuk_button_link_to(t('.disable_user'), change_availability_provider_management_provider_external_user_path(@provider, @external_user), warning: true)
       - else
         - if can? :change_availability, @external_user
-          = govuk_link_button(t('.enable_user'), change_availability_provider_management_provider_external_user_path(@provider, @external_user))
+          = govuk_button_link_to(t('.enable_user'), change_availability_provider_management_provider_external_user_path(@provider, @external_user))

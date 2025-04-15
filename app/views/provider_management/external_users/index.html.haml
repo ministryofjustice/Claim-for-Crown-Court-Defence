@@ -6,7 +6,7 @@
 .govuk-grid-row
   .govuk-grid-column-full
     - if can? :new, ExternalUser
-      = govuk_link_button(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
+      = govuk_button_link_to(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
 
     = govuk_table(class: 'govuk-!-margin-top-9') do
       = govuk_table_caption(class: 'govuk-visually-hidden') do

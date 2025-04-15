@@ -39,4 +39,4 @@
         form_group: { id: 'certification_date' }
       .govuk-button-group
         = f.govuk_submit t('.submit')
-        = govuk_link_button_secondary t('.return'), edit_polymorphic_path(@claim)
+        = govuk_button_link_to(t('.return'), edit_polymorphic_path(@claim), secondary: true)

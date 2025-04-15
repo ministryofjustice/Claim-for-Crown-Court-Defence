@@ -20,7 +20,7 @@
 
     .govuk-button-group
       - if can? :edit, @external_user
-        = govuk_link_button(t('.edit'), edit_external_users_admin_external_user_path(@external_user))
+        = govuk_button_link_to(t('.edit'), edit_external_users_admin_external_user_path(@external_user))
 
       - if can? :change_password, @external_user
-        = govuk_link_button_secondary(t('.change_password'), change_password_external_users_admin_external_user_path(@external_user))
+        = govuk_button_link_to(t('.change_password'), change_password_external_users_admin_external_user_path(@external_user), secondary: true)

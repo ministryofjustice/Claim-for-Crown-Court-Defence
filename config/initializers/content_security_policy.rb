@@ -4,14 +4,18 @@
 # See the Securing Rails Applications Guide for more information:
 # https://guides.rubyonrails.org/security.html#content-security-policy-header
 
+GOOGLE_ANALYTICS_DOMAIN = "https://*.google-analytics.com".freeze
+GOOGLE_TAG_MANAGER_DOMAIN = "https://*.googletagmanager.com".freeze
+
 Rails.application.configure do
   config.content_security_policy do |policy|
+    policy.connect_src :self, :https, GOOGLE_ANALYTICS_DOMAIN, GOOGLE_TAG_MANAGER_DOMAIN, "https://*.analytics.google.com"
     policy.default_src :self, :https
     policy.font_src    :self, :https, :data
-    policy.img_src     :self, :https, :data
+    policy.img_src     :self, :https, :data, GOOGLE_ANALYTICS_DOMAIN, GOOGLE_TAG_MANAGER_DOMAIN
     policy.object_src  :none
     # TODO: unsafe_inline should be removed but this cannot be done until some Javascript is refactored.
-    policy.script_src  :self, "'wasm-unsafe-eval'", :unsafe_inline, :https
+    policy.script_src  :self, "'wasm-unsafe-eval'", :unsafe_inline, :https, GOOGLE_TAG_MANAGER_DOMAIN
     policy.style_src   :self, :unsafe_inline, :https
     # Specify URI for violation reports
     policy.report_uri "/csp_report"

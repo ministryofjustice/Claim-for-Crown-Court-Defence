@@ -3,28 +3,22 @@
 
 = render partial: 'layouts/header', locals: { page_heading: 'Offences' }
 
-= govuk_table do
-  = govuk_table_thead do
-    = govuk_table_row do
-      = govuk_table_th do
-        = 'Label'
-      = govuk_table_th do
-        = 'Unique code'
-      = govuk_table_th do
-        = 'Description'
+= govuk_table(classes: 'app-table--responsive') do |table|
+  = table.with_head do |head|
+    = head.with_row do |row|
+      = row.with_cell(text: 'Label')
+      = row.with_cell(text: 'Unique code')
+      = row.with_cell(text: 'Description')
       - @offences.fee_scheme_headings.each do |fee_scheme|
-        = govuk_table_th do
-          = fee_scheme
-  = govuk_table_tbody do
+        = row.with_cell(text: fee_scheme)
+  = table.with_body do |body|
     - @offences.each do |offence|
-      = govuk_table_row do
-        = govuk_table_td('data-label': 'Label') do
-          = offence.label
-        = govuk_table_td('data-label': 'Unique code') do
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': 'Label' }, text: offence.label)
+        = row.with_cell(html_attributes: { 'data-label': 'Unique code' }) do
           %span{title: offence.unique_code}
             = truncate(offence.unique_code, length: 10)
-        = govuk_table_td('data-label': 'Description') do
-          = offence.description
+        = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: offence.description)
         - offence.fee_scheme_flags.each do |flag|
-          = govuk_table_td class: flag ? 'active' : 'inactive' do
+          = row.with_cell(classes: flag ? 'active' : 'inactive') do
             = flag ? '*' : ''

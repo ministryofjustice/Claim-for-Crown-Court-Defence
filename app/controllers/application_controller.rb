@@ -116,6 +116,12 @@ class ApplicationController < ActionController::Base
   end
 
   def beta_test
-    session['beta_testing'] = params['beta_testing'] if params['beta_testing'].present?
+    if params['disable_beta_testing'].present?
+      track_visit({
+        url: "beta_testing/select/#{params['disable_beta_testing'] == 'true' ? 'off' : 'on'}",
+        title: "Disable beta testing: #{params['disable_beta_testing']}"
+      })
+      session['disable_beta_testing'] = params['disable_beta_testing']
+    end
   end
 end

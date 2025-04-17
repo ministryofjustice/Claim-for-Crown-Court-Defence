@@ -9,39 +9,32 @@
 
 = render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path(anchor: 'search-button'), hint_text: t('hint.search_users'), button_text: t('search.users') }
 
+= govuk_table(classes: 'app-table--responsive') do |table|
+  = table.with_caption(classes: 'govuk-visually-hidden', text: t('.table_caption', provider_name: "#{current_user.provider.name}"))
 
-= govuk_table do
-  = govuk_table_caption(class: 'govuk-visually-hidden') do
-    = t('.table_caption', provider_name: "#{current_user.provider.name}")
+  = table.with_head do |head|
+    = head.with_row do |row|
+      = row.with_cell(text: t('.last_name'))
+      = row.with_cell(text: t('.first_name'))
+      = row.with_cell(text: t('.supplier_number'))
+      = row.with_cell(text: t('.email'))
+      = row.with_cell(text: t('.email_confirmation'))
+      = row.with_cell(text: t('.status'))
+      = row.with_cell(text: t('.actions'))
 
-  = govuk_table_thead_collection [t('.last_name'),
-  t('.first_name'),
-  t('.supplier_number'),
-  t('.email'),
-  t('.email_confirmation'),
-  t('.status'),
-  t('.actions')]
-
-  = govuk_table_tbody do
+  = table.with_body do |body|
     - @external_users.each do |advocate|
-      = govuk_table_row do
-        = govuk_table_td('data-label': t('.last_name')) { advocate.last_name }
-
-        = govuk_table_td('data-label': t('.first_name')) { advocate.first_name }
-
-        = govuk_table_td('data-label': t('.supplier_number')) do
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': t('.last_name') }, text: advocate.last_name)
+        = row.with_cell(html_attributes: { 'data-label': t('.first_name') }, text: advocate.first_name)
+        = row.with_cell(html_attributes: { 'data-label': t('.supplier_number') }) do
           = advocate.supplier_number ? advocate.supplier_number : '-'
-
-        = govuk_table_td('data-label': t('.email')) do
+        = row.with_cell(html_attributes: { 'data-label': t('.email') }) do
           = govuk_mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
-
-        = govuk_table_td('data-label': t('.email_confirmation')) do
+        = row.with_cell(html_attributes: { 'data-label': t('.email_confirmation') }) do
           = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
-
-        = govuk_table_td('data-label': t('.status')) do
-          = govuk_tag_active_user?(advocate)
-
-        = govuk_table_td('data-label': t('.actions')) do
+        = row.with_cell(html_attributes: { 'data-label': t('.status') }, text: govuk_tag_active_user?(advocate))
+        = row.with_cell(html_attributes: { 'data-label': t('.actions') }) do
           - if advocate.active? && advocate.enabled?
             = render partial: 'edit_delete_links', locals: { advocate: advocate }
           - elsif advocate.active? && !advocate.enabled?

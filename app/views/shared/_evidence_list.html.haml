@@ -12,37 +12,23 @@
       = t('.no_documents_uploaded')
 
   - else
-    = govuk_table do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.caption')
+    = govuk_table(classes: 'app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.caption'))
 
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
-            = t('.name_of_file')
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell(text: t('.name_of_file'))
+          = row.with_cell(text: t('.file_size'), numeric: true)
+          = row.with_cell(text: t('.date_added'), numeric: true)
+          = row.with_cell(text: t('.actions'), numeric: true)
 
-          = govuk_table_th_numeric do
-            = t('.file_size')
-
-          = govuk_table_th_numeric do
-            = t('.date_added')
-
-          = govuk_table_th_numeric do
-            = t('.actions')
-
-      = govuk_table_tbody do
+      = table.with_body do |body|
         - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.name_of_file')) do
-              = document.document_file_name
-
-            = govuk_table_td_numeric('data-label': t('.file_size')) do
-              = number_to_human_size(document.document_file_size)
-
-            = govuk_table_td_numeric('data-label': t('.date_added')) do
-              = document.created_at.strftime(Settings.date_format)
-
-            = govuk_table_td_numeric('data-label': t('.actions')) do
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('.name_of_file') }, text: document.document_file_name)
+            = row.with_cell(html_attributes: { 'data-label': t('.file_size') }, text: number_to_human_size(document.document_file_size), numeric: true)
+            = row.with_cell(html_attributes: { 'data-label': t('.date_added') }, text: document.created_at.strftime(Settings.date_format), numeric: true)
+            = row.with_cell(html_attributes: { 'data-label': t('.actions') }, numeric: true) do
               .app-link-group
                 - if document.converted_preview_document.present?
                   = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document)

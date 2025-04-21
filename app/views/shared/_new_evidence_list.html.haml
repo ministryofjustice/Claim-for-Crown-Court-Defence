@@ -9,22 +9,21 @@
       %h2.govuk-summary-card__title=t('.existing_evidence')
       = govuk_link_to t('shared.download_all_html', context: t('.existing_evidence')), download_zip_case_workers_claim_path(@claim), class: 'govuk-!-font-weight-bold'
     .govuk-summary-card__content
-      = govuk_table do
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th { t('.name_of_file') }
-            = govuk_table_th_numeric { t('.file_size') }
-            = govuk_table_th_numeric { t('.date_added') }
-            = govuk_table_th { t('.actions') }
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: t('.name_of_file'))
+            = row.with_cell(text: t('.file_size'), numeric: true)
+            = row.with_cell(text: t('.date_added'), numeric: true)
+            = row.with_cell(text: t('.actions'))
 
-        = govuk_table_tbody do
+        = table.with_body do |body|
           - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
-            = govuk_table_row do
-              = govuk_table_td do
-                = document.document_file_name
-              = govuk_table_td_numeric { number_to_human_size(document.document_file_size) }
-              = govuk_table_td_numeric { document.created_at.strftime(Settings.date_format) }
-              = govuk_table_td do
+            = body.with_row do |row|
+              = row.with_cell(text: document.document_file_name)
+              = row.with_cell(text: number_to_human_size(document.document_file_size), numeric: true)
+              = row.with_cell(text: document.created_at.strftime(Settings.date_format), numeric: true)
+              = row.with_cell do
                 .app-link-group
                   - if document.converted_preview_document.present?
                     = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document), target: :_blank

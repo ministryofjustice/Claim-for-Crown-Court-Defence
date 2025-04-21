@@ -4,23 +4,22 @@
       = t('common.fees')
 
   .govuk-summary-card__content
-    = govuk_table do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.fees.caption')
+    = govuk_table(classes: 'app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.fees.caption'))
 
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th { t('.fee_category') }
-          = govuk_table_th { t('.fee_type') }
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell(text: t('.fee_category'))
+          = row.with_cell(text: t('.fee_type'))
           - unless claim.interim?
-            = govuk_table_th_numeric { t('.quantity') }
-          = govuk_table_th_numeric { t('.rate') }
-          = govuk_table_th_numeric { t('.net_amount') }
+            = row.with_cell(text: t('.quantity'), numeric: true)
+          = row.with_cell(text: t('.rate'), numeric: true)
+          = row.with_cell(text: t('.net_amount'), numeric: true)
 
-      = govuk_table_tbody do
+      = table.with_body do |body|
         - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.fee_category')) do
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('.fee_category') }) do
               = fee.fee_type&.fee_category_name || 'n/a'
               - if fee.fee_type.unique_code.eql?('BABAF')
                 - if fee.first_day_of_trial
@@ -41,7 +40,7 @@
               - if fee.date?
                 %p{ class: 'govuk-!-margin-bottom-2' }= "#{t('.date')}: #{fee.date}"
 
-            = govuk_table_td('data-label': t('.fee_type')) do
+            = row.with_cell(html_attributes: { 'data-label': t('.fee_type') }) do
               = fee.fee_type&.description || 'n/a'
               - if fee.sub_type.present?
                 %p{ class: 'govuk-!-margin-bottom-1' }= "#{t('.fee_subtype')}: #{fee.sub_type.description}"
@@ -49,22 +48,22 @@
                 %p{ class: 'govuk-!-margin-bottom-1' }= "#{t('.case_numbers')}: #{fee.case_numbers}"
 
             - unless claim.interim?
-              = govuk_table_td_numeric('data-label': t('.quantity')) { fee.quantity }
+              = row.with_cell(html_attributes: { 'data-label': t('.quantity') }, text: fee.quantity, numeric: true)
 
-            = govuk_table_td_numeric('data-label': t('.rate')) { fee.rate }
-            = govuk_table_td_numeric('data-label': t('.net_amount')) { fee.amount }
+            = row.with_cell(html_attributes: { 'data-label': t('.rate') }, text: fee.rate, numeric: true)
+            = row.with_cell(html_attributes: { 'data-label': t('.net_amount') }, text: fee.amount, numeric: true)
 
-    = govuk_table(class: 'govuk-table--custom govuk-!-margin-bottom-0') do
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th { t('shared.description') }
-          = govuk_table_th_numeric { t('shared.net_amount') }
-          = govuk_table_th_numeric { t('shared.vat') }
-          = govuk_table_th_numeric { t('shared.gross_amount') }
+    = govuk_table(classes: 'app-table--responsive govuk-table--custom govuk-!-margin-bottom-0') do |table|
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell(text: t('shared.description'))
+          = row.with_cell(text: t('shared.net_amount'), numeric: true)
+          = row.with_cell(text: t('shared.vat'), numeric: true)
+          = row.with_cell(text: t('shared.gross_amount'), numeric: true)
 
-      = govuk_table_tbody do
-        = govuk_table_row(class: 'govuk-table__row--no-bottom-border') do
-          = govuk_table_td('data-label': t('shared.description')) { t('shared.summary.fees_total') }
-          = govuk_table_td_numeric('data-label': t('shared.net_amount')) { claim.fees_total }
-          = govuk_table_td_numeric('data-label': t('shared.vat')) { claim.fees_vat }
-          = govuk_table_td_numeric('data-label': t('shared.gross_amount')) { claim.fees_gross }
+      = table.with_body do |body|
+        = body.with_row(classes: 'govuk-table__row--no-bottom-border') do |row|
+          = row.with_cell(html_attributes: { 'data-label': t('shared.description') }, text: t('shared.summary.fees_total'))
+          = row.with_cell(html_attributes: { 'data-label': t('shared.net_amount') }, text: claim.fees_total, numeric: true)
+          = row.with_cell(html_attributes: { 'data-label': t('shared.vat') }, text: claim.fees_vat, numeric: true)
+          = row.with_cell(html_attributes: { 'data-label': t('shared.gross_amount') }, text: claim.fees_gross, numeric: true)

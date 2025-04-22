@@ -6,56 +6,28 @@
       - else
         = t('.disbursements_without_vat')
   .govuk-summary-card__content
-    = govuk_table(class: 'govuk-table--custom govuk-!-margin-bottom-0') do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.disbursements_caption')
+    = govuk_table(classes: 'govuk-table--custom govuk-!-margin-bottom-0 app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.disbursements_caption'))
 
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
-            = t('.disbursement_type')
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell(text: t('.disbursement_type'))
+          = row.with_cell(text: t('.net_amount'), numeric: true)
+          = row.with_cell(text: t('.vat_amount'), numeric: true)
+          = row.with_cell(text: t('.gross_amount'), numeric: true)
 
-          = govuk_table_th_numeric do
-            = t('.net_amount')
-
-          - if vat_total
-            = govuk_table_th_numeric do
-              = t('.vat_amount')
-
-          = govuk_table_th_numeric do
-            = t('.gross_amount')
-
-      = govuk_table_tbody do
+      = table.with_body do |body|
         - present_collection(disbursements).each do |disbursement|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.disbursement_type')) do
-              = disbursement.name
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('.disbursement_type') }, text: disbursement.name)
+            = row.with_cell(html_attributes: { 'data-label': t('.net_amount') }, text: disbursement.net_amount, numeric: true)
+            = row.with_cell(html_attributes: { 'data-label': t('.vat') }, text: disbursement.vat_amount, numeric: true)
+            = row.with_cell(html_attributes: { 'data-label': t('.gross_amount') }, text: disbursement.total, numeric: true)
 
-            = govuk_table_td_numeric('data-label': t('.net_amount')) do
-              = disbursement.net_amount
-
-            - if vat_total
-              = govuk_table_td_numeric('data-label': t('.vat')) do
-                = disbursement.vat_amount
-
-            = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
-              = disbursement.total
-
-      = govuk_table_tfoot do
-        = govuk_table_row(class: 'govuk-table__row--no-bottom-border') do
-          = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
-            - if vat_total
-              = t('.disbursements_gross')
-            - else
-              = t('.disbursements_without_vat')
-
-
-          = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
-            = net_total
-
-          - if vat_total
-            = govuk_table_td_numeric('data-label': t('shared.vat')) do
-              = vat_total
-
-          = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
-            = gross_total
+      = table.with_foot(classes: 'govuk-table__foot') do |foot|
+        = foot.with_row(classes: 'govuk-table__row--no-bottom-border') do |row|
+          = row.with_cell(header: true, classes: 'govuk-table__cell', html_attributes: { scope: 'row' }, text: t('shared.disbursement_type')) do
+            - vat_total ? t('.disbursements_gross') : t('.disbursements_without_vat')
+          = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.net_amount') }, text: net_total, numeric: true)
+          = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.vat') }, text: vat_total, numeric: true)
+          = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.gross_amount') },text: gross_total, numeric: true)

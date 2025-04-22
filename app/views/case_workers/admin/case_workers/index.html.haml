@@ -18,7 +18,7 @@
 
       = govuk_table_thead_collection [t('.surname'),
       t('.name'),
-      t('.location'),
+      t('.status'),
       t('.actions')]
 
       = govuk_table_tbody do
@@ -27,13 +27,10 @@
             = govuk_table_td('data-label': t('.surname')) { case_worker.user.last_name }
 
             = govuk_table_td('data-label': t('.name')) { case_worker.user.first_name }
-
-            = govuk_table_td('data-label': t('.location')) { case_worker.location.name }
+            = govuk_table_td('data-label': t('.status')) { govuk_tag_active_user?(case_worker) }
 
             = govuk_table_td('data-label': t('.actions')) do
               - if case_worker.active?
                 .app-link-group
-                  = govuk_link_to(t('.edit_caseworker_html', case_worker: case_worker.name), edit_case_workers_admin_case_worker_path(case_worker))
-                  = govuk_link_to(t('.delete_caseworker_html', case_worker: case_worker.name), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: t('.confirmation') })
-              - else
-                = t('.inactive')
+                  .div= govuk_link_to t('.edit_caseworker_html', case_worker: case_worker.name), edit_case_workers_admin_case_worker_path(case_worker)
+                  .div= govuk_link_to t('.delete_caseworker_html', case_worker: case_worker.name), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: t('.confirmation') }

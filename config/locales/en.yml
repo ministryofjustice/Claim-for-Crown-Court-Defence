@@ -2668,8 +2668,8 @@ en:
           case_workers_list: List of case workers
           surname: Surname
           name: Name
-          location: Location
-          actions: Manage details
+          status: Status
+          actions: Actions
           confirmation: Are you sure?
           delete_caseworker_html: 'Delete <span class="govuk-visually-hidden">case worker: %{case_worker}</span>'
           edit_caseworker_html: 'Edit <span class="govuk-visually-hidden">case worker: %{case_worker}</span>'

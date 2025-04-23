@@ -1,5 +1,5 @@
-= govuk_table_row do
-  = govuk_table_td('data-label': t('shared.summary.fee_type')) do
+= body.with_row do |row|
+  = row.with_cell(html_attributes: { 'data-label': t('shared.summary.fee_type') }) do
     - unless fee.is_transfer?
       = fee.fee_type&.description
       - if fee.sub_type.present?
@@ -10,7 +10,7 @@
           = fee.case_numbers
 
   - unless @claim.lgfs? && fee.is_misc?
-    = govuk_table_td('data-label': t('shared.summary.dates')) do
+    = row.with_cell(html_attributes: { 'data-label': t('shared.summary.dates') }) do
       - if fee.date?
         = fee.date
 
@@ -30,20 +30,17 @@
         - if fee.dates_attended.any?
           = fee.dates_attended_delimited_string
 
-    = govuk_table_td_numeric('data-label': t('shared.summary.quantity')) do
+    = row.with_cell(html_attributes: { 'data-label': t('shared.summary.quantity') }, numeric: true) do
       - if fee.calculated? || fee.is_graduated? || fee.is_transfer?
         = fee.quantity
 
-    = govuk_table_td_numeric('data-label': t('shared.summary.rate')) do
+    = row.with_cell(html_attributes: { 'data-label': t('shared.summary.rate') }, numeric: true) do
       - if fee.calculated?
         = fee.rate
 
-  = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
+  = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, numeric: true) do
     - if fee.display_amount?
       = fee.amount
 
-  = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-    = fee.vat
-
-  = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-    = fee.gross
+  = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: fee.vat, numeric: true)
+  = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: fee.gross, numeric: true)

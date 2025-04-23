@@ -1,53 +1,40 @@
 - unless claim.lgfs? && claim.interim? && claim.disbursement_only?
-  = govuk_table_row do
-    = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+  = body.with_row do |row|
+    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('shared.description') }) do
       = f.label :fees, t('.fees')
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
-      = claim.fees_total
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+    = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description) }, text: claim.fees_total, numeric: true)
+    = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.laa_heading') }, numeric: true) do
       .pound-wrapper
         = f.govuk_text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 10, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
       = validation_error_message(f.object, :fees)
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+= body.with_row do |row|
+  = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('shared.description') }) do
     = f.label :expenses, t('.expenses')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
-    = claim.expenses_total
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description) }, text: claim.expenses_total, numeric: true)
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.laa_heading') }, numeric: true) do
     .pound-wrapper
       = f.govuk_text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 10, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
     = validation_error_message(f.object, :expenses)
 
 - if claim.can_have_disbursements?
-  = govuk_table_row do
-    = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+  = body.with_row do |row|
+    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('shared.description') }) do
       = f.label :disbursements, t('.disbursements')
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
-      = claim.disbursements_total
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+    = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description) }, text: claim.disbursements_total, numeric: true)
+    = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.laa_heading') }, numeric: true) do
       .pound-wrapper
         = f.govuk_text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 10, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
       = validation_error_message(f.object, :disbursements)
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
-    = t('.total_excluding_vat')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
-    = claim.total
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+= body.with_row do |row|
+  = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('shared.description') }, text: t('.total_excluding_vat'))
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description) }, text: claim.total, numeric: true)
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.laa_heading') }, numeric: true) do
     %span.js-total-exc-vat-determination
       = number_to_currency(f.object.total || 0)
 
 - if claim.agfs?
-  = render partial: 'determination_agfs_vat_fields', locals: { f: f, claim: claim }
+  = render partial: 'determination_agfs_vat_fields', locals: { f: f, claim: claim, body: body }
 - else
-  = render partial: 'determination_lgfs_vat_fields', locals: { f: f, claim: claim }
+  = render partial: 'determination_lgfs_vat_fields', locals: { f: f, claim: claim, body: body }

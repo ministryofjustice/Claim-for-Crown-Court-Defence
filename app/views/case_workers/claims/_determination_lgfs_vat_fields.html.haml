@@ -1,22 +1,15 @@
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+= body.with_row do |row|
+  = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('shared.description') }) do
     = f.label :vat_amount, t('.vat')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
-    = claim.vat_amount
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description) }, text: claim.vat_amount, numeric: true)
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.laa_heading') }, numeric: true) do
     .pound-wrapper
       = f.govuk_text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control js-lgfs-vat-determination', size: 10, maxlength: 8, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
     = validation_error_message(f.object, :vat_amount)
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
-    = t('.total_inc_vat')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
-    = claim.total_inc_vat
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+= body.with_row do |row|
+  = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('shared.description') }, text: t('.total_inc_vat'))
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description) }, text: claim.total_inc_vat, numeric: true)
+  = row.with_cell(html_attributes: { 'data-label': t('shared.determinations_table.laa_heading') }, numeric: true) do
     %span.js-total-determination
       = number_to_currency(f.object.total_including_vat)

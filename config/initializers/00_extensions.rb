@@ -49,3 +49,7 @@ module ActionView
     end
   end
 end
+
+module GovukComponentsHelper
+  include Extensions::GovukComponentsExtension
+end

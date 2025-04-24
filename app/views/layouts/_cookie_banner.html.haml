@@ -1,29 +1,14 @@
 - unless @cookies_preferences_set
-  .govuk-cookie-banner{ role: 'region', 'aria-label': t('.title'), 'tab-index': '-1', 'data-nosnippet': true }
-    .govuk-cookie-banner__message.govuk-width-container
+  = govuk_cookie_banner do |cb|
+    - cb.with_message(heading_text: t('.title')) do |m|
+      - m.with_action { govuk_button_link_to(t('.accept_button'), '?usage_opt_in=true&show_confirmation=true') }
+      - m.with_action { govuk_button_link_to(t('.reject_button'), '?usage_opt_in=false&show_confirmation=true') }
+      - m.with_action { govuk_link_to(t('.view_cookies'), cookies_path) }
 
-      .govuk-grid-row
-        .govuk-grid-column-two-thirds
-          %h2.govuk-cookie-banner__heading.govuk-heading-m
-            = t('.title')
-
-          .govuk-cookie-banner__content
-            = t('.content_html')
-
-      .govuk-button-group
-        = govuk_button_link_to(t('.accept_button'), '?usage_opt_in=true&show_confirmation=true')
-        = govuk_button_link_to(t('.reject_button'), '?usage_opt_in=false&show_confirmation=true')
-
-        = govuk_link_to(t('.view_cookies'), cookies_path)
+      .govuk-cookie-banner__content
+        = t('.content_html')
 
 - if @show_confirm_banner == "true"
-  .govuk-cookie-banner{ role: 'alert', 'aria-label': t('.title'), 'tab-index': '-1', 'data-nosnippet': true }
-    .govuk-cookie-banner__confirmation.govuk-width-container
-      .govuk-grid-row
-        .govuk-grid-column-two-thirds
-
-          .govuk-cookie-banner__content
-            = t('.cookie_confirmation_html', link: cookies_path)
-
-      .govuk-button-group
-        = govuk_button_link_to(t('.hide_button'), '?show_confirmation=false')
+  = govuk_cookie_banner do |cb|
+    - cb.with_message(text: t('.cookie_confirmation_html', link: cookies_path)) do |m|
+      - m.with_action { govuk_button_link_to(t('.hide_button'), '?show_confirmation=false') }

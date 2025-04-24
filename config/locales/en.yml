@@ -2837,9 +2837,8 @@ en:
         total_inc_vat: Total (including VAT)
         vat: VAT
       determination_agfs_vat_fields:
-        total_inc_vat_rate: 'Total inc VAT rate:'
         vat_rate: "VAT (%{vat_rate})"
-        vat_rate: "Total (including %{vat_rate} VAT)"
+        total_inc_vat_rate: "Total (including %{vat_rate} VAT)"
       index:
         page_heading: Your claims
         page_title: View your allocated claims list

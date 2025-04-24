@@ -4,8 +4,6 @@ class CookiePage < BasePage
       element :accept_cookies, '.govuk-button-group a[href="?usage_opt_in=true&show_confirmation=true"]'
       element :reject_cookies, '.govuk-button-group a[href="?usage_opt_in=false&show_confirmation=true"]'
       element :view_cookies, '.govuk-button-group a[href="/help/cookies"]'
-    end
-    section :confirmation, '.govuk-cookie-banner__confirmation' do
       element :hide, '.govuk-button-group a[href="?show_confirmation=false"]'
     end
   end

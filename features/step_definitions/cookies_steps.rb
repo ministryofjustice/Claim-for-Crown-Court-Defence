@@ -13,12 +13,12 @@ When('I reject the cookies') do
 end
 
 Then('I see the cookie confirmation message') do
-  expect(@cookie_page.banner.confirmation).to be_visible
-  expect(@cookie_page.banner.confirmation).to have_content 'Your cookie settings were saved'
+  expect(@cookie_page.banner).to be_visible
+  expect(@cookie_page.banner).to have_content 'Your cookie settings were saved'
 end
 
 Then('I hide the cookie confirmation message') do
-  @cookie_page.banner.confirmation.hide.click
+  @cookie_page.banner.message.hide.click
 end
 
 Then('the cookie banner is not available') do

@@ -40,7 +40,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
 
   after(:all) { clean_database }
 
-  include_examples 'advocate claim test setup'
   include_examples 'malformed or not iso8601 compliant dates',
                    action: :validate, attributes: %i[first_day_of_trial
                                                      trial_concluded_at

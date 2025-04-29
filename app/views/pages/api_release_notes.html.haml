@@ -32,32 +32,24 @@
 
       %br
       %br
-      = govuk_table do
-        = govuk_table_caption do
-          New fee type
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = 'Unique code'
-            = govuk_table_th do
-              = 'Description'
-            = govuk_table_th do
-              = 'Scheme'
-            = govuk_table_th do
-              = 'Claim types'
-            = govuk_table_th do
-              = 'Validations'
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIAPF
-            = govuk_table_td('data-label': 'Description') do
-              Additional preparation fee
-            = govuk_table_td('data-label': 'Scheme') do
-              AGFS
-            = govuk_table_td('data-label': 'Claim types') do
-              Final, supplementary and hardship
-            = govuk_table_td('data-label': 'Validations') do
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(text: 'New fee type')
+
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Unique code')
+            = row.with_cell(text: 'Description')
+            = row.with_cell(text: 'Scheme')
+            = row.with_cell(text: 'Claim types')
+            = row.with_cell(text: 'Validations')
+
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIAPF')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Additional preparation fee')
+            = row.with_cell(html_attributes: { 'data-label': 'Scheme' }, text: 'AGFS')
+            = row.with_cell(html_attributes: { 'data-label': 'Claim types' }, text: 'Final, supplementary and hardship')
+            = row.with_cell(html_attributes: { 'data-label': 'Validations' }) do
               %code
                 quantity
               of one only
@@ -76,32 +68,24 @@
 
       %br
       %br
-      = govuk_table do
-        = govuk_table_caption do
-          New fee type
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = 'Unique code'
-            = govuk_table_th do
-              = 'Description'
-            = govuk_table_th do
-              = 'Scheme'
-            = govuk_table_th do
-              = 'Claim types'
-            = govuk_table_th do
-              = 'Validations'
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MISTE
-            = govuk_table_td('data-label': 'Description') do
-              Section 28 hearing
-            = govuk_table_td('data-label': 'Scheme') do
-              AGFS
-            = govuk_table_td('data-label': 'Claim types') do
-              Final, supplementary and hardship
-            = govuk_table_td('data-label': 'Validations') do
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(text: 'New fee type')
+
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Unique code')
+            = row.with_cell(text: 'Description')
+            = row.with_cell(text: 'Scheme')
+            = row.with_cell(text: 'Claim types')
+            = row.with_cell(text: 'Validations')
+
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MISTE')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Section 28 hearing')
+            = row.with_cell(html_attributes: { 'data-label': 'Scheme' }, text: 'AGFS')
+            = row.with_cell(html_attributes: { 'data-label': 'Claim types' }, text: 'Final, supplementary and hardship')
+            = row.with_cell(html_attributes: { 'data-label': 'Validations' }) do
               %code
                 quantity
               of one only
@@ -151,49 +135,37 @@
 
       %br
       %br
-      = govuk_table do
-        = govuk_table_caption do
-          New fee types
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = 'Unique code'
-            = govuk_table_th do
-              = 'Description'
-            = govuk_table_th do
-              = 'Scheme'
-            = govuk_table_th do
-              = 'Claim types'
-            = govuk_table_th do
-              = 'Validations'
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIPHC
-            = govuk_table_td('data-label': 'Description') do
-              Paper heavy case
-            = govuk_table_td('data-label': 'Scheme') do
-              AGFS
-            = govuk_table_td('data-label': 'Claim types') do
-              AGFS Final, Supplementary and Hardship claims
-            = govuk_table_td('data-label': 'Validations') do
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(text: 'New fee types')
+
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Unique code')
+            = row.with_cell(text: 'Description')
+            = row.with_cell(text: 'Scheme')
+            = row.with_cell(text: 'Claim types')
+            = row.with_cell(text: 'Validations')
+
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIPHC')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Paper heavy case')
+            = row.with_cell(html_attributes: { 'data-label': 'Scheme' }, text: 'AGFS')
+            = row.with_cell(html_attributes: { 'data-label': 'Claim types' }, text: 'AGFS Final, Supplementary and Hardship claims')
+            = row.with_cell(html_attributes: { 'data-label': 'Validations' }) do
               Not claimable on claims with offences in Bands 1, 6 and 9
               %sup{ style: "font-size: 10px"}
                 1
-
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIUMU
-            = govuk_table_td('data-label': 'Description') do
-              Unused material (up to 3 hours)
-            = govuk_table_td('data-label': 'Scheme') do
-              AGFS, LGFS
-            = govuk_table_td('data-label': 'Claim types') do
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIUMU')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Unused material (up to 3 hours)')
+            = row.with_cell(html_attributes: { 'data-label': 'Scheme' }, text: 'AGFS, LGFS')
+            = row.with_cell(html_attributes: { 'data-label': 'Claim types' }) do
               AGFS Final, Supplementary and Hardship claims.
               %br
               %br
               LGFS Final, Transfer and Hardship claims.
-            = govuk_table_td('data-label': 'Validations') do
+            = row.with_cell(html_attributes: { 'data-label': 'Validations' }) do
               %code
                 quantity
               of one only (not required for LGFS)
@@ -202,19 +174,16 @@
               Only claimable on claims with a Graduated case type
               %sup{ style: "font-size: 10px"}
                 2
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIUMO
-            = govuk_table_td('data-label': 'Description') do
-              Unused material (over 3 hours)
-            = govuk_table_td('data-label': 'Scheme') do
-              AGFS, LGFS
-            = govuk_table_td('data-label': 'Claim types') do
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIUMO')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Unused material (over 3 hours)')
+            = row.with_cell(html_attributes: { 'data-label': 'Scheme' }, text: 'AGFS, LGFS')
+            = row.with_cell(html_attributes: { 'data-label': 'Claim types' }) do
               AGFS Final, Supplementary and Hardship claims.
               %br
               %br
               LGFS Final, Transfer and Hardship claims.
-            = govuk_table_td('data-label': 'Validations') do
+            = row.with_cell(html_attributes: { 'data-label': 'Validations' }) do
               Decimal
               %code
                 quantity
@@ -229,9 +198,10 @@
               %br
               %br
               Should be claimed together with Unused material (up to 3 hours), which covers the first 3 hours.
-        = govuk_table_tfoot do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Notes', colspan: '5') do
+
+        = table.with_foot(classes: 'govuk-table__foot') do |foot|
+          = foot.with_row do |row|
+            = row.with_cell(classes: 'govuk-table__cell', html_attributes: { 'data-label': 'Notes', colspan: '5' }) do
               %sup{ style: "font-size: 10px"}
                 1
               %code
@@ -300,12 +270,11 @@
         %li
           %a{ href: '/api/documentation?#!/api/documentation#!/api/postApiExternalUsersClaimsAdvocatesHardshipValidate', target: '_blank' } advocate hardship claim validate
       %br/
-      %br/
       A list of valid Case Stages (to be used when creating a hardship claim) can be retrieved via:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Api") do
-            = 'GET /api/case_stages'
+
+      %ul.govuk-list.govuk-list--bullet
+        %li
+          GET /api/case_stages
 
 %section.api-documentation
   %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
@@ -336,42 +305,32 @@
       %a{ href: '#supplementary-fee-types' } updated here
       %br/
       %br/
-      = govuk_table do
-        = govuk_table_caption do
-          = 'New supplementary claim miscellaneous fee types.'
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = 'Status'
-            = govuk_table_th do
-              = 'Unique code'
-            = govuk_table_th do
-              = 'Description'
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Status') do
-              new *
-            = govuk_table_td('data-label': 'Unique code') do
-              MISAF
-            = govuk_table_td('data-label': 'Description') do
-              Standard appearance fee
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Status') do
-              new *
-            = govuk_table_td('data-label': 'Unique code') do
-              MIPCM
-            = govuk_table_td('data-label': 'Description') do
-              Plea and trial preparation hearing
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Status') do
-              existing
-            = govuk_table_td('data-label': 'Unique code') do
-              MISAU
-            = govuk_table_td('data-label': 'Description') do
-              Standard appearance fee uplift
-        = govuk_table_tfoot do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Notes', colspan: '4') do
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(text: 'New supplementary claim miscellaneous fee types.')
+
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Status')
+            = row.with_cell(text: 'Unique code')
+            = row.with_cell(text: 'Description')
+
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Status' }, text: 'new *')
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MISAF')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Standard appearance fee')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Status' }, text: 'new *')
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIPCM')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Plea and trial preparation hearing')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Status' }, text: 'existing')
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MISAU')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Standard appearance fee uplift')
+
+        = table.with_foot(classes: 'govuk-table__foot') do |foot|
+          = foot.with_row do |row|
+            = row.with_cell(classes: 'govuk-table__cell', html_attributes: { 'data-label': 'Notes', colspan: '4' }) do
               * the new fee types are the only means to add these kind of fees
               to supplementary claims. The equivalent for "Final" claims remains the BASAF
               and BAPCM fee types, while for "Fixed" fee claims it is FXSAF.
@@ -494,69 +453,45 @@
       %a{ name: 'supplementary-fee-types'}
       Please note that only the following miscellaneous fees are claimable via this claim type currently:
       %br/
-      = govuk_table do
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = 'Unique code'
-            = govuk_table_th do
-              = 'Description'
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIWPF
-            = govuk_table_td('data-label': 'Description') do
-              Wasted preparation fee
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MISPF
-            = govuk_table_td('data-label': 'Description') do
-              Special preparation fee
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIDSU
-            = govuk_table_td('data-label': 'Description') do
-              Deferred sentence hearings uplift
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIDSE
-            = govuk_table_td('data-label': 'Description') do
-              Deferred sentence hearings
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIDTW
-            = govuk_table_td('data-label': 'Description') do
-              Confiscation hearings (whole day)
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIDWU
-            = govuk_table_td('data-label': 'Description') do
-              Confiscation hearings (whole day uplift)
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIDTH
-            = govuk_table_td('data-label': 'Description') do
-              Confiscation hearings (half day)
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIDHU
-            = govuk_table_td('data-label': 'Description') do
-              Confiscation hearings (half day uplift)
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MISAF
-            = govuk_table_td('data-label': 'Description') do
-              Standard appearance fee
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MIPCM
-            = govuk_table_td('data-label': 'Description') do
-              Plea and trial preparation hearing
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Unique code') do
-              MISAU
-            = govuk_table_td('data-label': "Description") do
-              Standard appearance fee uplift
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Unique code')
+            = row.with_cell(text: 'Description')
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIWPF')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Wasted preparation fee')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MISPF')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Special preparation fee')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIDSU')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Deferred sentence hearings uplift')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIDSE')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Deferred sentence hearings')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIDTW')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Confiscation hearings (whole day)')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIDWU')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Confiscation hearings (whole day uplift)')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIDTH')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Confiscation hearings (half day)')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIDHU')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Confiscation hearings (half day uplift)')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MISAF')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Standard appearance fee')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MIPCM')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Plea and trial preparation hearing')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Unique code' }, text: 'MISAU')
+            = row.with_cell(html_attributes: { 'data-label': 'Description' }, text: 'Standard appearance fee uplift')
       %br/
     %li
       Addition of a
@@ -748,51 +683,33 @@
 
       %br/
       %br/
-      = govuk_table do
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = 'Field'
-            = govuk_table_th do
-              = 'Old value'
-            = govuk_table_th do
-              = 'New value'
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Field') do
-              id
-            = govuk_table_td('data-label': 'Old value') do
-              33
-            = govuk_table_td('data-label': 'New value') do
-              33
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Field') do
-              type
-            = govuk_table_td('data-label': 'Old value') do
-              Fee::MiscFeeType
-            = govuk_table_td('data-label': 'New value') do
-              Fee::FixedFeeType
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Field') do
-              unique_code
-            = govuk_table_td('data-label': 'Old value') do
-              MISAF
-            = govuk_table_td('data-label': 'New value') do
-              FXADJ
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Field') do
-              code
-            = govuk_table_td('data-label': 'Old value') do
-              SAF
-            = govuk_table_td('data-label': 'New value') do
-              ADJ
-          = govuk_table_row do
-            = govuk_table_td('data-label': 'Field') do
-              description
-            = govuk_table_td('data-label': 'Old value') do
-              Adjourned appeals
-            = govuk_table_td('data-label': 'New value') do
-              Adjourned appeals, committals and breaches
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Field')
+            = row.with_cell(text: 'Old value')
+            = row.with_cell(text: 'New value')
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Field' }, text: 'id')
+            = row.with_cell(html_attributes: { 'data-label': 'Old value' }, text: '33')
+            = row.with_cell(html_attributes: { 'data-label': 'New value' }, text: '33')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Field' }, text: 'type')
+            = row.with_cell(html_attributes: { 'data-label': 'Old value' }, text: 'Fee::MiscFeeType')
+            = row.with_cell(html_attributes: { 'data-label': 'New value' }, text: 'Fee::FixedFeeType')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Field' }, text: 'unique_code')
+            = row.with_cell(html_attributes: { 'data-label': 'Old value' }, text: 'MISAF')
+            = row.with_cell(html_attributes: { 'data-label': 'New value' }, text: 'FXADJ')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Field' }, text: 'code')
+            = row.with_cell(html_attributes: { 'data-label': 'Old value' }, text: 'SAF')
+            = row.with_cell(html_attributes: { 'data-label': 'New value' }, text: 'ADJ')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': 'Field' }, text: 'description')
+            = row.with_cell(html_attributes: { 'data-label': 'Old value' }, text: 'Adjourned appeals')
+            = row.with_cell(html_attributes: { 'data-label': 'New value' }, text: 'Adjourned appeals, committals and breaches')
       This change relates to business logic and user research findings that show that claims for remuneration in relation to Adjournments of appeals against conviction or sentence, committal for sentence and breach of crown court order hearings are typically claimed for in isolation and users are having to work around the current system to submit such claims.
       %br/
       %br/
@@ -809,51 +726,36 @@
       fixed fee case type. However, certain combinations are not applicable and can result in claims be rejected in full or in part. The web interface has been modifed to ensure that only applicable fixed fees can be claimed, based on the case type selected. The table below summarizes the change.
       %br/
       %br/
-  = govuk_table do
-    = govuk_table_caption do
-      Eligible fixed fee types
-    = govuk_table_thead do
-      = govuk_table_row do
-        = govuk_table_th do
-          = 'Case type'
-        = govuk_table_th do
-          = 'Eligible fixed fees'
-    = govuk_table_tbody do
-      = govuk_table_row do
-        = govuk_table_td('data-label': "Case type") do
-          Appeal against conviction
-        = govuk_table_td('data-label': "Eligible fixed fees") do
-          Appeals to the crown court against conviction; Standard appearance fee; Number of cases uplift; Number of defendants uplift
-      = govuk_table_row do
-        = govuk_table_td('data-label': "Case type") do
-          Appeal against sentence
-        = govuk_table_td('data-label': "Eligible fixed fees") do
-          Appeals to the crown court against sentence;Standard appearance fee; Number of cases uplift; Number of defendants uplift
-      = govuk_table_row do
-        = govuk_table_td('data-label': "Case type") do
-          Breach of Crown Court order
-        = govuk_table_td('data-label': "Eligible fixed fees") do
-          Breach of a crown court order; Standard appearance fee; Number of cases uplift; Number of defendants uplift
-      = govuk_table_row do
-        = govuk_table_td('data-label': "Case type") do
-          Committal for Sentence
-        = govuk_table_td('data-label': "Eligible fixed fees") do
-          Committal for sentence hearings; Standard appearance fee; Number of cases uplift; Number of defendants uplift
-      = govuk_table_row do
-        = govuk_table_td('data-label': "Case type") do
-          Contempt
-        = govuk_table_td('data-label': "Eligible fixed fees") do
-          Contempt; Standard appearance fee
-      = govuk_table_row do
-        = govuk_table_td('data-label': "Case type") do
-          Elected cases not proceeded
-        = govuk_table_td('data-label': "Eligible fixed fees") do
-          Elected case not proceeded; Number of cases uplift; Number of defendants uplift
-    = govuk_table_tfoot do
-      = govuk_table_row do
-        = govuk_table_td('data-label': "Notes", colspan: '4') do
+  = govuk_table(classes: 'app-table--responsive') do |table|
+    = table.with_caption(text: 'Eligible fixed fee types')
+    = table.with_head do |head|
+      = head.with_row do |row|
+        = row.with_cell(text: 'Case type')
+        = row.with_cell(text: 'Eligible fixed fees')
+    = table.with_body do |body|
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': "Case type" }, text: 'Appeal against conviction')
+        = row.with_cell(html_attributes: { 'data-label': "Eligible fixed fees" }, text: 'Appeals to the crown court against conviction; Standard appearance fee; Number of cases uplift; Number of defendants uplift')
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': "Case type" }, text: 'Appeal against sentence')
+        = row.with_cell(html_attributes: { 'data-label': "Eligible fixed fees" }, text: 'Appeals to the crown court against sentence;Standard appearance fee; Number of cases uplift; Number of defendants uplift')
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': "Case type" }, text: 'Breach of Crown Court order')
+        = row.with_cell(html_attributes: { 'data-label': "Eligible fixed fees" }, text: 'Breach of a crown court order; Standard appearance fee; Number of cases uplift; Number of defendants uplift')
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': "Case type" }, text: 'Committal for Sentence')
+        = row.with_cell(html_attributes: { 'data-label': "Eligible fixed fees" }, text: 'Committal for sentence hearings; Standard appearance fee; Number of cases uplift; Number of defendants uplift')
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': "Case type" }, text: 'Contempt')
+        = row.with_cell(html_attributes: { 'data-label': "Eligible fixed fees" }, text: 'Contempt; Standard appearance fee')
+      = body.with_row do |row|
+        = row.with_cell(html_attributes: { 'data-label': "Case type" }, text: 'Elected cases not proceeded')
+        = row.with_cell(html_attributes: { 'data-label': "Eligible fixed fees" }, text: 'Elected case not proceeded; Number of cases uplift; Number of defendants uplift')
+    = table.with_foot(classes: 'govuk-table__foot') do |foot|
+      = foot.with_row do |row|
+        = row.with_cell(classes: 'govuk-table__cell', html_attributes: { 'data-label': 'Notes', colspan: '4' }) do
           %em
-            ** see not below
+            ** see note below
   %ul.govuk-list.govuk-list--bullet
     %li
       Case type-specific fixed fee case uplifts have been deprecated.
@@ -862,46 +764,36 @@
       The following case uplifts are no longer considered eligible for any case type and are to be considered deprecated.
       %br/
       %br/
-      = govuk_table do
-        = govuk_table_caption do
-          Deprecated case uplift fixed fee types
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              description
-            = govuk_table_th do
-              unique_code
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Description") do
-              Appeals to the crown court against conviction uplift
-            = govuk_table_td('data-label': "Unique Code") do
-              FXACU
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Description") do
-              Appeals to the crown court against sentence uplift
-            = govuk_table_td('data-label': "Unique Code") do
-              FXASU
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Description") do
-              Breach of a crown court order uplift
-            = govuk_table_td('data-label': "Unique Code") do
-              FXCBU
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Description") do
-              Committal for sentence hearings uplift
-            = govuk_table_td('data-label': "Unique Code") do
-              FXCSU
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Description") do
-              Elected case not proceeded uplift
-            = govuk_table_td('data-label': "Unique Code") do
-              FXENU
-        = govuk_table_tfoot do
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Notes", colspan: '4') do
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(text: 'Deprecated case uplift fixed fee types')
+
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'description')
+            = row.with_cell(text: 'unique_code')
+
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Description"}, text: 'Appeals to the crown court against conviction uplift')
+            = row.with_cell(html_attributes: { 'data-label': "Unique Code"}, text: 'FXACU')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Description"}, text: 'Appeals to the crown court against sentence uplift')
+            = row.with_cell(html_attributes: { 'data-label': "Unique Code"}, text: 'FXASU')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Description"}, text: 'Breach of a crown court order uplift')
+            = row.with_cell(html_attributes: { 'data-label': "Unique Code"}, text: 'FXCBU')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Description"}, text: 'Committal for sentence hearings uplift')
+            = row.with_cell(html_attributes: { 'data-label': "Unique Code"}, text: 'FXCSU')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Description"}, text: 'Elected case not proceeded uplift')
+            = row.with_cell(html_attributes: { 'data-label': "Unique Code"}, text: 'FXENU')
+
+        = table.with_foot(classes: 'govuk-table__foot') do |foot|
+          = foot.with_row do |row|
+            = row.with_cell(classes: 'govuk-table__cell', html_attributes: { 'data-label': 'Notes', colspan: '4' }) do
               %em
-                ** see not below
+                ** see note below
     %li
       "Cracked case discontinued" fixed fee type and its uplift has been deprecated.
       %br/
@@ -909,35 +801,30 @@
       The following fixed fee type has been deprecated and should not be used.
       %br/
       %br/
-      = govuk_table do
-        = govuk_table_caption do
-          Deprecated fixed fee types
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              description
-            = govuk_table_th do
-              unique_code
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Description") do
-              Cracked case discontinued
-            = govuk_table_td('data-label': "Unique Code") do
-              FXCCD
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Description") do
-              Cracked case discontinued uplift
-            = govuk_table_td('data-label': "Unique Code") do
-              FXCDU
-        = govuk_table_tfoot do
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Notes", colspan: '4') do
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(text: 'Deprecated fixed fee types')
+
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'description')
+            = row.with_cell(text: 'unique_code')
+
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Description"}, text: 'Cracked case discontinued')
+            = row.with_cell(html_attributes: { 'data-label': "Unique Code"}, text: 'FXCCD')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Description"}, text: 'Cracked case discontinued uplift')
+            = row.with_cell(html_attributes: { 'data-label': "Unique Code"}, text: 'FXCDU')
+
+        = table.with_foot(classes: 'govuk-table__foot') do |foot|
+          = foot.with_row do |row|
+            = row.with_cell(classes: 'govuk-table__cell', html_attributes: { 'data-label': 'Notes', colspan: '4' }) do
               %em
-                ** see not below
+                ** see note below
 
   %em
     = "** API consumer applications that send ineligible fixed fees will NOT error. However, when reviewing the claim's fixed fees in the web interface any ineligible fees will no longer have a type and will need to be amended to apply an eligible type."
-
 
   %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
   %h2.govuk-heading-m 20 April 2018
@@ -1071,24 +958,18 @@
       error.
       %br/
       %br/
-      = govuk_table do
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              Field
-            = govuk_table_th do
-              Value
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Field") do
-              fee_type_id
-            = govuk_table_td('data-label': "Value") do
-              87
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Field") do
-              fee_type_unique_code
-            = govuk_table_td('data-label': "Value") do
-              MIEVI
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Field')
+            = row.with_cell(text: 'Value')
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Field" }, text: 'fee_type_id')
+            = row.with_cell(html_attributes: { 'data-label': "Value" }, text: '87')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Field" }, text: 'fee_type_unique_code')
+            = row.with_cell(html_attributes: { 'data-label': "Value" }, text: 'MIEVI')
 
   %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
   %h2.govuk-heading-m 01 November 2017
@@ -1138,113 +1019,73 @@
           submitting a claim in the web application
         unless their quantity value is matched by an equal number of comma separated, valid format of case numbers.
       %br/
-      = govuk_table do
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              Fee Type
-            = govuk_table_th do
-              Description
-            = govuk_table_th do
-              Unique code
-            = govuk_table_th do
-              Scheme
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Basic
-            = govuk_table_td('data-label': "Description") do
-              Number of cases uplift
-            = govuk_table_td('data-label': "Unique code") do
-              BANOC
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Fixed
-            = govuk_table_td('data-label': "Description") do
-              Number of cases uplift
-            = govuk_table_td('data-label': "Unique code") do
-              FXNOC
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Fixed
-            = govuk_table_td('data-label': "Description") do
-              Appeals to the crown court against conviction uplift
-            = govuk_table_td('data-label': "Unique code") do
-              FXACU
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Fixed
-            = govuk_table_td('data-label': "Description") do
-              Appeals to the crown court against sentence uplift
-            = govuk_table_td('data-label': "Unique code") do
-              FXASU
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Fixed
-            = govuk_table_td('data-label': "Description") do
-              Committal for sentence hearings uplift
-            = govuk_table_td('data-label': "Unique code") do
-              FXCSU
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Fixed
-            = govuk_table_td('data-label': "Description") do
-              Cracked case discontinued uplift
-            = govuk_table_td('data-label': "Unique code") do
-              FXCDU
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Fixed
-            = govuk_table_td('data-label': "Description") do
-              Elected case not proceeded uplift
-            = govuk_table_td('data-label': "Unique code") do
-              FXENU
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Fixed
-            = govuk_table_td('data-label': "Description") do
-              Breach of a crown court order uplift
-            = govuk_table_td('data-label': "Unique code") do
-              FXCBU
-            = govuk_table_td('data-label': "Scheme") do
-              AGFS
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Fee Type") do
-              Miscellaneous
-            = govuk_table_td('data-label': "Description") do
-              Case uplift
-            = govuk_table_td('data-label': "Unique code") do
-              MIUPL
-            = govuk_table_td('data-label': "Scheme") do
-              LGFS
-        = govuk_table_tfoot do
-          = govuk_table_row do
-            = govuk_table_td('data-label': "Notes", colspan: '4') do
-              %em
-                * For the time being, such fees will not enforce the presence of case numbers if created via the API. This is to give vendors time to amend and release their respective client applications. The requirement will be fully enforced on or after 1st April 2018.
-                %br/
-                %br/
-                ** You can determine these fee types from the
-                %code.app-code
-                  api/fee_types
-                endpoint using the
-                %code.app-code
-                  case_numbers_required
-                boolean attribute
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Fee Type')
+            = row.with_cell(text: 'Description')
+            = row.with_cell(text: 'Unique code')
+            = row.with_cell(text: 'Scheme')
+          = table.with_body do |body|
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Basic')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Number of cases uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'BANOC')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Fixed')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Number of cases uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'FXNOC')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Fixed')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Appeals to the crown court against conviction uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'FXACU')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Fixed')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Appeals to the crown court against sentence uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'FXASU')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Fixed')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Committal for sentence hearings uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'FXCSU')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Fixed')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Cracked case discontinued uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'FXCDU')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Fixed')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Elected case not proceeded uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'FXENU')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Fixed')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Breach of a crown court order uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'FXCBU')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'AGFS')
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': "Fee Type" }, text: 'Miscellaneous')
+              = row.with_cell(html_attributes: { 'data-label': "Description" }, text: 'Case uplift')
+              = row.with_cell(html_attributes: { 'data-label': "Unique code" }, text: 'MIUPL')
+              = row.with_cell(html_attributes: { 'data-label': "Scheme" }, text: 'LGFS')
+          = table.with_foot(classes: 'govuk-table__foot') do |foot|
+            = foot.with_row do |row|
+              = row.with_cell(classes: 'govuk-table__cell', html_attributes: { 'data-label': 'Notes', colspan: '4' }) do
+                %em
+                  * For the time being, such fees will not enforce the presence of case numbers if created via the API. This is to give vendors time to amend and release their respective client applications. The requirement will be fully enforced on or after 1st April 2018.
+                  %br/
+                  %br/
+                  ** You can determine these fee types from the
+                  %code.app-code
+                    api/fee_types
+                  endpoint using the
+                  %code.app-code
+                    case_numbers_required
+                  boolean attribute
       %p
         This is required as part of work to inject claim data from CCCD into the Case workers internal application (Crown Court Remuneration - CCR), to reduce rekeying and speed up claim processing.
 
@@ -1347,131 +1188,95 @@
       for further deatils.
       %p
       An overview of which endpoints to use for claim submission is as follows:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_th do
-            = 'Action'
-          = govuk_table_th do
-            = 'Endpoint URL'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Validate advocate claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims/validate'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Create advocate claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Validate litigator final claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims/final/validate'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Create litigator interim claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims/final'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Validate litigator interim claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims/interim/validate'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Create litigator interim claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims/interim'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Validate litigator transfer claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims/transfer/validate'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Action") do
-            = 'Create litigator transfer claim'
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/claims/transfer'
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Action')
+            = row.with_cell(text: 'Endpoint URL')
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Validate advocate claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims/validate')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Create advocate claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Validate litigator final claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims/final/validate')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Create litigator final claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims/final')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Validate litigator interim claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims/interim/validate')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Create litigator interim claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims/interim')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Validate litigator transfer claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims/transfer/validate')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Action" }, text: 'Create litigator transfer claim')
+            = row.with_cell(html_attributes: { 'data-label': "Endpoint URL" }, text: 'POST /api/external_users/claims/transfer')
 
     %li
       Disbursements can now be validated and added to a claim via the API via:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/disbursements/validate'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'POST /api/external_users/disbursements'
-
+      %ul.govuk-list.govuk-list--bullet
+        %li
+          POST /api/external_users/disbursements/validate
+        %li
+          POST /api/external_users/disbursements
     %li
       A list of valid Disbursement Types can be retrieved via:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'GET /api/disbursement_types'
-
+      %ul.govuk-list.govuk-list--bullet
+        %li
+          GET /api/disbursement_types
     %li
       A list of valid Transfer Stages (to be used when creating a litigator transfer claim) can be retrieved via:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'GET /api/transfer_stages'
-
+      %ul.govuk-list.govuk-list--bullet
+        %li
+          GET /api/transfer_stages
     %li
       A list of valid Transfer Case Conclusions (to be used when creating a litigator transfer claim) can be retrieved via:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Endpoint URL") do
-            = 'GET /api/transfer_case_conclusions'
-
-
+      %ul.govuk-list.govuk-list--bullet
+        %li
+          GET /api/transfer_case_conclusions
     %li
       An attribute 'roles' has been added to the returned structure for the expense types to indicate their validity:
 
       The roles attribute is an array and of one or both of the following values:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_th do
-            = 'Value'
-          = govuk_table_th do
-            = 'Meaning'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Value") do
-            = 'agfs'
-          = govuk_table_td('data-label': "Meaning") do
-            = 'The expense type is valid for advocate claims'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Value") do
-            = 'lgfs'
-          = govuk_table_td('data-label': "Meaning") do
-            = 'The expense type is valid for litigator final, litigater interim, and litigator transfer claims.'
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Value')
+            = row.with_cell(text: 'Meaning')
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Value" }, text: 'agfs')
+            = row.with_cell(html_attributes: { 'data-label': "Meaning" }, text: 'The expense type is valid for advocate claims')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Value" }, text: 'lgfs')
+            = row.with_cell(html_attributes: { 'data-label': "Meaning" }, text: 'The expense type is valid for litigator final, litigater interim, and litigator transfer claims')
 
     %li
       An attribute 'roles' has been added to the returned structure for the case types to indicate their validity:
 
       The roles attribute is an array and of one or many of the following values:
-      = govuk_table do
-        = govuk_table_row do
-          = govuk_table_th do
-            = 'Value'
-          = govuk_table_th do
-            = 'Meaning'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Value") do
-            = 'agfs'
-          = govuk_table_td('data-label': "Meaning") do
-            = 'The case type is valid for advocate claims'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Value") do
-            = 'lgfs'
-          = govuk_table_td('data-label': "Meaning") do
-            = 'The case type is valid for litigator final and litigator transfer claims.'
-        = govuk_table_row do
-          = govuk_table_td('data-label': "Value") do
-            = 'interim'
-          = govuk_table_td('data-label': "Meaning") do
-            = 'The case type is valid for litigator interim claims'
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: 'Value')
+            = row.with_cell(text: 'Meaning')
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Value" }, text: 'agfs')
+            = row.with_cell(html_attributes: { 'data-label': "Meaning" }, text: 'The case type is valid for advocate claims')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Value" }, text: 'lgfs')
+            = row.with_cell(html_attributes: { 'data-label': "Meaning" }, text: 'The case type is valid for litigator final and litigator transfer claims')
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': "Value" }, text: 'interim')
+            = row.with_cell(html_attributes: { 'data-label': "Meaning" }, text: 'The case type is valid for litigator interim claims')
 
     %li
       An attribute 'lgfs_offence_id' has been added to the returned structure for offence classes.  For litigator final, litigator

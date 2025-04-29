@@ -7,27 +7,22 @@
       %p.govuk-body
         = t('shared.summary.no_values.fees')
     - else
-      = govuk_table do
-        = govuk_table_caption(class: 'govuk-visually-hidden') do
-          = t('.fees.caption')
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = t('.fee_category')
-            = govuk_table_th do
-              = t('.fee_type')
-            - unless claim.interim?
-              = govuk_table_th_numeric do
-                = t('.quantity')
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(classes: 'govuk-visually-hidden', text: t('.fees.caption'))
 
-            = govuk_table_th_numeric do
-              = t('.rate')
-            = govuk_table_th_numeric do
-              = t('shared.net_amount')
-        = govuk_table_tbody do
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: t('.fee_category'))
+            = row.with_cell(text: t('.fee_type'))
+            - unless claim.interim?
+              = row.with_cell(text: t('.quantity'), numeric: true)
+            = row.with_cell(text: t('.rate'), numeric: true)
+            = row.with_cell(text: t('shared.net_amount'), numeric: true)
+
+        = table.with_body do |body|
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
-            = govuk_table_row do
-              = govuk_table_td('data-label': t('.fee_category')) do
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': t('.fee_category') }) do
                 = fee.fee_type&.fee_category_name || 'n/a'
                 %br/
                 - if fee.fee_type.unique_code.eql?('BABAF')
@@ -37,7 +32,6 @@
                     = fee.first_day_of_trial
                     %br/
                     %br/
-
                   - if fee.retrial_started_at
                     = t('shared.summary.dates_attended.retrial_started_at')
                     %br/
@@ -53,12 +47,10 @@
                   = fee.dates_attended_delimited_string
                   %br/
                   %br/
-
-
                 - if fee.date?
                   = t('.date')
                   = fee.date
-              = govuk_table_td('data-label': t('.fee_type')) do
+              = row.with_cell(html_attributes: { 'data-label': t('.fee_type') }) do
                 = fee.fee_type&.description || 'n/a'
                 - if fee.sub_type.present?
                   %p
@@ -67,55 +59,40 @@
                   %br
                   = "#{t('.case_numbers')}: #{fee.case_numbers}"
               - unless claim.interim?
-                = govuk_table_td_numeric('data-label': t('.quantity')) do
-                  = fee.quantity
-              = govuk_table_td_numeric('data-label': t('.rate')) do
-                = fee.rate
-              = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
-                = fee.amount
+                = row.with_cell(html_attributes: { 'data-label': t('.quantity') }, text: fee.quantity, numeric: true)
+              = row.with_cell(html_attributes: { 'data-label': t('.rate') }, text: fee.rate, numeric: true)
+              = row.with_cell(html_attributes: { 'data-label': t('shared.net_amount') }, text: fee.amount, numeric: true)
 
-      = govuk_table do
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
-              = t('shared.description')
-            = govuk_table_th_numeric do
-              = t('shared.net_amount')
-            = govuk_table_th_numeric do
-              = t('shared.vat')
-            = govuk_table_th_numeric do
-              = t('shared.gross_amount')
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: t('shared.description'))
+            = row.with_cell(text: t('shared.net_amount'), numeric: true)
+            = row.with_cell(text: t('shared.vat'), numeric: true)
+            = row.with_cell(text: t('shared.gross_amount'), numeric: true)
 
-        = govuk_table_tbody do
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('shared.description')) do
-              = t('shared.summary.fees_total')
-            = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
-              = claim.fees_total
-            = govuk_table_td_numeric('data-label': t('shared.vat')) do
-              = claim.fees_vat
-            = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
-              = claim.fees_gross
+        = table.with_body do |body|
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('shared.description') }, text: t('shared.summary.fees_total'))
+            = row.with_cell(html_attributes: { 'data-label': t('shared.net_amount') }, text: claim.fees_total, numeric: true)
+            = row.with_cell(html_attributes: { 'data-label': t('shared.vat') }, text: claim.fees_vat, numeric: true)
+            = row.with_cell(html_attributes: { 'data-label': t('shared.gross_amount') }, text: claim.fees_gross, numeric: true)
 
     - if claim.final? && claim.interim_claim_info.present?
       - present(claim.interim_claim_info) do |info|
         - if info.warrant_fee_paid?
           %h3.govuk-heading-m
             = t('common.interim_claim_info')
-          = govuk_table do
-            = govuk_table_caption(class: 'govuk-visually-hidden') do
-              = t('.fees.caption')
-            = govuk_table_tbody do
-              = govuk_table_row do
-                = govuk_table_th(scope: 'row') do
-                  = t('shared.claims.interim_claim_info.fields.date_issued')
-                = govuk_table_td do
-                  = info.warrant_issued_date
-              = govuk_table_row do
-                = govuk_table_th(scope: 'row') do
-                  = t('shared.claims.interim_claim_info.fields.date_executed')
-                = govuk_table_td do
-                  = info.warrant_executed_date
+          = govuk_table(classes: 'app-table--responsive') do |table|
+            = table.with_caption(classes: 'govuk-visually-hidden', text: t('.fees.caption'))
+
+            = table.with_body do |body|
+              = body.with_row do |row|
+                = row.with_cell(header: true, html_attributes: { scope: 'row' }, text: t('shared.claims.interim_claim_info.fields.date_issued'))
+                = row.with_cell(text: info.warrant_issued_date)
+              = body.with_row do |row|
+                = row.with_cell(header: true, html_attributes: { scope: 'row' }, text: t('shared.claims.interim_claim_info.fields.date_executed'))
+                = row.with_cell(text: info.warrant_executed_date)
 
     - if claim.expenses.empty?
       %h3.govuk-heading-m

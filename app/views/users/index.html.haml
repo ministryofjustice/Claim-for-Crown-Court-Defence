@@ -5,29 +5,23 @@
 
 .govuk-grid-row
   .govuk-grid-column-full
-    = govuk_table(class: 'govuk-!-margin-top-9') do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.heading')
+    = govuk_table(classes: 'govuk-!-margin-top-9 app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.heading'))
 
-      = govuk_table_thead_collection [ t('.name'),
-         t('.email'),
-         t('.persona'),
-         t('.created')]
+      = table.with_head do |head| 
+        = head.with_row do |row|
+          = row.with_cell(text: t('.name'))
+          = row.with_cell(text: t('.email'))
+          = row.with_cell(text: t('.persona'))
+          = row.with_cell(text: t('.created'))
 
-      = govuk_table_tbody do
+      = table.with_body do |body| 
         - @users.each do |user|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.name')) do
-              = user.name
-
-            = govuk_table_td('data-label': t('.email')) do
-              = user.email
-
-            = govuk_table_td('data-label': t('.persona')) do
-              = user.persona.class
-
-            = govuk_table_td('data-label': t('.created')) do
-              = user.created_at
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('.name') }, text: user.name)
+            = row.with_cell(html_attributes: { 'data-label': t('.email') }, text: user.email)
+            = row.with_cell(html_attributes: { 'data-label': t('.persona') }, text: user.persona.class)
+            = row.with_cell(html_attributes: { 'data-label': t('.created') }, text: user.created_at)
 
 = render partial: 'shared/pagination'
 

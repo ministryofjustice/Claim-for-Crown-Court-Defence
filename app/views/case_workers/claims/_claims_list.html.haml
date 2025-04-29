@@ -4,43 +4,34 @@
       = pagy_info(@pagy).html_safe
 
   .govuk-grid-column-full
-    = govuk_table do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
+    = govuk_table(classes: 'app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden') do
         = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
 
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell do
             = sortable 'type', t('.type'), 'aria-label': t('.type_sort_label'), id: 'type'
-
-          = govuk_table_th do
+          = row.with_cell do
             = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number'
-
-          = govuk_table_th do
+          = row.with_cell do
             = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate'
-
-          = govuk_table_th do
-            = t('.defendants')
-
-          = govuk_table_th_numeric do
+          = row.with_cell(text: t('.defendants'))
+          = row.with_cell(numeric: true) do
             = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat'
-
           - if params[:action] == 'archived'
-            = govuk_table_th do
+            = row.with_cell do
               = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state'
-
-          = govuk_table_th do
+          = row.with_cell do
             = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), id: 'case_type'
-
-          = govuk_table_th_numeric do
+          = row.with_cell(numeric: true) do
             = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at'
-
-          = govuk_table_th(class: 'message-placeholder') do
+          = row.with_cell(classes: 'message-placeholder') do
             = t('.messages')
 
-      = govuk_table_tbody do
-        = govuk_table_row(class: 'mobile-sort') do
-          = govuk_table_th do
+      = table.with_body do |body|
+        = body.with_row(classes: 'mobile-sort') do |row|
+          = row.with_cell(header: true) do
             Sort by:
             = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number_ms'
             = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate_ms'
@@ -51,47 +42,32 @@
             = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at_ms'
 
         - present_collection(claims).each do |claim|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.type')) do
-              = claim.pretty_type
-
-            = govuk_table_td('data-label': t('.case_number')) do
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('.type') }, text: claim.pretty_type)
+            = row.with_cell(html_attributes: { 'data-label': t('.case_number') }) do
               = govuk_link_to claim.case_number,
                         case_workers_claim_path(claim),
                         class: 'js-test-case-number-link',
                         'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"
               = render partial: 'case_workers/injection_errors', locals: { claim: claim }
-
-            = govuk_table_td('data-label': t('.advocate_litigator')) do
-              = claim.external_user.name
-
-            = govuk_table_td('data-label': t('.defendants')) do
-              = claim.defendant_names
-
-            = govuk_table_td_numeric(class: 'js-test-total', 'data-label': t('.total')) do
-              = claim.total_inc_vat
-
+            = row.with_cell(html_attributes: { 'data-label': t('.advocate_litigator') }, text: claim.external_user.name)
+            = row.with_cell(html_attributes: { 'data-label': t('.defendants') }, text: claim.defendant_names)
+            = row.with_cell(classes: 'js-test-total', html_attributes: { 'data-label': t('.total') }, text: claim.total_inc_vat, numeric: true)
             - if params[:action] == 'archived'
-              = govuk_table_td('data-label': t('.status')) do
+              = row.with_cell(html_attributes: { 'data-label': t('.status') }) do
                 = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state.dasherize}"
-
-            = govuk_table_td('data-label': t('.case_type')) do
+            = row.with_cell(html_attributes: { 'data-label': t('.case_type') }) do
               = claim.case_type_name
               %br/
               %span.claim-state
                 = claim.claim_state
-
-            = govuk_table_td_numeric('data-label': t('.submission_date')) do
-              = claim.submitted_at(include_time: false)
-
-            = govuk_table_td(class: 'messages', 'data-label': t('.messages')) do
+            = row.with_cell(html_attributes: { 'data-label': t('.submission_date') }, text: claim.submitted_at(include_time: false), numeric: true) 
+            = row.with_cell(classes: 'messages', html_attributes: { 'data-label': t('.messages') }) do
               - if claim.has_messages?
                 - if claim.remote?
                   = govuk_link_to claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
-
                 - else
                   = govuk_link_to claim.unread_messages_for(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
-
               - else
                 %span.none
                   = t('.none')

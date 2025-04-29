@@ -12,24 +12,23 @@
 .govuk-grid-row{class: 'govuk-!-margin-top-9'}
   .govuk-grid-column-full
 
-    = govuk_table do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.caption')
+    = govuk_table(classes: 'app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.caption'))
 
-      = govuk_table_thead_collection [t('.surname'),
-      t('.name'),
-      t('.status'),
-      t('.actions')]
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell(text: t('.surname'))
+          = row.with_cell(text: t('.name'))
+          = row.with_cell(text: t('.status'))
+          = row.with_cell(text: t('.actions'))
 
-      = govuk_table_tbody do
+      = table.with_body do |body|
         - @case_workers.each do |case_worker|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.surname')) { case_worker.user.last_name }
-
-            = govuk_table_td('data-label': t('.name')) { case_worker.user.first_name }
-            = govuk_table_td('data-label': t('.status')) { govuk_tag_active_user?(case_worker.user) }
-
-            = govuk_table_td('data-label': t('.actions')) do
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('.surname') }, text: case_worker.user.last_name)
+            = row.with_cell(html_attributes: { 'data-label': t('.name') }, text: case_worker.user.first_name)
+            = row.with_cell(html_attributes: { 'data-label': t('.status') }, text: govuk_tag_active_user?(case_worker.user))
+            = row.with_cell(html_attributes: { 'data-label': t('.actions') }) do
               - if case_worker.active?
                 .app-link-group
                   .div= govuk_link_to t('.edit_caseworker_html', case_worker: case_worker.name), edit_case_workers_admin_case_worker_path(case_worker)

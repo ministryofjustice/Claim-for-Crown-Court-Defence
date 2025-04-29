@@ -1,20 +1,17 @@
 - if @claim.documents.any?(&:persisted?)
-  = govuk_table(class: 'files') do
-    = govuk_table_caption do
-      = t('.previously_uploaded_docs')
+  = govuk_table(classes: 'app-table--responsive files') do |table|
+    = table.with_caption(text: t('.previously_uploaded_docs'))
 
-    = govuk_table_thead do
-      = govuk_table_row do
-        = govuk_table_th(class: 'govuk-!-width-two-thirds') do
-          = t('.file_name')
-        = govuk_table_th do
-          = t('.action')
-    = govuk_table_tbody do
+    = table.with_head do |head|
+      = head.with_row do |row|
+        = row.with_cell(classes: 'govuk-!-width-two-thirds', text: t('.file_name'))
+        = row.with_cell(text: t('.action'))
+
+    = table.with_body do |body|
       - @claim.documents.order(created_at: :asc).each do |document|
-        = govuk_table_row(id: dom_id(document)) do
-          = govuk_table_td('data-label': t('.file_name')) do
-            = document.document_file_name
-          = govuk_table_td('data-label': t('.action')) do
+        = body.with_row(html_attributes: { id: dom_id(document) }) do |row|
+          = row.with_cell(html_attributes: { 'data-label': t('.file_name') }, text: document.document_file_name)
+          = row.with_cell(html_attributes: { 'data-label': t('.action') }) do
             .app-link-group
               = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"),
                         download_document_path(document),

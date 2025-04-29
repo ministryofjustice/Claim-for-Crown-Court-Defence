@@ -7,21 +7,16 @@
         .message-body
           = determination.event
 
-          = govuk_table do
-            = govuk_table_caption(class: 'govuk-visually-hidden') do
-              = t('.caption')
+          = govuk_table(classes: 'app-table--responsive') do |table|
+            = table.with_caption(classes: 'govuk-visually-hidden', text: t('.caption'))
 
-            = govuk_table_thead do
-              = govuk_table_row do
-                = govuk_table_th do
-                  = t('.item')
-                = govuk_table_th_numeric do
-                  = t('.amount')
+            = table.with_head do |head|
+              = head.with_row do |row|
+                = row.with_cell(text: t('.item'))
+                = row.with_cell(text: t('.amount'), numeric: true)
 
-            = govuk_table_tbody do
+            = table.with_body do |body|
               - determination.itemise do |item, amount|
-                = govuk_table_row do
-                  = govuk_table_th(scope: 'row', 'data-label': t('.item')) do
-                    #{item}
-                  = govuk_table_td_numeric('data-label': t('.amount')) do
-                    #{number_to_currency(amount)}
+                = body.with_row do |row|
+                  = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('.item') }, text: "#{item}")
+                  = row.with_cell(html_attributes: { 'data-label': t('.amount') }, text: "#{number_to_currency(amount)}", numeric: true)

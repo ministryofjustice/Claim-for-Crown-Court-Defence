@@ -29,72 +29,57 @@
           = f.govuk_submit t('.re_allocate'), name: 'tab', value: 'allocated'
 
       - if @claims.any?
-        = govuk_table(class: 'js-checkbox-table') do
-          = govuk_table_caption(id: 'allocation-claim-ids-field-error') do
+        = govuk_table(classes: 'app-table--responsive js-checkbox-table') do |table|
+          = table.with_caption(size: 's', html_attributes: { id: 'allocation-claim-ids-field-error' } ) do
             .govuk-grid-row
               .govuk-grid-column-one-half
                 = t('.re_allocation')
               .govuk-grid-column-one-half.claim-count{ class: 'govuk-!-text-align-right' }
                 = pagy_info(@pagy).html_safe
 
-          = govuk_table_thead do
-            = govuk_table_row do
-              = govuk_table_th do
+          = table.with_head do |head|
+            = head.with_row do |row|
+              = row.with_cell do
                 = govuk_link_to t('.select_all'), '#', class: 'select-all', data: { 'all-checked': 'false' }, 'aria-label': t('.select_all_label')
-              = govuk_table_th do
-                = t('.case_number')
-              = govuk_table_th do
-                = t('.court')
-              = govuk_table_th do
-                = t('.defendants')
-              = govuk_table_th do
-                = t('.type')
-              = govuk_table_th_numeric do
-                = t('.submitted_date')
-              = govuk_table_th_numeric do
-                = t('.claim_total')
+              = row.with_cell(text: t('.case_number'))
+              = row.with_cell(text: t('.court'))
+              = row.with_cell(text: t('.defendants'))
+              = row.with_cell(text: t('.type'))
+              = row.with_cell(text: t('.submitted_date'), numeric: true)
+              = row.with_cell(text: t('.claim_total'), numeric: true)
               - if params[:tab] == 'allocated'
-                = govuk_table_th do
-                  = t('.allocated_to')
+                = row.with_cell(text: t('.allocated_to'))
 
-          = govuk_table_tbody do
+          = table.with_body do |body|
             = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
               - present(b.object) do |claim|
-                = govuk_table_row(id: dom_id(claim)) do
-                  = govuk_table_td('data-label': t('.select')) do
+                = body.with_row(html_attributes: { id: dom_id(claim) }) do |row|
+                  = row.with_cell(html_attributes: { 'data-label': t('.select') }) do
                     .govuk-checkboxes.govuk-checkboxes--small{ 'data-module': 'govuk-checkboxes' }
                       .govuk-checkboxes__item
                         = b.check_box(class: 'govuk-checkboxes__input')
                         = b.label(class: 'govuk-label govuk-checkboxes__label'){ t('.choose_label_html', case_number: claim.case_number) }
 
-                  = govuk_table_td('data-label': t('.case_number')) do
+                  = row.with_cell(html_attributes: { 'data-label': t('.case_number') }) do
                     %span.js-test-case-number
                       = govuk_link_to claim.case_number, case_workers_claim_path(claim), 'aria-label': t('.case_number_label', case_number: claim.case_number)
                       %span.unique-id-small
                         = claim.unique_id
                       = render partial: 'case_workers/injection_errors', locals: { claim: claim }
 
-                  = govuk_table_td('data-label': t('.court')) do
-                    = claim.court.name
-
-                  = govuk_table_td('data-label': t('.defendants')) do
-                    = claim.defendant_names
-
-                  = govuk_table_td('data-label': t('.type')) do
+                  = row.with_cell(html_attributes: { 'data-label': t('.court') }, text: claim.court.name)
+                  = row.with_cell(html_attributes: { 'data-label': t('.defendants') }, text: claim.defendant_names)
+                  = row.with_cell(html_attributes: { 'data-label': t('.type') }) do
                     = claim.case_type_name
                     %br/
                     %span.claim-state
                       = claim.claim_state
 
-                  = govuk_table_td_numeric('data-label': t('.submitted_date')) do
-                    = claim.submitted_at_short
-
-                  = govuk_table_td_numeric('data-label': t('.claim_total')) do
-                    = claim.total_inc_vat
+                  = row.with_cell(html_attributes: { 'data-label': t('.submitted_date') }, text: claim.submitted_at_short)
+                  = row.with_cell(html_attributes: { 'data-label': t('.claim_total') }, text: claim.total_inc_vat)
 
                   - if params[:tab] == 'allocated'
-                    = govuk_table_td('data-label': t('.allocated_to')) do
-                      = claim.case_workers.map(&:name).join(', ')
+                    = row.with_cell(html_attributes: { 'data-label': t('.allocated_to') }, text: claim.case_workers.map(&:name).join(', '))
 
       - else
         %p.govuk-body{ class: 'govuk-!-font-weight-bold' }

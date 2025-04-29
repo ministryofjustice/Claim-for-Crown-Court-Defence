@@ -8,26 +8,23 @@
     - if can? :new, ExternalUser
       = govuk_button_link_to(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
 
-    = govuk_table(class: 'govuk-!-margin-top-9') do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.caption', provider_name: @provider.name)
+    = govuk_table(classes: 'govuk-!-margin-top-9 app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.caption', provider_name: @provider.name))
 
-      = govuk_table_thead_collection [t('.name'),
-        t('.supplier_number'),
-        t('.email'),
-        t('.state')]
+      = table.with_head do |head| 
+        = head.with_row do |row|
+          = row.with_cell(text:t('.name'))
+          = row.with_cell(text:t('.supplier_number'))
+          = row.with_cell(text:t('.email'))
+          = row.with_cell(text:t('.state'))
 
-      = govuk_table_tbody do
+      = table.with_body do |body| 
         - @external_users.each do |advocate|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.name')) do
+          = body.with_row do |row|
+            = row.with_cell(html_attributes: { 'data-label': t('.name') }) do
               = can?(:show, advocate) ? govuk_link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name)) : advocate.name
-
-            = govuk_table_td('data-label': t('.supplier_number')) do
-              = advocate.supplier_number
-
-            = govuk_table_td('data-label': t('.email')) do
+            = row.with_cell(html_attributes: { 'data-label': t('.supplier_number') }, text: advocate.supplier_number)
+            = row.with_cell(html_attributes: { 'data-label': t('.email') }) do
               = govuk_mail_to advocate.email, advocate.email, 'aria-label': t('.title', provider: advocate.name)
-
-            = govuk_table_td('data-label': t('.state')) do
+            = row.with_cell(html_attributes: { 'data-label': t('.state') }) do
               = (advocate.active? && advocate.enabled?) ? t('.live') : t('.inactive')

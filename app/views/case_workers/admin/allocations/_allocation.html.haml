@@ -42,14 +42,15 @@
   %h2.govuk-heading-m
     = t('.allocation_queue')
 
-  = govuk_table(class: 'app-jq-datatable', style: 'width: 100%') do
-    = govuk_table_caption(class: 'govuk-visually-hidden') do
-      = t('.table_summary')
+  = govuk_table(classes: 'app-table--responsive app-jq-datatable') do |table|
+    = table.with_caption(classes: 'govuk-visually-hidden', text:  t('.table_summary'))
 
-    = govuk_table_thead_collection ['',
-      t('.case_number'),
-      t('.court'),
-      t('.defendents'),
-      t('.type'),
-      t('.submitted'),
-      t('.total')]
+    = table.with_head do |head|
+      = head.with_row do |row|
+        = row.with_cell(text: '')
+        = row.with_cell(text: t('.case_number'))
+        = row.with_cell(text: t('.court'))
+        = row.with_cell(text: t('.defendents'))
+        = row.with_cell(text: t('.type'))
+        = row.with_cell(text: t('.submitted'), numeric: true)
+        = row.with_cell(text: t('.total'), numeric: true)

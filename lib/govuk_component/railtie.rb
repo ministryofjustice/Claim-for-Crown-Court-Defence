@@ -40,12 +40,6 @@ module GovukComponent
       end
     end
 
-    initializer 'govuk_component.table_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::TableHelpers }
-      end
-    end
-
     initializer 'govuk_component.tag_helpers' do
       config.after_initialize do
         ActiveSupport.on_load(:action_view) { include GovukComponent::TagHelpers }

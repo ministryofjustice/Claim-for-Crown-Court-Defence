@@ -17,11 +17,11 @@
 
 - if local_assigns.has_key?(:fee)
   - if fee
-    = govuk_table do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.caption')
-      = govuk_table_tbody do
-        = render partial: 'external_users/claims/summary_fee', locals: { fee: present(fee) }
+    = govuk_table(classes: 'app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.caption'))
+
+      = table.with_body do |body|
+        = render partial: 'external_users/claims/summary_fee', locals: { fee: present(fee), body: body }
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
       = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: step }
@@ -43,42 +43,29 @@
       %h3.govuk-heading-m
         = t('shared.summary.basic_fees')
 
-    = govuk_table do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.caption')
+    = govuk_table(classes: 'app-table--responsive') do |table|
+      = table.with_caption(classes: 'govuk-visually-hidden', text: t('.caption'))
 
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
-            = t('shared.summary.fee_type')
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell(text: t('shared.summary.fee_type'))
           - unless claim.lgfs? && collection.any?(&:is_misc?)
-            = govuk_table_th do
-              = t('shared.summary.dates')
-            = govuk_table_th_numeric do
-              = t('shared.summary.quantity')
-            = govuk_table_th_numeric do
-              = t('shared.summary.rate')
-          = govuk_table_th_numeric do
-            = t('shared.summary.amount')
-          = govuk_table_th_numeric do
-            = t('shared.summary.vat_amount')
-          = govuk_table_th_numeric do
-            = t('shared.summary.total_amount')
+            = row.with_cell(text: t('shared.summary.dates'))
+            = row.with_cell(text: t('shared.summary.quantity'), numeric: true)
+            = row.with_cell(text: t('shared.summary.rate'), numeric: true)
+          = row.with_cell(text: t('shared.summary.amount'), numeric: true)
+          = row.with_cell(text: t('shared.summary.vat_amount'), numeric: true)
+          = row.with_cell(text: t('shared.summary.total_amount'), numeric: true)
 
-      = govuk_table_tbody do
+      = table.with_body do |body|
         - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
-          = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
+          = render partial: 'external_users/claims/summary_fee', locals: { fee: fee, body: body }
 
-      = govuk_table_tfoot do
-        = govuk_table_row do
-          = govuk_table_th(scope: 'row') do
-            = t('shared.summary.total')
+      = table.with_foot(classes: 'govuk-table__foot') do |foot|
+        = foot.with_row do |row|
+          = row.with_cell(header: true, classes: 'govuk-table__cell', html_attributes: { scope: 'row' }, text: t('shared.summary.total'))
           - unless claim.lgfs? && collection.any?(&:is_misc?)
-            = govuk_table_td(colspan: '3') { nil }
-
-          = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-            = claim.send("#{section}_total")
-          = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-            = claim.send("#{section}_vat")
-          = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-            = claim.send("#{section}_gross")
+            = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { colspan: '3' }, text: nil)
+          = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.send("#{section}_total"), numeric: true)
+          = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.send("#{section}_vat"), numeric: true)
+          = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.send("#{section}_gross"), numeric: true)

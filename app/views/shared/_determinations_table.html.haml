@@ -4,24 +4,19 @@
 
   = render partial: 'shared/summary_totals', locals: { claim: claim }
 
-  = govuk_table(id: 'determinations') do
-    = govuk_table_caption do
+  = govuk_table(classes: 'app-table--responsive', html_attributes: { id: 'determinations' }) do |table|
+    = table.with_caption do
       %h2.govuk-heading-l
         = t('shared.determinations_form.assessment_summary')
 
-    = govuk_table_thead do
-      = govuk_table_row do
-        = govuk_table_th do
-          = t('common.description')
+    = table.with_head do |head|
+      = head.with_row do |row|
+        = row.with_cell(text: t('common.description'))
+        = row.with_cell(text: t('.claimed_by', type: claim.external_user_description), numeric: true)
+        = row.with_cell(text: t('.laa_heading'), numeric: true)
 
-        = govuk_table_th_numeric do
-          = t('.claimed_by', type: claim.external_user_description)
-
-        = govuk_table_th_numeric do
-          = t('.laa_heading')
-
-    = govuk_table_tbody do
+    = table.with_body do |body|
       - if claim.redeterminations.any?
-        = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
+        = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last, body: body }
       - else
-        = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
+        = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment, body: body }

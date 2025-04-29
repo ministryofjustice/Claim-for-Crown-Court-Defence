@@ -1,136 +1,89 @@
-= govuk_table do
-  = govuk_table_caption(class: 'govuk-visually-hidden') do
-    = 'Cost summary'
+= govuk_table(classes: 'app-table--responsive') do |table|
+  = table.with_caption(classes: 'govuk-visually-hidden', text: 'Cost summary')
 
-  = govuk_table_thead do
-    = govuk_table_row do
-      = govuk_table_th do
-        = t('common.description')
-      = govuk_table_th_numeric do
-        = t('shared.summary.amount')
-      = govuk_table_th_numeric do
-        = t('shared.summary.vat_amount')
-      = govuk_table_th_numeric do
-        = t('shared.summary.total_amount')
+  = table.with_head do |head|
+    = head.with_row do |row|
+      = row.with_cell(text: t('common.description'))
+      = row.with_cell(text: t('shared.summary.amount'), numeric: true)
+      = row.with_cell(text: t('shared.summary.vat_amount'), numeric: true)
+      = row.with_cell(text: t('shared.summary.total_amount'), numeric: true)
 
-  = govuk_table_tbody do
+  = table.with_body do |body|
     - if claim.fixed_fee_case?
-      = govuk_table_row(class: 'fx-seed-fixedFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_fixed_fees_total }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('shared.summary.fixed_fees')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.fixed_fees_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.fixed_fees_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.fixed_fees_gross
+      = body.with_row(classes: 'fx-seed-fixedFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_fixed_fees_total } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.summary.fixed_fees'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.fixed_fees_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.fixed_fees_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.fixed_fees_gross, numeric: true)
+
     - else
       - if claim.respond_to? :basic_fees_total
-        = govuk_table_row(class: 'fx-seed-gradFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_basic_fees_total }) do
-          = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
+        = body.with_row(classes: 'fx-seed-gradFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_basic_fees_total } }) do |row|
+          = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, header: true) do
             = claim.hardship? ? t('shared.summary.hardship_fees') : t('shared.summary.graduated_fees')
-          = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-            = claim.basic_fees_total
-          = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-            = claim.basic_fees_vat
-          = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-            = claim.basic_fees_gross
+          = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.basic_fees_total, numeric: true)
+          = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.basic_fees_vat, numeric: true)
+          = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.basic_fees_gross, numeric: true)
 
       - if claim.respond_to? :grad_fees_total
-        = govuk_table_row(class: 'fx-seed-gradFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_grad_fees_total }) do
-          = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-            = t('shared.summary.graduated_fees')
-          = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-            = claim.grad_fees_total
-          = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-            = claim.grad_fees_vat
-          = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-            = claim.grad_fees_gross
+        = body.with_row(classes: 'fx-seed-gradFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_grad_fees_total } }) do |row|
+          = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.summary.graduated_fees'))
+          = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.grad_fees_total, numeric: true)
+          = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.grad_fees_vat, numeric: true)
+          = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.grad_fees_gross, numeric: true)
 
     - if claim.respond_to? :warrant_fees_total
-      = govuk_table_row(class: 'fx-seed-interimFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_warrant_fees_total }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('common.warrant_fees')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.warrant_fees_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.warrant_fees_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.warrant_fees_gross
+      = body.with_row(classes: 'fx-seed-interimFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_warrant_fees_total } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('common.warrant_fees'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.warrant_fees_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.warrant_fees_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.warrant_fees_gross, numeric: true)
 
     - if claim.respond_to? :hardship_fees_total
-      = govuk_table_row(class: 'fx-seed-hardshipFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_hardship_fees_total }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('common.hardship_fees')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.hardship_fees_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.hardship_fees_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.hardship_fees_gross
+      = body.with_row(classes: 'fx-seed-hardshipFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_hardship_fees_total } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('common.hardship_fees'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.hardship_fees_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.hardship_fees_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.hardship_fees_gross, numeric: true)
 
     - if claim.respond_to? :interim_fees_total
-      = govuk_table_row(class: 'fx-seed-interimFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_interim_fees_total }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('common.interim_fees')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.interim_fees_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.interim_fees_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.interim_fees_gross
+      = body.with_row(classes: 'fx-seed-interimFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_interim_fees_total } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('common.interim_fees'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.interim_fees_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.interim_fees_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.interim_fees_gross, numeric: true)
 
     - if claim.respond_to? :transfer_fees_total
-      = govuk_table_row(class: 'fx-seed-transferFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_transfer_fees_total }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('common.transfer_fees')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.transfer_fees_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.transfer_fees_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.transfer_fees_gross
+      = body.with_row(classes: 'fx-seed-transferFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_transfer_fees_total } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('common.transfer_fees'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.transfer_fees_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.transfer_fees_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.transfer_fees_gross, numeric: true)
 
     - if claim.disbursements_total?.eql?(true)
-      = govuk_table_row(class: 'fx-seed-disbursements', data: { autovat: 'false', seed: claim.raw_disbursements_total, 'seed-vat': claim.raw_disbursements_vat }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('common.disbursements')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.disbursements_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.disbursements_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.disbursements_gross
+      = body.with_row(classes: 'fx-seed-disbursements', html_attributes: { data: { autovat: 'false', seed: claim.raw_disbursements_total, 'seed-vat': claim.raw_disbursements_vat } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('common.disbursements'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.disbursements_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.disbursements_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.disbursements_gross, numeric: true)
 
     - if claim.misc_fees_total.nil?.eql?(false)
-      = govuk_table_row(class: 'fx-seed-miscFees', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_misc_fees_total }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('shared.summary.miscellaneous_fees')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.misc_fees_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.misc_fees_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.misc_fees_gross
+      = body.with_row(classes: 'fx-seed-miscFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_misc_fees_total } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.summary.miscellaneous_fees'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.misc_fees_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.misc_fees_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.misc_fees_gross, numeric: true)
 
     - if claim.respond_to?(:expenses_total) && !claim.hardship?
-      = govuk_table_row(class: 'fx-seed-expenses', data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_expenses_total, 'seed-vat': claim.raw_expenses_vat }) do
-        = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-          = t('shared.summary.expenses.travel_expenses')
-        = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-          = claim.expenses_total
-        = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
-          = claim.expenses_vat
-        = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-          = claim.expenses_gross
+      = body.with_row(classes: 'fx-seed-expenses', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_expenses_total, 'seed-vat': claim.raw_expenses_vat } }) do |row|
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.summary.expenses.travel_expenses'))
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.expenses_total, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.vat_amount') }, text: claim.expenses_vat, numeric: true)
+        = row.with_cell(html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.expenses_gross, numeric: true)
 
-  = govuk_table_tfoot do
-    = govuk_table_row(class: 'fx-seed', 'data-total-inc': claim.raw_total_inc) do
-      = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
-        = t('shared.summary.claim_total')
-      = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
-        = claim.total
-      = govuk_table_td_numeric(class: 'fx-seed', data: { label: t('shared.summary.vat_amount'), 'vat-total':  claim.raw_vat_amount }) do
-        = claim.vat_amount
-      = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
-        = claim.total_inc
+  = table.with_foot(classes: 'govuk-table__foot') do |foot|
+    = foot.with_row(classes: 'fx-seed', html_attributes: { 'data-total-inc': claim.raw_total_inc }) do |row|
+      = row.with_cell(header: true, classes: 'govuk-table__cell', html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.summary.claim_total'))
+      = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.total, numeric: true)
+      = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric fx-seed', html_attributes: { data: { label: t('shared.summary.vat_amount'), 'vat-total':  claim.raw_vat_amount } }, text: claim.vat_amount, numeric: true)
+      = row.with_cell(classes: 'govuk-table__cell govuk-table__cell--numeric', html_attributes: { 'data-label': t('shared.summary.total_amount') }, text: claim.total_inc, numeric: true)

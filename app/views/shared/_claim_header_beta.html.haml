@@ -18,13 +18,9 @@
   %h1.govuk-heading-xl
     = claim.defendant_name_and_initial + claim.other_defendant_summary
 
-  .div{ class: 'govuk-!-margin-bottom-8' }
-    %p.govuk-body-l{ class: 'govuk-!-margin-bottom-0' }
-      %span{ class: 'govuk-!-font-weight-bold' }
-        = t('.case_number')
-      = claim.case_number
-      = claim.unique_id
+  %h2.govuk-heading-l Case Number: #{claim.case_number} (#{claim.unique_id})
 
+  .div{ class: 'govuk-!-margin-bottom-8' }
     %p.govuk-body-l{ class: 'govuk-!-margin-bottom-0' }
       %span{ class: 'govuk-!-font-weight-bold' }
         = t('.assessment_date')

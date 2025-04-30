@@ -245,7 +245,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def defendant_name_and_initial
-    claim.defendants.first.name_and_initial if claim.defendants.any?
+    claim.defendants.any? ? claim.defendants.first.name_and_initial : ''
   end
 
   def other_defendant_summary
@@ -255,6 +255,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     else
       ''
     end
+  end
+
+  def all_defendants_name_and_initial
+    claim.defendants.map(&:name_and_initial).join(', ')
   end
 
   def has_messages?

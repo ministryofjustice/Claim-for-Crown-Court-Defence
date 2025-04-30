@@ -1,0 +1,40 @@
+.claim-hgroup
+  .govuk-grid-row
+    .govuk-grid-column-one-half
+      %p
+        = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state}"
+
+    .govuk-grid-column-one-half
+      - if current_user.persona.is_a?(CaseWorker)
+        .other-claims
+          - if claim_ids.present? && claim_ids.include?(@claim.id)
+            %p{ class: 'govuk-!-margin-bottom-0' }
+              = t('shared.position_and_count', position: claim_position_and_count)
+
+            - unless last_claim?
+              %p
+                = next_claim_link 'Next claim', class: 'next-claim'
+
+  %h1.govuk-heading-xl
+    = claim.defendant_name_and_initial + claim.other_defendant_summary
+
+  %h2.govuk-heading-l Case Number: #{claim.case_number} (#{claim.unique_id})
+
+  .div{ class: 'govuk-!-margin-bottom-8' }
+    %p.govuk-body-l{ class: 'govuk-!-margin-bottom-0' }
+      %span{ class: 'govuk-!-font-weight-bold' }
+        = t('.assessment_date')
+      = claim.assessment_date
+
+    %p.govuk-body-l{ class: 'govuk-!-margin-bottom-0' }
+      %span{ class: 'govuk-!-font-weight-bold' }
+        = t('.provider_type')
+      = claim.provider.name
+
+    %p.govuk-body-l{ class: 'govuk-!-margin-bottom-0' }
+      %span{ class: 'govuk-!-font-weight-bold' }
+        = t('.defendant_names')
+      = claim.all_defendants_name_and_initial
+
+    - if cda_view_enabled?
+      = govuk_link_to 'Court Data view (experimental)', case_workers_claim_court_data_index_path(@claim)

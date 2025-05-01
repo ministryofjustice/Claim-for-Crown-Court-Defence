@@ -5,7 +5,7 @@ FROM base AS builder
 
 RUN set -ex
 
-ENV APP_HOME /usr/src/app
+ENV APP_HOME=/usr/src/app
 WORKDIR $APP_HOME
 
 RUN apk --update-cache upgrade \
@@ -16,11 +16,13 @@ RUN apk --update-cache upgrade \
                    yaml-dev \
                    yarn
 
-ENV RAILS_ENV production
+ENV RAILS_ENV=production
 
 COPY Gemfile Gemfile.lock .ruby-version $APP_HOME/
 
-RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
+RUN gem install bundler -v "$(tail -1 Gemfile.lock | tr -d " ")" \
 && bundle config without test development \
 && bundle install --jobs 4 --retry 3 \
 && rm -rf /usr/local/bundle/cache/*.gem \
@@ -40,14 +42,14 @@ RUN rm -rf node_modules
 
 # Stage 2: copies dependencies from the build stage and creates final image for running the application
 FROM base
-LABEL Organisation="Ministry of Justice"
-LABEL Service="Claim for Crown Court Defence"
-LABEL Contact="crowncourtdefence@digital.justice.gov.uk"
+LABEL organisation="Ministry of Justice"
+LABEL service="Claim for Crown Court Defence"
+LABEL contact="crowncourtdefence@digital.justice.gov.uk"
 
 RUN set -ex
 
-ENV RAILS_ENV production
-ENV APP_HOME /usr/src/app
+ENV RAILS_ENV=production
+ENV APP_HOME=/usr/src/app
 WORKDIR $APP_HOME
 
 RUN apk --update-cache upgrade \
@@ -85,4 +87,4 @@ USER 1000
 # Create tmp/pids/ needed for puma
 RUN mkdir -p $APP_HOME/tmp/pids
 
-CMD "./docker/docker-entrypoint.sh"
+CMD ["./docker/docker-entrypoint.sh"]

@@ -40,7 +40,9 @@ RSpec.describe Claims::Cloner do
   end
 
   describe '#clone_rejected_to_new_draft' do
-    subject(:clone) { claim.clone_rejected_to_new_draft }
+    subject(:clone) { claim.clone_rejected_to_new_draft(author_id:) }
+    
+    let(:author_id) { create(:external_user) }
 
     context 'with a claim that is not rejected' do
       let(:claim) { build(:claim) }
@@ -51,6 +53,29 @@ RSpec.describe Claims::Cloner do
     end
 
     context 'with a rejected claim' do
+      let(:claim) { create(:interim_claim, :interim_effective_pcmh_fee, :submitted) }
+
+      before do
+        create(:certification, claim:)
+        claim.allocate!
+        claim.reject!
+      end
+
+      it { is_expected.to be_draft }
+      it { expect(clone.last_submitted_at).to be_nil }
+      it { expect(clone.original_submission_date).to be_nil }
+      it { expect(clone.uuid).not_to eq claim.uuid }
+      it { expect(clone.clone_source_id).to eq(claim.id) }
+      it { expect(clone.certification).to be_nil }
+
+      context 'when the claim has been edited' do
+        before { claim.touch(:last_edited_at) }
+
+        it { expect(clone.last_edited_at).to be_nil }
+      end
+    end
+
+    context 'with a rejected claim (old)' do
       before(:all) do
         @current_user = create(:external_user)
         @original_claim = create_rejected_claim
@@ -59,26 +84,6 @@ RSpec.describe Claims::Cloner do
 
       after(:all) do
         clean_database
-      end
-
-      it 'creates a draft claim' do
-        expect(@cloned_claim).to be_draft
-      end
-
-      it 'does not clone last_submitted_at' do
-        expect(@cloned_claim.last_submitted_at).to be_nil
-      end
-
-      it 'does not clone last_edited_at' do
-        expect(@cloned_claim.last_edited_at).to be_nil
-      end
-
-      it 'does not clone original_submission_date' do
-        expect(@cloned_claim.original_submission_date).to be_nil
-      end
-
-      it 'does not clone the uuid' do
-        expect(@cloned_claim.reload.uuid).not_to eq(@original_claim.uuid)
       end
 
       it 'does not clone the uuids of fees' do
@@ -136,10 +141,6 @@ RSpec.describe Claims::Cloner do
         it { expect(@cloned_claim.documents.count).to eq(@original_claim.documents.count) }
       end
 
-      it 'stores the original claim ID in the new cloned claim' do
-        expect(@cloned_claim.clone_source_id).to eq(@original_claim.id)
-      end
-
       it { expect(@cloned_claim.form_id).not_to be_blank }
       it { expect(@cloned_claim.form_id).not_to eq(@original_claim.form_id) }
 
@@ -155,10 +156,6 @@ RSpec.describe Claims::Cloner do
       context 'with assessments' do
         it { expect(@original_claim.assessment.nil?).to be(false) }
         it { expect(@cloned_claim.assessment.zero?).to be(true) }
-      end
-
-      it 'does not clone certifications' do
-        expect(@cloned_claim.certification).to be_nil
       end
 
       context 'with injection attempts' do

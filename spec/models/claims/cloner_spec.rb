@@ -40,14 +40,14 @@ RSpec.describe Claims::Cloner do
   end
 
   describe '#clone_rejected_to_new_draft' do
-    context 'non-rejected_claims' do
-      it 'tests the functionality in the new way' do
-        non_rejected_claim = build(:claim)
-        allow(non_rejected_claim).to receive(:rejected?).and_return(false)
-        expect {
-          non_rejected_claim.clone_rejected_to_new_draft
-        }.to raise_error(ArgumentError)
-      end
+    subject(:clone) { claim.clone_rejected_to_new_draft }
+
+    context 'with a claim that is not rejected' do
+      let(:claim) { build(:claim) }
+
+      before { allow(claim).to receive(:rejected?).and_return(false) }
+
+      it { expect { clone }.to raise_error(ArgumentError) }
     end
 
     context 'rejected_claims' do

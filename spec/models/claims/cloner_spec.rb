@@ -15,13 +15,13 @@ RSpec.shared_examples 'common defendants cloning tests' do
   end
 
   it 'does not clone the uuids of defendants' do
-    expect(@cloned_claim.defendants.map(&:uuid).sort).to_not match_array(@original_claim.defendants.map(&:uuid).sort)
+    expect(@cloned_claim.defendants.map(&:uuid).sort).not_to match_array(@original_claim.defendants.map(&:uuid).sort)
   end
 
   it 'does not clone the uuids of representation orders' do
     cloned_claim_uuids = representation_orders_for(@cloned_claim.defendants).map(&:uuid)
     rejected_claim_uuids = representation_orders_for(@original_claim.defendants).map(&:uuid)
-    expect(cloned_claim_uuids.sort).to_not match_array(rejected_claim_uuids.sort)
+    expect(cloned_claim_uuids.sort).not_to match_array(rejected_claim_uuids.sort)
   end
 end
 
@@ -78,19 +78,19 @@ RSpec.describe Claims::Cloner do
       end
 
       it 'does not clone the uuid' do
-        expect(@cloned_claim.reload.uuid).to_not eq(@original_claim.uuid)
+        expect(@cloned_claim.reload.uuid).not_to eq(@original_claim.uuid)
       end
 
       it 'does not clone the uuids of fees' do
-        expect(@cloned_claim.fees.map { |fee| fee.reload.uuid }).to_not match_array(@original_claim.fees.map { |fee| fee.reload.uuid })
+        expect(@cloned_claim.fees.map { |fee| fee.reload.uuid }).not_to match_array(@original_claim.fees.map { |fee| fee.reload.uuid })
       end
 
       it 'does not clone the uuids of expenses' do
-        expect(@cloned_claim.expenses.map { |expense| expense.reload.uuid }).to_not match_array(@original_claim.expenses.map { |expense| expense.reload.uuid })
+        expect(@cloned_claim.expenses.map { |expense| expense.reload.uuid }).not_to match_array(@original_claim.expenses.map { |expense| expense.reload.uuid })
       end
 
       it 'does not clone the uuids of documents' do
-        expect(@cloned_claim.documents.map { |document| document.reload.uuid }).to_not match_array(@original_claim.documents.map { |document| document.reload.uuid })
+        expect(@cloned_claim.documents.map { |document| document.reload.uuid }).not_to match_array(@original_claim.documents.map { |document| document.reload.uuid })
       end
 
       include_examples 'common defendants cloning tests'
@@ -98,13 +98,13 @@ RSpec.describe Claims::Cloner do
       it 'does not clone the uuids of expense dates attended' do
         cloned_claim_uuids = @cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
         rejected_claim_uuids = @original_claim.expenses.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
-        expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
+        expect(cloned_claim_uuids).not_to match_array(rejected_claim_uuids)
       end
 
       it 'does not clone the uuids of fee dates attended' do
         cloned_claim_uuids = @cloned_claim.fees.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
         rejected_claim_uuids = @original_claim.fees.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
-        expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
+        expect(cloned_claim_uuids).not_to match_array(rejected_claim_uuids)
       end
 
       it 'clones the fees' do
@@ -142,10 +142,8 @@ RSpec.describe Claims::Cloner do
         expect(@cloned_claim.clone_source_id).to eq(@original_claim.id)
       end
 
-      it 'generates a new form_id for the cloned claim' do
-        expect(@cloned_claim.form_id).to_not be_blank
-        expect(@cloned_claim.form_id).to_not eq(@original_claim.form_id)
-      end
+      it { expect(@cloned_claim.form_id).not_to be_blank }
+      it { expect(@cloned_claim.form_id).not_to eq(@original_claim.form_id) }
 
       it 'copies the new form_id to the cloned documents' do
         expect(@cloned_claim.documents.map { |document| document.reload.form_id }.uniq).to eq([@cloned_claim.form_id])
@@ -160,7 +158,6 @@ RSpec.describe Claims::Cloner do
       end
 
       it 'does not clone certifications' do
-        expect(@original_claim.certification).to_not be_nil
         expect(@cloned_claim.certification).to be_nil
       end
 

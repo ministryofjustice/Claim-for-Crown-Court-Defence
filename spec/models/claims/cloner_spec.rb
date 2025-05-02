@@ -26,7 +26,7 @@ RSpec.shared_examples 'common defendants cloning tests' do
 end
 
 RSpec.describe Claims::Cloner do
-  context 'ensure we are excluding fee associations' do
+  context 'with excluded fee associations' do
     let(:claim_types) { [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] }
     let(:excluded_associations) { described_class::EXCLUDED_FEE_ASSOCIATIONS }
 
@@ -50,7 +50,7 @@ RSpec.describe Claims::Cloner do
       it { expect { clone }.to raise_error(ArgumentError) }
     end
 
-    context 'rejected_claims' do
+    context 'with a rejected claim' do
       before(:all) do
         @current_user = create(:external_user)
         @original_claim = create_rejected_claim

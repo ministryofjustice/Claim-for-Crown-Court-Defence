@@ -93,7 +93,7 @@ RSpec.describe Claims::Cloner do
         expect(@cloned_claim.documents.map { |document| document.reload.uuid }).not_to match_array(@original_claim.documents.map { |document| document.reload.uuid })
       end
 
-      include_examples 'common defendants cloning tests'
+      it_behaves_like 'common defendants cloning tests'
 
       it 'does not clone the uuids of expense dates attended' do
         cloned_claim_uuids = @cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
@@ -206,7 +206,7 @@ RSpec.describe Claims::Cloner do
       expect(@cloned_claim.court_id).to eq(@original_claim.court_id)
     end
 
-    include_examples 'common defendants cloning tests'
+    it_behaves_like 'common defendants cloning tests'
   end
 
   # helper methods ---------------

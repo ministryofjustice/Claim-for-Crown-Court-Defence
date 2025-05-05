@@ -61,7 +61,7 @@
   "devDependencies": {
     "expose-loader": "^5.0.1",
     "jasmine-browser-runner": "^3.0.0",
-    "jasmine-core": "^5.7.0",
+    "jasmine-core": "^5.7.1",
     "standard": "^17.1.2",
     "stylelint": "^15.11.0",
     "stylelint-config-gds": "^1.1.1",

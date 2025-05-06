@@ -22,12 +22,6 @@ module GovukComponent
       end
     end
 
-    initializer 'govuk_component.panel_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::PanelHelpers }
-      end
-    end
-
     initializer 'govuk_component.phase_banner_helpers' do
       config.after_initialize do
         ActiveSupport.on_load(:action_view) { include GovukComponent::PhaseBannerHelpers }

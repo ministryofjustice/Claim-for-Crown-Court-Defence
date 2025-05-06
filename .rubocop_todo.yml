@@ -78,7 +78,6 @@ Layout/LineLength:
     - 'spec/lib/extensions/xml_mini_extension_spec.rb'
     - 'spec/lib/govuk_component/button_helpers_spec.rb'
     - 'spec/lib/govuk_component/link_helpers_spec.rb'
-    - 'spec/lib/govuk_component/panel_helpers_spec.rb'
     - 'spec/lib/govuk_component/warning_text_helpers_spec.rb'
     - 'spec/mailers/devise_mailer_spec.rb'
     - 'spec/mailers/notify_mailer_spec.rb'

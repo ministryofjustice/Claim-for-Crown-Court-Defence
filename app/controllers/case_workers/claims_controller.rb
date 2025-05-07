@@ -139,12 +139,7 @@ module CaseWorkers
     end
 
     def set_show_maat_details
-      if params[:maat_details].present?
-        @show_maat_details = params[:maat_details] == 'on'
-        current_user.save_setting!(maat_details: @show_maat_details)
-      else
-        @show_maat_details = current_user.setting?(:maat_details) || false
-      end
+      @show_maat_details = true
     end
   end
 end

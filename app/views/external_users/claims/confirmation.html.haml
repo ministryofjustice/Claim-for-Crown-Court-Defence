@@ -4,7 +4,7 @@
 - present(@claim) do |claim|
   .govuk-grid-row
     .govuk-grid-column-full.govuk-body
-      = govuk_panel t('.thanks'), t('.will_be_processed')
+      = govuk_panel(title_text: t('.thanks'), text: t('.will_be_processed'))
 
   .govuk-grid-row
     .govuk-grid-column-two-thirds.govuk-body

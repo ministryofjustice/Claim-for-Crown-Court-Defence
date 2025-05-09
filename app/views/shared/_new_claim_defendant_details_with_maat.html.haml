@@ -1,0 +1,35 @@
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = "#{t('.title_defendant')} #{index}"
+
+  .govuk-summary-card__content
+    = govuk_summary_list do
+      = govuk_summary_list_row do
+        = govuk_summary_list_key { t('.full_name') }
+        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.name }
+
+      = govuk_summary_list_row do
+        = govuk_summary_list_key { t('.date_of_birth') }
+        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.date_of_birth.strftime(Settings.date_format) rescue '' }
+
+      = govuk_summary_list_row do
+        = govuk_summary_list_key { t('.order_of_judicial_apportionment') }
+        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.order_for_judicial_apportionment == true ? t('global_yes') : t('global_no') }
+
+      - if defendant.representation_orders.any?
+        - defendant.representation_orders.each_with_index do |representation_order, index|
+          = govuk_summary_list_row do
+            = govuk_summary_list_key { "#{t('.reporders')} #{index + 1}" }
+            = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
+              %p
+                %span= representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
+              %p
+                %span= t('.maat_reference')
+                = representation_order.maat_reference
+              %p
+                %span= t('.case_number_from_maat')
+                = representation_order.maat_details[:case_number]
+
+      - else
+        = govuk_inset_text(text: t('.no_reporder'))

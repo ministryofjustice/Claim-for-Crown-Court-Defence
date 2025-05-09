@@ -80,6 +80,7 @@ module Claim
 
       def defendant_uplifts_counts_for(defendant_uplifts)
         defendant_uplifts.each_with_object({}) do |fee, res|
+          next if fee.quantity.blank?
           res[fee.fee_type.unique_code] ||= []
           res[fee.fee_type.unique_code] << fee.quantity
         end.values.map(&:sum)

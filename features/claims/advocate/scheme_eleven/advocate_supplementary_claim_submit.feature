@@ -36,6 +36,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
       | miscellaneous | Confiscation hearings (whole day uplift) |
       | miscellaneous | Deferred sentence hearings               |
       | miscellaneous | Deferred sentence hearings uplift        |
+      | miscellaneous | Further case management hearing          |
       | miscellaneous | Plea and trial preparation hearing       |
       | miscellaneous | Sentence hearings                        |
       | miscellaneous | Sentence hearings uplift                 |

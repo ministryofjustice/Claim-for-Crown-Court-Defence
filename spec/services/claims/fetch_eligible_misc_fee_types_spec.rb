@@ -420,10 +420,11 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       context 'with supplementary claim' do
         subject(:call) { described_class.new(claim).call.map(&:unique_code) }
 
-        let(:supplementary_fee_types) do
+        let(:scheme_9_supplementary_fee_types) do
           %w[MISAF MISAU MIPCM MISPF MIWPF MIDTH MIDTW MIDHU MIDWU MIDSE MIDSU MISHR MISHU]
         end
 
+        let(:supplementary_fee_types) { scheme_9_supplementary_fee_types + ['MIFCM'] }
         let(:clar_fee_types) { %w[MIPHC MIUMU MIUMO] }
         let(:scheme_12_fee_types) { supplementary_fee_types + clar_fee_types }
         let(:scheme_14_fee_types) { scheme_12_fee_types + section_twenty_eight_types }
@@ -432,7 +433,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         context 'when scheme 9 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_9, with_misc_fee: false) }
 
-          it { is_expected.to match_array supplementary_fee_types }
+          it { is_expected.to match_array scheme_9_supplementary_fee_types }
         end
 
         context 'when scheme 10+ claim' do

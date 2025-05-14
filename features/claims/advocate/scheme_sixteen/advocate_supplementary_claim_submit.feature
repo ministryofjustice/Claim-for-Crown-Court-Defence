@@ -38,6 +38,7 @@ Feature: Advocate tries to submit a fee scheme 16 supplementary claim for miscel
       | miscellaneous | Confiscation hearings (whole day uplift) |
       | miscellaneous | Deferred sentence hearings               |
       | miscellaneous | Deferred sentence hearings uplift        |
+      | miscellaneous | Further case management hearing          |
       | miscellaneous | Paper heavy case                         |
       | miscellaneous | Plea and trial preparation hearing       |
       | miscellaneous | Section 28 hearing                       |

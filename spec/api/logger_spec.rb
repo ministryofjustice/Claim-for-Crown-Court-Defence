@@ -152,13 +152,19 @@ RSpec.describe API::Logger do
       context 'when invalid data is provided' do
         let(:env) { {} }
         let(:body) { 'invalid' }
+        let(:expected_error) do
+          <<~ERROR.chomp
+            Error parsing API response body:#{' '}
+            JSON::ParserError - unexpected character: 'i' at line 1 column 1
+          ERROR
+        end
 
         it 'fails gracefully and records an error' do
           expect(LogStuff).to have_received(:send)
             .once.with(:error,
                        type: 'api-response-body',
                        data: { request_id: nil },
-                       error: "Error parsing API response body: \nJSON::ParserError - unexpected character: 'i'")
+                       error: expected_error)
         end
       end
 

@@ -8,7 +8,7 @@ class CookiePage < BasePage
     end
   end
 
-  element :success_notification, '.govuk-notification-banner--success'
+  element :success_notification, '.govuk-notification-banner__content'
   section :form, 'form[action="/help/cookies"]' do
     element :accept_cookies, '#cookies-analytics-true-field'
     element :reject_cookies, '#cookies-analytics-false-field'

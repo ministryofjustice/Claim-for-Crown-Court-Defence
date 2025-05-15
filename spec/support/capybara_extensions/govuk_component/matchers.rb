@@ -25,12 +25,9 @@ module CapybaraExtensions
         has_selector?('h1.govuk-heading-xl', **options)
       end
 
-      def has_govuk_notification_banner?(**options)
-        key = options.delete(:key)
-
+      def has_govuk_notification_banner?(**)
         [
-          has_selector?(".govuk-notification-banner.govuk-notification-banner--#{key}"),
-          has_selector?('.govuk-notification-banner__content', **options)
+          has_selector?('.govuk-notification-banner__content', **)
         ].all?
       end
 

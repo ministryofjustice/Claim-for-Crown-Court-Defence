@@ -80,6 +80,14 @@ function _circleci_deploy() {
     -f .k8s/${cluster_dir}/cron_jobs/archive_stale.yaml \
     -f .k8s/${cluster_dir}/cron_jobs/vacuum_db.yaml
 
+  # get ip addresses for allowlists
+  LAA_IPS=$(curl -s https://raw.githubusercontent.com/ministryofjustice/laa-ip-allowlist/main/cidrs.txt | tr -d ' ' | tr '\n' ',')
+  PINGDOM_IPS=$(curl -s https://my.pingdom.com/probes/ipv4 | tr -d ' ' | tr '\n' ',')
+  COMBINED_IPS="${PINGDOM_IPS}${LAA_IPS}"
+
+  # populate ingress file with ip addresses
+  sed -i -e "s#<allowlist-populated-by-deploy-script>#${COMBINED_IPS}#" .k8s/${cluster_dir}/${environment}/ingress.yaml;
+
   # apply non-image specific config
   kubectl apply \
   -f .k8s/${cluster_dir}/${environment}/service.yaml \

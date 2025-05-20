@@ -21,6 +21,7 @@ metadata:
       if ($http_spider_name ~* "crawlergo") {
         return 403;
       }
+    nginx.ingress.kubernetes.io/whitelist-source-range: <allowlist-populated-by-deploy-script>
   name: cccd-app-ingress-v1
   namespace: cccd-dev-lgfs
 spec:

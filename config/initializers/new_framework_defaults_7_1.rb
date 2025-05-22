@@ -108,7 +108,7 @@ Rails.application.config.active_record.sqlite3_adapter_strict_strings_by_default
 # (https://open-telemetry.github.io/opentelemetry-sqlcommenter/), or using the legacy format.
 # Options are `:legacy` and `:sqlcommenter`.
 #++
-# Rails.application.config.active_record.query_log_tags_format = :sqlcommenter
+Rails.application.config.active_record.query_log_tags_format = :sqlcommenter
 
 ###
 # Specify the default serializer used by `MessageEncryptor` and `MessageVerifier`

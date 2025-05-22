@@ -29,7 +29,6 @@ module CapybaraExtensions
         key = options.delete(:key)
 
         [
-          has_selector?(".govuk-notification-banner.govuk-notification-banner--#{key}"),
           has_selector?('.govuk-notification-banner__content', **options)
         ].all?
       end

@@ -6,4 +6,4 @@
     .govuk-error-summary__body
       %ul.govuk-list.govuk-error-summary__list
         - resource.errors.each do |error|
-          %li= "#{error.attribute.to_s.humanize} #{error.message}"
+          %li= "#{error.message}"

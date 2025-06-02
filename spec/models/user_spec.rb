@@ -10,7 +10,7 @@ RSpec.describe User do
   it { is_expected.to validate_length_of(:email).is_at_most(80).with_message('Email must be 80 characters or less') }
   it { is_expected.to allow_value('email@addresse.foo').for(:email) }
   it { is_expected.not_to allow_value('foo').for(:email) }
-  it { is_expected.to validate_length_of(:password).is_at_least(8).with_message('Password must be at least 8 characters') }
+  it { is_expected.to validate_length_of(:password).is_at_least(12).with_message('Password must be at least 12 characters') }
 
   context 'with terms_and_conditions_required: false' do
     before { user.terms_and_conditions_required = false }

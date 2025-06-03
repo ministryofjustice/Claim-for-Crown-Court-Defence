@@ -1,5 +1,5 @@
 Given(/^case worker "(.*?)" exists$/) do |name|
-  @password = "password"
+  @password = "password1234"
   first_name = name.split.first
   last_name = name.split.last
   @case_worker_user = create(:user, first_name: first_name, last_name: last_name,

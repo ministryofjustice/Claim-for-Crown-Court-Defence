@@ -43,7 +43,7 @@ Given(/^I am a signed in advocate$/) do
   @advocate = @current_user = create(:external_user, :advocate)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@advocate.user, 'password')
+  sign_in(@advocate.user, 'password1234')
 end
 
 Given('I am a signed in advocate with final claim {string}') do |case_number|
@@ -122,7 +122,7 @@ When(/^I attempt to sign in again as the deleted caseworker$/) do
 end
 
 When(/^I attempt to sign in again as the advocate$/) do
-  sign_in(@advocate.user, 'password')
+  sign_in(@advocate.user, 'password1234')
 end
 
 Given('a case worker admin user account exists') do

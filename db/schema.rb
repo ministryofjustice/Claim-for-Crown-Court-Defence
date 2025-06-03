@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_03_110113) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_03_120221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -537,6 +537,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_110113) do
     t.index ["offence_band_id"], name: "index_offences_on_offence_band_id"
     t.index ["offence_class_id"], name: "index_offences_on_offence_class_id"
     t.index ["unique_code"], name: "index_offences_on_unique_code", unique: true
+  end
+
+  create_table "old_passwords", force: :cascade do |t|
+    t.string "encrypted_password", null: false
+    t.string "password_archivable_type", null: false
+    t.integer "password_archivable_id", null: false
+    t.string "password_salt"
+    t.datetime "created_at"
+    t.index ["password_archivable_type", "password_archivable_id"], name: "index_password_archivable"
   end
 
   create_table "providers", id: :serial, force: :cascade do |t|

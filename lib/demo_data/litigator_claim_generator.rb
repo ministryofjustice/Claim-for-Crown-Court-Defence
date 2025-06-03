@@ -1,7 +1,3 @@
-require_relative 'lgfs_scheme_claim_generator'
-require_relative 'fixed_fee_generator'
-require_relative 'fee_generator'
-
 module DemoData
   class LitigatorClaimGenerator < LGFSSchemeClaimGenerator
 

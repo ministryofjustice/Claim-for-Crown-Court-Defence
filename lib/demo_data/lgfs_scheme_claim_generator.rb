@@ -1,6 +1,3 @@
-require_relative 'base_claim_generator'
-require_relative 'disbursement_generator'
-
 module DemoData
   # For claims: litigator, interim, transfer...
   class LGFSSchemeClaimGenerator < BaseClaimGenerator

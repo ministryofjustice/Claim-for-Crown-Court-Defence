@@ -1,5 +1,3 @@
-require_relative 'disbursement_generator'
-
 module DemoData
   class TransferFeeGenerator
 

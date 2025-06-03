@@ -10,7 +10,7 @@ module DemoData
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
       @num_external_users = options[:num_external_users].to_i
       @num_claims = options[:num_claims_per_state].to_i
-      @external_user_persona = self.kind_of?(DemoData::LGFSSchemeClaimGenerator) ? :litigator : :advocate
+      @external_user_persona = self.kind_of?(DemoData::ClaimGenerator::LGFS) ? :litigator : :advocate
     end
 
     def run

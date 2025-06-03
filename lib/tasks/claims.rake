@@ -82,24 +82,21 @@ namespace :claims do
     task :litigators, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
       puts "#{task.name} with #{args}".green
-      require File.join(Rails.root, 'lib', 'demo_data', 'litigator_claim_generator')
-      DemoData::LitigatorClaimGenerator.new(num_external_users: 1).run
+      DemoData::ClaimGenerator::LGFS::Litigator.new(num_external_users: 1).run
     end
 
     desc "Load demo data Interim Claims [num_claims_per_state=1, num_claims_per_user=1]"
     task :interims, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
       puts "#{task.name} with #{args}".green
-      require File.join(Rails.root, 'lib', 'demo_data', 'interim_claim_generator')
-      DemoData::InterimClaimGenerator.new(num_external_users: 1).run
+      DemoData::ClaimGenerator::LGFS::Interim.new(num_external_users: 1).run
     end
 
     desc 'Load demo data Transfer Claims [num_claims_per_state=1, num_claims_per_user=1]'
     task :transfers, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
       puts "#{task.name} with #{args}".green
-      require File.join(Rails.root, 'lib', 'demo_data', 'transfer_claim_generator')
-      DemoData::TransferClaimGenerator.new(num_external_users: 1).run
+      DemoData::ClaimGenerator::LGFS::Transfer.new(num_external_users: 1).run
     end
   end
 

@@ -1,0 +1,2 @@
+class OldPassword < ApplicationRecord
+end

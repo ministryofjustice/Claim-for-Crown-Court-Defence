@@ -1,6 +1,6 @@
 module DemoData
   # For claims: litigator, interim, transfer...
-  class LGFSSchemeClaimGenerator < BaseClaimGenerator
+  class LGFSSchemeClaimGenerator < ClaimGenerator
 
     def generate_claim(klass, litigator)
       claim = klass.new(

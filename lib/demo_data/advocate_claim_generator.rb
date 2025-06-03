@@ -1,5 +1,5 @@
 module DemoData
-  class AdvocateClaimGenerator < BaseClaimGenerator
+  class AdvocateClaimGenerator < ClaimGenerator
 
     def generate_claim(advocate)
       claim = Claim::AdvocateClaim.new(

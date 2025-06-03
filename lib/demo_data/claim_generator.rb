@@ -2,11 +2,9 @@ require Rails.root.join('spec', 'support', 'scheme_date_helpers')
 FactoryBot::SyntaxRunner.include(SchemeDateHelpers)
 
 module DemoData
-
-  class BaseClaimGenerator
-
+  class ClaimGenerator
     def initialize(param_options = {})
-      raise "You cannot instantiate a generator of class #{self.class}" if self.class == BaseClaimGenerator
+      raise "You cannot instantiate a generator of class #{self.class}" if self.class == ClaimGenerator
       default_options = { states: :all, num_external_users: 1, num_claims_per_state: 1 }
       options = default_options.merge(param_options)
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]

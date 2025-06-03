@@ -74,8 +74,7 @@ namespace :claims do
       require 'fileutils'
       doc_store = File.join(Rails.root, 'public', 'assets', 'dev', 'images', 'docs')
       FileUtils.rm_r(doc_store, secure: true) if Dir.exist?(doc_store)
-      require File.join(Rails.root, 'lib', 'demo_data', 'advocate_claim_generator')
-      DemoData::AdvocateClaimGenerator.new(args).run
+      DemoData::ClaimGenerator::AGFS::Advocate.new(args).run
     end
 
     desc "Load demo data Litigator Claims [num_claims_per_state=1, num_claims_per_user=1]"

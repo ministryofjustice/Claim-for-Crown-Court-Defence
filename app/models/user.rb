@@ -25,6 +25,7 @@
 #  settings               :text
 #  deleted_at             :datetime
 #  api_key                :uuid
+#  password_changed_at    :datetime
 #
 
 class User < ApplicationRecord

@@ -110,7 +110,10 @@ group :test do
   gem 'launchy', '~> 3.1.1'
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers', '~> 0.10.0'
-  gem 'rspec-mocks'
+  # There is a bug in rspec-mocks regarding `allow_any_instance_of` that some
+  # of our tests depend on and was fixed in version 3.13.3 of rspec-mocks (see
+  # https://github.com/rspec/rspec-mocks/pull/1596)
+  gem 'rspec-mocks', '<= 3.13.2'
   gem 'shoulda-matchers', '~> 6.5'
   gem 'simplecov', require: false
   gem 'timecop'

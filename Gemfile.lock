@@ -824,7 +824,7 @@ DEPENDENCIES
   remotipart (~> 1.4)
   rspec-collection_matchers
   rspec-html-matchers (~> 0.10.0)
-  rspec-mocks
+  rspec-mocks (<= 3.13.2)
   rspec-rails (~> 7.1.1)
   rspec_junit_formatter
   rubocop (~> 1.75)

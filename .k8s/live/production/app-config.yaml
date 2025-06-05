@@ -16,7 +16,7 @@ data:
   SETTINGS__SLACK__BOT_NAME: 'Injectotron'
   SETTINGS__SLACK__FAIL_ICON: ':katyperry:'
   SETTINGS__SLACK__SUCCESS_ICON: ':taytay:'
-  SETTINGS__AWS__POLL_MESSAGE_COUNT: '10'
+  SETTINGS__AWS__POLL_MESSAGE_COUNT: '100'
   SETTINGS__AWS__POLL_MESSAGE_WAIT_TIME: '0'
   SETTINGS__AWS__S3__REGION: 'eu-west-2'
   LAA_FEE_CALCULATOR_HOST: https://laa-fee-calculator.service.justice.gov.uk/api/v1

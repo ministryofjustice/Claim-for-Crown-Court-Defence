@@ -2,39 +2,40 @@ module DemoData
   # For claims: litigator, interim, transfer...
   class ClaimGenerator
     class LGFS < ClaimGenerator
-
-      def generate_claim(klass, litigator)
+      def generate_claim(klass, external_user)
         claim = klass.new(
-            creator: litigator,
-            external_user: litigator,
-            advocate_category: nil,
-            court: Court.all.sample,
-            case_number: random_case_number,
-            providers_ref: ((rand(1..4) % 4).zero? ? nil : SecureRandom.uuid[3..15].upcase),
-            offence: Offence.miscellaneous.sample,
-            apply_vat: ((rand(1..4) % 4).zero? ? false : true),
-            state: "draft",
-            cms_number: "CMS-2015-195-1",
-            evidence_checklist_ids: [],
-            source: "web",
-            vat_amount: 0.0,
-            additional_information: generate_additional_info,
-            supplier_number: litigator.provider.lgfs_supplier_numbers.sample.supplier_number
+          creator: external_user,
+          external_user: external_user,
+          advocate_category: nil,
+          court: Court.all.sample,
+          case_number: random_case_number,
+          providers_ref: ((rand(1..4) % 4).zero? ? nil : SecureRandom.uuid[3..15].upcase),
+          offence: Offence.miscellaneous.sample,
+          apply_vat: ((rand(1..4) % 4).zero? ? false : true),
+          state: "draft",
+          cms_number: "CMS-2015-195-1",
+          evidence_checklist_ids: [],
+          source: "web",
+          vat_amount: 0.0,
+          additional_information: generate_additional_info,
+          supplier_number: external_user.provider.lgfs_supplier_numbers.sample.supplier_number
         )
 
         claim.case_type = claim.eligible_case_types.sample
         claim.case_concluded_at = generate_case_concluded_at(claim)
         claim.save!
 
-        puts "Added #{klass.to_s.demodulize} #{claim.id} #{claim.case_type.name} for litigator #{litigator.name}"
+        puts "Added #{klass.to_s.demodulize} #{claim.id} #{claim.case_type.name} for litigator #{external_user.name}"
         add_defendants(claim)
         add_documents(claim)
         add_claim_detail(claim)
         claim.save
 
         add_fees_expenses_and_disbursements(claim)
-        claim.reload  # load all the fees, expenses and disbursements that have been created
-        claim.save    # save in order to update fee, expense and disbursement totals
+        # load all the fees, expenses and disbursements that have been created
+        claim.reload
+        # save in order to update fee, expense and disbursement totals
+        claim.save
         claim
       end
 

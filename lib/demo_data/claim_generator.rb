@@ -30,7 +30,7 @@ module DemoData
 
     end
 
-  private
+    private
 
     def random_case_number
       [%w(A S T).sample, rand(1990..2016), rand(1000..9999)].join

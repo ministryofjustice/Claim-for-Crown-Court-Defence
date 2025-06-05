@@ -1,10 +1,10 @@
 module DemoData
   class ClaimGenerator
     class AGFS < ClaimGenerator
-      def generate_claim(advocate)
-        claim = Claim::AdvocateClaim.new(
-          creator: advocate,
-          external_user: advocate,
+      def generate_claim(klass, external_user)
+        claim = klass.new(
+          creator: external_user,
+          external_user: external_user,
           advocate_category: advocate_category,
           court: Court.all.sample,
           case_type: CaseType.agfs.sample,
@@ -20,27 +20,35 @@ module DemoData
           additional_information: generate_additional_info
         )
         claim.save!
-        puts "Added claim #{claim.id} #{claim.case_type.name} for advocate #{advocate.name}"
+
+        puts "Added #{klass.to_s.demodulize} #{claim.id} #{claim.case_type.name} for advocate #{external_user.name}"
         add_defendants(claim)
         add_documents(claim)
         add_claim_detail(claim)
         claim.save
-        add_fees(claim)
-        add_expenses(claim)
-        claim.reload              # load all the fees and expenses that have been created
-        claim.save                # save in order to update fee and expense totals
+
+        add_fees_expenses_and_disbursements(claim)
+        # load all the fees and expenses that have been created
+        claim.reload
+        # save in order to update fee and expense totals
+        claim.save
         claim
       end
 
-    private
+      private
 
       def add_certification(claim)
-        FactoryBot.create(:certification, claim: claim, certified_by: claim.external_user.name, certification_type: CertificationType.all.sample)
+        FactoryBot.create(:certification, claim: claim, certified_by: claim.creator.name, certification_type: CertificationType.all.sample)
         claim.save!
       end
 
       def advocate_category
         ['QC', 'Leading junior'].sample
+      end
+
+      def add_fees_expenses_and_disbursements(claim)
+        add_fees(claim)
+        add_expenses(claim)
       end
     end
   end

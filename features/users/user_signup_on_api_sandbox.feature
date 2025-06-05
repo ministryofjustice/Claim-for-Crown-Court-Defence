@@ -23,8 +23,8 @@ Feature: User signup on api-sandbox
     Then I fill in 'First name' with 'Jim'
     And I fill in 'Last name' with 'Bob'
     And I fill in 'Email' with 'jim.bob@example.com'
-    And I fill in 'Password' with 'my-password'
-    And I fill in 'Password confirmation' with 'my-password'
+    And I fill in 'Password' with 'password1234'
+    And I fill in 'Password confirmation' with 'password1234'
     And I click the button 'Sign up'
 
     Then My new claim should be displayed

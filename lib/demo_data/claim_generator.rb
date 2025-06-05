@@ -1,23 +1,16 @@
-require_relative 'claim_state_advancer'
-require_relative 'document_generator'
-require_relative 'basic_fee_generator'
-require_relative 'fee_generator'
-require_relative 'expense_generator'
 require Rails.root.join('spec', 'support', 'scheme_date_helpers')
 FactoryBot::SyntaxRunner.include(SchemeDateHelpers)
 
 module DemoData
-
-  class BaseClaimGenerator
-
+  class ClaimGenerator
     def initialize(param_options = {})
-      raise "You cannot instantiate a generator of class #{self.class}" if self.class == BaseClaimGenerator
+      raise "You cannot instantiate a generator of class #{self.class}" if self.class == ClaimGenerator
       default_options = { states: :all, num_external_users: 1, num_claims_per_state: 1 }
       options = default_options.merge(param_options)
       @states = options[:states] == :all ? Claims::StateMachine.dashboard_displayable_states : options[:states]
       @num_external_users = options[:num_external_users].to_i
       @num_claims = options[:num_claims_per_state].to_i
-      @external_user_persona = self.kind_of?(DemoData::LGFSSchemeClaimGenerator) ? :litigator : :advocate
+      @external_user_persona = self.kind_of?(DemoData::ClaimGenerator::LGFS) ? :litigator : :advocate
     end
 
     def run
@@ -37,7 +30,7 @@ module DemoData
 
     end
 
-  private
+    private
 
     def random_case_number
       [%w(A S T).sample, rand(1990..2016), rand(1000..9999)].join

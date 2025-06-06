@@ -47,7 +47,13 @@
           = render 'layouts/user' if user_signed_in?
 
     .govuk-width-container
-      = govuk_phase_banner(nil, t('.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report'), query_claim: contact_us_page_path)) unless @disable_phase_banner
+      = govuk_phase_banner(tag: { text: "Alpha" }) do
+        = govuk_link_to(t('.feedback'), new_feedback_path)
+        or
+        = govuk_link_to(t('.report_a_fault'), new_feedback_path(type: 'bug_report'))
+
+        = t('.improve_the_service')
+        = govuk_link_to(t('.query_a_claim'),  contact_us_page_path)
 
       = render partial: 'layouts/primary_navigation'
 

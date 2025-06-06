@@ -2,7 +2,10 @@
 en:
   layouts:
     application:
-      phase_banner_html: <a class="govuk-link" href="%{feedback}">Provide feedback</a> or <a class="govuk-link" href="%{feedback_type}">report a fault</a> to help us improve this service. You can contact us to <a class="govuk-link" href="%{query_claim}">query a claim here</a>.
+      feedback: Provide feedback
+      report_a_fault: report a fault
+      improve_the_service: to help us improve this service. You can contact us to
+      query_a_claim: query a claim here
 
     cookie_banner:
       title: Cookies on Claim for crown court defence

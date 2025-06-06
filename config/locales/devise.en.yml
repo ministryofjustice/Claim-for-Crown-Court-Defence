@@ -44,8 +44,8 @@ en:
         new_password: New password
         page_heading: Change your password
         page_title: Change your password for claim for Crown court defence
-        password_length: Your password must be between 12 and 64 characters.
-        password_help: To create a strong memorable password, consider using a combination of three random words. These words should be of different lengths and from different categories, such as a noun, a verb and an object.
+        password_length: Your password must be at least 12 characters long.
+        password_help: To create a strong, memorable password, consider combining three words. Avoid common words or phrases, predictable patterns, or personal information.
       new:
         email: *email
         page_heading: Forgot your password?

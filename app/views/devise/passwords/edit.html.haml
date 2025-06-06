@@ -10,6 +10,13 @@
 
       = f.hidden_field :reset_password_token
 
+      = govuk_inset_text do
+        %p
+          =t('.password_help')
+
+      %p
+        =t('.password_length')
+
       = f.govuk_password_field :password,
         label: { text: t('.new_password') },
         autofocus: true

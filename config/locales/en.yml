@@ -312,10 +312,10 @@ en:
               invalid: Enter the current password
             password:
               blank: Enter a password
-              too_short: Password must be at least 8 characters
+              too_short: must be at least 12 characters
             password_confirmation:
               blank: Enter a password confirmation
-              confirmation: Password and confirmation must match
+              confirmation: and Password must match
             first_name:
               blank: Enter a first name
               too_long: First name must be 40 characters or less

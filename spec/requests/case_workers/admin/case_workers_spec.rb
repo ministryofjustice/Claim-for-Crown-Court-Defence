@@ -15,8 +15,8 @@ RSpec.describe 'Caseworker admin' do
           case_worker: {
             user_attributes: {
               email: 'foo@foobar.com',
-              password: 'password',
-              password_confirmation: 'password',
+              password: 'testing12345',
+              password_confirmation: 'testing12345',
               first_name: 'John',
               last_name: 'Smith'
             },

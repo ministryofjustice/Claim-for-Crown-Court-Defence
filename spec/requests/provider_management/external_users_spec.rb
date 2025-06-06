@@ -288,7 +288,7 @@ RSpec.describe 'providers external users management' do
     let(:user) { create(:case_worker, :provider_manager).user }
     let(:external_user) { create(:external_user) }
 
-    let(:password) { 'password123' }
+    let(:password) { 'password1234' }
     let(:password_confirm) { password }
 
     before do

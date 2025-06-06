@@ -7,11 +7,6 @@ module GovukComponent
       link_to body, url, **tag_options
     end
 
-    def govuk_footer_link_to(body = nil, url = nil, tag_options = {})
-      tag_options = prepend_classes('govuk-footer__link', tag_options)
-      link_to body, url, **tag_options
-    end
-
     def govuk_header_link_to(body = nil, url = nil, tag_options = {})
       tag_options = prepend_classes('govuk-header__link', tag_options)
       link_to body, url, **tag_options

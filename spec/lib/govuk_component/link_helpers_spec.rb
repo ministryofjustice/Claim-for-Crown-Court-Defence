@@ -23,26 +23,6 @@ RSpec.describe GovukComponent::LinkHelpers, type: :helper do
     end
   end
 
-  describe '#govuk_footer_link_to' do
-    subject(:markup) { helper.govuk_footer_link_to(*args) }
-
-    context 'default component' do
-      let(:args) { ['GovUK', 'https://www.gov.uk'] }
-
-      it 'adds link with govuk class' do
-        is_expected.to have_tag(:a, with: { class: 'govuk-footer__link', href: 'https://www.gov.uk' }, text: 'GovUK')
-      end
-    end
-
-    context 'with a custom class' do
-      let(:args) { ['GovUK', 'https://www.gov.uk', { class: 'my-custom-class1 my-custom-class2' }] }
-
-      it 'adds link with custom classes, prepended by govuk class' do
-        is_expected.to have_tag(:a, with: { class: 'govuk-footer__link my-custom-class1 my-custom-class2' })
-      end
-    end
-  end
-
   describe '#govuk_header_link_to' do
     subject(:markup) { helper.govuk_header_link_to(*args) }
 

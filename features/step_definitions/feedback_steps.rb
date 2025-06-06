@@ -14,9 +14,9 @@ end
 Then(/^I see confirmation that my '(.*?)' was received$/) do |feedback_type|
   case feedback_type
   when 'feedback'
-    expect(page).to have_govuk_notification_banner(key: :notice, text: 'Feedback submitted')
+    expect(page).to have_govuk_notification_banner(text: :notice, text: 'Feedback submitted')
   when 'bug report'
-    expect(page).to have_govuk_notification_banner(key: :notice, text: 'Bug Report submitted')
+    expect(page).to have_govuk_notification_banner(text: :notice, text: 'Bug Report submitted')
   end
 end
 
@@ -25,7 +25,7 @@ Then('I see a warning that my feedback was not submitted successfully') do
 end
 
 Then('I see a warning that my bug report was not submitted successfully') do
-  expect(page).to have_govuk_notification_banner(key: :error, text: /Unable to submit bug report/)
+  expect(page).to have_govuk_notification_banner(text: :error, text: /Unable to submit bug report/)
 end
 
 Then(/^I should be informed that I have signed out$/) do

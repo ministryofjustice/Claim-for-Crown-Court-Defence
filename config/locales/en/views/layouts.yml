@@ -23,7 +23,7 @@ en:
       feedback: Feedback
       licence_html: All content is available under the <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated
       research: Join our research panel
-      service_owner_html: <span>Built by</span> <a class="govuk-footer__link" href="%{link}"><abbr title="Ministry of Justice">MOJ Digital Services</abbr></a>
+      service_owner_html: Built by <abbr title="Ministry of Justice">MOJ Digital Services</abbr>
       support_link: Support links
       terms_and_conditions: Terms and Conditions
 

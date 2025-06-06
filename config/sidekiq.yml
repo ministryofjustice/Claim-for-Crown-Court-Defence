@@ -17,7 +17,7 @@ production:
 :scheduler:
   :schedule:
     poll_injection_responses:
-      cron: '0/30 * * * * *'
+      cron: '0/10 * * * * *'
       class: Schedule::PollInjectionResponses
     document_cleaner:
       cron: '0 0 4 * * *'

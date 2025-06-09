@@ -5,7 +5,7 @@ RSpec.describe Utils::AccountSetter do
 
   let(:emails) { [email] }
   let(:email) { 'test@example.com' }
-  let(:user) { create(:user, id: 99, email: 'test@example.com', password: 'testing123') }
+  let(:user) { create(:user, id: 99, email: 'test@example.com', password: 'testing12345') }
 
   before { allow($stdout).to receive(:puts) }
 
@@ -191,7 +191,7 @@ RSpec.describe Utils::AccountSetter do
     subject(:change_password) { instance.change_password }
 
     it 'changes the password of the user' do
-      expect { change_password }.to change { user.reload.valid_password?('testing123') }.from(true).to(false)
+      expect { change_password }.to change { user.reload.valid_password?('testing12345') }.from(true).to(false)
     end
 
     context 'with an unknown user' do

@@ -1,7 +1,7 @@
 - if show_timed_retention_banner_to_user?
 
   .js-callout-banner{'data-setting': 'timed_retention_banner_seen'}
-    = govuk_warning_text t('callout_banner.time_retention_warning_text')
+    = govuk_warning_text(text: t('callout_banner.time_retention_warning_text'))
 
     %ul.govuk-list
       %li

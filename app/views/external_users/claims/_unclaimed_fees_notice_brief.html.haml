@@ -1,2 +1,2 @@
 - if unclaimed_fees.present?
-  = govuk_warning_text(t("external_users.claims.misc_fees.unclaimed_fees.notice.#{notice_form}", fee_list: unclaimed_fees))
+  = govuk_warning_text(text: t("external_users.claims.misc_fees.unclaimed_fees.notice.#{notice_form}", fee_list: unclaimed_fees))

@@ -97,42 +97,14 @@
 
         = yield
 
-    -# = render partial: 'layouts/footer'
     -# renderd partial err: undefined local variable or method `contact_us_page_path'
-    %footer.govuk-footer
-      .govuk-width-container
-        .govuk-footer__meta
-          .govuk-footer__meta-item.govuk-footer__meta-item--grow
-            %h2.govuk-visually-hidden
-              = t('layouts.footer.support_link')
 
-            %ul.govuk-footer__inline-list
-              %li.govuk-footer__inline-list-item
-                = govuk_footer_link_to t('layouts.footer.cookies'), 'http://www.gov.uk/help/cookies'
+    - meta_items = [{ text:  t('layouts.footer.cookies'), href: 'http://www.gov.uk/help/cookies', },
+    { text: t('layouts.footer.contact'), href: '/contact_us', },
+    { text: t('layouts.footer.accessibility'), href: 'accessibility-statement', },
+    { text: t('layouts.footer.terms_and_conditions'), href: 'tandcs' },
+    { text: t('layouts.footer.terms_and_conditions'), href:  '/feedback/new'},
+    { text: t('layouts.footer.service_owner_html'),  href: 'https://mojdigital.blog.gov.uk/'},
+    ]
 
-              %li.govuk-footer__inline-list-item
-                = govuk_footer_link_to t('layouts.footer.contact'), '/contact_us'
-
-              %li.govuk-footer__inline-list-item
-                = govuk_footer_link_to t('layouts.footer.accessibility'), 'accessibility-statement'
-
-              %li.govuk-footer__inline-list-item
-                = govuk_footer_link_to t('layouts.footer.terms_and_conditions'), 'tandcs'
-
-              %li.govuk-footer__inline-list-item
-                = govuk_footer_link_to t('layouts.footer.feedback'), '/feedback/new'
-
-              %li.govuk-footer__inline-list-item
-                = t('layouts.footer.service_owner_html', link: 'https://mojdigital.blog.gov.uk/')
-
-            %svg.govuk-footer__licence-logo{ focusable: 'false', height: '17', 'aria-hidden': 'true', viewbox: '0 0 483.2 195.7', width: '41', xmlns: 'http://www.w3.org/2000/svg' }
-              %path{ d: 'M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145', fill: 'currentColor' }
-
-            %span.govuk-footer__licence-description
-              = t('layouts.footer.licence_html')
-
-          .govuk-footer__meta-item
-            %a.govuk-footer__link.govuk-footer__copyright-logo{ href: 'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/' }
-              = t('layouts.footer.copyright_html')
-
-    = javascript_include_tag 'adp_swagger_application', defer: true
+  = govuk_footer(meta_items_title: t('layouts.footer.support_link'), meta_items: meta_items)

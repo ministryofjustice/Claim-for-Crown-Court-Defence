@@ -1,38 +1,10 @@
-%footer.govuk-footer
-  .govuk-width-container
-    .govuk-footer__meta
-      .govuk-footer__meta-item.govuk-footer__meta-item--grow
-        %h2.govuk-visually-hidden
-          = t('.support_link')
+- meta_items = [{ text: t('.cookies'), href: cookies_path, },
+    { text: t('.contact'), href: contact_us_page_path, },
+    { text: t('.accessibility'), href: accessibility_statement_path, },
+    { text: t('.terms_and_conditions'), href: tandcs_page_path },
+    { text: t('.feedback'), href:  new_feedback_path},
+    { text: t('.research'), href: Settings.research_panel_url},
+    { text: t('.service_owner_html'),  href: 'https://mojdigital.blog.gov.uk/'},
+    ]
 
-        %ul.govuk-footer__inline-list
-          %li.govuk-footer__inline-list-item
-            = govuk_footer_link_to t('.cookies'), cookies_path
-
-          %li.govuk-footer__inline-list-item
-            = govuk_footer_link_to t('.contact'), contact_us_page_path
-
-          %li.govuk-footer__inline-list-item
-            = govuk_footer_link_to t('.accessibility'), accessibility_statement_path
-
-          %li.govuk-footer__inline-list-item
-            = govuk_footer_link_to t('.terms_and_conditions'), tandcs_page_path
-
-          %li.govuk-footer__inline-list-item
-            = govuk_footer_link_to t('.feedback'), new_feedback_path
-
-          %li.govuk-footer__inline-list-item
-            = govuk_footer_link_to t('.research'), Settings.research_panel_url
-
-          %li.govuk-footer__inline-list-item
-            = t('.service_owner_html', link: 'https://mojdigital.blog.gov.uk/')
-
-        %svg.govuk-footer__licence-logo{ focusable: 'false', height: '17', 'aria-hidden': 'true', viewbox: '0 0 483.2 195.7', width: '41', xmlns: 'http://www.w3.org/2000/svg' }
-          %path{ d: 'M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145', fill: 'currentColor' }
-
-        %span.govuk-footer__licence-description
-          = t('.licence_html')
-
-      .govuk-footer__meta-item
-        %a.govuk-footer__link.govuk-footer__copyright-logo{ href: 'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/' }
-          = t('.copyright_html')
+= govuk_footer(meta_items_title: t('.support_link'), meta_items: meta_items)

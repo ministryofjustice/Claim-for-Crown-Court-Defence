@@ -18,7 +18,7 @@
     "validate:scss": "stylelint **/*.scss",
     "test:jasmine-headless": "npx jasmine-browser-runner runSpecs",
     "test:jasmine": "npx jasmine-browser-runner",
-    "build": "webpack --config ./config/webpack/webpack.config.js"
+    "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
     "@babel/core": "^7.27.4",

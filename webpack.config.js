@@ -1,22 +1,27 @@
-const path = require('path')
+const path    = require("path")
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production'
-const webpack = require('webpack')
+const webpack = require("webpack")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts')
 const TerserPlugin = require('terser-webpack-plugin')
 
+// To do: Move application.js and application.scss into app/javascript and app/stylesheet
+
 module.exports = {
-  mode,
+  mode: mode,
+  devtool: "source-map",
   entry: {
     application: [
-      './app/webpack/packs/application.js',
+      "./app/webpack/packs/application.js",
       './app/webpack/stylesheets/application.scss'
-    ]
+    ]    
   },
   output: {
-    filename: '[name].js',
+    filename: "[name].js",
+    sourceMapFilename: "[file].map",
     assetModuleFilename: '[name][ext]',
-    path: path.resolve(__dirname, '..', '..', 'app/assets/builds'),
+    chunkFormat: "module",
+    path: path.resolve(__dirname, "app/assets/builds"),
     clean: {
       keep: /.keep/
     }
@@ -85,10 +90,14 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.scss', '.css']
+    extensions: ['.js', '.scss', '.css'],
+    modules: ['app/webpack', 'node_modules']
   },
   plugins: [
     new MiniCssExtractPlugin(),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    }),
     new RemoveEmptyScriptsPlugin(),
     new webpack.ProvidePlugin({
       $: require.resolve('jquery'),

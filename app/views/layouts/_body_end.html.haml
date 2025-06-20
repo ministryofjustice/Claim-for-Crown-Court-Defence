@@ -1,4 +1,4 @@
-= javascript_include_tag 'application.js'
+= javascript_include_tag 'application.js', defer: true
 
 - if GoogleAnalytics::DataTracking.analytics? && !@disable_analytics
   = javascript_tag nonce: true do

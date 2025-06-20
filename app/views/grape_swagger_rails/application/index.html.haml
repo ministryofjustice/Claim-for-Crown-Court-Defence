@@ -17,7 +17,7 @@
     %link{ rel: 'apple-touch-icon', href: asset_path('govuk-icon-180.png') }
     %link{ rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Droid+Sans:400,700', type: 'text/css' }
     = stylesheet_link_tag 'grape_swagger_rails/application.css'
-    = javascript_include_tag 'grape_swagger_rails/application.js'
+    = javascript_include_tag 'grape_swagger_rails/application.js', defer: true
 
     = stylesheet_link_tag 'application', media: 'all'
 

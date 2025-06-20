@@ -90,7 +90,8 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.scss', '.css']
+    extensions: ['.js', '.scss', '.css'],
+    modules: ['app/webpack', 'node_modules']
   },
   plugins: [
     new MiniCssExtractPlugin(),

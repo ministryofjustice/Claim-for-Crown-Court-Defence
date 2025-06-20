@@ -468,6 +468,11 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.4.0)
+    propshaft (1.1.0)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
+      railties (>= 7.0.0)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -669,14 +674,6 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sprockets (4.2.2)
-      concurrent-ruby (~> 1.0)
-      logger
-      rack (>= 2.2.4, < 4)
-    sprockets-rails (3.5.2)
-      actionpack (>= 6.1)
-      activesupport (>= 6.1)
-      sprockets (>= 3.0.0)
     state_machines (0.6.0)
     state_machines-activemodel (0.9.0)
       activemodel (>= 6.0)
@@ -814,6 +811,7 @@ DEPENDENCIES
   paper_trail (~> 16.0.0)
   parallel_tests
   pg (~> 1.5.9)
+  propshaft
   pry-byebug
   pry-rails
   puma
@@ -844,7 +842,6 @@ DEPENDENCIES
   sidekiq-scheduler (~> 5.0.6)
   simplecov
   site_prism (~> 5.1)
-  sprockets-rails (~> 3.5.2)
   state_machines-activerecord
   state_machines-audit_trail
   timecop

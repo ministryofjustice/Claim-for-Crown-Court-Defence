@@ -67,25 +67,23 @@
     = govuk_skip_link_to(t('layouts.skip_content'), '#main-content')
 
     - unless @omit_header
-      %header.govuk-header.with-proposition{ data: { module: 'govuk-header' } }
-        .govuk-header__container.govuk-width-container
-          .govuk-header__logo
-            = render 'layouts/govuk_logo'
-
-          .govuk-header__content
-            = link_to 'Claim for crown court defence', '/', class: 'govuk-header__link govuk-header__service-name'
+      %header.moj-header{ role: 'banner' }
+        .moj-header__container
+          .moj-header__logo
+            = render 'layouts/moj_logo'
+            = link_to 'Legal Aid Agency', '/', class: ['moj-header__link', 'moj-header__link--organisation-name']
+            = link_to 'Claim for crown court defence', '/', class: ['moj-header__link', 'moj-header__link--service-name']
+          .moj-header__content
 
             -# = render 'layouts/user' if user_signed_in?
             -# renderd partial err: undefined local variable or method `signed_in_user_profile_path'
             - if user_signed_in?
-              %button.govuk-header__menu-button.govuk-js-header-toggle{ aria: { controls: 'navigation', label: t('layouts.user.show_hide_menu') }, type: 'button' }
-                = t('layouts.user.menu')
-              %nav
-                %ul#navigation.govuk-header__navigation{ aria: { label: t('layouts.user.top_navigation') } }
-                  %li.govuk-header__navigation-item
-                    = govuk_header_link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}"
-                  %li.govuk-header__navigation-item
-                    = govuk_header_link_to t('layouts.user.sign_out'), '/users/sign_out', method: :delete
+              %nav.moj-header__navigation{aria: { label: 'Account navigation' }}
+                %ul.moj-header__navigation-list
+                  %li.moj-header__navigation-item
+                    = link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}", class: 'moj-header__navigation-link'
+                  %li.moj-header__navigation-item
+                    = link_to t('.sign_out'), '/users/sign_out', method: :delete, class: 'moj-header__navigation-link'
 
     .govuk-width-container
       %main#main-content.govuk-main-wrapper

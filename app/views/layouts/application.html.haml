@@ -36,14 +36,14 @@
       %noscript
         %iframe{ src: "https://www.googletagmanager.com/ns.html?id=#{ENV['GTM_TRACKER_ID']}", style: 'display: none; visibility: hidden', height: '0', width: '0' }
 
-    %header.govuk-header.with-proposition{ data: { module: 'govuk-header' } }
-      .govuk-header__container.govuk-width-container
-        .govuk-header__logo
-          = render 'layouts/govuk_logo'
+    %header.moj-header{ role: 'banner' }
+      .moj-header__container
+        .moj-header__logo
+          = render 'layouts/moj_logo'
+          = link_to 'Legal Aid Agency', unauthenticated_root_path, class: ['moj-header__link', 'moj-header__link--organisation-name']
+          = link_to 'Claim for crown court defence', unauthenticated_root_path, class: ['moj-header__link', 'moj-header__link--service-name']
 
-        .govuk-header__content
-          = link_to 'Claim for crown court defence', unauthenticated_root_path, class: 'govuk-header__link govuk-header__service-name'
-
+        .moj-header__content
           = render 'layouts/user' if user_signed_in?
 
     .govuk-width-container

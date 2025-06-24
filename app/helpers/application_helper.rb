@@ -42,10 +42,10 @@ module ApplicationHelper
     model.respond_to?(:presenter) ? model.presenter : "#{model.class}Presenter".constantize
   end
 
-  # Returns a "current" css class if the path = current_page
+  # Returns true if the path = current_page
   # TODO: this will not work on those routes that are also rooted to for the namespace or which have js that interferes
   def cp(path)
-    'current' if path_matches(path) && tab_check_passes?(path)
+    path_matches(path) && tab_check_passes?(path)
   end
 
   def casual_date(date)

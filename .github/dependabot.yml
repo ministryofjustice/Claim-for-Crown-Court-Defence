@@ -21,8 +21,6 @@ updates:
   open-pull-requests-limit: 10
   allow:
     - dependency-type: "all"
-  reviewers:
-  - "ministryofjustice/laa-claim-for-payment"
 - package-ecosystem: bundler
   directory: "/"
   schedule:
@@ -62,10 +60,6 @@ updates:
     - dependency-name: "action*"
       versions:
         - ">= 7.1"
-  reviewers:
-  - "mpw5"
-  - "jrmhaig"
-  - "ministryofjustice/laa-claim-for-payment"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
@@ -77,5 +71,3 @@ updates:
   rebase-strategy: "disabled"
   allow:
     - dependency-type: "all"
-  reviewers:
-  - "ministryofjustice/laa-claim-for-payment"

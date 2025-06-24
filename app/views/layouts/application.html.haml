@@ -41,15 +41,25 @@
         .moj-header__logo
           = render 'layouts/moj_logo'
           = link_to 'Legal Aid Agency', unauthenticated_root_path, class: ['moj-header__link', 'moj-header__link--organisation-name']
-          = link_to 'Claim for crown court defence', unauthenticated_root_path, class: ['moj-header__link', 'moj-header__link--service-name']
 
         .moj-header__content
           = render 'layouts/user' if user_signed_in?
 
+    = render partial: 'layouts/primary_navigation'
+
     .govuk-width-container
       = govuk_phase_banner(nil, t('.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report'), query_claim: contact_us_page_path)) unless @disable_phase_banner
 
-      = render partial: 'layouts/primary_navigation'
+      - if @enable_breadcrumb
+        .govuk-grid-row
+          .govuk-grid-column-full
+            - referrer_url = params[:referrer] && url_for_referrer(params[:referrer], @claim)
+            - if referrer_url
+              = govuk_back_link_to t('layouts.navigation.back_to_referrer_html'), referrer_url
+            - elsif @claim && @claim.step_back?
+              = govuk_back_link_to t('layouts.navigation.back_to_referrer_html'), edit_polymorphic_path(@claim, step: @claim.previous_step)
+            - else
+              = govuk_back_link_to t('layouts.navigation.home'), external_users_root_path
 
       %main#main-content.govuk-main-wrapper
         .govuk-grid-row

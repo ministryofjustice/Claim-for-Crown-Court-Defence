@@ -72,7 +72,6 @@
           .moj-header__logo
             = render 'layouts/moj_logo'
             = link_to 'Legal Aid Agency', '/', class: ['moj-header__link', 'moj-header__link--organisation-name']
-            = link_to 'Claim for crown court defence', '/', class: ['moj-header__link', 'moj-header__link--service-name']
           .moj-header__content
 
             -# = render 'layouts/user' if user_signed_in?
@@ -83,7 +82,9 @@
                   %li.moj-header__navigation-item
                     = link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}", class: 'moj-header__navigation-link'
                   %li.moj-header__navigation-item
-                    = link_to t('.sign_out'), '/users/sign_out', method: :delete, class: 'moj-header__navigation-link'
+                    = link_to t('layouts.user.sign_out'), '/users/sign_out', method: :delete, class: 'moj-header__navigation-link'
+
+    = govuk_service_navigation(service_name: 'Claim for Crown Court defence', service_url: '/')
 
     .govuk-width-container
       %main#main-content.govuk-main-wrapper

@@ -229,7 +229,7 @@ notify_report_errors: <%= ENV["ENV"].in?(%w[api-sandbox production]) %>
 
 postcode_regexp: !ruby/regexp '/\A([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\z/'
 
-maat_regexp: !ruby/regexp <%= ENV['MAAT_REGEXP'] || '/^[2-9][0-9]{6}$/' %>
+maat_regexp: !ruby/regexp <%= ENV['MAAT_REGEXP'] || '/^(900900|[2-9][0-9]{6})$/' %>
 
 maat_api_url: <%= ENV['MAAT_API_URL'] %>
 maat_api_oauth_client_id: <%= ENV['OAUTH_CLIENT_ID'] %>

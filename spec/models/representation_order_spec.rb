@@ -67,6 +67,14 @@ RSpec.describe RepresentationOrder do
           end
         end
       end
+
+      context 'with the contingency MAAT reference' do
+        before { representation_order.maat_reference = '900900' }
+
+        it 'is valid' do
+          expect(representation_order).to be_valid
+        end
+      end
     end
 
     context 'when case type does not require maat reference' do

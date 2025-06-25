@@ -14,7 +14,7 @@ Feature: A hardship claims banner will appear on the claims list, until the user
     When I click the link 'Do not show hardship claims information again'
     Then The hardship claims banner is not visible
 
-    When I click the link 'Claim for crown court defence'
+    When I click the link 'Claim for Crown Court defence'
     Then I am on the 'Your claims' page
     And I click 'Start a claim'
     Then The hardship claims banner is not visible

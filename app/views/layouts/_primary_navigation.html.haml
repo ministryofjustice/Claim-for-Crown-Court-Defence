@@ -1,4 +1,4 @@
-= govuk_service_navigation(service_name: 'Claim for Crown Court Defence', service_url: unauthenticated_root_path, current_path: request.path) do |sn|
+= govuk_service_navigation(service_name: 'Claim for Crown Court defence', service_url: unauthenticated_root_path, current_path: request.path) do |sn|
   - if user_signed_in? && !@enable_breadcrumb
     - if current_user.persona.is_a?(SuperAdmin)
       = sn.with_navigation_item(text: t('.sidekiq_console'), href: sidekiq_web_path)

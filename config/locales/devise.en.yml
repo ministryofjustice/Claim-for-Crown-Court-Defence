@@ -90,7 +90,7 @@ en:
     sessions:
       new:
         email: *email
-        page_title: Sign in to claim for Crown court defence
+        page_title: Sign in to claim for Crown Court defence
         page_heading: Sign in
         password: Password
         sign_in: Sign in

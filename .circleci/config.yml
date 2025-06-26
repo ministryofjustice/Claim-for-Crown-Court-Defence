@@ -191,13 +191,12 @@ commands:
           name: Run rspec tests
           command: |
             tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
-
-            bundle exec rspec --format progress \
-            --format RspecJunitFormatter \
-            -o /tmp/test-results/rspec/rspec.xml \
-            -- ${TESTFILES}
-
+            circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command="xargs bundle exec rspec \
+                                                                                            --format progress \
+                                                                                            --format RspecJunitFormatter \
+                                                                                            --out /tmp/test-results/rspec/rspec.xml" \
+                                                                         --split-by=timings \
+                                                                         --timings-type=file
             tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
       - persist_to_workspace:
           root: tmp
@@ -222,7 +221,7 @@ commands:
                                                       --format junit,fileattribute=true \
                                                       --out /tmp/test-results/cucumber" \
                                    --split-by=timings \
-                                   --timings-type=filename
+                                   --timings-type=file
       - store_artifacts:
           path: tmp/capybara
       - store_test_results:

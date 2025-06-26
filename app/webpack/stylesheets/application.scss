@@ -10,6 +10,9 @@ $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 @import "~govuk-frontend/dist/govuk/core/typography";
 
 @import "@ministryofjustice/frontend/moj/components/multi-file-upload/_multi-file-upload.scss";
+@import "@ministryofjustice/frontend/moj/settings/_measurements.scss";
+@import "@ministryofjustice/frontend/moj/objects/_width-container.scss";
+@import "@ministryofjustice/frontend/moj/components/header/_header.scss";
 
 // Project specific
 // Everything below this comment should be project specific.

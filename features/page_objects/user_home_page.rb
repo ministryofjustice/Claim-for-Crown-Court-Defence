@@ -1,6 +1,6 @@
 class UserHomePage < BasePage
   element :start_a_claim, "a.govuk-button--start"
-  element :your_claims_link, "nav.govuk-breadcrumbs > ul > li:nth-of-type(1) > a"
+  element :your_claims_link, "nav.govuk-service-navigation__wrapper > ul > li:nth-of-type(1) > strong > a"
 
   sections :claims, "table.govuk-table > tbody > tr" do
     element :case_number, "a.js-test-case-number-link"

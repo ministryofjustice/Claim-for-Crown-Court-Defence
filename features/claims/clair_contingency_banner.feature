@@ -14,7 +14,7 @@ Feature: A clair contingency banner will appear on the choose your bill type pag
     When I click the link 'Do not show main hearing date information again'
     Then The clair contingency banner is not visible
 
-    When I click the link 'Claim for crown court defence'
+    When I click the link 'Claim for Crown Court defence'
     Then I am on the 'Your claims' page
     And I click 'Start a claim'
     Then The clair contingency banner is not visible

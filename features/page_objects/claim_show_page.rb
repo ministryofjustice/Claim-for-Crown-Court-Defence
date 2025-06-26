@@ -1,5 +1,5 @@
 class ClaimShowPage < BasePage
-  section :nav, "nav.govuk-breadcrumbs > ul" do
+  section :nav, "nav.govuk-service-navigation__wrapper > ul" do
     element :your_claims, "li:nth-of-type(1) > a"
     element :archive, "li:nth-of-type(2) > a"
   end

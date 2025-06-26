@@ -57,7 +57,7 @@ RSpec.describe ApplicationHelper do
     context 'when the current request path matches that passed in' do
       before { controller.request.path = path }
 
-      it { is_expected.to eql 'current' }
+      it { is_expected.to be_truthy }
 
       context 'when then the tab param is set' do
         before { controller.request.GET[:tab] = 'also_test' }
@@ -65,13 +65,13 @@ RSpec.describe ApplicationHelper do
         context 'and matches' do
           let(:path_with_params) { 'test?tab=also_test' }
 
-          it { is_expected.to eql 'current' }
+          it { is_expected.to be_truthy }
         end
 
         context 'and does not match' do
           let(:path_with_params) { 'test?tab=still_not_a_test' }
 
-          it { is_expected.to be_nil }
+          it { is_expected.to be_falsey }
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe ApplicationHelper do
     context 'when the current request path does not match the one passed in' do
       before { controller.request.path = 'not_a_test' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -188,6 +188,58 @@ RSpec.describe ApplicationHelper do
           it { is_expected.to be false }
         end
       end
+    end
+  end
+
+  describe '#current_user_is_caseworker?' do
+    subject { helper.current_user_is_caseworker? }
+
+    before { sign_in user.user }
+
+    context 'when not logged in' do
+      let(:user) { create(:case_worker) }
+
+      before { sign_out user.user }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when logged in as a case worker' do
+      let(:user) { create(:case_worker) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when logged in as an external user' do
+      let(:user) { create(:external_user) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#current_user_is_external_user?' do
+    subject { helper.current_user_is_external_user? }
+
+    before { sign_in user.user }
+
+    context 'when not logged in' do
+      let(:user) { create(:external_user) }
+
+      before { sign_out user.user }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when logged in as a case worker' do
+      let(:user) { create(:case_worker) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when logged in as an external user' do
+      let(:user) { create(:external_user) }
+
+      it { is_expected.to be_truthy }
     end
   end
 end

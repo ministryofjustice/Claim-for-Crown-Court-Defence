@@ -1,9 +1,6 @@
-%nav.govuk-header__navigation(aria-label="Menu")
-  %button.govuk-header__menu-button.govuk-js-header-toggle{ aria: { controls: 'navigation', label: t('.show_hide_menu') }, type: 'button' }
-    = t('.menu')
-
-  %ul#navigation.govuk-header__navigation-list
-    %li.govuk-header__navigation-item
-      = govuk_header_link_to current_user.name, signed_in_user_profile_path
-    %li.govuk-header__navigation-item
-      = govuk_header_link_to t('.sign_out'), destroy_user_session_path, method: :delete
+%nav.moj-header__navigation{aria: { label: 'Account navigation' }}
+  %ul.moj-header__navigation-list
+    %li.moj-header__navigation-item
+      = link_to current_user.name, signed_in_user_profile_path, class: 'moj-header__navigation-link'
+    %li.moj-header__navigation-item
+      = link_to t('.sign_out'), destroy_user_session_path, method: :delete, class: 'moj-header__navigation-link'

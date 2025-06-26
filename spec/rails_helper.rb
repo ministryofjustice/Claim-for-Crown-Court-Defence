@@ -86,6 +86,7 @@ RSpec.configure do |config|
   config.include ValidationHelpers, type: :validator
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
+  config.include Devise::Test::ControllerHelpers, type: :helper
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ViewSpecHelper, type: :view
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}

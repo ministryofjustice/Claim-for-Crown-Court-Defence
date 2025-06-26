@@ -3,11 +3,11 @@ module ApplicationHelper
   include Pagy::Frontend
 
   def current_user_is_caseworker?
-    current_user.persona.is_a?(CaseWorker)
+    current_user&.persona.is_a?(CaseWorker)
   end
 
   def current_user_is_external_user?
-    current_user.persona.is_a?(ExternalUser)
+    current_user&.persona.is_a?(ExternalUser)
   end
 
   #

@@ -190,4 +190,56 @@ RSpec.describe ApplicationHelper do
       end
     end
   end
+
+  describe '#current_user_is_caseworker?' do
+    subject { helper.current_user_is_caseworker? }
+
+    before { sign_in user.user }
+
+    context 'when not logged in' do
+      let(:user) { create(:case_worker) }
+
+      before { sign_out user.user }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when logged in as a case worker' do
+      let(:user) { create(:case_worker) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when logged in as an external user' do
+      let(:user) { create(:external_user) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#current_user_is_external_user?' do
+    subject { helper.current_user_is_external_user? }
+
+    before { sign_in user.user }
+
+    context 'when not logged in' do
+      let(:user) { create(:external_user) }
+
+      before { sign_out user.user }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when logged in as a case worker' do
+      let(:user) { create(:case_worker) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when logged in as an external user' do
+      let(:user) { create(:external_user) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
 end

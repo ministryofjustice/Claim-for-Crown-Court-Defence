@@ -25,8 +25,10 @@ fi
 
 echo "!=== ${0} started..."
 
-API_KEY="10e76205-5fd3-49d9-895d-b9de5f415a6a" # ADD YOUR API KEY
-API_DOMAIN="http://localhost:3001" # ADD YOUR API DOMAIN
+# Parse the configuration file
+CONFIG_FILE="config.json"
+API_KEY=$(jq -r '.api_key' $CONFIG_FILE)
+API_DOMAIN=$(jq -r '.api_domain' $CONFIG_FILE)
 
 # Use jq to parse the JSON data
 DATA_FILE="$1"
@@ -66,6 +68,8 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     trial_cracked_at=$(jq -r '.[] | .['$i'].trial_cracked_at' "$DATA_FILE")
     trial_fixed_notice_at=$(jq -r '.[] | .['$i'].trial_fixed_notice_at' "$DATA_FILE")
     trial_fixed_at=$(jq -r '.[] | .['$i'].trial_fixed_at' "$DATA_FILE")
+    retrial_started_at=$(jq -r '.[] | .['$i'].retrial_started_at' "$DATA_FILE")
+    retrial_concluded_at=$(jq -r '.[] | .['$i'].retrial_concluded_at' "$DATA_FILE")
     first_name=$(jq -r '.[] | .['$i'].first_name' "$DATA_FILE")
     last_name=$(jq -r '.[] | .['$i'].last_name' "$DATA_FILE")
     date_of_birth=$(jq -r '.[] | .['$i'].date_of_birth' "$DATA_FILE")
@@ -113,6 +117,10 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     echo -e "=> TRIAL_FIXED_NOTICE_AT: $TRIAL_FIXED_NOTICE_AT"
     TRIAL_FIXED_AT=$(urlencode "$trial_fixed_at")
     echo -e "=> TRIAL_FIXED_AT: $TRIAL_FIXED_AT"
+    RETRIAL_STARTED_AT=$(urlencode "$retrial_started_at")
+    echo -e "=> RETRIAL_STARTED_AT: $RETRIAL_STARTED_AT"
+    RETRIAL_CONCLUDED_AT=$(urlencode "$retrial_concluded_at")
+    echo -e "=> RETRIAL_CONCLUDED_AT: $RETRIAL_CONCLUDED_AT"
 
     # Create Defendant PARAMS
     FIRST=$(urlencode "$first_name")
@@ -201,6 +209,16 @@ for ((i=0; i<ITEM_COUNT; i++)); do
         if [ -n "$TRIAL_FIXED_AT" ]; then
             echo -e "Trial fixed at: $TRIAL_FIXED_AT"
             QUERY_PARAMS+="&trial_fixed_at=$TRIAL_FIXED_AT"
+        fi
+
+        if [ -n "$RETRIAL_STARTED_AT" ]; then
+            echo -e "Retrial started at: $RETRIAL_STARTED_AT"
+            QUERY_PARAMS+="&retrial_started_at=$RETRIAL_STARTED_AT"
+        fi
+
+        if [ -n "$RETRIAL_CONCLUDED_AT" ]; then
+            echo -e "Retrial concluded at: $RETRIAL_CONCLUDED_AT"
+            QUERY_PARAMS+="&retrial_concluded_at=$RETRIAL_CONCLUDED_AT"
         fi
 
         RESPONSE=$(curl --location --globoff --request POST "$API_DOMAIN/api/external_users/claims/advocates/final?$QUERY_PARAMS")

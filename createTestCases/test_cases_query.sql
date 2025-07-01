@@ -12,6 +12,10 @@ select
 	c.estimated_trial_length, 
 	c.actual_trial_length,
 	c.advocate_category, 
+	c.trial_cracked_at_third,
+	c.trial_cracked_at,
+	c.trial_fixed_notice_at,
+	c.trial_fixed_at,
 	d.first_name,
 	d.last_name,
 	d.date_of_birth,
@@ -24,8 +28,9 @@ select
 from claims c, fees f, defendants d, representation_orders ro
 where 
 	c.state = 'authorised' and
+	c.advocate_category is not null and
 	f.claim_id  = c.id and
 	d.claim_id  = c.id and
 	ro.defendant_id = d.id
 order by c.created_at desc 
-limit 5;
+limit 10;

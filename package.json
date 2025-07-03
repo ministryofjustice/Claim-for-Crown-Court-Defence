@@ -21,9 +21,9 @@
     "build": "webpack --config ./config/webpack/webpack.config.js"
   },
   "dependencies": {
-    "@babel/core": "^7.27.7",
-    "@babel/plugin-transform-runtime": "^7.27.4",
-    "@babel/preset-env": "^7.27.2",
+    "@babel/core": "^7.28.0",
+    "@babel/plugin-transform-runtime": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
     "@ministryofjustice/frontend": "^2.2.4",
     "accessible-autocomplete": "^3.0.1",
     "babel-loader": "^10.0.0",

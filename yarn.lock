@@ -902,9 +902,9 @@
   integrity sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==
 
 "@jridgewell/source-map@^0.3.3":
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/@jridgewell/source-map/-/source-map-0.3.9.tgz#5214695c6c17cab66b23fb796c838d0d7f215875"
-  integrity sha512-amBU75CKOOkcQLfyM6J+DnWwz41yTsWI7o8MQ003LwUIWb4NYX/evAblTx1oBBYJySqL/zHPxHXDw5ewpQaUFw==
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/@jridgewell/source-map/-/source-map-0.3.10.tgz#a35714446a2e84503ff9bfe66f1d1d4846f2075b"
+  integrity sha512-0pPkgz9dY+bijgistcTTJ5mR+ocqRXLuhXHYdzoMmmoJ2C9S46RCm2GMUbatPEUK9Yjy26IrAy8D/M00lLkv+Q==
   dependencies:
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.25"

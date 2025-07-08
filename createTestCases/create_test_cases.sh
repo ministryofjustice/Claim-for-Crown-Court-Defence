@@ -1,7 +1,16 @@
 #!/bin/bash
-LOG_FILE="${0}_$(date +%Y%m%d%H%M).log"
+LOG_LEVEL=0
+LOG_DIR="${0}_logs"
+mkdir -p "$LOG_DIR"
+LOG_FILE="$LOG_DIR/${0}_$(date +%Y%m%d%H%M).log"
+i=0
+while [ -f "$LOG_FILE" ]; do
+  ((i++))
+  LOG_FILE="$LOG_DIR/${0}_$(date +%Y%m%d%H%M)_$i.log"
+done
 exec > "$LOG_FILE" 2>&1
-urlencode() {
+
+urlEncode() {
   local string="$1"
   if [ -z "$string" ] || [ "$string" = "null" ]; then
     echo ""
@@ -9,6 +18,17 @@ urlencode() {
     local encoded_string=$(echo "$string" | tr -d '\n' | jq -sRr @uri)
     echo "$encoded_string"
   fi
+}
+
+debugLog() {
+    if [ "$LOG_LEVEL" -ge 1 ]; then
+       echo -e "$1"
+    fi 
+}
+
+startInjection() {
+    echo -e "\n===! Claim all created, calling inject_test_case.sh"
+    ./inject_test_case.sh &
 }
 
 # Check if a file was provided as an argument
@@ -23,12 +43,13 @@ if [ ! -f "$1" ]; then
   exit 1
 fi
 
-echo "!=== ${0} started..."
+echo -e "!=== ${0} started..."
 
 # Parse the configuration file
 CONFIG_FILE="config.json"
 API_KEY=$(jq -r '.api_key' $CONFIG_FILE)
 API_DOMAIN=$(jq -r '.api_domain' $CONFIG_FILE)
+maat_refrence_ids=("4455796")
 
 # Use jq to parse the JSON data
 DATA_FILE="$1"
@@ -68,6 +89,8 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     trial_cracked_at=$(jq -r '.[] | .['$i'].trial_cracked_at' "$DATA_FILE")
     trial_fixed_notice_at=$(jq -r '.[] | .['$i'].trial_fixed_notice_at' "$DATA_FILE")
     trial_fixed_at=$(jq -r '.[] | .['$i'].trial_fixed_at' "$DATA_FILE")
+    retrial_estimated_length=$(jq -r '.[] | .['$i'].retrial_estimated_length' "$DATA_FILE")
+    retrial_actual_length=$(jq -r '.[] | .['$i'].retrial_actual_length' "$DATA_FILE")
     retrial_started_at=$(jq -r '.[] | .['$i'].retrial_started_at' "$DATA_FILE")
     retrial_concluded_at=$(jq -r '.[] | .['$i'].retrial_concluded_at' "$DATA_FILE")
     first_name=$(jq -r '.[] | .['$i'].first_name' "$DATA_FILE")
@@ -82,69 +105,73 @@ for ((i=0; i<ITEM_COUNT; i++)); do
 
     # Create Claim PARAMS
     USER_EMAIL="advocate@example.com"
-    echo -e "=> USER_EMAIL: $USER_EMAIL"
-    CASE_ID=$(urlencode "$case_id")
-    echo -e "=> CASE_ID: $CASE_ID"
-    FEE_ID=$(urlencode "$fee_id")
-    echo -e "=> FEE_ID: $FEE_ID"
-    DEFENDANT_ID=$(urlencode "$defendant_id")
-    echo -e "=> DEFENDANT_ID: $DEFENDANT_ID"
-    COURT_ID=$(urlencode "$court_id")
-    echo -e "=> COURT_ID: $COURT_ID"
-    CASE_TYPE_ID=$(urlencode "$case_type_id")
-    echo -e "=> CASE_TYPE_ID: $CASE_TYPE_ID"
-    OFFENCE_ID=$(urlencode "$offence_id")
-    echo -e "=> OFFENCE_ID: $OFFENCE_ID"
-    CASE_NUMBER=$(urlencode "$case_number")
-    echo -e "=> CASE_NUMBER: $CASE_NUMBER"
-    APPLY_VAT=$(urlencode "$apply_vat")
-    echo -e "=> APPLY_VAT: $APPLY_VAT"
-    FIRST_TRIAL_DATE=$(urlencode "$first_day_of_trial")
-    echo -e "=> FIRST_TRIAL_DATE: $FIRST_TRIAL_DATE"
-    TRIAL_CONCLUDED_DATE=$(urlencode "$trial_concluded_at")
-    echo -e "=> TRIAL_CONCLUDED_DATE: $TRIAL_CONCLUDED_DATE"
-    E_LENGTH=$(urlencode "$estimated_trial_length")
-    echo -e "=> E_LENGTH: $E_LENGTH"
-    A_LENGTH=$(urlencode "$actual_trial_length")
-    echo -e "=> A_LENGTH: $A_LENGTH"
-    ADVOCATE_TYPE=$(urlencode "$advocate_category")
-    echo -e "=> ADVOCATE_TYPE: $ADVOCATE_TYPE"
-    TRIAL_CRACKED_AT_THIRD=$(urlencode "$trial_cracked_at_third")
-    echo -e "=> TRIAL_CRACKED_AT_THIRD: $TRIAL_CRACKED_AT_THIRD"
-    TRIAL_CRACKED_AT=$(urlencode "$trial_cracked_at")
-    echo -e "=> TRIAL_CRACKED_AT: $TRIAL_CRACKED_AT"
-    TRIAL_FIXED_NOTICE_AT=$(urlencode "$trial_fixed_notice_at")
-    echo -e "=> TRIAL_FIXED_NOTICE_AT: $TRIAL_FIXED_NOTICE_AT"
-    TRIAL_FIXED_AT=$(urlencode "$trial_fixed_at")
-    echo -e "=> TRIAL_FIXED_AT: $TRIAL_FIXED_AT"
-    RETRIAL_STARTED_AT=$(urlencode "$retrial_started_at")
-    echo -e "=> RETRIAL_STARTED_AT: $RETRIAL_STARTED_AT"
-    RETRIAL_CONCLUDED_AT=$(urlencode "$retrial_concluded_at")
-    echo -e "=> RETRIAL_CONCLUDED_AT: $RETRIAL_CONCLUDED_AT"
+    debugLog "=> USER_EMAIL: $USER_EMAIL"
+    CASE_ID=$(urlEncode "$case_id")
+    debugLog "=> CASE_ID: $CASE_ID"
+    FEE_ID=$(urlEncode "$fee_id")
+    debugLog "=> FEE_ID: $FEE_ID"
+    DEFENDANT_ID=$(urlEncode "$defendant_id")
+    debugLog "=> DEFENDANT_ID: $DEFENDANT_ID"
+    COURT_ID=$(urlEncode "$court_id")
+    debugLog "=> COURT_ID: $COURT_ID"
+    CASE_TYPE_ID=$(urlEncode "$case_type_id")
+    debugLog "=> CASE_TYPE_ID: $CASE_TYPE_ID"
+    OFFENCE_ID=$(urlEncode "$offence_id")
+    debugLog "=> OFFENCE_ID: $OFFENCE_ID"
+    CASE_NUMBER=$(urlEncode "$case_number")
+    debugLog "=> CASE_NUMBER: $CASE_NUMBER"
+    APPLY_VAT=$(urlEncode "$apply_vat")
+    debugLog "=> APPLY_VAT: $APPLY_VAT"
+    FIRST_TRIAL_DATE=$(urlEncode "$first_day_of_trial")
+    debugLog "=> FIRST_TRIAL_DATE: $FIRST_TRIAL_DATE"
+    TRIAL_CONCLUDED_DATE=$(urlEncode "$trial_concluded_at")
+    debugLog "=> TRIAL_CONCLUDED_DATE: $TRIAL_CONCLUDED_DATE"
+    E_LENGTH=$(urlEncode "$estimated_trial_length")
+    debugLog "=> E_LENGTH: $E_LENGTH"
+    A_LENGTH=$(urlEncode "$actual_trial_length")
+    debugLog "=> A_LENGTH: $A_LENGTH"
+    ADVOCATE_TYPE=$(urlEncode "$advocate_category")
+    debugLog "=> ADVOCATE_TYPE: $ADVOCATE_TYPE"
+    TRIAL_CRACKED_AT_THIRD=$(urlEncode "$trial_cracked_at_third")
+    debugLog "=> TRIAL_CRACKED_AT_THIRD: $TRIAL_CRACKED_AT_THIRD"
+    TRIAL_CRACKED_AT=$(urlEncode "$trial_cracked_at")
+    debugLog "=> TRIAL_CRACKED_AT: $TRIAL_CRACKED_AT"
+    TRIAL_FIXED_NOTICE_AT=$(urlEncode "$trial_fixed_notice_at")
+    debugLog "=> TRIAL_FIXED_NOTICE_AT: $TRIAL_FIXED_NOTICE_AT"
+    TRIAL_FIXED_AT=$(urlEncode "$trial_fixed_at")
+    debugLog "=> TRIAL_FIXED_AT: $TRIAL_FIXED_AT"
+    RETRIAL_E_LENGTH=$(urlEncode "$retrial_estimated_length")
+    debugLog "=> RETRIAL_E_LENGTH: $RETRIAL_E_LENGTH"
+    RETRIAL_A_LENGTH=$(urlEncode "$retrial_actual_length")
+    debugLog "=> RETRIAL_A_LENGTH: $RETRIAL_A_LENGTH"
+    RETRIAL_STARTED_AT=$(urlEncode "$retrial_started_at")
+    debugLog "=> RETRIAL_STARTED_AT: $RETRIAL_STARTED_AT"
+    RETRIAL_CONCLUDED_AT=$(urlEncode "$retrial_concluded_at")
+    debugLog "=> RETRIAL_CONCLUDED_AT: $RETRIAL_CONCLUDED_AT"
 
     # Create Defendant PARAMS
-    FIRST=$(urlencode "$first_name")
-    echo -e "=> FIRST: $FIRST"
-    LAST=$(urlencode "$last_name")
-    echo -e "=> LAST: $LAST"
-    DOB=$(urlencode "$date_of_birth")
-    echo -e "=> DOB: $DOB"
+    FIRST=$(urlEncode "$first_name")
+    debugLog "=> FIRST: $FIRST"
+    LAST=$(urlEncode "$last_name")
+    debugLog "=> LAST: $LAST"
+    DOB=$(urlEncode "$date_of_birth")
+    debugLog "=> DOB: $DOB"
 
     # Create Rep Order PARAMS
-    REP_ORDER_DATE=$(urlencode "$representation_order_date")
-    echo -e "=> REP_ORDER_DATE: $REP_ORDER_DATE"
-    MAAT_REF=$(urlencode "$maat_reference")
-    echo -e "=> MAAT_REF: $MAAT_REF"
+    REP_ORDER_DATE=$(urlEncode "$representation_order_date")
+    debugLog "=> REP_ORDER_DATE: $REP_ORDER_DATE"
+    MAAT_REF=$(urlEncode "$maat_reference")
+    debugLog "=> MAAT_REF: $MAAT_REF"
 
     # Create Fee PARAMS
-    QUANTITY=$(urlencode "$quantity")
-    echo -e "=> QUANTITY: $QUANTITY"
-    RATE=$(urlencode "$rate")
-    echo -e "=> RATE: $RATE"
-    AMOUNT=$(urlencode "$amount")
-    echo -e "=> AMOUNT: $AMOUNT"
-    FEE_TYPE_ID=$(urlencode "$fee_type_id")
-    echo -e "=> FEE_TYPE_ID: $FEE_TYPE_ID"
+    QUANTITY=$(urlEncode "$quantity")
+    debugLog "=> QUANTITY: $QUANTITY"
+    RATE=$(urlEncode "$rate")
+    debugLog "=> RATE: $RATE"
+    AMOUNT=$(urlEncode "$amount")
+    debugLog "=> AMOUNT: $AMOUNT"
+    FEE_TYPE_ID=$(urlEncode "$fee_type_id")
+    debugLog "=> FEE_TYPE_ID: $FEE_TYPE_ID"
 
     # PARAMS GET FROM API
     CLAIM_ID=""
@@ -161,6 +188,9 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     else
         IS_ALL_FEE_ADDED="FALSE"
         IS_ALL_DEFNANT_ADDED="FALSE"
+        if [ "$LAST_CASE_ID" != "00000" ]; then
+            startInjection
+        fi
     fi 
     
     if [ "$CASE_ID" == "$LAST_CASE_ID" ] && [ "$FEE_ID" == "$LAST_FEE_ID" ]; then
@@ -175,6 +205,10 @@ for ((i=0; i<ITEM_COUNT; i++)); do
         IS_ALL_DEFNANT_ADDED="TRUE"
     fi
 
+    # Masking MAAT_REF
+    MAAT_REF=$(urlEncode "${maat_refrence_ids[0]}")
+    debugLog "=> Masked MAAT_REF: $MAAT_REF"
+
     # Create Claim
     if [ "$CLAIM_FLAG" == "TRUE" ]; then
         echo -e "\n>>> Creating Claim..."
@@ -182,58 +216,67 @@ for ((i=0; i<ITEM_COUNT; i++)); do
         QUERY_PARAMS="creator_email=$USER_EMAIL&court_id=$COURT_ID&case_type_id=$CASE_TYPE_ID&offence_id=$OFFENCE_ID&case_number=$CASE_NUMBER&apply_vat=$APPLY_VAT&estimated_length_of_trial=$E_LENGTH&actual_trial_length=$A_LENGTH&user_email=$USER_EMAIL&advocate_category=$ADVOCATE_TYPE&api_key=$API_KEY"
 
         if [ -n "$FIRST_TRIAL_DATE" ]; then
-            echo -e "First trial date: $FIRST_TRIAL_DATE"
+            debugLog "First trial date: $FIRST_TRIAL_DATE"
             QUERY_PARAMS+="&first_day_of_trial=$FIRST_TRIAL_DATE"
         fi
 
         if [ -n "$TRIAL_CONCLUDED_DATE" ]; then
-            echo -e "Trial concluded date: $TRIAL_CONCLUDED_DATE"
+            debugLog "Trial concluded date: $TRIAL_CONCLUDED_DATE"
             QUERY_PARAMS+="&trial_concluded_at=$TRIAL_CONCLUDED_DATE"
         fi
 
         if [ -n "$TRIAL_CRACKED_AT_THIRD" ]; then
-            echo -e "Trial cracked at third: $TRIAL_CRACKED_AT_THIRD"
+            debugLog "Trial cracked at third: $TRIAL_CRACKED_AT_THIRD"
             QUERY_PARAMS+="&trial_cracked_at_third=$TRIAL_CRACKED_AT_THIRD"
         fi
 
         if [ -n "$TRIAL_CRACKED_AT" ]; then
-            echo -e "Trial cracked at: $TRIAL_CRACKED_AT"
+            debugLog "Trial cracked at: $TRIAL_CRACKED_AT"
             QUERY_PARAMS+="&trial_cracked_at=$TRIAL_CRACKED_AT"
         fi
 
         if [ -n "$TRIAL_FIXED_NOTICE_AT" ]; then
-            echo -e "Trial fixed notice at: $TRIAL_FIXED_NOTICE_AT"
+            debugLog "Trial fixed notice at: $TRIAL_FIXED_NOTICE_AT"
             QUERY_PARAMS+="&trial_fixed_notice_at=$TRIAL_FIXED_NOTICE_AT"
         fi
 
         if [ -n "$TRIAL_FIXED_AT" ]; then
-            echo -e "Trial fixed at: $TRIAL_FIXED_AT"
+            debugLog "Trial fixed at: $TRIAL_FIXED_AT"
             QUERY_PARAMS+="&trial_fixed_at=$TRIAL_FIXED_AT"
         fi
 
+        if [ -n "$RETRIAL_E_LENGTH" ]; then
+            debugLog "Retrial estimated length: $RETRIAL_E_LENGTH"
+            QUERY_PARAMS+="&retrial_estimated_length=$RETRIAL_E_LENGTH"
+        fi
+
+        if [ -n "$RETRIAL_A_LENGTH" ]; then
+            debugLog "Retrial actual length: $RETRIAL_A_LENGTH"
+            QUERY_PARAMS+="&retrial_actual_length=$RETRIAL_A_LENGTH"
+        fi
+
         if [ -n "$RETRIAL_STARTED_AT" ]; then
-            echo -e "Retrial started at: $RETRIAL_STARTED_AT"
+            debugLog "Retrial started at: $RETRIAL_STARTED_AT"
             QUERY_PARAMS+="&retrial_started_at=$RETRIAL_STARTED_AT"
         fi
 
         if [ -n "$RETRIAL_CONCLUDED_AT" ]; then
-            echo -e "Retrial concluded at: $RETRIAL_CONCLUDED_AT"
+            debugLog "Retrial concluded at: $RETRIAL_CONCLUDED_AT"
             QUERY_PARAMS+="&retrial_concluded_at=$RETRIAL_CONCLUDED_AT"
         fi
 
         RESPONSE=$(curl --location --globoff --request POST "$API_DOMAIN/api/external_users/claims/advocates/final?$QUERY_PARAMS")
+        echo -e "\nRESPONSE:$RESPONSE"
 
         if jq -e 'type == "array" and .[0].error' <<< "$RESPONSE" > /dev/null; then
             ERROR_MSG=$(jq -r '.[0].error' <<< "$RESPONSE")
-            echo -e "\nRESPONSE:$RESPONSE"
             echo -e "\n>>> Error creating claim: $ERROR_MSG"
         else
-            echo -e "\nRESPONSE:$RESPONSE"
-            echo -e "\n>>> Claim created successfully."
+            debugLog "\n>>> Claim created successfully."
 
             # Parse CLAIM_ID from response
             CLAIM_ID=$(jq -r '.id' <<< "$RESPONSE")
-            echo -e "=> CLAIM_ID: $CLAIM_ID"
+            debugLog "=> CLAIM_ID: $CLAIM_ID"
         fi
 
         unset RESPONSE
@@ -244,7 +287,7 @@ for ((i=0; i<ITEM_COUNT; i++)); do
         echo -e "\n>>> Creating Defendant..."
         RESPONSE=$(curl -s --location --globoff --request POST "$API_DOMAIN/api/external_users/defendants?claim_id=$CLAIM_ID&first_name=$FIRST&last_name=$LAST&date_of_birth=$DOB&api_key=$API_KEY")
 
-        echo -e "\nRESPONSE:$RESPONSE"
+        debugLog "\nRESPONSE:$RESPONSE"
 
         if jq -e 'type == "array" and .[0].error' <<< "$RESPONSE" > /dev/null; then
             ERROR_MSG=$(jq -r '.[0].error' <<< "$RESPONSE")
@@ -254,7 +297,7 @@ for ((i=0; i<ITEM_COUNT; i++)); do
 
             # Parse DEFENDANT_ID from response
             DEFENDANT_ID=$(jq -r '.id' <<< "$RESPONSE")
-            echo -e "=> DEFENDANT_ID: $DEFENDANT_ID"
+            debugLog "=> DEFENDANT_ID: $DEFENDANT_ID"
         fi
 
         unset RESPONSE
@@ -263,7 +306,7 @@ for ((i=0; i<ITEM_COUNT; i++)); do
         echo -e "\n>>> Creating Representation Order..."
         RESPONSE=$(curl -s --location --globoff --request POST "$API_DOMAIN/api/external_users/representation_orders?defendant_id=$DEFENDANT_ID&maat_reference=$MAAT_REF&representation_order_date=$REP_ORDER_DATE&api_key=$API_KEY")
         
-        echo -e "\nRESPONSE:$RESPONSE"
+        debugLog "\nRESPONSE:$RESPONSE"
 
         if jq -e 'type == "array" and .[0].error' <<< "$RESPONSE" > /dev/null; then
             ERROR_MSG=$(jq -r '.[0].error' <<< "$RESPONSE")            
@@ -282,23 +325,23 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     QUERY_PARAMS="claim_id=$CLAIM_ID&fee_type_id=$FEE_TYPE_ID&api_key=$API_KEY"
 
     if [ -n "$QUANTITY" ]; then
-        echo -e "Quantity: $QUANTITY"
+        debugLog "Quantity: $QUANTITY"
         QUERY_PARAMS+="&quantity=$QUANTITY" 
     fi
 
     if [ -n "$RATE" ]; then
-        echo -e "Rate: $RATE"
+        debugLog "Rate: $RATE"
         QUERY_PARAMS+="&rate=$RATE" 
     fi
 
     if [ -n "$AMOUNT" ]; then
-        echo -e "Amount: $AMOUNT"
+        debugLog "Amount: $AMOUNT"
         QUERY_PARAMS+="&amount=$AMOUNT" 
     fi
 
     RESPONSE=$(curl -s --location --globoff --request POST "$API_DOMAIN/api/external_users/fees/?$QUERY_PARAMS")
 
-    echo -e "\nRESPONSE:$RESPONSE"
+    debugLog "\nRESPONSE:$RESPONSE"
 
     if jq -e 'type == "array" and .[0].error' <<< "$RESPONSE" > /dev/null; then
         ERROR_MSG=$(jq -r '.[0].error' <<< "$RESPONSE")        
@@ -317,6 +360,10 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     LAST_DEFENDANT_ID=$defendant_id
 
     echo -e "\n==== End of item: $i"
+
+    if [ $i -eq $((ITEM_COUNT-1)) ]; then
+        startInjection
+    fi
 done
 
 echo -e "\n!=== ${0} ended..."

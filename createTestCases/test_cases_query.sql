@@ -2,6 +2,7 @@ select
 	c.id as case_id,
 	f.id as fee_id,
 	d.id as defendant_id,
+	c.type,
 	c.court_id,
 	c.case_type_id,
 	c.offence_id,
@@ -16,6 +17,13 @@ select
 	c.trial_cracked_at,
 	c.trial_fixed_notice_at,
 	c.trial_fixed_at,
+	c.retrial_estimated_length,
+	c.retrial_actual_length,
+	c.retrial_started_at,
+	c.retrial_concluded_at,
+	c.supplier_number,
+	c.prosecution_evidence,
+	c.case_concluded_at,
 	d.first_name,
 	d.last_name,
 	d.date_of_birth,
@@ -29,8 +37,12 @@ from claims c, fees f, defendants d, representation_orders ro
 where 
 	c.state = 'authorised' and
 	c.advocate_category is not null and
+	c.case_type_id is not null and
+	c.offence_Id is not null and
+--	c.case_type_id in (5,11,12) and
+	c.type in ('Claim::AdvocateClaim', 'Claim::LitigatorClaim') and 
 	f.claim_id  = c.id and
 	d.claim_id  = c.id and
 	ro.defendant_id = d.id
 order by c.created_at desc 
-limit 10;
+limit 100;

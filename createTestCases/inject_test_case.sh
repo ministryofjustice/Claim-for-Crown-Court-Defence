@@ -1,4 +1,17 @@
 #!/bin/bash
+
+# Check if a file was provided as an argument
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <uuid> <pod_name>"
+  exit 1
+fi
+
+# Params
+LOG_LEVEL=1 # 0 - silent, 1 - verbose
+UUID=${1}
+POD_NAME=${2}
+
+# Create log file
 LOG_DIR="${0}_logs"
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/${0}_$(date +%Y%m%d%H%M).log"
@@ -8,9 +21,6 @@ while [ -f "$LOG_FILE" ]; do
   LOG_FILE="$LOG_DIR/${0}_$(date +%Y%m%d%H%M)_$i.log"
 done
 exec > "$LOG_FILE" 2>&1
-LOG_LEVEL=1
-
-echo -e "!=== ${0} started..."
 
 if [ $LOG_LEVEL -eq 1 ]; then
   LOG_FLAG=""
@@ -18,8 +28,10 @@ else
   LOG_FLAG="> /dev/null"
 fi
 
-rails c $LOG_FLAG <<EOF
-claim=Claim::BaseClaim.last
+echo -e "!=== ${0} started..."
+
+kubectl exec -it $POD_NAME -- rails c $LOG_FLAG <<EOF
+claim=Claim::BaseClaim.find_by(uuid: '$UUID')
 claim.build_certification(
   certification_type_id: 7,
   certified_by: 'Test',

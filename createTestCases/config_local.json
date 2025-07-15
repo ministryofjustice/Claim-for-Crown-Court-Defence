@@ -1,0 +1,6 @@
+{
+  "api_key": "10e76205-5fd3-49d9-895d-b9de5f415a6a",
+  "api_domain": "http://localhost:3001",
+  "user_email": "advocate@example.com",
+  "pod_name": "local"
+}

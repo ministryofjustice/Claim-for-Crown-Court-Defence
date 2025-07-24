@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Check if a file was provided as an argument
-if [ $# -ne 2 ]; then
-  echo "Usage: $0 <uuid> <pod_name>"
+if [ $# -ne 3 ]; then
+  echo "Usage: $0 <uuid> <pod_name> <env>"
   exit 1
 fi
 
@@ -10,6 +10,7 @@ fi
 LOG_LEVEL=1 # 0 - silent, 1 - verbose
 UUID=${1}
 POD_NAME=${2}
+ENV=${3}
 
 # Create log file
 LOG_DIR="${0}_logs"
@@ -30,7 +31,7 @@ fi
 
 echo -e "!=== ${0} started..."
 
-kubectl exec -it $POD_NAME -- rails c $LOG_FLAG <<EOF
+kubectl exec -n $ENV -it $POD_NAME -- rails c $LOG_FLAG <<EOF
 claim=Claim::BaseClaim.find_by(uuid: '$UUID')
 claim.build_certification(
   certification_type_id: 7,

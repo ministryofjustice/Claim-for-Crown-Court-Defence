@@ -32,11 +32,12 @@ select
 	f.quantity,
 	f.rate,
 	f.amount,
-	f.fee_type_id
+	f.fee_type_id,
+	f.case_numbers as fee_case_numbers,
+	f.date as fee_date
 from claims c, fees f, defendants d, representation_orders ro
 where 
 	c.state = 'authorised' and
-	c.advocate_category is not null and
 	c.case_type_id is not null and
 	c.offence_Id is not null and
 --	c.case_type_id in (5,11,12) and

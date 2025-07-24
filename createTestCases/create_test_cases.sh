@@ -13,8 +13,8 @@ if [ ! -f "$1" ]; then
 fi
 
 # Params
-ENV="local" #local, dev, api_sandbox
-LOG_LEVEL=0 # 0 - silent, 1 - verbose
+ENV="dev-lgfs" #local, dev, dev-lgfs, staging, api-sandbox
+LOG_LEVEL=1 # 0 - silent, 1 - verbose
 
 # Create log file
 LOG_DIR="${0}_logs"
@@ -48,14 +48,14 @@ startInjection() {
     if [ $POD_NAME == "local" ]; then
         echo -e "===! skip inject_test_case.sh in local..."
     else
-        ./inject_test_case.sh "$1" "$POD_NAME" &
+        ./inject_test_case.sh "$1" "$POD_NAME" "cccd-$ENV"
     fi
 }
 
 createAdvocateClaim() {
     echo -e "\n>>> Creating Advocate Claim..."
 
-    QUERY_PARAMS="creator_email=$USER_EMAIL&court_id=$COURT_ID&case_type_id=$CASE_TYPE_ID&offence_id=$OFFENCE_ID&case_number=$CASE_NUMBER&apply_vat=$APPLY_VAT&estimated_length_of_trial=$E_LENGTH&actual_trial_length=$A_LENGTH&user_email=$USER_EMAIL&advocate_category=$ADVOCATE_TYPE&api_key=$API_KEY"
+    QUERY_PARAMS="creator_email=$ADVOCATE_EMAIL&court_id=$COURT_ID&case_type_id=$CASE_TYPE_ID&offence_id=$OFFENCE_ID&case_number=$CASE_NUMBER&apply_vat=$APPLY_VAT&estimated_length_of_trial=$E_LENGTH&actual_trial_length=$A_LENGTH&user_email=$ADVOCATE_EMAIL&advocate_category=$ADVOCATE_TYPE&api_key=$API_KEY"
 
     if [ -n "$FIRST_TRIAL_DATE" ]; then
         debugLog "First trial date: $FIRST_TRIAL_DATE"
@@ -127,7 +127,7 @@ createAdvocateClaim() {
 createLitigatorClaim() {
     echo -e "\n>>> Creating LitigatorClaim..."
 
-    QUERY_PARAMS="creator_email=$USER_EMAIL&court_id=$COURT_ID&case_type_id=$CASE_TYPE_ID&offence_id=$OFFENCE_ID&case_number=$CASE_NUMBER&apply_vat=$APPLY_VAT&actual_trial_length=$A_LENGTH&user_email=$USER_EMAIL&supplier_number=$SUPPLIER_NUMBER&api_key=$API_KEY"
+    QUERY_PARAMS="creator_email=$LITIGATOR_EMAIL&court_id=$COURT_ID&case_type_id=$CASE_TYPE_ID&offence_id=$OFFENCE_ID&case_number=$CASE_NUMBER&apply_vat=$APPLY_VAT&actual_trial_length=$A_LENGTH&user_email=$LITIGATOR_EMAIL&supplier_number=$SUPPLIER_NUMBER&api_key=$API_KEY"
 
     if [ -n "$PROSECUTION_EVIDENCE" ]; then
         debugLog "Prosecution evidence: $PROSECUTION_EVIDENCE"
@@ -212,6 +212,18 @@ createFee() {
         QUERY_PARAMS+="&amount=$AMOUNT" 
     fi
 
+    if [ "$TYPE" == "Claim%3A%3ALitigatorClaim" ]; then  
+        if [ -n "$FEE_CASE_NUMBERS" ]; then
+            debugLog "Case numbers: $FEE_CASE_NUMBERS"
+            QUERY_PARAMS+="&case_numbers=$FEE_CASE_NUMBERS" 
+        fi
+
+        if [ -n "$FEE_DATE" ]; then
+            debugLog "Date: $FEE_DATE"
+            QUERY_PARAMS+="&date=$FEE_DATE"
+        fi
+    fi
+
     RESPONSE=$(curl -s --location --globoff --request POST "$API_DOMAIN/api/external_users/fees/?$QUERY_PARAMS")
 
     debugLog "\nRESPONSE:$RESPONSE"
@@ -234,6 +246,7 @@ CONFIG_FILE="config_${ENV}.json"
 API_KEY=$(jq -r '.api_key' $CONFIG_FILE) # Can be found in providers table
 API_DOMAIN=$(jq -r '.api_domain' $CONFIG_FILE) # env url
 POD_NAME=$(jq -r '.pod_name' $CONFIG_FILE) # Obtained by "kubectl -n (env) get pods"
+SUPPLIER_NUMBER=$(jq -r '.supplier_number' $CONFIG_FILE) # tmp mask
 
 # Get maat ref mask list
 maat_refrence_ids=()
@@ -298,10 +311,14 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     rate=$(jq -r '.[] | .['$i'].rate' "$DATA_FILE")
     amount=$(jq -r '.[] | .['$i'].amount' "$DATA_FILE")
     fee_type_id=$(jq -r '.[] | .['$i'].fee_type_id' "$DATA_FILE")
+    fee_case_numbers=$(jq -r '.[] | .['$i'].fee_case_numbers' "$DATA_FILE")
+    fee_date=$(jq -r '.[] | .['$i'].fee_date' "$DATA_FILE")
 
     # Create Claim PARAMS
-    USER_EMAIL=$(jq -r '.user_email' $CONFIG_FILE)
-    debugLog "=> USER_EMAIL: $USER_EMAIL"
+    ADVOCATE_EMAIL=$(jq -r '.advocate_email' $CONFIG_FILE)
+    debugLog "=> ADVOCATE_EMAIL: $ADVOCATE_EMAIL"
+    LITIGATOR_EMAIL=$(jq -r '.litigator_email' $CONFIG_FILE)
+    debugLog "=> LITIGATOR_EMAIL: $LITIGATOR_EMAIL"
     CASE_ID=$(urlEncode "$case_id")
     debugLog "=> CASE_ID: $CASE_ID"
     FEE_ID=$(urlEncode "$fee_id")
@@ -346,8 +363,8 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     debugLog "=> RETRIAL_STARTED_AT: $RETRIAL_STARTED_AT"
     RETRIAL_CONCLUDED_AT=$(urlEncode "$retrial_concluded_at")
     debugLog "=> RETRIAL_CONCLUDED_AT: $RETRIAL_CONCLUDED_AT"
-    SUPPLIER_NUMBER=$(urlEncode "$supplier_number")
-    debugLog "=> SUPPLIER_NUMBER: $SUPPLIER_NUMBER"
+    # SUPPLIER_NUMBER=$(urlEncode "$supplier_number")
+    # debugLog "=> SUPPLIER_NUMBER: $SUPPLIER_NUMBER"
     PROSECUTION_EVIDENCE=$(urlEncode "$prosecution_evidence")
     debugLog "=> PROSECUTION_EVIDENCE: $PROSECUTION_EVIDENCE"
     CASE_CONCLUDED_DATE=$(urlEncode "$case_concluded_at")
@@ -376,6 +393,10 @@ for ((i=0; i<ITEM_COUNT; i++)); do
     debugLog "=> AMOUNT: $AMOUNT"
     FEE_TYPE_ID=$(urlEncode "$fee_type_id")
     debugLog "=> FEE_TYPE_ID: $FEE_TYPE_ID"
+    FEE_CASE_NUMBERS=$(urlEncode "$fee_case_numbers")
+    debugLog "=> FEE_CASE_NUMBERS: $FEE_CASE_NUMBERS"
+    FEE_DATE=$(urlEncode "$fee_date")
+    debugLog "=> FEE_DATE: $FEE_DATE"
 
     # PARAMS GET FROM API
     CLAIM_ID=""
@@ -422,7 +443,11 @@ for ((i=0; i<ITEM_COUNT; i++)); do
 
     # Create Claim
     if [ "$CLAIM_FLAG" == "TRUE" ]; then
-        createAdvocateClaim
+        if [ "$TYPE" == "Claim%3A%3AAdvocateClaim" ]; then
+            createAdvocateClaim
+        elif [ "$TYPE" == "Claim%3A%3ALitigatorClaim" ]; then
+            createLitigatorClaim
+        fi
     fi
 
     # Create Defendant and Rep Order

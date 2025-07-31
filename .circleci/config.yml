@@ -19,19 +19,6 @@ references:
         mkdir -p /tmp/test-results/rspec
         mkdir -p /tmp/test-results/cucumber
 
-  _install-codeclimate: &install-codeclimate
-    run:
-      name: Install Code Climate test-reporter
-      command: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > tmp/cc-test-reporter
-        chmod +x tmp/cc-test-reporter
-
-  _persist-codeclimate: &persist-codeclimate
-    persist_to_workspace:
-      root: tmp
-      paths:
-        - cc-test-reporter
-
   _wait-for-db: &wait-for-db
     run:
       name: Wait for DB
@@ -190,18 +177,12 @@ commands:
       - run:
           name: Run rspec tests
           command: |
-            tmp/cc-test-reporter before-build
             circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command="xargs bundle exec rspec \
                                                                                             --format progress \
                                                                                             --format RspecJunitFormatter \
                                                                                             --out /tmp/test-results/rspec/rspec.xml" \
                                                                          --split-by=timings \
                                                                          --timings-type=file
-            tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
-      - persist_to_workspace:
-          root: tmp
-          paths:
-            - coverage/codeclimate.*.json
       - store_artifacts:
           path: tmp/coverage
       - store_test_results:
@@ -392,8 +373,6 @@ jobs:
       - checkout
       - setup_remote_docker
       - *create-tmp-dir
-      - *install-codeclimate
-      - *persist-codeclimate
       - build-base
 
   smoke-test:
@@ -453,16 +432,6 @@ jobs:
       - run-jasmine
       - run-standardjs
       - run-stylelint
-
-  upload-coverage:
-    executor: test-executor
-    resource_class: small
-    steps:
-      - *attach-tmp-workspace
-      - run:
-          name: Upload coverage results to Code Climate
-          command: |
-            tmp/cc-test-reporter sum-coverage --output - --parts 6 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   build-app-container:
     executor: cloud-platform-executor
@@ -547,14 +516,11 @@ workflows:
       - cucumber-tests:
           requires:
             - build-test-container
-      - upload-coverage:
+      - build-app-container:
           requires:
             - rspec-tests
             - cucumber-tests
             - other-tests
-      - build-app-container:
-          requires:
-            - upload-coverage
           context:
             - cccd-live-base
       - smoke-test:
@@ -621,11 +587,6 @@ workflows:
       - cucumber-tests:
           requires:
             - build-test-container
-      - upload-coverage:
-          requires:
-            - rspec-tests
-            - cucumber-tests
-            - other-tests
 
   build-deploy-branch:
     jobs:

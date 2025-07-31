@@ -1,19 +1,19 @@
 #!/bin/bash
 
 # Check if a file was provided as an argument
-if [ $# -ne 1 ]; then
-  echo "Usage: $0 <json_file>"
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <env> <json_file>"
   exit 1
 fi
 
 # Check if the file exists and is a file
-if [ ! -f "$1" ]; then
-  echo "Error: $1 is not a file"
+if [ ! -f "$2" ]; then
+  echo "Error: $2 is not a file"
   exit 1
 fi
 
 # Params
-ENV="dev-lgfs" #local, dev, dev-lgfs, staging, api-sandbox
+ENV="$1" #local, dev, dev-lgfs, staging, api-sandbox
 LOG_LEVEL=1 # 0 - silent, 1 - verbose
 
 # Create log file
@@ -256,7 +256,7 @@ done < maat_refrence_ids_$ENV.txt
 debugLog "=> maat_refrence_ids: ${maat_refrence_ids[@]}"
   
 # Use jq to parse the JSON data
-DATA_FILE="$1"
+DATA_FILE="$2"
 LAST_CASE_ID="00000"
 LAST_FEE_ID="00000"
 LAST_DEFENDANT_ID="00000"
@@ -436,10 +436,14 @@ for ((i=0; i<ITEM_COUNT; i++)); do
         fi
     fi
 
-    # Masking MAAT_REF
+    # Masking MAAT_REF, FIRST, LAST
     index=$(( DEFENDANT_ADDED < ${#maat_refrence_ids[@]} ? DEFENDANT_ADDED : ${#maat_refrence_ids[@]}-1 ))
     MAAT_REF=$(urlEncode "${maat_refrence_ids[$index]}")
     debugLog "=> Masked MAAT_REF: $MAAT_REF"
+    FIRST=$(urlEncode "John")
+    debugLog "=> Masked FIRST: $FIRST"
+    LAST=$(urlEncode "Doe")
+    debugLog "=> Masked LAST: $LAST"
 
     # Create Claim
     if [ "$CLAIM_FLAG" == "TRUE" ]; then

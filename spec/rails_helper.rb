@@ -40,13 +40,6 @@ end
 
 SimpleCov.start
 
-# TODO: is this needed, since we are starting simplecov anyway (above)?
-if ENV['CODECLIMATE_REPO_TOKEN']
-  require 'simplecov'
-  SimpleCov.start
-  # allow Code Climate Test coverage reports to be sent
-end
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 ENV['ADP_API_USER'] = 'api_user'

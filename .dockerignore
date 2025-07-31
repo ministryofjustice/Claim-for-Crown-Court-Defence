@@ -35,7 +35,6 @@ vcr
 
 .env
 .env.sample
-.codeclimate.yml
 .rubocop.yml
 .rubocop_todo.yml
 
@@ -46,7 +45,6 @@ vcr
 .rspec_parallel
 .bundle
 .circleci
-.codeclimate.yml
 .editorconfig
 .stylelintrc.yml
 .k8s

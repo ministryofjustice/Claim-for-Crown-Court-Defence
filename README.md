@@ -2,8 +2,6 @@
 ### a.k.a Advocate Defence Payments, Crime Billing Online
 
 [![CircleCI](https://circleci.com/gh/ministryofjustice/Claim-for-Crown-Court-Defence/tree/main.svg?style=svg)](https://circleci.com/gh/ministryofjustice/Claim-for-Crown-Court-Defence/tree/main)
-[![Code Climate](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/badges/gpa.svg)](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence)
-[![Test Coverage](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/badges/coverage.svg)](https://codeclimate.com/github/ministryofjustice/Claim-for-Crown-Court-Defence/coverage)
 [![Known Vulnerabilities](https://snyk.io/test/github/ministryofjustice/Claim-for-Crown-Court-Defence/badge.svg)](https://snyk.io/test/github/ministryofjustice/Claim-for-Crown-Court-Defence)
 
 

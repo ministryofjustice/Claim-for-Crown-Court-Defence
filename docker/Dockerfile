@@ -12,6 +12,7 @@ RUN apk --update-cache upgrade \
  && apk --no-cache add \
                    build-base \
                    git \
+                   npm \
                    postgresql-dev \
                    yaml-dev \
                    yarn

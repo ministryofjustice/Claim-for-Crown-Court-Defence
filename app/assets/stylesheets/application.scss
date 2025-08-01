@@ -1,13 +1,10 @@
 // stylelint-disable scss/at-import-partial-extension
 // stylelint-disable scss/load-no-partial-leading-underscore
 
-$govuk-images-path: "~govuk-frontend/dist/govuk/assets/images/";
-$govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
+$govuk-font-url-function: "font-url";
+$govuk-image-url-function: "image-url";
 
-@import "~govuk-frontend/dist/govuk/index";
-
-@import "~govuk-frontend/dist/govuk/base";
-@import "~govuk-frontend/dist/govuk/core/typography";
+@import "govuk-frontend/dist/govuk/index";
 
 @import "@ministryofjustice/frontend/moj/components/multi-file-upload/_multi-file-upload.scss";
 @import "@ministryofjustice/frontend/moj/settings/_measurements.scss";
@@ -28,9 +25,9 @@ $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 @import "panels";
 @import "breadcrumbs";
 @import "callout";
-@import "~accessible-autocomplete/src/autocomplete";
-@import "~datatables.net-dt/css/dataTables.dataTables";
-@import "~jquery-datatables-checkboxes/css/dataTables.checkboxes";
+@import "accessible-autocomplete/src/autocomplete";
+@import "datatables.net-dt/css/dataTables.dataTables";
+@import "jquery-datatables-checkboxes/css/dataTables.checkboxes";
 @import "navigation";
 @import "interim-claim";
 

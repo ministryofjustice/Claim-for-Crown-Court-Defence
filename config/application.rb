@@ -46,8 +46,6 @@ module AdvocateDefencePayments
       g.helper_specs false
     end
 
-    config.assets.enabled = true
-
     # Non-default config for Rails 6.1
     #
     # This is config that if not set here will accept different
@@ -75,5 +73,11 @@ module AdvocateDefencePayments
     config.active_job.queue_adapter = :sidekiq
 
     config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
+
+    config.assets.paths << Rails.root.join('app/assets')
+    config.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets')
+    config.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets/images')
+    config.assets.paths << Rails.root.join('node_modules/@ministryofjustice/frontend/moj/assets')
+    config.assets.paths << Rails.root.join('node_modules/@ministryofjustice/frontend/moj/assets/images')
   end
 end

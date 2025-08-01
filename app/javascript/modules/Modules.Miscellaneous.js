@@ -1,46 +1,3 @@
-window.$ = window.jQuery = require('jquery');
-
-// TINY PUBSUB
-// Great little wrapper to easily do pub/sub
-
-/* jQuery Tiny Pub/Sub - v0.7 - 10/27/2011
- * http://benalman.com/
- * Copyright (c) 2011 "Cowboy" Ben Alman; Licensed MIT, GPL */
-
-(function ($) {
-  const o = $({})
-
-  $.subscribe = function () {
-    o.on.apply(o, arguments)
-  }
-
-  $.unsubscribe = function () {
-    o.off.apply(o, arguments)
-  }
-
-  $.publish = function () {
-    o.trigger.apply(o, arguments)
-  }
-}(jQuery))
-
-// Trunc polyfil
-String.prototype.trunc = String.prototype.trunc || function (n) { // eslint-disable-line
-  return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this
-}
-
-// Simple string interpolation
-if (!String.prototype.supplant) {
-  String.prototype.supplant = function (o) { // eslint-disable-line
-    return this.replace(
-      /\{([^{}]*)\}/g,
-      function (a, b) {
-        const r = o[b]
-        return typeof r === 'string' || typeof r === 'number' ? r : a
-      }
-    )
-  }
-}
-
 (function () {
   'use strict'
   delete moj.Modules.devs
@@ -154,5 +111,5 @@ if (!String.prototype.supplant) {
     }
   }
   moj.init()
-  $.numberedList()
+  $('.fx-numberedList-hook').numberedList()
 }())

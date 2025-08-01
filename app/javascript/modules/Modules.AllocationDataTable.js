@@ -414,6 +414,7 @@ moj.Modules.AllocationDataTable = {
 
   // API: clear check boxes
   clearCheckboxes: function () {
+    if (!this.dataTable || !this.dataTable.column(0).checkboxes) return
     this.dataTable
       .column(0)
       .checkboxes
@@ -435,11 +436,13 @@ moj.Modules.AllocationDataTable = {
   clearFilter: function (e, data) {
     this.clearCheckboxes()
     this.clearSearchConfig()
-    this.dataTable
-      .search('')
-      .columns()
-      .search('')
-      .draw()
+    if (this.dataTable) {
+      this.dataTable
+        .search('')
+        .columns()
+        .search('')
+        .draw()
+    }
   },
 
   /**

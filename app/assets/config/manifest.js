@@ -14,4 +14,3 @@
 //= link moj-logotype-crest-2024.png
 //= link application.js
 //= link application.css
-//= link adp_swagger_application.js

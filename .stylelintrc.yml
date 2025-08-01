@@ -1,7 +1,7 @@
 ---
 extends: stylelint-config-gds/scss
 ignoreFiles:
-  - app/webpack/**/_datatables.scss
+  - app/assets/**/_datatables.scss
   - vendor/**/*
 plugins:
   - stylelint-order

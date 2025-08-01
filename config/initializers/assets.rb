@@ -13,6 +13,5 @@
 # Rails.application.config.assets.precompile += %w( pdf.css )
 Rails.application.config.assets.paths << Rails.root.join('node_modules', 'govuk-frontend', 'dist', 'govuk', 'assets')
 Rails.application.config.assets.paths << Rails.root.join('node_modules', 'govuk-frontend', 'dist', 'govuk', 'assets', 'images')
-Rails.application.config.assets.paths << Rails.root.join('app', 'webpack', 'packs')
 Rails.application.config.assets.paths << Rails.root.join('node_modules', '@ministryofjustice', 'frontend', 'moj', 'assets')
 Rails.application.config.assets.paths << Rails.root.join('node_modules', '@ministryofjustice', 'frontend', 'moj', 'assets', 'images')

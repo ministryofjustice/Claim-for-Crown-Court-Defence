@@ -1,17 +1,5 @@
-/* global define */
-
-(function (factory) {
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define(['jquery'], factory)
-  } else if (typeof exports === 'object') {
-    // Node/CommonJS
-    factory(require('jquery'))
-  } else {
-    // Browser globals
-    factory(jQuery)
-  }
-}(function ($, _undefined) {
+// Instead of wrapping in UMD, just define the plugin directly
+(function ($) {
   'use strict'
 
   const pluginName = 'numberedList'
@@ -23,13 +11,11 @@
   }
   let activated = false
 
-  // Plugin constructor
   function Plugin (options) {
     this.settings = $.extend({}, defaults, options)
     this.init()
   }
 
-  // Avoid Plugin.prototype conflicts
   $.extend(Plugin.prototype, {
     init: function () {
       if ($(this.settings.wrapper).length >= 1) {
@@ -69,18 +55,11 @@
     }
   })
 
-  // Plugin wrapper to prevent multiple copies of the
-  // plugin being included and to prevent it running
-  // multiple times
-  if (typeof $[pluginName] === 'undefined') {
-    $[pluginName] = function (options) {
-      if (!activated) {
-        new Plugin(options).init()
-        activated = true
-      }
-
-      // chain jQuery functions
-      return this
+  $.fn[pluginName] = function (options) {
+    if (!activated) {
+      new Plugin(options).init()
+      activated = true
     }
+    return this
   }
-}))
+})(jQuery)

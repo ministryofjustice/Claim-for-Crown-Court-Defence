@@ -28,7 +28,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
 
   after(:all) { clean_database }
 
-  include_examples 'litigator claim test setup'
   include_examples 'malformed or not iso8601 compliant dates', action: :validate,
                                                                attributes: %i[main_hearing_date],
                                                                relative_endpoint: LITIGATOR_INTERIM_VALIDATE_ENDPOINT

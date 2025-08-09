@@ -90,6 +90,8 @@ RSpec.describe 'Messages' do
         expect(Message.last.attachments.count).to eq(2)
       end
 
+      it { expect { submit }.to change(claim.reload.documents, :count).by(2) }
+
       context 'when some documents do not belong to the creator' do
         let(:documents) { [create(:document, creator_id: creator.user.id), create(:document)] }
 

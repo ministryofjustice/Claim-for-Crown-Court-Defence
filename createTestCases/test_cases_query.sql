@@ -40,10 +40,9 @@ where
 	c.state = 'authorised' and
 	c.case_type_id is not null and
 	c.offence_Id is not null and
---	c.case_type_id in (5,11,12) and
 	c.type in ('Claim::AdvocateClaim', 'Claim::LitigatorClaim') and 
 	f.claim_id  = c.id and
 	d.claim_id  = c.id and
 	ro.defendant_id = d.id
 order by c.created_at desc 
-limit 100;
+limit 10;

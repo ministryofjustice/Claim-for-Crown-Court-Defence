@@ -22,7 +22,6 @@ import DataTable from 'datatables.net'
 import Buttons from 'datatables.net-buttons'
 import FixedHeader from 'datatables.net-fixedheader'
 import Select from 'datatables.net-select'
-import 'jquery-datatables-checkboxes'
 
 // Application modules
 import './modules/Modules.OffenceSearchView.js'

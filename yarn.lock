@@ -748,6 +748,15 @@ datatables.net-fixedheader@4.0.3:
     datatables.net "^2"
     jquery ">=1.7"
 
+datatables.net-select-dt@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-select-dt/-/datatables.net-select-dt-3.1.0.tgz#901641b7fc468c5ab08801dabd4cedbaaa8ba19b"
+  integrity sha512-yN67Vrb51YwRj/L/+UubckJfA18OX5p6D5mtXsNyo6zuN7ppdhFmsupmPixT8CACvy+ZdLLaubLjShron/l/sw==
+  dependencies:
+    datatables.net-dt "^2"
+    datatables.net-select "3.1.0"
+    jquery ">=1.7"
+
 datatables.net-select@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-3.1.0.tgz#3363090cd1851f8abe0c7992ecc1ba9a2cffbddf"
@@ -2021,7 +2030,7 @@ jasmine-browser-runner@^3.0.0:
     glob "^10.0.0"
     selenium-webdriver "^4.12.0"
 
-jasmine-core@^5.10.0:
+jasmine-core@^5.9.0:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.10.0.tgz#7e6c3efde6eb1ec9afc58d4373f6ace1e91c459e"
   integrity sha512-MrChbWV5LBo+EaeKwTM1eZ6oYSz1brvFExnRafraEkJkbJ9evbUxABhnIgGQimhpMxhg+BD6QmOvb/e3NXsNdg==
@@ -2032,14 +2041,6 @@ jquery-accessible-accordion-aria@^2.6.1:
   integrity sha512-L0UczIXKQ3JrOx5UKSUOeNdm7Ls13NImdF5/JUhDNJ3QnPAaIhLS8+2gN++9tXQeUp6B7fh9IDZzUA8l/mmyXg==
   dependencies:
     jquery ">=1.0.0"
-
-jquery-datatables-checkboxes@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/jquery-datatables-checkboxes/-/jquery-datatables-checkboxes-1.3.0.tgz"
-  integrity sha512-N6/PGkeLj0ykffP5v/Z90Nm9k1EiTuLOm9kcYu6esUyNN3ZEFzmZ/jvn0w+2aCIsgUnW6AX9b0gL4F044LsVMQ==
-  dependencies:
-    datatables.net ">=1.10.8"
-    jquery ">=1.7"
 
 jquery-highlight@^3.5.0:
   version "3.5.0"

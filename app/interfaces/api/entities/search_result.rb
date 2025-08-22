@@ -2,6 +2,7 @@ module API
   module Entities
     class SearchResult < BaseEntity
       include Helpers::SearchResultHelpers
+
       expose :id
       expose :uuid
       expose :scheme

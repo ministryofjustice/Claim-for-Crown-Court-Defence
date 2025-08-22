@@ -1,6 +1,6 @@
 module TransferBrainHelpers
   extend ActiveSupport::Concern
-  #
+
   # Hash elements:
   #
   # litigator type (new, original)

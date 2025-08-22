@@ -2,6 +2,7 @@ module API
   module V1
     module HardshipClaimParamsHelper
       extend Grape::API::Helpers
+
       # REQUIRED params (note: use optional but describe as required in order to let model validations bubble-up)
       #
       params :agfs_hardship_params do

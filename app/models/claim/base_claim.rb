@@ -26,8 +26,8 @@ module Claim
     include ::Claims::Calculations
     include ::Claims::Cloner
     include ::Claims::AllocationFilters
-
     include NumberCommaParser
+
     numeric_attributes :fees_total, :expenses_total, :disbursements_total, :total, :vat_amount
 
     belongs_to :court

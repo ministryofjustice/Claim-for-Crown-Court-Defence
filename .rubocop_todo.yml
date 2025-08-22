@@ -366,7 +366,7 @@ Metrics/PerceivedComplexity:
 # ForbiddenPrefixes: is_, has_, have_, does_
 # AllowedMethods: is_a?
 # MethodDefinitionMacros: define_method, define_singleton_method
-Naming/PredicateName:
+Naming/PredicatePrefix:
   Exclude:
     - 'app/interfaces/api/helpers/api_helper.rb'
     - 'app/interfaces/api/helpers/search_result_helpers.rb'

@@ -44,8 +44,8 @@ module ApplicationHelper
 
   # Returns true if the path = current_page
   # TODO: this will not work on those routes that are also rooted to for the namespace or which have js that interferes
-  def cp(path)
-    path_matches(path) && tab_check_passes?(path)
+  def cp?(path)
+    path_matches?(path) && tab_check_passes?(path)
   end
 
   def casual_date(date)
@@ -159,12 +159,12 @@ module ApplicationHelper
        /external_users].include?(request.path)
   end
 
-  def path_matches(path)
+  def path_matches?(path)
     request.path == strip_params(path)
   end
 
   def tab_check_passes?(path)
-    tab_can_be_ignored?(path) || tab_matches(path)
+    tab_can_be_ignored?(path) || tab_matches?(path)
   end
 
   def tab_can_be_ignored?(path)
@@ -175,7 +175,7 @@ module ApplicationHelper
     extract_uri_param(path, 'tab')
   end
 
-  def tab_matches(path)
+  def tab_matches?(path)
     tab = tab_present(path)
     request.GET[:tab] == tab
   end

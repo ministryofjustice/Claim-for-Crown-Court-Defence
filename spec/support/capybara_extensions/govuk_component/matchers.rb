@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Naming/PredicateName
+# rubocop:disable Naming/PredicatePrefix
 module CapybaraExtensions
   module GovukComponent
     module Matchers
@@ -84,4 +84,4 @@ module CapybaraExtensions
     end
   end
 end
-# rubocop:enable Naming/PredicateName
+# rubocop:enable Naming/PredicatePrefix

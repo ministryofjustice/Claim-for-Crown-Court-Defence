@@ -36,7 +36,7 @@ module Stats
 
     validates :status, inclusion: { in: %w[started completed error] }
 
-    default_scope { order('started_at DESC') }
+    default_scope { order(started_at: :desc) }
 
     scope :completed, -> { where(status: 'completed') }
     scope :errored, -> { where(status: 'error') }

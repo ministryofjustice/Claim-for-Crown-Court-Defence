@@ -73,7 +73,7 @@ class ExpenseValidator < BaseValidator
   def validate_mileage_rate_id
     if @record.car_travel? || @record.bike_travel?
       validate_presence(:mileage_rate_id, :blank)
-      if @record.mileage_rate_id.present? && (car_travel_missing_milage_rates || bike_travel_missing_milage_rates)
+      if @record.mileage_rate_id.present? && (car_travel_missing_milage_rates? || bike_travel_missing_milage_rates?)
         add_error(:mileage_rate_id, :invalid)
       end
     else
@@ -97,11 +97,11 @@ class ExpenseValidator < BaseValidator
     end
   end
 
-  def car_travel_missing_milage_rates
+  def car_travel_missing_milage_rates?
     @record.car_travel? && !@record.mileage_rate_id.in?(Expense::CAR_MILEAGE_RATES.keys)
   end
 
-  def bike_travel_missing_milage_rates
+  def bike_travel_missing_milage_rates?
     @record.bike_travel? && !@record.mileage_rate_id.in?(Expense::BIKE_MILEAGE_RATES.keys)
   end
 end

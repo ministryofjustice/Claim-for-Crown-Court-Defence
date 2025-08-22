@@ -149,6 +149,6 @@ RSpec.configure do |config|
   end
 
   config.around do |example|
-    example.metadata[:no_database_cleaner] ? example.run : (DatabaseCleaner.cleaning { example.run })
+    example.metadata[:no_database_cleaner] ? example.run : DatabaseCleaner.cleaning { example.run }
   end
 end

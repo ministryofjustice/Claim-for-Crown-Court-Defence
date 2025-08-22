@@ -1,6 +1,7 @@
 module Claims
   class ClaimStateTransitionValidator
     include CaseWorkerClaimParamReadable
+
     attr_accessor :claim, :params, :result
 
     def initialize(claim, params)

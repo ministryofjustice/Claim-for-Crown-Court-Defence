@@ -52,10 +52,6 @@ class Determination < ApplicationRecord
     blank?
   end
 
-  def present?
-    !blank?
-  end
-
   private
 
   def fees_valid

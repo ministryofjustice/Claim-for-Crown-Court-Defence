@@ -7,7 +7,7 @@ module API
         object.fees&.split(',')&.map { |fee| fee.split('~') }
       end
 
-      def claim_has_graduated_fees
+      def claim_has_graduated_fees?
         graduated_fee_codes.present? && object.fee_type_code&.in?(graduated_fee_codes).eql?(true)
       end
 
@@ -15,7 +15,7 @@ module API
         object.graduated_fee_types&.split(',')
       end
 
-      def fee_is_interim_type
+      def fee_is_interim_type?
         fees&.map do |fee|
           [
             fee[2].eql?('Fee::InterimFeeType'),
@@ -25,10 +25,10 @@ module API
       end
 
       def contains_risk_based_fee
-        contains_risk_based_final_fee || (contains_risk_based_transfer_fee && up_to_and_inc_pcmh_transfer?)
+        contains_risk_based_final_fee? || (contains_risk_based_transfer_fee? && up_to_and_inc_pcmh_transfer?)
       end
 
-      def contains_risk_based_final_fee
+      def contains_risk_based_final_fee?
         fees&.map do |fee|
           [
             fee[0].to_i.between?(0, 49),
@@ -38,7 +38,7 @@ module API
         end&.any?
       end
 
-      def contains_risk_based_transfer_fee
+      def contains_risk_based_transfer_fee?
         fees&.map do |fee|
           [
             fee[0].to_i.between?(0, 49),
@@ -47,7 +47,7 @@ module API
         end&.any?
       end
 
-      def contains_fee_of_type(fee_type_description)
+      def contains_fee_of_type?(fee_type_description)
         fees&.map do |fee|
           [
             fee[2].eql?('Fee::InterimFeeType'),
@@ -56,7 +56,7 @@ module API
         end&.any?
       end
 
-      def contains_conference_and_view
+      def contains_conference_and_view?
         fees&.map do |fee|
           [
             fee[2].eql?('Fee::BasicFeeType'),
@@ -66,7 +66,7 @@ module API
         end&.any?
       end
 
-      def risk_based_class_letter
+      def risk_based_class_letter?
         object.class_letter&.in?(%w[E F G H I])
       end
 
@@ -98,7 +98,7 @@ module API
         object&.last_injection_succeeded || false
       end
 
-      def contains_clar_fees
+      def contains_clar_fees?
         fees&.map do |fee|
           [
             fee[2].eql?('Fee::MiscFeeType'),
@@ -108,7 +108,7 @@ module API
         end&.any?
       end
 
-      def contains_additional_prep_fee
+      def contains_additional_prep_fee?
         fees&.map do |fee|
           [
             fee[2].eql?('Fee::MiscFeeType'),

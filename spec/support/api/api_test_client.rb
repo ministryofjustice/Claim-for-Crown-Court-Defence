@@ -8,7 +8,7 @@
 # ---------------------------------------
 #   api_client = ApiTestClient.new()
 #   api_client.run
-#   if api_client.failure
+#   if api_client.failure?
 #     puts "failed"
 #     puts api_client.full_error_messages.join("/n")
 #   end
@@ -55,7 +55,7 @@ class ApiTestClient
     LitigatorClaimTest::Hardship.new(client: self).test_creation!
   end
 
-  def failure
+  def failure?
     !@success
   end
 

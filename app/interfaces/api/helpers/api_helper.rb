@@ -37,7 +37,7 @@ module API
           args = arg_builder_proc.call
           model_klass = get_fee_subclass(args) if model_klass == ::Fee::BaseFee
 
-          if basic_fee_update_required(model_klass, args)
+          if basic_fee_update_required?(model_klass, args)
             model_instance = find_basic_fee(args[:claim_id], args[:fee_type_id])
             model_instance.assign_attributes(args)
           else
@@ -95,7 +95,7 @@ module API
           api_response.body   = err_resp.body
         end
 
-        def basic_fee_update_required(model_klass, args)
+        def basic_fee_update_required?(model_klass, args)
           is_a_fee?(model_klass) && is_a_basic_fee_type?(args)
         end
 

@@ -34,7 +34,7 @@
     "datatables.net-buttons-dt": "^3.2.4",
     "datatables.net-dt": "^2.3.3",
     "datatables.net-fixedheader-dt": "^4.0.3",
-    "datatables.net-select": "3.0.1",
+    "datatables.net-select": "3.1.0",
     "file-loader": "^6.2.0",
     "govuk-frontend": "^5.9.0",
     "jquery": "^3.7.1",

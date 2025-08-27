@@ -542,9 +542,9 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    redis (5.4.0)
+    redis (5.4.1)
       redis-client (>= 0.22.0)
-    redis-client (0.24.0)
+    redis-client (0.25.2)
       connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
@@ -822,7 +822,7 @@ DEPENDENCIES
   rack-livereload (~> 0.5.2)
   rails (~> 7.1.5)
   rails-controller-testing
-  redis (~> 5.4.0)
+  redis (~> 5.4.1)
   remotipart (~> 1.4)
   rspec-collection_matchers
   rspec-html-matchers (~> 0.10.0)

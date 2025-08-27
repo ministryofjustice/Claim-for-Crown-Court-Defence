@@ -41,7 +41,7 @@ gem 'pagy'
 gem 'paper_trail', '~> 16.0.0'
 gem 'pg',                     '~> 1.5.9'
 gem 'rails', '~> 7.1.5'
-gem 'redis',                  '~> 5.4.0'
+gem 'redis',                  '~> 5.4.1'
 gem 'rubyzip'
 gem 'config',                 '~> 5.5' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'

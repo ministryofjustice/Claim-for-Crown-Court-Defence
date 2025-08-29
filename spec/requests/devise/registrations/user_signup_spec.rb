@@ -58,8 +58,8 @@ RSpec.describe 'User sign up' do
       { first_name: 'Bob',
         last_name: 'Smith',
         email: 'foo@bar.com',
-        password: 'password1234',
-        password_confirmation: 'password1234',
+        password: 'TestingPassword',
+        password_confirmation: 'TestingPassword',
         terms_and_conditions: '1' }
     end
 

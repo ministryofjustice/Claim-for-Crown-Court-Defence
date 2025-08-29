@@ -56,6 +56,8 @@ class DistanceCalculatorService
   end
 
   def supplier
-    @supplier ||= SupplierNumber.find_by(supplier_number: claim.supplier_number)
+    return @supplier if defined?(@supplier)
+
+    @supplier = SupplierNumber.find_by(supplier_number: claim.supplier_number)
   end
 end

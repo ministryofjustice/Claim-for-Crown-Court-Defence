@@ -48,7 +48,7 @@ module Claim
       def data_item_for(detail)
         seek = DataItem.new(detail.slice(:litigator_type, :elected_case, :transfer_stage_id, :case_conclusion, :claim))
         # TODO: Log this (or remove completely) instead of raising an error
-        raise 'Too many' if data_items.count { |item| item == seek } > 1
+        raise 'Too many' if data_items.many? { |item| item == seek }
         data_items.find { |item| item == seek }
       end
 

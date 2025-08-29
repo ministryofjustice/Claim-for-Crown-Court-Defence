@@ -14,6 +14,7 @@
 class InjectionAttempt < ApplicationRecord
   include SoftlyDeletable
   include JsonAttrParser
+
   scope :exclude_error, ->(error_ilike) { where.not('coalesce(error_messages::text,\'\') ILIKE ?', error_ilike) }
 
   belongs_to :claim, class_name: 'Claim::BaseClaim'

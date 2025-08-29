@@ -20,7 +20,7 @@ FactoryBot.define do
     claim
 
     after(:build) do |message|
-      message.sender_id ||= (message.sender || create(:user, email: Faker::Internet.unique.email, password: 'password1234', password_confirmation: 'password1234')).id
+      message.sender_id ||= (message.sender || create(:user, email: Faker::Internet.unique.email, password: 'TestingPassword', password_confirmation: 'TestingPassword')).id
     end
   end
 

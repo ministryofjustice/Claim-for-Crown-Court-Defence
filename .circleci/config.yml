@@ -90,7 +90,7 @@ executors:
   test-executor:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:3.4.2-browsers
+      - image: cimg/ruby:3.4.3-browsers
         environment:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_test
@@ -371,6 +371,11 @@ jobs:
     executor: test-executor
     steps:
       - checkout
+      - run: |
+          ruby --version
+          node --version
+          java --version
+          google-chrome --version
       - setup_remote_docker
       - *create-tmp-dir
       - build-base

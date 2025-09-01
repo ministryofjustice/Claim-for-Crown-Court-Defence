@@ -1,5 +1,5 @@
 def make_accounts(role, number = 1)
-  @password = 'password1234'
+  @password = 'PasswordForTest'
   case role
     when 'advocate'
       @advocates = create_list(:external_user, number)
@@ -43,7 +43,7 @@ Given(/^I am a signed in advocate$/) do
   @advocate = @current_user = create(:external_user, :advocate)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@advocate.user, 'password1234')
+  sign_in(@advocate.user, 'PasswordForTest')
 end
 
 Given('I am a signed in advocate with final claim {string}') do |case_number|
@@ -51,7 +51,7 @@ Given('I am a signed in advocate with final claim {string}') do |case_number|
   create(:advocate_claim, creator: @advocate, external_user: @advocate, case_number: case_number)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@advocate.user, 'password1234')
+  sign_in(@advocate.user, 'PasswordForTest')
 end
 
 Given('I am a signed in advocate with fixed fee claim {string}') do |case_number|
@@ -59,21 +59,21 @@ Given('I am a signed in advocate with fixed fee claim {string}') do |case_number
   create(:advocate_claim, :with_fixed_fee_case, creator: @advocate, external_user: @advocate, case_number: case_number)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@advocate.user, 'password1234')
+  sign_in(@advocate.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in advocate admin$/) do
   @advocate = @current_user = create(:external_user, :advocate_and_admin)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@advocate.user, 'password1234')
+  sign_in(@advocate.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in litigator$/) do
   @litigator = @current_user = create(:external_user, :litigator)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@litigator.user, 'password1234')
+  sign_in(@litigator.user, 'PasswordForTest')
 end
 
 Given('I am a signed in litigator with final claim {string}') do |case_number|
@@ -81,28 +81,28 @@ Given('I am a signed in litigator with final claim {string}') do |case_number|
   create(:litigator_claim, creator: @litigator, external_user: @litigator, case_number: case_number)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@litigator.user, 'password1234')
+  sign_in(@litigator.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in litigator admin$/) do
   @litigator = @current_user = create(:external_user, :litigator_and_admin)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@litigator.user, 'password1234')
+  sign_in(@litigator.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in admin for an AGFS and LGFS firm$/) do
   @admin = @current_user = create(:external_user, :agfs_lgfs_admin)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@admin.user, 'password1234')
+  sign_in(@admin.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in case worker$/) do
   @case_worker = @current_user = create(:case_worker)
   visit new_user_session_path
   switch_to_chrome_window
-  sign_in(@case_worker.user, 'password1234')
+  sign_in(@case_worker.user, 'PasswordForTest')
 end
 
 Given(/^I am signed in as the case worker$/) do
@@ -118,11 +118,11 @@ When(/^I sign in as the case worker$/) do
 end
 
 When(/^I attempt to sign in again as the deleted caseworker$/) do
-  sign_in(@case_worker.user, 'password1234')
+  sign_in(@case_worker.user, 'PasswordForTest')
 end
 
 When(/^I attempt to sign in again as the advocate$/) do
-  sign_in(@advocate.user, 'password1234')
+  sign_in(@advocate.user, 'PasswordForTest')
 end
 
 Given('a case worker admin user account exists') do
@@ -130,23 +130,23 @@ Given('a case worker admin user account exists') do
 end
 
 When('I sign in as the case worker admin') do
-  sign_in(@case_worker.user, 'password1234')
+  sign_in(@case_worker.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in case worker admin$/) do
   @case_worker = create(:case_worker, :admin)
-  sign_in(@case_worker.user, 'password1234')
+  sign_in(@case_worker.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in case worker provider manager$/) do
   @case_worker = create(:case_worker, :provider_manager)
-  sign_in(@case_worker.user, 'password1234')
+  sign_in(@case_worker.user, 'PasswordForTest')
 end
 
 Given(/^I am a signed in super admin$/) do
   make_accounts('super admin')
   visit new_user_session_path
-  sign_in(@super_admin.user, 'password1234')
+  sign_in(@super_admin.user, 'PasswordForTest')
 end
 
 Then(/^I should see an Manage advocates link and it should work$/) do

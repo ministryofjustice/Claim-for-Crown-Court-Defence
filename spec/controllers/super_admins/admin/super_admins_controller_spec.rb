@@ -53,12 +53,12 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController do
 
   describe 'PUT #update_password' do
     before do
-      subject.user.update(password: 'password1234', password_confirmation: 'password1234')
+      subject.user.update(password: 'PasswordForTest', password_confirmation: 'PasswordForTest')
       sign_in subject.user # need to sign in again after password change
     end
 
     context 'when valid' do
-      before { put :update_password, params: { id: subject, super_admin: { user_attributes: { current_password: 'password1234', password: 'password5678', password_confirmation: 'password5678' } } } }
+      before { put :update_password, params: { id: subject, super_admin: { user_attributes: { current_password: 'PasswordForTest', password: 'password5678', password_confirmation: 'password5678' } } } }
 
       it 'redirects to super admin show action' do
         expect(response).to redirect_to(super_admins_admin_super_admin_path(subject))
@@ -83,7 +83,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController do
 
   describe 'PUT #update' do
     before do
-      put :update, params: { id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password1234', email: 'superadmin@bigblackhhole.com' } } }
+      put :update, params: { id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'PasswordForTest', email: 'superadmin@bigblackhhole.com' } } }
     end
 
     context 'when valid' do

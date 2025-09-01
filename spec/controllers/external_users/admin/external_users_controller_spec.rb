@@ -100,8 +100,8 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
             external_user: {
               user_attributes: {
                 email: 'foo@foobar.com',
-                password: 'password1234',
-                password_confirmation: 'password1234',
+                password: 'PasswordForTest',
+                password_confirmation: 'PasswordForTest',
                 first_name: 'John',
                 last_name: 'Smith',
                 email_notification_of_message: 'true'
@@ -124,7 +124,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
           params = {
             external_user: {
               user_attributes: {
-                email: 'foo@foobar.com', password: 'password1234', password_confirmation: 'password1234', first_name: 'John', last_name: 'Smith'
+                email: 'foo@foobar.com', password: 'PasswordForTest', password_confirmation: 'PasswordForTest', first_name: 'John', last_name: 'Smith'
               },
               roles: ['advocate'],
               supplier_number: 'XY123'
@@ -138,7 +138,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
           params = {
             external_user: {
               user_attributes: {
-                email: 'foo@foobar.com', password: 'password1234', password_confirmation: 'password1234', first_name: 'John', last_name: 'Smith'
+                email: 'foo@foobar.com', password: 'PasswordForTest', password_confirmation: 'PasswordForTest', first_name: 'John', last_name: 'Smith'
               },
               roles: ['advocate'],
               supplier_number: 'XY123'
@@ -154,7 +154,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
           expect {
             post :create,
                  params: { external_user: {
-                   user_attributes: { email: 'foo@foobar.com', password: 'password1234',
+                   user_attributes: { email: 'foo@foobar.com', password: 'PasswordForTest',
                                       password_confirmation: 'xxx' }, roles: ['advocate']
                  } }
           }.to_not change(User, :count)
@@ -163,7 +163,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
         it 'renders the new template' do
           post :create,
                params: { external_user: {
-                 user_attributes: { email: 'foo@foobar.com', password: 'password1234',
+                 user_attributes: { email: 'foo@foobar.com', password: 'PasswordForTest',
                                     password_confirmation: 'xxx' }, roles: ['advocate']
                } }
           expect(response).to render_template(:new)
@@ -200,7 +200,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
 
     describe 'PUT #update_password' do
       before do
-        subject.user.update(password: 'password1234', password_confirmation: 'password1234')
+        subject.user.update(password: 'PasswordForTest', password_confirmation: 'PasswordForTest')
         sign_in subject.user # need to sign in again after password change
       end
 
@@ -208,12 +208,12 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
         before do
           put :update_password,
               params: { id: subject,
-                        external_user: { user_attributes: { current_password: 'password1234', password: 'password5678',
+                        external_user: { user_attributes: { current_password: 'PasswordForTest', password: 'password5678',
                                                             password_confirmation: 'password5678' } } }
         end
 
         it 'redirects to external_user show action' do
-          # put :update_password, id: external_user, external_user: { user_attributes: { current_password: 'password1234', password: 'password5678', password_confirmation: 'password5678' } }
+          # put :update_password, id: external_user, external_user: { user_attributes: { current_password: 'PasswordForTest', password: 'password5678', password_confirmation: 'password5678' } }
           expect(response).to redirect_to(external_users_admin_external_user_path(subject))
         end
       end
@@ -302,7 +302,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
       it 'redirects to all claims page with Unauthorised in flash' do
         post :create,
              params: { external_user: {
-               user_attributes: { email: 'foo@foobar.com', password: 'password1234',
+               user_attributes: { email: 'foo@foobar.com', password: 'PasswordForTest',
                                   password_confirmation: 'xxx' }, roles: ['advocate']
              } }
         expect(response).to redirect_to(external_users_root_path)

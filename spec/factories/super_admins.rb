@@ -10,7 +10,7 @@
 FactoryBot.define do
   factory :super_admin do
     after(:build) do |super_admin|
-      super_admin.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.unique.email, password: 'password1234', password_confirmation: 'password1234')
+      super_admin.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.unique.email, password: 'PasswordForTest', password_confirmation: 'PasswordForTest')
     end
   end
 end

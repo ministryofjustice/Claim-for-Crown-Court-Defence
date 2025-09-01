@@ -146,13 +146,13 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
 
   describe 'PUT #update_password' do
     before do
-      subject.user.update(password: 'password1234', password_confirmation: 'password1234')
+      subject.user.update(password: 'PasswordForTest', password_confirmation: 'PasswordForTest')
       sign_in subject.user # need to sign in again after password change
     end
 
     context 'when valid' do
       before do
-        put :update_password, params: { id: subject, case_worker: { user_attributes: { current_password: 'password1234', password: 'password5678', password_confirmation: 'password5678' } } }
+        put :update_password, params: { id: subject, case_worker: { user_attributes: { current_password: 'PasswordForTest', password: 'password5678', password_confirmation: 'password5678' } } }
       end
 
       it 'redirects to case_worker show action' do

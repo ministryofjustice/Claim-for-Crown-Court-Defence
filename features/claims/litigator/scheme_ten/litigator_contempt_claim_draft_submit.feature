@@ -74,6 +74,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should see a page title "Enter travel expenses for litigator final fees claim"
     Then I click "Continue" in the claim form
 
+    And I save and open screenshot
     And I upload 1 document
     And I check the boxes for the uploaded documents
     And I add some additional information

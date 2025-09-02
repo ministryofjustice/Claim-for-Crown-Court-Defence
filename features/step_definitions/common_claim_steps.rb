@@ -126,7 +126,7 @@ When(/^I click "Continue" in the claim form$/) do
   patiently do
     @claim_form_page.continue_button.click
   end
-  wait_for_ajax
+  wait_for_ajax(wait_time: 30)
 end
 
 When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"]*)" error$/) do |error_message|

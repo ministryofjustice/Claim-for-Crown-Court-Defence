@@ -42,7 +42,7 @@ executors:
   basic-executor:
     resource_class: small
     docker:
-      - image: cimg/base:2020.01
+      - image: cimg/base:2025.09
         environment:
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd

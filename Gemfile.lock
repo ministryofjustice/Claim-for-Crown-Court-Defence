@@ -186,7 +186,7 @@ GEM
     config (5.5.2)
       deep_merge (~> 1.2, >= 1.2.1)
       ostruct
-    connection_pool (2.5.3)
+    connection_pool (2.5.4)
     crack (1.0.0)
       bigdecimal
       rexml
@@ -296,7 +296,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 3.18, < 3.24)
-    govuk_design_system_formbuilder (5.10.0)
+    govuk_design_system_formbuilder (5.11.0)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -782,7 +782,7 @@ DEPENDENCIES
   faraday (~> 2.13)
   faraday-follow_redirects (~> 0.3)
   govuk-components (~> 5.11.1)
-  govuk_design_system_formbuilder (~> 5.10)
+  govuk_design_system_formbuilder (~> 5.11)
   govuk_notify_rails (~> 3.0.0)
   grape (~> 2.4.0)
   grape-entity (~> 1.0.1)

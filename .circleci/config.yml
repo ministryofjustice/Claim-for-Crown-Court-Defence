@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@4.0.0
-  browser-tools: circleci/browser-tools@1.4.8
+  browser-tools: circleci/browser-tools@2.3.1
   slack: circleci/slack@3.4.1
 
 references:
@@ -115,8 +115,8 @@ commands:
 
   install-chrome:
     steps:
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
+      - browser-tools/install_chrome
+      - browser-tools/install_chromedriver
   precompile-assets:
     description: >
       Precompile assets

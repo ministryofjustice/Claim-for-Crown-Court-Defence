@@ -14,7 +14,6 @@ module Claims
 
       delegate  :earliest_representation_order_date,
                 :main_hearing_date,
-                :advocate_category,
                 :agfs?,
                 :lgfs?,
                 :interim?,

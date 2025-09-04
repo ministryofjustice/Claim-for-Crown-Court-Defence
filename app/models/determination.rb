@@ -16,6 +16,7 @@
 
 class Determination < ApplicationRecord
   include NumberCommaParser
+
   numeric_attributes :fees, :expenses, :disbursements, :vat_amount
 
   belongs_to :claim, class_name: 'Claim::BaseClaim'

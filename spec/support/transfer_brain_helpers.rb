@@ -1,5 +1,6 @@
 module TransferBrainHelpers
   extend ActiveSupport::Concern
+
   #
   # Hash elements:
   #

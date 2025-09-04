@@ -21,11 +21,13 @@ class InjectionResponseService
     @slack_notifier ||= SlackNotifier.new(@channel, formatter: SlackNotifier::Formatter::Injection.new)
   end
 
+  # rubocop:disable Naming/PredicateMethod
   def failure(options = {})
     LogStuff.info('InjectionResponseService::NonExistentClaim', **options) { 'Failed to inject because no claim found' }
     slack_notifier.send_message
     false
   end
+  # rubocop:enable Naming/PredicateMethod
 
   def injected?
     @response[:errors].empty? && @claim.present?

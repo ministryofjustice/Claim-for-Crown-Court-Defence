@@ -18,11 +18,11 @@
       - else
         = sn.with_navigation_item(text: t('.manage_your_settings'), href: edit_external_users_admin_external_user_path(current_user.persona))
     - elsif current_user.persona.is_a?(CaseWorker)
-      = sn.with_navigation_item(text: t('.your_claims'), href: case_workers_claims_path({ tab: :current }), active: cp(case_workers_claims_path({ tab: :current })))
-      = sn.with_navigation_item(text: t('.archive'), href: archived_case_workers_claims_path({ tab: :archived }), active: cp(archived_case_workers_claims_path({ tab: :archived })))
+      = sn.with_navigation_item(text: t('.your_claims'), href: case_workers_claims_path({ tab: :current }), active: current_page?(case_workers_claims_path({ tab: :current })))
+      = sn.with_navigation_item(text: t('.archive'), href: archived_case_workers_claims_path({ tab: :archived }), active: current_page?(archived_case_workers_claims_path({ tab: :archived })))
       - if current_user.persona.admin?
-        = sn.with_navigation_item(text: t('.allocation'), href: case_workers_admin_allocations_path({ tab: :unallocated }), active: cp(case_workers_admin_allocations_path({ tab: :unallocated })))
-        = sn.with_navigation_item(text: t('.re_allocation'), href: case_workers_admin_allocations_path({ tab: :allocated }), active: cp(case_workers_admin_allocations_path({ tab: :allocated })))
+        = sn.with_navigation_item(text: t('.allocation'), href: case_workers_admin_allocations_path({ tab: :unallocated }), active: current_page?(case_workers_admin_allocations_path({ tab: :unallocated })))
+        = sn.with_navigation_item(text: t('.re_allocation'), href: case_workers_admin_allocations_path({ tab: :allocated }), active: current_page?(case_workers_admin_allocations_path({ tab: :allocated })))
         = sn.with_navigation_item(text: t('.manage_case_workers'), href: case_workers_admin_case_workers_path)
       - if current_user.persona.provider_management?
         = sn.with_navigation_item(text: t('.manage_providers'), href: provider_management_providers_path)

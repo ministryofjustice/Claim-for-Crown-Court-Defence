@@ -102,15 +102,15 @@ module API
       end
 
       def graduated_fees
-        ((claim_has_graduated_fees || allocation_type_is_grad?) && is_submitted?).to_i
+        ((claim_has_graduated_fees? || allocation_type_is_grad?) && is_submitted?).to_i
       end
 
       def interim_fees
-        (interim_claim? && fee_is_interim_type && is_submitted?).to_i
+        (interim_claim? && fee_is_interim_type? && is_submitted?).to_i
       end
 
       def lgfs_warrants
-        (interim_claim? && contains_fee_of_type('Warrant')).to_i
+        (interim_claim? && contains_fee_of_type?('Warrant')).to_i
       end
 
       def agfs_warrants
@@ -118,11 +118,11 @@ module API
       end
 
       def interim_disbursements
-        (interim_claim? && contains_fee_of_type('Disbursement only')).to_i
+        (interim_claim? && contains_fee_of_type?('Disbursement only')).to_i
       end
 
       def risk_based_bills
-        ((risk_based_class_letter && contains_risk_based_fee).eql?(true) && is_submitted?).to_i
+        ((risk_based_class_letter? && contains_risk_based_fee?).eql?(true) && is_submitted?).to_i
       end
 
       def injection_errored
@@ -130,15 +130,15 @@ module API
       end
 
       def cav_warning
-        (last_injection_attempt_succeeded && contains_conference_and_view).to_i
+        (last_injection_attempt_succeeded? && contains_conference_and_view?).to_i
       end
 
       def clar_fees_warning
-        (last_injection_attempt_succeeded && contains_clar_fees).to_i
+        (last_injection_attempt_succeeded? && contains_clar_fees?).to_i
       end
 
       def additional_prep_fee_warning
-        (last_injection_attempt_succeeded && contains_additional_prep_fee).to_i
+        (last_injection_attempt_succeeded? && contains_additional_prep_fee?).to_i
       end
 
       def supplementary

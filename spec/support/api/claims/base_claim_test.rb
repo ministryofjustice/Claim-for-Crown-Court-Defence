@@ -33,7 +33,7 @@ class BaseClaimTest
 
     # create a claim
     response = @client.post_to_endpoint(@claim_create_endpoint, claim_data)
-    return if @client.failure
+    return if @client.failure?
 
     @claim_uuid = response['id']
 

@@ -67,6 +67,9 @@ Metrics/BlockLength:
     - trait
     - define
 
+Naming/PredicateMethod:
+  AllowBangMethods: true
+
 Naming/VariableNumber:
   AllowedPatterns: ['_scheme_[0-9]{1,2}$']
 

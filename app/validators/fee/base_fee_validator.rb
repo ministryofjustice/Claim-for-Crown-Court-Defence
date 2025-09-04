@@ -76,8 +76,8 @@ module Fee
     end
 
     def check_for_daily_attendance_error(code, min:, mod:, max:)
-      add_error(:quantity, :"#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid(min, mod,
-                                                                                                     max)
+      add_error(:quantity, :"#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid?(min, mod,
+                                                                                                      max)
     end
 
     def validate_pcm_quantity
@@ -167,7 +167,7 @@ module Fee
       @record&.claim&.trial_length || 0
     end
 
-    def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity = nil)
+    def daf_trial_length_combination_invalid?(lower_bound, trial_length_modifier, max_quantity = nil)
       raise ArgumentError if trial_length_modifier.positive?
       return false if daf_trial_length_ignorable?
 

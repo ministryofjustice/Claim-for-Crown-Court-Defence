@@ -55,7 +55,7 @@ class ApiTestClient
     LitigatorClaimTest::Hardship.new(client: self).test_creation!
   end
 
-  def failure
+  def failure?
     !@success
   end
 

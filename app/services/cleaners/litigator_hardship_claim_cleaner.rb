@@ -15,7 +15,9 @@ module Cleaners
     end
 
     def hardship_fee
-      @hardship_fee ||= fees.find_by(type: 'Fee::HardshipFee')
+      return @hardship_fee if defined?(@hardship_fee)
+
+      @hardship_fee = fees.find_by(type: 'Fee::HardshipFee')
     end
 
     def clear_ppe

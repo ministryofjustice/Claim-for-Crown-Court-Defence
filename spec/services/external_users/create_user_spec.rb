@@ -10,7 +10,7 @@ RSpec.describe ExternalUsers::CreateUser do
       expect { service.call! }
         .to change { Provider.where(provider_type: 'firm').count }.by(1)
 
-      new_provider = Provider.order('created_at').last
+      new_provider = Provider.order(:created_at).last
       expect(new_provider.lgfs_supplier_numbers.size).to eq(1)
       expect(new_provider.lgfs_supplier_numbers.first.supplier_number).to match(/^9X\d{3}X$/)
     end
@@ -19,8 +19,8 @@ RSpec.describe ExternalUsers::CreateUser do
       expect { service.call! }
         .to change(ExternalUser, :count).by(1)
 
-      new_provider = Provider.order('created_at').last
-      new_external_user = ExternalUser.order('created_at').last
+      new_provider = Provider.order(:created_at).last
+      new_external_user = ExternalUser.order(:created_at).last
       expect(new_external_user.user).to eq(user)
       expect(new_external_user.provider).to eq(new_provider)
     end
@@ -33,7 +33,7 @@ RSpec.describe ExternalUsers::CreateUser do
       end
 
       it 'allocates sequential lgfs_supplier_numbers numbers for sandbox users' do
-        second_provider = Provider.order('created_at').last
+        second_provider = Provider.order(:created_at).last
         expect(second_provider.lgfs_supplier_numbers.first.supplier_number).to eql '9X002X'
       end
     end

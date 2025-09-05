@@ -37,7 +37,7 @@ class VatRatesController < ApplicationController
     params['lgfs_vat_amount'].to_f.round(2)
   end
 
-  def apply_vat
+  def apply_vat?
     params['apply_vat'] == 'true'
   end
 
@@ -46,7 +46,7 @@ class VatRatesController < ApplicationController
   end
 
   def formatted_date
-    apply_vat ? date.strftime(Settings.date_format) : ''
+    apply_vat? ? date.strftime(Settings.date_format) : ''
   end
 
   def net_amount
@@ -54,12 +54,12 @@ class VatRatesController < ApplicationController
   end
 
   def rate
-    apply_vat ? VatRate.pretty_rate(date) : '0%'
+    apply_vat? ? VatRate.pretty_rate(date) : '0%'
   end
 
   def vat_amount
     if agfs?
-      VatRate.vat_amount(net_amount, date, calculate: apply_vat)
+      VatRate.vat_amount(net_amount, date, calculate: apply_vat?)
     else
       lgfs_vat_amount
     end
@@ -71,7 +71,7 @@ class VatRatesController < ApplicationController
 
   def total
     if agfs?
-      apply_vat ? number_to_currency(total_inc_vat) : number_to_currency(net_amount)
+      apply_vat? ? number_to_currency(total_inc_vat) : number_to_currency(net_amount)
     else
       number_to_currency(total_inc_vat)
     end

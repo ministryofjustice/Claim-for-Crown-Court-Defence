@@ -1,6 +1,7 @@
 module Claims
   class CaseWorkerClaimUpdater
     include CaseWorkerClaimParamReadable
+
     attr_reader :claim, :params, :result, :messages, :validator
 
     def initialize(claim_id, params)

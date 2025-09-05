@@ -24,17 +24,17 @@ module FeeSchemeFactory
     end
 
     def scheme_thirteen_range
-      (return Settings.clar_release_date..Settings.agfs_scheme_14_section_twenty_eight - 1.day) if clair_contingency
+      (return Settings.clar_release_date..(Settings.agfs_scheme_14_section_twenty_eight - 1.day)) if clair_contingency
 
-      Settings.agfs_scheme_13_clair_release_date..Settings.agfs_scheme_14_section_twenty_eight - 1.day
+      Settings.agfs_scheme_13_clair_release_date..(Settings.agfs_scheme_14_section_twenty_eight - 1.day)
     end
 
     def scheme_fourteen_range
-      Settings.agfs_scheme_14_section_twenty_eight..Settings.agfs_scheme_15_additional_prep_fee_and_kc - 1.day
+      Settings.agfs_scheme_14_section_twenty_eight..(Settings.agfs_scheme_15_additional_prep_fee_and_kc - 1.day)
     end
 
     def scheme_fifteen_range
-      Settings.agfs_scheme_15_additional_prep_fee_and_kc..Settings.agfs_scheme_16_section_twenty_eight_increase - 1.day
+      Settings.agfs_scheme_15_additional_prep_fee_and_kc..(Settings.agfs_scheme_16_section_twenty_eight_increase - 1.day)
     end
 
     def scheme_sixteen_range

@@ -28,6 +28,7 @@ module Claim
     include ::Claims::AllocationFilters
 
     include NumberCommaParser
+
     numeric_attributes :fees_total, :expenses_total, :disbursements_total, :total, :vat_amount
 
     belongs_to :court
@@ -228,7 +229,7 @@ module Claim
       unless @case_transferred_from_another_court.nil? || transfer_court_details_changed?
         return @case_transferred_from_another_court
       end
-      @case_transferred_from_another_court ||= default_case_transferred_from_another_court
+      @case_transferred_from_another_court ||= default_case_transferred_from_another_court?
     end
 
     def case_transferred_from_another_court_changed?
@@ -628,7 +629,7 @@ module Claim
       self.source ||= 'web'
     end
 
-    def default_case_transferred_from_another_court
+    def default_case_transferred_from_another_court?
       transfer_court.present? || transfer_case_number.present?
     end
 

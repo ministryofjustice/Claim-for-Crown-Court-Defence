@@ -33,8 +33,8 @@ module Claim
 
       def ==(other)
         return false unless litigator_type == other.litigator_type
-        return false unless equal_for_scheme_nine(other)
-        return false unless equal_for_scheme_ten(other)
+        return false unless equal_for_scheme_nine?(other)
+        return false unless equal_for_scheme_ten?(other)
         return false unless transfer_stage_id == other.transfer_stage_id
 
         true
@@ -46,7 +46,7 @@ module Claim
 
       private
 
-      def equal_for_scheme_nine(other)
+      def equal_for_scheme_nine?(other)
         return true unless other.fee_scheme_version == 9
         return false unless elected_case == other.elected_case
         return false unless elected_case || conclusion == other.conclusion
@@ -54,7 +54,7 @@ module Claim
         true
       end
 
-      def equal_for_scheme_ten(other)
+      def equal_for_scheme_ten?(other)
         return true unless other.fee_scheme_version == 10
         return false if elected_case
 

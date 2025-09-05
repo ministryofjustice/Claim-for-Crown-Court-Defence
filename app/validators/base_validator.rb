@@ -64,7 +64,7 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if @record.__send__(attribute).to_s.size > length
   end
 
-  def attr_or_date_nil(attribute, date)
+  def attr_or_date_nil?(attribute, date)
     attr_nil?(attribute) || date.nil?
   end
 
@@ -141,7 +141,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def compare_date_with_attribute(date, attribute, message, comparison_operator)
-    return if attr_or_date_nil(attribute, date)
+    return if attr_or_date_nil?(attribute, date)
     add_error(attribute, message) if @record.__send__(attribute).public_send(comparison_operator, date.to_date)
   end
 

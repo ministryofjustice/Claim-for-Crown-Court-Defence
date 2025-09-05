@@ -23,7 +23,7 @@ class RepresentationOrder < ApplicationRecord
     self.maat_reference = nil if case_type&.requires_maat_reference?.eql?(false)
   end
 
-  default_scope { order('id ASC') }
+  default_scope { order(:id) }
 
   belongs_to :defendant
   validates_with RepresentationOrderValidator

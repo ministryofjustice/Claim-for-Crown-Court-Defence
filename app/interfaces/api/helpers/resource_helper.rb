@@ -26,11 +26,15 @@ module API
       end
 
       def current_provider
-        @current_provider ||= Provider.find_by(api_key: params.delete(:api_key))
+        return @current_provider if defined?(@current_provider)
+
+        @current_provider = Provider.find_by(api_key: params.delete(:api_key))
       end
 
       def current_user
-        @current_user ||= User.find_by(api_key: params.delete(:api_key))
+        return @current_user if defined?(@current_user)
+
+        @current_user = User.find_by(api_key: params.delete(:api_key))
       end
 
       def create_resource(klass)

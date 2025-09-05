@@ -36,6 +36,7 @@ class Expense < ApplicationRecord
 
   include NumberCommaParser
   include Duplicable
+
   numeric_attributes :rate, :amount, :vat_amount, :quantity, :distance, :hours
 
   belongs_to :expense_type

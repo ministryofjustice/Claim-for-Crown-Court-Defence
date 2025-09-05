@@ -33,7 +33,7 @@ class BaseClaimTest
 
     # create a claim
     response = @client.post_to_endpoint(@claim_create_endpoint, claim_data)
-    return if @client.failure
+    return if @client.failure?
 
     @claim_uuid = response['id']
 
@@ -63,7 +63,9 @@ class BaseClaimTest
   end
 
   def external_user
-    @external_user ||= User.external_users.find_by(email: @email)
+    return @external_user if defined?(@external_user)
+
+    @external_user = User.external_users.find_by(email: @email)
   end
 
   def supplier_number

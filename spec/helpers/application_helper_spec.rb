@@ -48,8 +48,8 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  describe '#cp' do
-    subject(:cp) { helper.cp(path_with_params) }
+  describe '#current_page?' do
+    subject(:current_page?) { helper.current_page?(path_with_params) }
 
     let(:path) { 'test' }
     let(:path_with_params) { path }

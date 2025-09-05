@@ -46,6 +46,7 @@ class Allocation
     end
   end
 
+  # rubocop:disable Naming/PredicateMethod
   def save
     return false unless valid?
     if can_allocate_claims?
@@ -58,6 +59,7 @@ class Allocation
     # reallocating is true if not allocating and not deallocating
     errors.empty?
   end
+  # rubocop:enable Naming/PredicateMethod
 
   def claims
     @claims ||= Claim::BaseClaim.active.find(@claim_ids)

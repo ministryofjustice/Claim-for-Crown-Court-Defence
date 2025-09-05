@@ -9,10 +9,8 @@ moj.Modules.Allocation = {
   },
 
   replaceDataTableInput: function () {
-    // change to Web API: replaceWith (https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceWith)
-    // once IE usage fall below 2%
-    $('.dt-checkboxes-select-all input')
-      .replaceWith(
+    $('.app-jq-datatable thead th:first-child')
+      .html(
         '<div class="govuk-form-group">' +
         '<div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">' +
         '<div class="govuk-checkboxes__item">' +

@@ -21,7 +21,7 @@
     "build": "webpack --config ./config/webpack/webpack.config.js"
   },
   "dependencies": {
-    "@babel/core": "^7.28.3",
+    "@babel/core": "^7.28.4",
     "@babel/plugin-transform-runtime": "^7.28.3",
     "@babel/preset-env": "^7.28.3",
     "@ministryofjustice/frontend": "^3.7.2",

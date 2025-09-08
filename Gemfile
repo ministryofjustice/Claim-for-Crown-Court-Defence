@@ -95,7 +95,7 @@ group :development, :test do
   gem 'rubocop-rspec', '~> 3.7'
   gem 'rubocop-rspec_rails', '~> 2.31'
   gem 'rubocop-rails', '~> 2.33'
-  gem 'rubocop-performance', '~> 1.25'
+  gem 'rubocop-performance', '~> 1.26'
   gem 'site_prism', '~> 5.1'
 end
 

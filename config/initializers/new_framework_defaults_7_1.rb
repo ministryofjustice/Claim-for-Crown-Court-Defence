@@ -226,7 +226,7 @@ Rails.application.config.active_record.commit_transaction_on_non_local_return = 
 #++
 Rails.application.config.active_record.generate_secure_token_on = :initialize
 
-###
+### Updated in config/application.rb
 # ** Please read carefully, this must be configured in config/application.rb **
 #
 # Change the format of the cache entry.

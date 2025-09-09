@@ -12,6 +12,7 @@ RUN apk --update-cache upgrade \
  && apk --no-cache add \
                    build-base \
                    git \
+                   npm \
                    postgresql-dev \
                    yaml-dev \
                    yarn
@@ -82,9 +83,9 @@ ENV BUILD_TAG=${BUILD_TAG}
 ENV APP_BRANCH=${APP_BRANCH}
 ENV LIVE1_DB_TASK=${LIVE1_DB_TASK}
 
-USER 1000
-
 # Create tmp/pids/ needed for puma
-RUN mkdir -p $APP_HOME/tmp/pids
+RUN mkdir -p $APP_HOME/tmp/pids && chown -R appuser:appgroup $APP_HOME/tmp
+
+USER 1000
 
 CMD ["./docker/docker-entrypoint.sh"]

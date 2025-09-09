@@ -76,7 +76,7 @@ executors:
           SECRET_KEY_BASE: just-be-present
           SUPERADMIN_USERNAME: superadmin@circleci.com
           SUPERADMIN_PASSWORD: just-be-present
-          DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_smoke_test
+          DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
           TZ: Europe/London
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
@@ -84,7 +84,7 @@ executors:
       - image: cimg/postgres:13.3
         environment:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: "circleci"
+          POSTGRES_PASSWORD: ""
           POSTGRES_DB: cccd_smoke_test
 
   test-executor:

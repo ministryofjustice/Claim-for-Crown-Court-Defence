@@ -284,4 +284,42 @@ RSpec.describe ClaimsHelper do
       end
     end
   end
+
+  describe '#show_out_of_hours_banner?' do
+    subject { helper.show_out_of_hours_banner? }
+
+    let(:current_user) { create(:external_user, :advocate).user }
+    let(:user_settings) { {} }
+
+    before do
+      allow(current_user).to receive(:settings).and_return(user_settings)
+      allow(helper).to receive(:current_user).and_return(current_user)
+    end
+
+    context 'when the user is an external user' do
+      context 'when the user has not seen yet the banner' do
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when the user has seen/dismissed the banner' do
+        let(:user_settings) { { out_of_hours_banner_seen: '1' } }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when the user is a caseworker' do
+      let(:current_user) { create(:case_worker).user }
+
+      context 'when the user has not seen yet the banner' do
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when the user has seen/dismissed the banner' do
+        let(:user_settings) { { out_of_hours_banner_seen: '1' } }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
 end

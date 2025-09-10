@@ -2,6 +2,7 @@
   = govuk_notification_banner(title_text: 'Allocation', success: true, html_attributes: { class: 'govuk-notification-banner govuk-notification-banner__heading govuk-!-display-none' }) do |nb|
     - nb.with_heading(text: '')
 
+  = render partial: 'shared/out_of_hours_banner'
 
 #api-key.govuk-grid-row{ data: { api_key: current_user.api_key } }
   .govuk-grid-column-two-thirds

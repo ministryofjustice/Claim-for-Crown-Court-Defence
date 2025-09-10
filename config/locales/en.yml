@@ -3047,3 +3047,9 @@ en:
     clair_contingency_hide_banner: Do not show main hearing date information again
     clair_contingency_text_one: Claims with a main hearing date on or after 31 October 2022 may qualify for uplifted fees.
     clair_contingency_text_two: Any increase due will be calculated and added during assessment.
+
+    out_of_hours_hide_banner: Do not show this information again
+    out_of_hours_text_one: Changes to availability
+    out_of_hours_text_two_provider: As of 15th September 2025 this service will only be accessible from 7am to 7pm, Monday to Friday.
+    out_of_hours_text_two_caseworker: As of 15th September 2025 this service will only be accessible from 7am to 10pm.
+

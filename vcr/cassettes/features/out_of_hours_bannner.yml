@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=c83f712d-8087-4c76-8d48-a96ede72f5fb&direction=asc&limit=10&page=1&search&sorting=last_submitted_at&status=current
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
+      User-Agent:
+      - Faraday v2.13.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"c6e32f95242fff0f0cf12226952e6bcc"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Security-Policy-Report-Only:
+      - 'connect-src ''self'' https: https://*.google-analytics.com https://*.googletagmanager.com
+        https://*.analytics.google.com; default-src ''self'' https:; font-src ''self''
+        https: data:; img-src ''self'' https: data: https://*.google-analytics.com
+        https://*.googletagmanager.com; object-src ''none''; script-src ''self'' ''wasm-unsafe-eval''
+        ''unsafe-inline'' https: https://*.googletagmanager.com; style-src ''self''
+        ''unsafe-inline'' https:; report-uri /csp_report'
+      X-Request-Id:
+      - 560bb19b-fca1-4d3c-bbb8-69dbef74a987
+      X-Runtime:
+      - '0.047225'
+      Content-Length:
+      - '93'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":0,"limit_value":10},"items":[]}'
+  recorded_at: Wed, 10 Sep 2025 20:00:02 GMT
+recorded_with: VCR 6.3.1

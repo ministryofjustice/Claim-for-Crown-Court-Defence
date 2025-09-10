@@ -1,0 +1,13 @@
+- if show_out_of_hours_banner?
+  .js-callout-banner{'data-setting': 'out_of_hours_banner_seen'}
+
+    - if current_user.case_worker? 
+      = govuk_warning_text t('callout_banner.out_of_hours_text_one') do
+        = t('callout_banner.out_of_hours_text_two_caseworker')
+    - elsif current_user.external_user?
+      = govuk_warning_text t('callout_banner.out_of_hours_text_one') do
+        = t('callout_banner.out_of_hours_text_two_provider')        
+
+    %ul.govuk-list
+      %li.hide-link
+        = govuk_link_to t('callout_banner.out_of_hours_hide_banner'), settings_user_path(current_user.id, out_of_hours_banner_seen: 1), method: :put, remote: true

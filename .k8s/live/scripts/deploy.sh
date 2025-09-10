@@ -54,6 +54,10 @@ function _deploy() {
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
 
+  echo "Fetching IP allowlist from GitHub..."
+  curl -s https://raw.githubusercontent.com/ministryofjustice/laa-ip-allowlist/main/cidrs.txt | tr -d ' ' | tr '\n' ',' | sed 's/,/\\,/g' | sed 's/\\,$//' > .k8s/${context}/${environment}/modsecurity-allowed-ips.txt
+  echo "IP allowlist written to .k8s/${context}/${environment}/modsecurity-allowed-ips.txt"
+
   printf "\e[33m--------------------------------------------------\e[0m\n"
   printf "\e[33mContext: $context\e[0m\n"
   printf "\e[33mEnvironment: $environment\e[0m\n"
@@ -85,6 +89,11 @@ function _deploy() {
 
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine to ${context}/cccd-${environment}"
   kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine to ${context}/cccd-${environment}"
+
+  # create configmap for modsecurity IP addresses
+  kubectl create configmap modsecurity-allowed-ips \
+    --from-file=allowed_ips.txt=.k8s/${context}/${environment}/modsecurity-allowed-ips.txt \
+    --dry-run=client -o yaml | kubectl apply -f -
 
   # Forcibly restart the app regardless of whether
   # there are changes - to apply new secrets and configmaps at least.

@@ -98,3 +98,12 @@ spec:
                 secretKeyRef:
                   name: cccd-elasticache-redis
                   key: url
+          volumeMounts:
+            - name: modsecurity-allowed-ips
+              mountPath: /tmp/modsecurity/allowed_ips.txt
+              subPath: allowed_ips.txt
+              readOnly: true
+      volumes:
+        - name: modsecurity-allowed-ips
+          configMap:
+            name: modsecurity-allowed-ips

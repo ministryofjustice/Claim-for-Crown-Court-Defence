@@ -16,16 +16,13 @@ metadata:
       SecRuleRemoveById 200003
       SecRule REQUEST_URI "@contains /messages" "id:1000,phase:2,pass,nolog,ctl:ruleRemoveById=921110,ctl:ruleRemoveById=933210"
 
-      SecRule REMOTE_ADDR "@SecRule REMOTE_ADDR "@ipMatch 51.149.249.0, 194.33.249.0, 51.149.249.32, 194.33.248.0, 20.49.214.199, 20.49.214.228, 20.26.11.71, 20.26.11.108, 128.77.75.64, 18.169.147.172, 35.176.93.186, 18.130.148.126, 35.176.148.126" \
-          "phase:1,chain,id:997,deny,status:503"
+      SecRule REMOTE_ADDR "@ipMatchFromFile /tmp/modsecurity/allowed_ips.txt" "phase:1,chain,id:997,deny,status:503"
         SecRule TIME_HOUR "@within 21 22 23 0 1 2 3 4 5" "t:none"
 
-      SecRule REMOTE_ADDR "@SecRule REMOTE_ADDR "!@ipMatch 51.149.249.0, 194.33.249.0, 51.149.249.32, 194.33.248.0, 20.49.214.199, 20.49.214.228, 20.26.11.71, 20.26.11.108, 128.77.75.64, 18.169.147.172, 35.176.93.186, 18.130.148.126, 35.176.148.126" \
-          "phase:1,chain,id:998,deny,status:503"
+      SecRule REMOTE_ADDR "!@ipMatchFromFile /tmp/modsecurity/allowed_ips.txt" "phase:1,chain,id:998,deny,status:503"
         SecRule TIME_WDAY "@within 0 6" "t:none"
 
-      SecRule REMOTE_ADDR "@SecRule REMOTE_ADDR "!@ipMatch 51.149.249.0, 194.33.249.0, 51.149.249.32, 194.33.248.0, 20.49.214.199, 20.49.214.228, 20.26.11.71, 20.26.11.108, 128.77.75.64, 18.169.147.172, 35.176.93.186, 18.130.148.126, 35.176.148.126" \
-          "phase:1,chain,id:999,deny,status:503"
+      SecRule REMOTE_ADDR "!@ipMatchFromFile /tmp/modsecurity/allowed_ips.txt" "phase:1,chain,id:999,deny,status:503"
         SecRule TIME_HOUR "@within 18 19 20 21 22 23 0 1 2 3 4 5" "t:none"
 
     nginx.ingress.kubernetes.io/server-snippet: |

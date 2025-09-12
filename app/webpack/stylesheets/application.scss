@@ -13,6 +13,9 @@ $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 @import "@ministryofjustice/frontend/moj/settings/_measurements.scss";
 @import "@ministryofjustice/frontend/moj/objects/_width-container.scss";
 @import "@ministryofjustice/frontend/moj/components/header/_header.scss";
+@import "@ministryofjustice/frontend/moj/settings/colours"; // required for the alert component to work
+@import "@ministryofjustice/frontend/moj/helpers/links"; // required for the alert component to work
+@import "@ministryofjustice/frontend/moj/components/alert/alert";
 
 // Project specific
 // Everything below this comment should be project specific.
@@ -52,4 +55,5 @@ $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 @import "components/tag";
 
 @import "shame";
-@import "multi_file_upload"
+@import "multi_file_upload";
+@import "moj-alert";

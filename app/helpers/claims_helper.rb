@@ -68,8 +68,4 @@ module ClaimsHelper
     # This applies to both AGFS fee scheme 13 and LGFS fee scheme 10 but the dates are the same
     claim.final? && Time.zone.today >= Settings.agfs_scheme_13_clair_release_date.beginning_of_day
   end
-
-  def show_out_of_hours_banner?
-    current_user.setting?(:out_of_hours_banner_seen).nil?
-  end
 end

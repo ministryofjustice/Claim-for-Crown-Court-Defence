@@ -1,26 +1,26 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-    day: wednesday
-    time: "03:00"
-    timezone: Europe/London
-  groups:
-    babel:
-      patterns:
-        - "*babel*"
-    datatables:
-      patterns:
-        - "*datatables*"
-    postcss:
-      patterns:
-        - "postcss"
-        - "postcss-*"
-  open-pull-requests-limit: 10
-  allow:
-    - dependency-type: "all"
+# - package-ecosystem: npm
+#   directory: "/"
+#   schedule:
+#     interval: daily
+#     day: wednesday
+#     time: "03:00"
+#     timezone: Europe/London
+#   groups:
+#     babel:
+#       patterns:
+#         - "*babel*"
+#     datatables:
+#       patterns:
+#         - "*datatables*"
+#     postcss:
+#       patterns:
+#         - "postcss"
+#         - "postcss-*"
+#   open-pull-requests-limit: 10
+#   allow:
+#     - dependency-type: "all"
 - package-ecosystem: bundler
   directory: "/"
   schedule:

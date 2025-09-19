@@ -103,7 +103,7 @@ group :test do
   gem 'axe-core-cucumber', '~> 4.10'
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.40'
-  gem 'cucumber-rails', '~> 3.1.1', require: false
+  gem 'cucumber-rails', '~> 4.0.0', require: false
   gem 'database_cleaner'
   gem 'i18n-tasks'
   gem 'json_spec'

@@ -4,6 +4,7 @@
 
 = render partial: 'layouts/header', locals: { page_heading: your_claims_header }
 = render partial: 'external_users/shared/timed_retention_banner'
+= render partial: 'shared/out_of_hours_banner'
 
 .govuk-grid-row
   = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }

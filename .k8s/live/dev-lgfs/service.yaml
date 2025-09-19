@@ -12,3 +12,21 @@ spec:
       targetPort: 3000
   selector:
     app: cccd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-errors
+  namespace: cccd-dev-lgfs
+  labels:
+    app.kubernetes.io/name: nginx-errors
+    app.kubernetes.io/part-of: ingress-nginx
+spec:
+  selector:
+    app.kubernetes.io/name: nginx-errors
+    app.kubernetes.io/part-of: ingress-nginx
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http

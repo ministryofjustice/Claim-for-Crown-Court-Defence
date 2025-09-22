@@ -1,9 +1,9 @@
 - unless @cookies_preferences_set
   = govuk_cookie_banner do |cb|
     - cb.with_message(heading_text: t('.title')) do |m|
-      - m.with_action { govuk_button_link_to(t('.accept_button'), '?usage_opt_in=true&show_confirmation=true') }
-      - m.with_action { govuk_button_link_to(t('.reject_button'), '?usage_opt_in=false&show_confirmation=true') }
-      - m.with_action { govuk_link_to(t('.view_cookies'), cookies_path) }
+      - m.with_action { govuk_button_link_to(t('layouts.cookie_banner.accept_button'), '?usage_opt_in=true&show_confirmation=true') }
+      - m.with_action { govuk_button_link_to(t('layouts.cookie_banner.reject_button'), '?usage_opt_in=false&show_confirmation=true') }
+      - m.with_action { govuk_link_to(t('layouts.cookie_banner.view_cookies'), cookies_path) }
 
       .govuk-cookie-banner__content
         = t('.content_html')

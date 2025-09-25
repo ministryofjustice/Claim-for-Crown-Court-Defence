@@ -34,7 +34,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
 
   after(:all) { clean_database }
 
-  include_examples 'litigator claim test setup'
   include_examples 'malformed or not iso8601 compliant dates', action: :validate,
                                                                attributes: %i[case_concluded_at
                                                                               main_hearing_date

@@ -374,7 +374,7 @@ GEM
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     jsonapi-renderer (0.2.2)
-    jwt (2.10.1)
+    jwt (2.10.2)
       base64
     laa-fee-calculator-client (2.0.0)
       faraday (~> 2.9)

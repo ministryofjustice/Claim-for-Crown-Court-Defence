@@ -108,7 +108,7 @@ RSpec.configure do |config|
   end
 
   # Ensure ActiveJob uses the test adapter in specs
-  config.before(:each) do
+  config.before do
     ActiveJob::Base.queue_adapter = :test
   end
 

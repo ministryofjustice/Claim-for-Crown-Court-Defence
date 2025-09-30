@@ -635,14 +635,14 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    sentry-rails (5.27.1)
+    sentry-rails (5.28.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.27.1)
-    sentry-ruby (5.27.1)
+      sentry-ruby (~> 5.28.0)
+    sentry-ruby (5.28.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.27.1)
-      sentry-ruby (~> 5.27.1)
+    sentry-sidekiq (5.28.0)
+      sentry-ruby (~> 5.28.0)
       sidekiq (>= 3.0)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
@@ -838,7 +838,7 @@ DEPENDENCIES
   rubocop-rspec_rails (~> 2.31)
   ruby-progressbar
   rubyzip
-  sentry-rails (~> 5.27)
+  sentry-rails (~> 5.28)
   sentry-sidekiq (~> 5.27)
   shoulda-matchers (~> 6.5)
   sidekiq (~> 7.3)

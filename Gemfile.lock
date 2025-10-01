@@ -405,7 +405,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    marcel (1.0.4)
+    marcel (1.1.0)
     matrix (0.4.3)
     memoist3 (1.0.0)
     meta_request (0.8.5)

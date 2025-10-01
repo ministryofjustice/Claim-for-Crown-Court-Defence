@@ -209,3 +209,23 @@ feature again. It should no longer require the api endpoints.
 You should now commit the cassette to the repo to ensure it is not unneccessarily created by upstream test suite runs on the CI solution.
 
 ***When you change a feature test such that you need to re-record its cassette you should delete the existing cassette in the `vcr` folder and proceed as if creating a new cassette, above.***
+
+## Static analysis
+
+### brakeman
+
+`brakeman` is normally executed in the pipeline in the `other-tests`. To execute it from the command line use;
+
+```bash
+bundle exec brakeman
+```
+
+`brakeman` maintains an ignore list, `config/brakeman.ignore`,  of known issues that are to be suppressed. This file is
+automatically generated and it can be modified by running `brakeman` interactively;
+
+```bash
+bundle exec brakeman -I
+```
+
+This will allow warnings to be examined and added to the ignore list if necessary, and for suppressed warnings to be
+removed after they have been resolved.

@@ -34,8 +34,11 @@ RUN yarn install --frozen-lockfile --production --silent
 
 COPY . $APP_HOME/
 
+# AWS_REGION added due to https://github.com/rails/rails/issues/54139
+# It is possible that it can be removed after upgrading to Rails 8.0
 RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
 RAILS_ENV=production \
+AWS_REGION=a-real-aws-region-is-not-needed-here \
 bundle exec rails assets:precompile
 
 RUN rm -rf node_modules

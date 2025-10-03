@@ -116,25 +116,6 @@
         22
       ],
       "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
-    },
-    {
-      "warning_type": "Unmaintained Dependency",
-      "warning_code": 120,
-      "fingerprint": "d84924377155b41e094acae7404ec2e521629d86f97b0ff628e3d1b263f8101c",
-      "check_name": "EOLRails",
-      "message": "Support for Rails 7.1.5.2 ended on 2025-10-01",
-      "file": "Gemfile.lock",
-      "line": 502,
-      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
-      "code": null,
-      "render_path": null,
-      "location": null,
-      "user_input": null,
-      "confidence": "High",
-      "cwe_id": [
-        1104
-      ],
-      "note": ""
     }
   ],
   "brakeman_version": "7.1.0"

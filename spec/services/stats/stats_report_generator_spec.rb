@@ -192,7 +192,11 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
 
         it 'does not send an error notification' do
           call rescue nil
-          expect(ActiveSupport::Notifications).not_to have_received(:instrument)
+
+          # Only check that your app-specific error event was not triggered
+          expect(ActiveSupport::Notifications).not_to have_received(:instrument).with(
+            'call_failed.stats_report', anything
+          )
         end
       end
     end

@@ -28,11 +28,11 @@ module ActiveRecord
     private
       alias old_association_valid? association_valid?
 
-      def association_valid?(reflection, record, index=nil)
+      def association_valid?(reflection, ...)
         if reflection.options[:validate].is_a?(Proc)
           return true unless reflection.options[:validate].call(self)
         end
-        old_association_valid?(reflection, record, index)
+        old_association_valid?(reflection, ...)
       end
   end
 end

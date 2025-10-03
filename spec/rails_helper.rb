@@ -107,6 +107,11 @@ RSpec.configure do |config|
     end
   end
 
+  # Ensure ActiveJob uses the test adapter in specs
+  config.before do
+    ActiveJob::Base.queue_adapter = :test
+  end
+
   config.before :each, :slack_bot do
     allow(Settings.slack).to receive_messages(
       bot_url: 'https://hooks.slack.com/services/fake/endpoint',

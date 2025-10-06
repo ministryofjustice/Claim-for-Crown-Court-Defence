@@ -10,7 +10,11 @@ Rails.application.configure do
   config.logstasher.logger = jsonlogger
 
   # Need to specifically set the logstasher loglevel since it will overwrite the one set earlier
-  config.logstasher.log_level = Logger::DEBUG
+  # Ideally this will be set to Logger::DEBUG but this is causing infinite loops using to_json
+  # serialise data for logs. This could be fixed by;
+  #   * Further patching like lib/extensions/govuk_components_extension.rb
+  #   * Replacing logstasher with an alternative logging formatter
+  config.logstasher.log_level = Logger::INFO
   config.logstasher.source = 'cccd.development'
   # Reuse logstasher logger with logstuff
   LogStuff.setup(:logger => jsonlogger)

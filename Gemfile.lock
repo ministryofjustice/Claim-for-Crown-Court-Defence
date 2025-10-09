@@ -186,7 +186,7 @@ GEM
       rexml
     crass (1.0.6)
     csv (3.3.5)
-    cucumber (10.1.0)
+    cucumber (10.1.1)
       base64 (~> 0.2)
       builder (~> 3.2)
       cucumber-ci-environment (> 9, < 11)

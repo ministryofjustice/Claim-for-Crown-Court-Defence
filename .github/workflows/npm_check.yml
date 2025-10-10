@@ -1,0 +1,22 @@
+name: Check NPM updates
+on:
+  push:
+    paths:
+      - 'yarn.lock'
+
+jobs:
+  check-npm-packages:
+    runs-on: ubuntu-latest
+    name: Check npm packages
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Fetch test script
+      run: curl -s https://gist.githubusercontent.com/andrewrlee/5edfd25e9fdcbcf49e3a0eeddd3fe130/raw/check-yarn.mjs > /tmp/check-yarn.mjs
+
+    - name: Run script
+      run: node /tmp/check-yarn.mjs | tee /tmp/check_output.txt
+
+    - name: Check output
+      run: "! grep -E 'WARNING|CAUTION' /tmp/check_output.txt"

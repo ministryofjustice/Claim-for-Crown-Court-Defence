@@ -4,6 +4,8 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/set-identifier: cccd-app-ingress-v1-cccd-dev-lgfs-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
+    nginx.ingress.kubernetes.io/default-backend: "nginx-errors"
+    nginx.ingress.kubernetes.io/custom-http-errors: "503"
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleRemoveById 920120
@@ -15,6 +17,8 @@ metadata:
       SecRuleRemoveById 200002
       SecRuleRemoveById 200003
       SecRule REQUEST_URI "@contains /messages" "id:1000,phase:2,pass,nolog,ctl:ruleRemoveById=921110,ctl:ruleRemoveById=933210"
+      SecRule REMOTE_ADDR "@ipMatch 51.149.249.0,194.33.249.0,51.149.249.32,194.33.248.0,20.49.214.199,20.49.214.228,20.26.11.71,20.26.11.108,128.77.75.64,18.169.147.172,35.176.93.186,18.130.148.126,35.176.148.126" \
+          "phase:1,id:997,deny,status:503"
     nginx.ingress.kubernetes.io/server-snippet: |
       deny 116.204.211.188;
       deny 94.154.188.130;

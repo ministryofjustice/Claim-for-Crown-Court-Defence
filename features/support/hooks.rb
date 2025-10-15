@@ -72,6 +72,11 @@ Before('not @no-seed') do
   end
 end
 
+# after the defaults have been changed to 7.2 in config/application.rb it might be possible to remove this.
+Before('@javascript') do
+  Rails.application.config.active_job.enqueue_after_transaction_commit = true
+end
+
 # minimum seeding necessary for case worker functionality
 # to avoid long start up time for basic case worker features
 #

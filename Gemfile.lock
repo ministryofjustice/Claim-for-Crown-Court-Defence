@@ -554,7 +554,7 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.4.4)
-    rouge (4.6.0)
+    rouge (4.6.1)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)

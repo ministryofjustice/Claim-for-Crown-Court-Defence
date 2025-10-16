@@ -314,7 +314,7 @@ GEM
     grape-swagger (2.1.2)
       grape (>= 1.7, < 3.0)
       rack-test (~> 2)
-    grape-swagger-rails (0.6.0)
+    grape-swagger-rails (0.7.0)
       ostruct
       railties (>= 6.0.6.1)
     haml (6.3.0)
@@ -789,7 +789,7 @@ DEPENDENCIES
   grape-entity (~> 1.0.1)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 2.1.2)
-  grape-swagger-rails (~> 0.6.0)
+  grape-swagger-rails (~> 0.7.0)
   haml-rails (~> 3.0.0)
   hashdiff (>= 1.0.0.beta1, < 2.0.0)
   hashie-forbidden_attributes (>= 0.1.1)

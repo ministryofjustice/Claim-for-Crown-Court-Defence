@@ -43,7 +43,7 @@ gem 'pg',                     '~> 1.6.2'
 gem 'rails', '~> 7.2.0'
 gem 'redis',                  '~> 5.4.1'
 gem 'rubyzip'
-gem 'config',                 '~> 5.5' # this gem provides our Settings.xxx mechanism
+gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'sentry-rails', '~> 5.28'
 gem 'sentry-sidekiq', '~> 5.27'

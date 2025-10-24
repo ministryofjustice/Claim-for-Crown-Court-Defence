@@ -16,6 +16,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/log/*.log.*
 /log/*.output
 /tmp
 
@@ -84,3 +85,4 @@ yarn-debug.log*
 
 # ignore Brewfile changes
 Brewfile.lock.json
+

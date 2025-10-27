@@ -420,7 +420,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
       end
 
-      it { is_expected.to contain_exactly(31.days.ago.strftime('%F')) }
+      it { is_expected.to contain_exactly(31.days.ago.to_date) }
     end
 
     # authors full name for the "previous decision" that was redetermined or nil if previous decision was not redetermined

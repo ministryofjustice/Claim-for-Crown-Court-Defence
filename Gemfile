@@ -40,7 +40,7 @@ gem 'net-smtp'
 gem 'pagy'
 gem 'paper_trail', '~> 17.0.0'
 gem 'pg',                     '~> 1.6.2'
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 7.2.3'
 gem 'redis',                  '~> 5.4.1'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism

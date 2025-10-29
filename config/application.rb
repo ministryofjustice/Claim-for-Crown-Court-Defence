@@ -16,7 +16,7 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
-    config.load_defaults 7.1
+    config.load_defaults 7.2
 
     config.middleware.use Rack::Deflater
     # Please, add to the `ignore` list any other `lib` subdirectories that do

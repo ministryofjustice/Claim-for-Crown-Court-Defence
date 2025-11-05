@@ -1,9 +1,9 @@
 - if show_hardship_claims_banner_to_user?
   .js-callout-banner{'data-setting': 'hardship_claims_banner_seen'}
-    = govuk_warning_text t('callout_banner.hardship_warning_text')
+    = govuk_warning_text(text: t('callout_banner.hardship_warning_text'))
 
     %ul.govuk-list
-      %li
+      %lip
         = govuk_link_to t('callout_banner.hardship_information'), hardship_claims_page_path
 
       %li.hide-link

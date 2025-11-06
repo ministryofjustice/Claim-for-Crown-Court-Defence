@@ -716,7 +716,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     utf8-cleaner (1.0.0)
       activesupport

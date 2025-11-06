@@ -22,21 +22,9 @@ module GovukComponent
       end
     end
 
-    initializer 'govuk_component.summary_list_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::SummaryListHelpers }
-      end
-    end
-
     initializer 'govuk_component.tag_helpers' do
       config.after_initialize do
         ActiveSupport.on_load(:action_view) { include GovukComponent::TagHelpers }
-      end
-    end
-
-    initializer 'govuk_component.summary_card_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::SummaryCardHelpers }
       end
     end
   end

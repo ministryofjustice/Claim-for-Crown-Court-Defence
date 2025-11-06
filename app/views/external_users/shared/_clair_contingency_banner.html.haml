@@ -2,8 +2,8 @@
   .js-callout-banner{'data-setting': 'clair_contingency_banner_seen'}
     = govuk_warning_text(text: t('callout_banner.clair_contingency_text_one'))
 
-    %p{ class: 'govuk-warning-text__text' }
-      Any increase due will be calculated and added during assessment.
+    %p.govuk-warning-text__text
+      = t('callout_banner.clair_contingency_text_two')
 
     %ul.govuk-list
       %li.hide-link

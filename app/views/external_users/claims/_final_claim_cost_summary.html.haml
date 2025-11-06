@@ -9,7 +9,7 @@
       = row.with_cell(text: t('shared.summary.total_amount'), numeric: true)
 
   = table.with_body do |body|
-    - if claim.fixed_fee_case?
+    - if claim.fixed_fee_case? && claim.respond_to?(:fixed_fees_total)
       = body.with_row(classes: 'fx-seed-fixedFees', html_attributes: { data: { autovat: @claim.apply_vat? ? 'true' : 'false', seed: claim.raw_fixed_fees_total } }) do |row|
         = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.summary.fixed_fees'))
         = row.with_cell(html_attributes: { 'data-label': t('shared.summary.amount') }, text: claim.fixed_fees_total, numeric: true)

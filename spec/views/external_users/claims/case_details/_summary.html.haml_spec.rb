@@ -97,18 +97,18 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml' do
       let(:claim) { present(build(:advocate_final_claim, :draft, case_type: build(:case_type, :trial))) }
 
       it { expect(page).to have_govuk_summary_row('First day of trial', claim.first_day_of_trial.strftime(date_format)) }
-      it { expect(page).to have_govuk_summary_row('Estimated trial length', claim.estimated_trial_length) }
+      it { expect(page).to have_govuk_summary_row('Estimated length of trial', claim.estimated_trial_length) }
       it { expect(page).to have_govuk_summary_row('Actual trial length', claim.actual_trial_length) }
-      it { expect(page).to have_govuk_summary_row('Trial concluded on', claim.trial_concluded_at.strftime(date_format)) }
+      it { expect(page).to have_govuk_summary_row('First trial concluded', claim.trial_concluded_at.strftime(date_format)) }
     end
 
     context 'with retrial case type' do
       let(:claim) { present(build(:advocate_final_claim, :draft, case_type: build(:case_type, :retrial))) }
 
       it { expect(page).to have_govuk_summary_row('First day of trial', claim.first_day_of_trial.strftime(date_format)) }
-      it { expect(page).to have_govuk_summary_row('Estimated trial length', claim.estimated_trial_length) }
+      it { expect(page).to have_govuk_summary_row('Estimated length of trial', claim.estimated_trial_length) }
       it { expect(page).to have_govuk_summary_row('Actual trial length', claim.actual_trial_length) }
-      it { expect(page).to have_govuk_summary_row('Trial concluded on', claim.trial_concluded_at.strftime(date_format)) }
+      it { expect(page).to have_govuk_summary_row('First trial concluded', claim.trial_concluded_at.strftime(date_format)) }
 
       it { expect(page).to have_govuk_summary_row('First day of retrial', claim.retrial_started_at.strftime(date_format)) }
       it { expect(page).to have_govuk_summary_row('Estimated retrial length', claim.retrial_estimated_length) }

@@ -5,18 +5,23 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = govuk_summary_list do
-      = govuk_summary_list_row_collection(t('.name')) do
-        = @external_user.name
+    = govuk_summary_list do |summary_list|
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.name'))
+        - row.with_value(text: @external_user.name )
 
-      = govuk_summary_list_row_collection(t('.email')) do
-        = govuk_mail_to @external_user.email, @external_user.email
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.email'))
+        - row.with_value(text: (govuk_mail_to @external_user.email, @external_user.email ))
 
-      = govuk_summary_list_row_collection(t('.roles')) do
-        = @external_user.roles.map(&:humanize).join(', ')
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.roles'))
+        - row.with_value(text: @external_user.roles.map(&:humanize).join(', ') )
 
-      = govuk_summary_list_row_collection(t('.supplier_number')) do
-        = @external_user.supplier_number
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.supplier_number'))
+        - row.with_value(text: @external_user.supplier_number )
+
 
     .govuk-button-group
       - if can? :edit, @external_user

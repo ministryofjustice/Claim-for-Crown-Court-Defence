@@ -1,8 +1,9 @@
 -# AGFS fees accordion content
 - present(@claim) do |claim|
-  - if @claim.fees_total == 0
-    = govuk_summary_card(t('common.fees'), t('shared.summary.no_values.fees'))
-
+  - if claim.fees_total == 0
+    = govuk_summary_card(title: t('common.fees')) do
+      - summary_list.with_row do |row|
+        = row.with_value(title: t('shared.summary.no_values.fees'))
   - else
     = render partial: 'shared/new_agfs_fee_details', locals: { claim: claim }
 

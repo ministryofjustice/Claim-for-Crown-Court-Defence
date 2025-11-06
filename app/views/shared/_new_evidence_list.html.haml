@@ -1,33 +1,29 @@
 = render partial: 'shared/new_evidence_checklist'
 
 - if current_user_persona_is?(CaseWorker) && @claim.documents.none?
-  = govuk_summary_card(t('.existing_evidence'), t('.no_documents_uploaded'))
-
+  = govuk_summary_card(title: t('.existing_evidence')) do
+    = t('.no_documents_uploaded')
 - else
-  .govuk-summary-card
-    .govuk-summary-card__title-wrapper
-      %h2.govuk-summary-card__title=t('.existing_evidence')
-      = govuk_link_to t('shared.download_all_html', context: t('.existing_evidence')), download_zip_case_workers_claim_path(@claim), class: 'govuk-!-font-weight-bold'
-    .govuk-summary-card__content
-      = govuk_table(classes: 'app-table--responsive') do |table|
-        = table.with_head do |head|
-          = head.with_row do |row|
-            = row.with_cell(text: t('.name_of_file'))
-            = row.with_cell(text: t('.file_size'), numeric: true)
-            = row.with_cell(text: t('.date_added'), numeric: true)
-            = row.with_cell(text: t('.actions'))
+  = govuk_summary_card(title: t('.existing_evidence')) do |card|
+    - card.with_action { govuk_link_to t('shared.download_all_html'),
+                     download_zip_case_workers_claim_path(@claim)}
 
-        = table.with_body do |body|
-          - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
-            = body.with_row do |row|
-              = row.with_cell(text: document.document_file_name)
-              = row.with_cell(text: number_to_human_size(document.document_file_size), numeric: true)
-              = row.with_cell(text: document.created_at.strftime(Settings.date_format), numeric: true)
-              = row.with_cell do
-                .app-link-group
-                  - if document.converted_preview_document.present?
-                    = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document), target: :_blank
-                  = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)
+    = govuk_table(classes: 'app-table--responsive') do |table|
+      = table.with_head do |head|
+        = head.with_row do |row|
+          = row.with_cell(text: t('.name_of_file'))
+          = row.with_cell(text: t('.file_size'), numeric: true)
+          = row.with_cell(text: t('.date_added'), numeric: true)
+          = row.with_cell(text: t('.actions'))
 
-- if claim.additional_information.present?
-  = render partial: 'shared/new_additional_information', locals: { claim: claim }
+      = table.with_body do |body|
+        - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
+          = body.with_row do |row|
+            = row.with_cell(text: document.document_file_name)
+            = row.with_cell(text: number_to_human_size(document.document_file_size), numeric: true)
+            = row.with_cell(text: document.created_at.strftime(Settings.date_format), numeric: true)
+            = row.with_cell do
+              .app-link-group
+                - if document.converted_preview_document.present?
+                  = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document), target: :_blank
+                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)

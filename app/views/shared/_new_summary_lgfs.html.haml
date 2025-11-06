@@ -1,6 +1,7 @@
 - present(@claim) do |claim|
   - if @claim.fees_total == 0
-    = govuk_summary_card(t('common.fees'), t('shared.summary.no_values.fees'))
+    = govuk_summary_card(title: t('common.fees')) do
+      = t('shared.summary.no_values.fees')
 
   - else
     = render partial: 'shared/new_lgfs_fee_details', locals: { claim: claim }
@@ -13,7 +14,8 @@
       = t('common.disbursements')
 
     - if claim.disbursements.empty?
-      = govuk_summary_card(t('common.disbursements'), t('shared.summary.no_values.disbursements'))
+      = govuk_summary_card(title: t('common.disbursements')) do
+        = t('shared.summary.no_values.disbursements')
 
     - else
       - if claim.disbursements.with_vat.any?

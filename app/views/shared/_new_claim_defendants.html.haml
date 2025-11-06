@@ -5,4 +5,8 @@
   - claim.defendants.each_with_index do | defendant, index |
     = render partial: 'shared/new_claim_defendant_details', locals: { defendant: present(defendant, CaseWorkers::DefendantPresenter), index: index += 1 }
 - else
-  = govuk_summary_card(t('.h2_defendant_details'), t('.no_defendant'))
+  = govuk_summary_card(title: t('.h2_defendant_details')) do |card|
+    - card.with_summary_list do |summary_list|
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.no_defendant'))
+

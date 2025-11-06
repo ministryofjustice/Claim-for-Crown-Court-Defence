@@ -1,3 +1,5 @@
 - if claim.agfs? && claim.advocate_category.present?
-  = govuk_summary_list do
-    = govuk_summary_list_row_collection( t("common.external_user.category.#{claim.external_user_type}") ) { claim.advocate_category }
+  = govuk_summary_list do |summary_list|
+    - summary_list.with_row do |row|
+      - row.with_key(text: t("common.external_user.category.#{claim.external_user_type}"))
+      - row.with_value(text: claim.advocate_category )

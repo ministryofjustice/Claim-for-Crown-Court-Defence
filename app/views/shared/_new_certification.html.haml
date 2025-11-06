@@ -1,14 +1,11 @@
-.govuk-summary-card
-  .govuk-summary-card__title-wrapper
-    %h2.govuk-summary-card__title
-      = t('.certification_box_title')
+= govuk_summary_card(title: t('.certification_box_title')) do |card|
+  = govuk_summary_list do |summary_list|
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('.instructed_heading'))
+      - row.with_value(text: @claim.external_user.name )
 
-  .govuk-summary-card__content
-    = govuk_summary_list do
-      = govuk_summary_list_row do
-        = govuk_summary_list_key { t('.instructed_heading') }
-        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.external_user.name }
-      - if @claim.agfs?
-        = govuk_summary_list_row do
-          = govuk_summary_list_key { t('.certification_reason') }
-          = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.certification.certification_type.name rescue '' }
+  - if @claim.agfs?
+    = govuk_summary_list do |summary_list|
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.certification_reason'))
+        - row.with_value(text: @claim.certification.certification_type&.name)

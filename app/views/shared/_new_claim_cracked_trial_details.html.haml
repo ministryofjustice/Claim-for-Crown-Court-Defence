@@ -6,19 +6,19 @@
 - else
   - trial_cracked_at_third_key = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.default")
 
-= govuk_summary_list_row do
-  = govuk_summary_list_key { t("#{cracked_trial_detail_translations}.trial_fixed_notice_at") }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue '' }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t("#{cracked_trial_detail_translations}.trial_fixed_notice_at"))
+    - row.with_value(text: claim.trial_fixed_notice_at&.strftime(Settings.date_format))
 
-= govuk_summary_list_row do
-  = govuk_summary_list_key { t("#{cracked_trial_detail_translations}.trial_fixed_at") }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.trial_fixed_at.strftime(Settings.date_format) rescue '' }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t("#{cracked_trial_detail_translations}.trial_fixed_at"))
+    - row.with_value(text: claim.trial_fixed_at&.strftime(Settings.date_format) )
 
-= govuk_summary_list_row do
-  = govuk_summary_list_key { t("#{cracked_trial_detail_translations}.trial_cracked_at") }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.trial_cracked_at.strftime(Settings.date_format) rescue '' }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t("#{cracked_trial_detail_translations}.trial_cracked_at"))
+    - row.with_value(text: claim.trial_cracked_at&.strftime(Settings.date_format) )
 
-= govuk_summary_list_row do
-  = govuk_summary_list_key { trial_cracked_at_third_key }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.trial_cracked_at_third.humanize rescue '' }
+  - summary_list.with_row do |row|
+    - row.with_key(text: trial_cracked_at_third_key)
+    - row.with_value(text: claim.trial_cracked_at_third&.humanize )
 

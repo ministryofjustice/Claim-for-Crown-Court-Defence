@@ -1,12 +1,7 @@
-- claim_fields = %i[external_users claims case_details fields]
+- summary_list.with_row do |row|
+  - row.with_key(text: t('offence_category', scope: claim_fields) )
+  - row.with_value(text: (claim.offence&.description || t('general.not_provided') ))
 
-= govuk_summary_list do
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('offence_category', scope: claim_fields) }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
-      = claim.offence ? claim.offence.description : t('general.not_provided')
-
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('offence_class', scope: claim_fields) }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
-      = claim.offence ? claim.offence.offence_class : t('general.not_provided')
+- summary_list.with_row do |row|
+  - row.with_key(text:  t('offence_class', scope: claim_fields))
+  - row.with_value(text: (claim.offence&.offence_class || t('general.not_provided') ))

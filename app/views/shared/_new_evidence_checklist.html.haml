@@ -1,8 +1,6 @@
 - unless @claim.evidence_checklist_ids.empty?
-  .govuk-summary-card
-    .govuk-summary-card__title-wrapper
-      %h2.govuk-summary-card__title= (t('shared.evidence_checklist.caption'))
-    .govuk-summary-card__content
-      = govuk_summary_list do
-        - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
-          %dt #{dt.name}
+  = govuk_summary_card(title: t('shared.evidence_checklist.caption')) do |card|
+    = govuk_summary_list(classes: 'govuk-summary-list--no-border') do |summary_list|
+      - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
+        - summary_list.with_row do |row|
+          - row.with_value(html_attributes: { class: 'govuk-!-padding-0' }) { dt.name }

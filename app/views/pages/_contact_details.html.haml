@@ -4,35 +4,29 @@
 %p.govuk-body
   = t('pages.contact_us.advocate_hint')
 
-= govuk_summary_list_no_border do
-  = govuk_summary_list_row do
-    = govuk_summary_list_key do
-      = t('email')
-
-    = govuk_summary_list_value do
+= govuk_summary_list(classes: "govuk-summary-list--no-border") do |summary_list|
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('email'))
+    - row.with_value do
       = govuk_mail_to Settings.advocates_email
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key do
-      = t('phone')
-
-    = govuk_summary_list_value do
-      = govuk_link_to format_phone_number(Settings.advocate_phone_contact), "tel:#{Settings.advocate_phone_contact}"
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('phone'))
+    - row.with_value do
+      = govuk_link_to format_phone_number(Settings.advocate_phone_contact),
+                      "tel:#{Settings.advocate_phone_contact}"
 
 %p.govuk-body
   = t('pages.contact_us.litigator_hint')
 
-= govuk_summary_list_no_border do
-  = govuk_summary_list_row do
-    = govuk_summary_list_key do
-      = t('email')
-
-    = govuk_summary_list_value do
+= govuk_summary_list(classes: "govuk-summary-list--no-border") do |summary_list|
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('email'))
+    - row.with_value do
       = govuk_mail_to Settings.litigators_email
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key do
-      = t('phone')
-
-    = govuk_summary_list_value do
-      = govuk_link_to format_phone_number(Settings.litigator_phone_contact), "tel:#{Settings.litigator_phone_contact}"
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('phone'))
+    - row.with_value do
+      = govuk_link_to format_phone_number(Settings.litigator_phone_contact),
+                      "tel:#{Settings.litigator_phone_contact}"

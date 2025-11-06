@@ -1,9 +1,9 @@
 - if show_clair_contingency_banner_to_user?
   .js-callout-banner{'data-setting': 'clair_contingency_banner_seen'}
-    = govuk_warning_text(text: t('callout_banner.clair_contingency_text_one'))
-
-    %p.govuk-warning-text__text
-      = t('callout_banner.clair_contingency_text_two')
+    = govuk_warning_text do
+      = t('callout_banner.clair_contingency_text_one')
+      %div{class: 'govuk-!-font-weight-regular govuk-!-margin-top-4'}
+        = t('callout_banner.clair_contingency_text_two')
 
     %ul.govuk-list
       %li.hide-link

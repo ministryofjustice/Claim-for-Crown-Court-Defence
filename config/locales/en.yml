@@ -3033,7 +3033,7 @@ en:
   callout_banner:
     api_promo_hide_banner: Do not show API information again
     api_promo_information_html:
-      You may be able to create claims without re-typing. <a class="govuk-link" href="%{href}">Read more on API information</a>.
+      You may be able to create claims without re-typing. <br> <a class="govuk-link" href="%{href}">Read more on API information</a>.
     api_promo_warning_text: Do you use a case management system?
 
     hardship_hide_banner: Do not show hardship claims information again

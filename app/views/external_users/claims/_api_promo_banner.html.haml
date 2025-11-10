@@ -1,7 +1,6 @@
 - if claim.new_record? && show_api_promo_to_user?
 
   .js-callout-banner{'data-setting': 'api_promo_seen'}
-    = govuk_warning_text(text: t('callout_banner.api_promo_warning_text'))
     = govuk_warning_text do
       = t('callout_banner.api_promo_warning_text')
 

@@ -1,9 +1,11 @@
 - if claim.new_record? && show_api_promo_to_user?
 
   .js-callout-banner{'data-setting': 'api_promo_seen'}
-    = govuk_warning_text(text: t('callout_banner.api_promo_warning_text'),  classes: 'warning-text-no-margin')
+    = govuk_warning_text(text: t('callout_banner.api_promo_warning_text'))
+    = govuk_warning_text do
+      = t('callout_banner.api_promo_warning_text')
 
-    %p.govuk-warning-text__text
+    %div{class: 'govuk-!-font-weight-regular govuk-!-margin-top-4'}
       = t('callout_banner.api_promo_information_html', href: api_landing_page_path)
 
     %ul.govuk-list

@@ -29,10 +29,10 @@
       value: number_with_precision(f.object.vat_amount, precision: 2),
       width: 'one-quarter'
 
-    = govuk_summary_list_no_border do
-      = govuk_summary_list_row do
-        = govuk_summary_list_key do
-          = t('.total')
+    = govuk_summary_list do |summary_list|
+      - summary_list.with_row do |row|
+        - row.with_key { t('.total') }
+        - row.with_value do
+          %span.total{ data: { total: number_to_currency(f.object.total || 0) }, class: 'font-weight-bold' }
+            = number_to_currency(f.object.total || 0)
 
-        = govuk_summary_list_value(class: 'total', data: {total: number_to_currency(f.object.total)}) do
-          = number_to_currency(f.object.total)

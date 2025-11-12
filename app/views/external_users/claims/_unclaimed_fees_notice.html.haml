@@ -1,7 +1,8 @@
 - if unclaimed_fees.present?
-  = govuk_warning_text(t('external_users.claims.misc_fees.unclaimed_fees.heading')) do
-    = t('external_users.claims.misc_fees.unclaimed_fees.notice.short', fee_list: unclaimed_fees)
-    %br
-    - misc_fee_link = govuk_link_to t('external_users.claims.misc_fees.unclaimed_fees.hint_link'), link
-    = t('external_users.claims.misc_fees.unclaimed_fees.hint_html', link: misc_fee_link)
-
+  = govuk_warning_text do
+    = t('external_users.claims.misc_fees.unclaimed_fees.heading')
+    %div{class: 'govuk-!-font-weight-regular govuk-!-margin-top-4'}
+      = t('external_users.claims.misc_fees.unclaimed_fees.notice.short', fee_list: unclaimed_fees)
+      %br
+      - misc_fee_link = govuk_link_to t('external_users.claims.misc_fees.unclaimed_fees.hint_link'), link
+      = t('external_users.claims.misc_fees.unclaimed_fees.hint_html', link: misc_fee_link)

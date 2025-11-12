@@ -34,12 +34,6 @@ module GovukComponent
       end
     end
 
-    initializer 'govuk_component.warning_text_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::WarningTextHelpers }
-      end
-    end
-
     initializer 'govuk_component.summary_card_helpers' do
       config.after_initialize do
         ActiveSupport.on_load(:action_view) { include GovukComponent::SummaryCardHelpers }

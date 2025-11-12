@@ -14,7 +14,7 @@
 
 - else
   - if display_elected_not_proceeded_signpost?(@claim)
-    = govuk_warning_text( t('.enp_signpost_contingency_html'))
+    = govuk_warning_text(text: t('.enp_signpost_contingency_html'))
 
   = f.govuk_collection_select :case_type_id,
     @case_types.map{ |ct| [ct.name, ct.id, { data: { 'is-fixed-fee': ct.is_fixed_fee?, 'requires-cracked-dates': ct&.requires_cracked_dates?, 'requires-retrial-dates': ct&.requires_retrial_dates?, 'requires-trial-dates': ct&.requires_trial_dates? } }] },

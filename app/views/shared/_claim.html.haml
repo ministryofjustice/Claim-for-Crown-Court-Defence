@@ -71,4 +71,43 @@
   - if claim.discontinuance?
     - summary_list.with_row do |row|
       - row.with_key(text: t('common.prosecution_evidence'))
-      - row.with_value { claim.prosecution_evidence?.class }
+      - row.with_value { t(claim.prosecution_evidence?.class) }
+
+  - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
+    = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
+
+  - if claim.case_type && claim.case_concluded_at
+    = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }
+
+  - if claim.lgfs? && claim.interim? && !claim.interim_fee.nil?
+    = render partial: 'shared/claim_interim_details', locals: { claim: claim }
+
+  - if claim.transfer?
+    = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
+
+  - if claim&.requires_trial_dates?
+    = render partial: 'shared/claim_trial_details', locals: { claim: claim }
+
+  - if claim&.requires_retrial_dates?
+    = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
+
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.main_hearing_date'))
+    - row.with_value { claim.main_hearing_date&.strftime(Settings.date_format) }
+
+- if claim.defendants.any?
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %h3.govuk-heading-m
+        = t('.defendants')
+
+      = render partial: 'shared/claim_defendants', locals: { defendants: claim.defendants }
+
+- else
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %p.govuk-body
+        = t('.no_defendant')
+
+- unless claim.fixed_fee_case?
+  = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }

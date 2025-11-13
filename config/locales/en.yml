@@ -2467,7 +2467,7 @@ en:
       disk_evidence_reference: Reference number
       distance: Distance
       fee_category: Fee category
-      fee_type: *fee_type
+      fee_type: "Fee type"
       fee_subtype: *fee_subtype
       first_day_of_hearing: First day of hearing
       case_numbers: *case_numbers

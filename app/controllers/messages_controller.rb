@@ -66,6 +66,8 @@ class MessagesController < ApplicationController
     documents = Document.where(id: params[:message][:document_ids], creator_id: current_user.id)
     documents.each do |doc|
       message.attachments.attach(doc.document.blob)
+      doc.claim = message.claim
+      doc.save_and_verify
     end
   end
 

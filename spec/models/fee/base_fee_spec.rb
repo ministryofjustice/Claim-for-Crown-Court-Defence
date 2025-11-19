@@ -138,7 +138,7 @@ module Fee
         subject.amount = 10
         subject.rate = 2
         subject.case_numbers = 'T20170001,T20170002'
-        subject.dates_attended << FactoryBot.build(:date_attended)
+        subject.dates_attended << build(:date_attended)
       end
 
       it 'sets fee amount, quantity, rate and case_numbers to nil' do

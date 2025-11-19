@@ -320,7 +320,7 @@ GEM
     grape-swagger-rails (0.7.0)
       ostruct
       railties (>= 6.0.6.1)
-    haml (7.0.1)
+    haml (7.0.2)
       temple (>= 0.8.2)
       thor
       tilt

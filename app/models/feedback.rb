@@ -13,7 +13,7 @@ class Feedback
       instance_variable_set(:"@#{key}", value)
     end
 
-    @reason.compact_blank! if @reason.present?
+    @reason.presence&.compact_blank!
   end
 
   def is?(type)

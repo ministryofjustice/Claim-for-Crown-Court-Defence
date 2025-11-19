@@ -1,7 +1,7 @@
-- claim_fields = %i[external_users claims case_details fields]
-- cracked_trial_fields = %i[external_users claims case_details cracked_trial_fields]
-- trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
-- retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
+-# - claim_fields = %i[external_users claims case_details fields]
+-# - cracked_trial_fields = %i[external_users claims case_details cracked_trial_fields]
+-# - trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
+-# - retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
 
 #case-details-section.app-summary-section
   %h2.govuk-heading-l
@@ -12,7 +12,6 @@
 
   - if claim.mandatory_case_details?
     = govuk_summary_list do |summary_list|
-
       - unless claim.providers_ref.blank?
         - summary_list.with_row do |row|
           - row.with_key(text: t('common.external_user.providers_ref'))
@@ -65,12 +64,10 @@
           - row.with_value { claim.case_concluded_at }
 
       - if claim&.case_type && claim.requires_cracked_dates?
-
         - summary_list.with_row do |row|
           - row.with_key(text: t('trial_fixed_notice_at', scope: cracked_trial_fields))
           - row.with_value do
-            %time{
-              'aria-label': claim&.trial_fixed_notice_at&.strftime(Settings.date_format_label),
+            %time{'aria-label': claim&.trial_fixed_notice_at&.strftime(Settings.date_format_label),
               datetime: claim&.trial_fixed_notice_at&.strftime(Settings.datetime_attribute)
             }
               = claim&.trial_fixed_notice_at&.strftime(Settings.date_format)
@@ -78,8 +75,7 @@
         - summary_list.with_row do |row|
           - row.with_key(text: t('trial_fixed_at', scope: cracked_trial_fields))
           - row.with_value do
-            %time{
-              'aria-label': claim&.trial_fixed_at&.strftime(Settings.date_format_label),
+            %time{'aria-label': claim&.trial_fixed_at&.strftime(Settings.date_format_label),
               datetime: claim&.trial_fixed_at&.strftime(Settings.datetime_attribute)
             }
               = claim&.trial_fixed_at&.strftime(Settings.date_format)
@@ -88,8 +84,7 @@
           - summary_list.with_row do |row|
             - row.with_key(text: t('trial_cracked_at', scope: cracked_trial_fields))
             - row.with_value do
-              %time{
-                'aria-label': claim&.trial_cracked_at&.strftime(Settings.date_format_label),
+              %time{'aria-label': claim&.trial_cracked_at&.strftime(Settings.date_format_label),
                 datetime: claim&.trial_cracked_at&.strftime(Settings.datetime_attribute)
               }
                 = claim&.trial_cracked_at&.strftime(Settings.date_format)
@@ -100,73 +95,66 @@
           - row.with_value { claim&.trial_cracked_at_third&.humanize }
 
       - if claim&.requires_trial_dates?
-
         - summary_list.with_row do |row|
-          - row.with_key(text: t('first_day_of_trial', scope: trial_detail_fields))
+          - row.with_key(text: t('.first_day_of_trial'))
           - row.with_value do
-            %time{
-              'aria-label': claim&.first_day_of_trial&.strftime(Settings.date_format_label),
+            %time{ 'aria-label': claim&.first_day_of_trial&.strftime(Settings.date_format_label),
               datetime: claim&.first_day_of_trial&.strftime(Settings.datetime_attribute)
             }
               = claim&.first_day_of_trial&.strftime(Settings.date_format)
 
         - summary_list.with_row do |row|
-          - row.with_key(text: t('estimated_trial_length', scope: trial_detail_fields))
+          - row.with_key(text: t('.estimated_trial_length'))
           - row.with_value { claim&.estimated_trial_length }
 
         - summary_list.with_row do |row|
-          - row.with_key(text: t('actual_trial_length', scope: trial_detail_fields))
+          - row.with_key(text: t('.actual_trial_length'))
           - row.with_value { claim&.actual_trial_length }
 
         - summary_list.with_row do |row|
-          - row.with_key(text: t('trial_concluded_at', scope: trial_detail_fields))
+          - row.with_key(text: t('.trial_concluded_at', scope: trial_detail_fields))
           - row.with_value do
-            %time{
-              'aria-label': claim&.trial_concluded_at&.strftime(Settings.date_format_label),
+            %time{'aria-label': claim&.trial_concluded_at&.strftime(Settings.date_format_label),
               datetime: claim&.trial_concluded_at&.strftime(Settings.datetime_attribute)
             }
               = claim&.trial_concluded_at&.strftime(Settings.date_format)
 
         - if claim&.requires_retrial_dates?
-
           - summary_list.with_row do |row|
-            - row.with_key(text: t('retrial_started_at', scope: retrial_detail_fields))
+            - row.with_key(text: t('.retrial_started_at'))
             - row.with_value do
-              %time{
-                'aria-label': claim&.retrial_started_at&.strftime(Settings.date_format_label),
+              %time{'aria-label': claim&.retrial_started_at&.strftime(Settings.date_format_label),
                 datetime: claim&.retrial_started_at&.strftime(Settings.datetime_attribute)
               }
                 = claim&.retrial_started_at&.strftime(Settings.date_format)
 
           - summary_list.with_row do |row|
-            - row.with_key(text: t('retrial_estimated_length', scope: retrial_detail_fields))
+            - row.with_key(text: t('.retrial_estimated_length'))
             - row.with_value { claim&.retrial_estimated_length }
 
           - summary_list.with_row do |row|
-            - row.with_key(text: t('retrial_actual_length', scope: retrial_detail_fields))
+            - row.with_key(text: t('.retrial_actual_length'))
             - row.with_value { claim&.retrial_actual_length }
 
           - summary_list.with_row do |row|
-            - row.with_key(text: t('retrial_concluded_at', scope: retrial_detail_fields))
+            - row.with_key(text: t('.retrial_concluded_at'))
             - row.with_value do
-              %time{
-                'aria-label': claim&.retrial_concluded_at&.strftime(Settings.date_format_label),
+              %time{'aria-label': claim&.retrial_concluded_at&.strftime(Settings.date_format_label),
                 datetime: claim&.retrial_concluded_at&.strftime(Settings.datetime_attribute)
               }
                 = claim&.retrial_concluded_at&.strftime(Settings.date_format)
 
           - summary_list.with_row do |row|
-            - row.with_key(text: t('retrial_reduction', scope: retrial_detail_fields))
+            - row.with_key(text: t('.retrial_reduction'))
             - row.with_value { claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') }
 
-      - summary_list.with_row do |row|
-        - row.with_key(text: t('main_hearing_date', scope: claim_fields))
-        - row.with_value do
-          %time{
-            'aria-label': claim&.main_hearing_date&.strftime(Settings.date_format_label),
-            datetime: claim&.main_hearing_date&.strftime(Settings.datetime_attribute)
-          }
-            = claim&.main_hearing_date&.strftime(Settings.date_format)
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('.main_hearing_date'))
+      - row.with_value do
+        %time{'aria-label': claim&.main_hearing_date&.strftime(Settings.date_format_label),
+          datetime: claim&.main_hearing_date&.strftime(Settings.datetime_attribute)
+        }
+          = claim&.main_hearing_date&.strftime(Settings.date_format)
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

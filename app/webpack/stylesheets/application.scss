@@ -9,10 +9,10 @@ $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 @import "~govuk-frontend/dist/govuk/base";
 @import "~govuk-frontend/dist/govuk/core/typography";
 
-@import "@ministryofjustice/frontend/moj/components/multi-file-upload/_multi-file-upload.scss";
-@import "@ministryofjustice/frontend/moj/settings/_measurements.scss";
-@import "@ministryofjustice/frontend/moj/objects/_width-container.scss";
-@import "@ministryofjustice/frontend/moj/components/header/_header.scss";
+@import "~@ministryofjustice/frontend/moj/components/multi-file-upload/multi-file-upload";
+@import "~@ministryofjustice/frontend/moj/settings/measurements";
+@import "~@ministryofjustice/frontend/moj/objects/width-container";
+@import "~@ministryofjustice/frontend/moj/components/header/header";
 
 // Project specific
 // Everything below this comment should be project specific.

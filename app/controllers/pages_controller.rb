@@ -27,11 +27,11 @@ class PagesController < ApplicationController
 
   def beta_enable
     session['beta_testing'] = 'enabled'
-    redirect_back fallback_location: unauthenticated_root_path
+    redirect_back_or_to unauthenticated_root_path
   end
 
   def beta_disable
     session['beta_testing'] = 'disabled'
-    redirect_back fallback_location: unauthenticated_root_path
+    redirect_back_or_to unauthenticated_root_path
   end
 end

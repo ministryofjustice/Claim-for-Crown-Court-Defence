@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActionController::InvalidAuthenticityToken do |_exception|
-    redirect_back fallback_location: unauthenticated_root_path
+    redirect_back_or_to unauthenticated_root_path
   end
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|

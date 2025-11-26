@@ -23,11 +23,11 @@
       = govuk_summary_list do |summary_list|
         - summary_list.with_row do |row|
           - row.with_key(text: t('first_name', scope: defendant_fields_scope))
-          - row.with_value { defendant.first_name }
+          - row.with_value(text: defendant.first_name )
 
         - summary_list.with_row do |row|
           - row.with_key(text: t('last_name', scope: defendant_fields_scope))
-          - row.with_value { defendant.last_name }
+          - row.with_value(text: defendant.last_name )
 
         - if defendant.date_of_birth.present?
           - summary_list.with_row do |row|
@@ -40,7 +40,7 @@
         - unless claim.lgfs? && claim.interim?
           - summary_list.with_row do |row|
             - row.with_key(text: t('order_for_judicial_apportionment', scope: defendant_fields_scope))
-            - row.with_value { defendant.order_for_judicial_apportionment ? t('.answer_yes') : t('.answer_no') }
+            - row.with_value(text: (defendant.order_for_judicial_apportionment ? t('.answer_yes') : t('.answer_no') ))
 
         - defendant.representation_orders.each.with_index(1) do |representation_order, index|
           - summary_list.with_row do |row|
@@ -52,4 +52,4 @@
 
           - summary_list.with_row do |row|
             - row.with_key(text: t('maat_reference_number', scope: rep_order_fields_scope))
-            - row.with_value { representation_order.maat_reference }
+            - row.with_value(text: representation_order.maat_reference )

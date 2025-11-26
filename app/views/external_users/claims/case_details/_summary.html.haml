@@ -146,7 +146,7 @@
 
           - summary_list.with_row do |row|
             - row.with_key(text: t('.retrial_reduction'))
-            - row.with_value { claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') }
+            - row.with_value(text: (claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') ))
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.main_hearing_date'))

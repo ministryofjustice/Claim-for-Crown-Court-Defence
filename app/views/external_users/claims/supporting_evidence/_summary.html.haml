@@ -13,11 +13,11 @@
       - if claim.mandatory_supporting_evidence?
         - summary_list.with_row do |row|
           - row.with_key(text: t('shared.summary.disk_evidence'))
-          - row.with_value { claim.disk_evidence ? t('.answer_yes') : t('.answer_no') }
+          - row.with_value(text: (claim.disk_evidence ? t('.answer_yes') : t('.answer_no') ))
 
         - summary_list.with_row do |row|
           - row.with_key(text: t('shared.summary.disk_evidence_reference'))
-          - row.with_value { claim.disk_evidence_reference }
+          - row.with_value(text: claim.disk_evidence_reference )
 
       - if claim.documents.any?
         - summary_list.with_row do |row|
@@ -40,7 +40,7 @@
       - if claim.additional_information.present?
         - summary_list.with_row do |row|
           - row.with_key(text: t('external_users.claims.additional_information.summary.header'))
-          - row.with_value {format_multiline(claim.additional_information)}
+          - row.with_value(text: format_multiline(claim.additional_information))
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

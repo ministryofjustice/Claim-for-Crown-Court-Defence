@@ -51,9 +51,3 @@
             = row.with_cell(html_attributes: { 'data-label': t('.rate') }, text: fee.rate, numeric: true)
 
           = row.with_cell(html_attributes: { 'data-label': t('.amount') }, text: fee.amount, numeric: true)
-
-  -# Total row as summary list inside the card
-    - card.with_summary_list do |summary_list|
-      - summary_list.with_row do |row|
-        - row.with_key(text: t('.fees_total'))
-        - row.with_value { claim.fees_total }

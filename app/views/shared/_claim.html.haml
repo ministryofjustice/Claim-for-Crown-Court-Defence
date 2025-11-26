@@ -8,40 +8,40 @@
   - unless claim.providers_ref.blank?
     - summary_list.with_row do |row|
       - row.with_key(text: 'Provider reference number')
-      - row.with_value { claim.providers_ref }
+      - row.with_value(text: claim.providers_ref )
 
   - unless claim.draft?
     - summary_list.with_row do |row|
       - row.with_key(text: 'Claim submitted on')
-      - row.with_value { claim.submitted_at }
+      - row.with_value(text: claim.submitted_at )
 
   - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
     - summary_list.with_row do |row|
       - row.with_key(text: t('.assignee'))
-      - row.with_value { claim.case_worker_names }
+      - row.with_value(text: claim.case_worker_names )
 
   - if @claim.lgfs?
     - summary_list.with_row do |row|
       - row.with_key(text: t('common.external_user.claim_creator'))
-      - row.with_value { claim.creator.name }
+      - row.with_value(text: claim.creator.name )
 
   - if @claim.agfs?
     - summary_list.with_row do |row|
       - row.with_key { t("common.external_user.#{@claim.external_user_type}") }
-      - row.with_value { claim.external_user.name }
+      - row.with_value(text: claim.external_user.name )
 
     - summary_list.with_row do |row|
       - row.with_key { t("common.external_user.category.#{@claim.external_user_type}") }
-      - row.with_value { claim.advocate_category }
+      - row.with_value(text: claim.advocate_category )
 
   - summary_list.with_row do |row|
     - row.with_key { t("common.external_user.account_number.#{@claim.external_user_type}") }
-    - row.with_value { claim.supplier_number }
+    - row.with_value(text: claim.supplier_number )
 
   - if claim.court
     - summary_list.with_row do |row|
       - row.with_key(text: t('common.crown_court'))
-      - row.with_value { claim.court.name }
+      - row.with_value(text: claim.court.name )
 
   - summary_list.with_row do |row|
     - row.with_key(text: t('.case_num'))
@@ -52,26 +52,26 @@
   - if claim.transfer_court.present?
     - summary_list.with_row do |row|
       - row.with_key(text: t('common.transfer_court'))
-      - row.with_value { claim.transfer_court.name }
+      - row.with_value(text: claim.transfer_court.name )
 
     - summary_list.with_row do |row|
       - row.with_key(text: t('common.transfer_case_number'))
-      - row.with_value { claim.transfer_case_number }
+      - row.with_value(text: claim.transfer_case_number )
 
   - if claim.case_stage
     - summary_list.with_row do |row|
       - row.with_key(text: t('.case_stage'))
-      - row.with_value { claim.case_stage&.description }
+      - row.with_value(text: claim.case_stage&.description )
 
   - if claim.display_case_type?
     - summary_list.with_row do |row|
       - row.with_key(text: t('.case_type'))
-      - row.with_value { claim.case_type&.name }
+      - row.with_value(text: claim.case_type&.name )
 
   - if claim.discontinuance?
     - summary_list.with_row do |row|
       - row.with_key(text: t('common.prosecution_evidence'))
-      - row.with_value { t(claim.prosecution_evidence?.class) }
+      - row.with_value(text: t(claim.prosecution_evidence?.class) )
 
   - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
     = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
@@ -93,7 +93,7 @@
 
   - summary_list.with_row do |row|
     - row.with_key(text: t('common.main_hearing_date'))
-    - row.with_value { claim.main_hearing_date&.strftime(Settings.date_format) }
+    - row.with_value(text: claim.main_hearing_date&.strftime(Settings.date_format) )
 
 - if claim.defendants.any?
   .govuk-grid-row

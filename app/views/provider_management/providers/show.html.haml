@@ -9,25 +9,25 @@
     = govuk_summary_list do |summary_list|
       - summary_list.with_row do |row|
         - row.with_key(text: t('.provider_type'))
-        - row.with_value { @provider.provider_type.capitalize }
+        - row.with_value(text: @provider.provider_type.capitalize )
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.fee_schemes'))
-        - row.with_value { @provider.roles.map(&:upcase).join(', ') }
+        - row.with_value( @provider.roles.map(&:upcase).join(', ') )
 
       - if @provider.lgfs_supplier_numbers.any?
         - summary_list.with_row do |row|
           - row.with_key(text: t('.lgfs_supplier_numbers'))
-          - row.with_value { @provider.lgfs_supplier_numbers.to_sentence }
+          - row.with_value(text: @provider.lgfs_supplier_numbers.to_sentence )
 
       - if @provider.firm? && @provider.agfs?
         - summary_list.with_row do |row|
           - row.with_key(text: t('.firm_agfs_supplier_number'))
-          - row.with_value { @provider.firm_agfs_supplier_number }
+          - row.with_value(text: @provider.firm_agfs_supplier_number )
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.vat_registered'))
-        - row.with_value { @provider.vat_registered? ? t('.answer_yes') : t('.answer_no') }
+        - row.with_value(text: @provider.vat_registered? ? t('.answer_yes') : t('.answer_no') )
 
     - if can? :edit, @provider
       = govuk_button_link_to(t('.edit'), edit_provider_management_provider_path(@provider))

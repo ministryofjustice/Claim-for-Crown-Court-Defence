@@ -10,25 +10,25 @@
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.provider_name'))
-        - row.with_value { @provider.name }
+        - row.with_value(text: @provider.name )
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.api_key'))
-        - row.with_value { @provider.api_key }
+        - row.with_value(text: @provider.api_key )
 
       - if @provider.firm?
         - summary_list.with_row do |row|
           - row.with_key(text: t('.lgfs_supplier_numbers'))
-          - row.with_value { @provider.lgfs_supplier_numbers.to_sentence }
+          - row.with_value(text: @provider.lgfs_supplier_numbers.to_sentence )
 
         - if @provider.agfs?
           - summary_list.with_row do |row|
             - row.with_key(text: t('.firm_agfs_supplier_number'))
-            - row.with_value { @provider.firm_agfs_supplier_number }
+            - row.with_value(text: @provider.firm_agfs_supplier_number )
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.vat_registered'))
-        - row.with_value { @provider.vat_registered? ? t('global_yes') : t('global_no') }
+        - row.with_value(text: (@provider.vat_registered? ? t('global_yes') : t('global_no') ))
 
 
     .govuk-button-group

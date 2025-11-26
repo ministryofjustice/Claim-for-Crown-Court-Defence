@@ -18,12 +18,12 @@
 
     - summary_list.with_row do |row|
       - row.with_key(text: t('shared.summary.fee_type') )
-      - row.with_value { fee.fee_type.description }
+      - row.with_value(text: fee.fee_type.description )
 
     - summary_list.with_row do |row|
       - row.with_key(text: t('shared.summary.ppe_total') )
-      - row.with_value { fee.quantity }
+      - row.with_value(text: fee.quantity )
 
     - summary_list.with_row do |row|
       - row.with_key(text: t('shared.summary.amount') )
-      - row.with_value { fee.amount }
+      - row.with_value(text: fee.amount )

@@ -2,4 +2,4 @@
   = govuk_summary_list do |summary_list|
     - summary_list.with_row do |row|
       - row.with_key(text: t("common.external_user.category.#{claim.external_user_type}"))
-      - row.with_value { claim.advocate_category }
+      - row.with_value(text: claim.advocate_category )

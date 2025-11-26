@@ -1,7 +1,7 @@
--# - claim_fields = %i[external_users claims case_details fields]
--# - cracked_trial_fields = %i[external_users claims case_details cracked_trial_fields]
--# - trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
--# - retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
+- claim_fields = %i[external_users claims case_details fields]
+- cracked_trial_fields = %i[external_users claims case_details cracked_trial_fields]
+- trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
+- retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
 
 #case-details-section.app-summary-section
   %h2.govuk-heading-l
@@ -15,21 +15,21 @@
       - unless claim.providers_ref.blank?
         - summary_list.with_row do |row|
           - row.with_key(text: t('common.external_user.providers_ref'))
-          - row.with_value { claim.providers_ref }
+          - row.with_value(text: claim.providers_ref )
 
       - if claim.lgfs?
         - summary_list.with_row do |row|
           - row.with_key(text: t('common.external_user.claim_creator'))
-          - row.with_value { claim.creator.name }
+          - row.with_value(text: claim.creator.name )
 
       - if claim.agfs?
         - summary_list.with_row do |row|
           - row.with_key(text: t("common.external_user.#{claim.external_user_type}"))
-          - row.with_value { claim.external_user.name }
+          - row.with_value(text: claim.external_user.name )
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('common.crown_court'))
-        - row.with_value { claim.court&.name }
+        - row.with_value(text: claim.court&.name )
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('case_number', scope: claim_fields))
@@ -41,27 +41,27 @@
       - if claim.transfer_court.present?
         - summary_list.with_row do |row|
           - row.with_key(text: t('common.transfer_court'))
-          - row.with_value { claim.transfer_court&.name }
+          - row.with_value(text: claim.transfer_court&.name )
 
       - if claim.transfer_case_number.present?
         - summary_list.with_row do |row|
           - row.with_key(text: t('common.transfer_case_number'))
-          - row.with_value { claim.transfer_case_number }
+          - row.with_value(text: claim.transfer_case_number )
 
       - if claim.case_stage
         - summary_list.with_row do |row|
           - row.with_key(text: t('case_stage', scope: claim_fields))
-          - row.with_value { claim.case_stage&.description }
+          - row.with_value(text: claim.case_stage&.description )
 
       - if claim.display_case_type?
         - summary_list.with_row do |row|
           - row.with_key(text: t('case_type', scope: claim_fields))
-          - row.with_value { claim.case_type&.name }
+          - row.with_value(text: claim.case_type&.name )
 
       - if claim.requires_case_concluded_date?
         - summary_list.with_row do |row|
           - row.with_key(text: t('external_users.claims.case_details.case_concluded_date.case_concluded_at'))
-          - row.with_value { claim.case_concluded_at }
+          - row.with_value(text: claim.case_concluded_at )
 
       - if claim&.case_type && claim.requires_cracked_dates?
         - summary_list.with_row do |row|
@@ -92,7 +92,7 @@
         - trial_cracked_at_third = claim.hardship? ? t('trial_cracked_at_third.hardship', scope: cracked_trial_fields) : t('trial_cracked_at_third.default', scope: cracked_trial_fields)
         - summary_list.with_row do |row|
           - row.with_key(text: trial_cracked_at_third)
-          - row.with_value { claim&.trial_cracked_at_third&.humanize }
+          - row.with_value(text: claim&.trial_cracked_at_third&.humanize )
 
       - if claim&.requires_trial_dates?
         - summary_list.with_row do |row|
@@ -105,14 +105,14 @@
 
         - summary_list.with_row do |row|
           - row.with_key(text: t('.estimated_trial_length'))
-          - row.with_value { claim&.estimated_trial_length }
+          - row.with_value(text: claim&.estimated_trial_length )
 
         - summary_list.with_row do |row|
           - row.with_key(text: t('.actual_trial_length'))
-          - row.with_value { claim&.actual_trial_length }
+          - row.with_value(text: claim&.actual_trial_length )
 
         - summary_list.with_row do |row|
-          - row.with_key(text: t('.trial_concluded_at', scope: trial_detail_fields))
+          - row.with_key(text: t('.trial_concluded_at'))
           - row.with_value do
             %time{'aria-label': claim&.trial_concluded_at&.strftime(Settings.date_format_label),
               datetime: claim&.trial_concluded_at&.strftime(Settings.datetime_attribute)
@@ -130,11 +130,11 @@
 
           - summary_list.with_row do |row|
             - row.with_key(text: t('.retrial_estimated_length'))
-            - row.with_value { claim&.retrial_estimated_length }
+            - row.with_value(text: claim&.retrial_estimated_length )
 
           - summary_list.with_row do |row|
             - row.with_key(text: t('.retrial_actual_length'))
-            - row.with_value { claim&.retrial_actual_length }
+            - row.with_value(text: claim&.retrial_actual_length )
 
           - summary_list.with_row do |row|
             - row.with_key(text: t('.retrial_concluded_at'))
@@ -148,13 +148,13 @@
             - row.with_key(text: t('.retrial_reduction'))
             - row.with_value { claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') }
 
-    - summary_list.with_row do |row|
-      - row.with_key(text: t('.main_hearing_date'))
-      - row.with_value do
-        %time{'aria-label': claim&.main_hearing_date&.strftime(Settings.date_format_label),
-          datetime: claim&.main_hearing_date&.strftime(Settings.datetime_attribute)
-        }
-          = claim&.main_hearing_date&.strftime(Settings.date_format)
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.main_hearing_date'))
+        - row.with_value do
+          %time{'aria-label': claim&.main_hearing_date&.strftime(Settings.date_format_label),
+            datetime: claim&.main_hearing_date&.strftime(Settings.datetime_attribute)
+          }
+            = claim&.main_hearing_date&.strftime(Settings.date_format)
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

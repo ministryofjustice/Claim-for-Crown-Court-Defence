@@ -1733,7 +1733,9 @@ en:
       summary_claims_sidebar:
         button_label: *continue_to_certification_button
         continue: 'Continue'
-
+        interim_fees: 'Interim fees'
+        travel_expenses: 'Travel expenses'
+        vat: 'Vat'
         fees_total: 'Fees Total '
         disbursements_total: 'Disbursements Total'
         expenses_total: 'Expenses Total'

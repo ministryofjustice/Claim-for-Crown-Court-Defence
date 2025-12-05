@@ -1,20 +1,18 @@
 = govuk_summary_list(classes: 'govuk-summary-list--no-border app-summary-list_sidebar') do |summary_list|
   - summary_list.with_row do |row|
-    - row.with_key(html_attributes: { class: 'fx-seed-interimFees', data: { seed: claim.raw_warrant_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }) do
-      = t('.interim_fees')
+    - row.with_key(text: t('external_users.claims.summary_claims_sidebar.interim_fees'),  html_attributes: { class: 'fx-seed-interimFees', data: { seed: claim.raw_warrant_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
     - row.with_value(text: claim.warrant_fees_total, classes: 'total-interimFees')
 
   - summary_list.with_row do |row|
-    - row.with_key(html_attributes: { class: 'fx-seed-expenses', data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }) do
-      = t('.travel_expenses')
+    - row.with_key(text: t('external_users.claims.summary_claims_sidebar.travel_expenses'), html_attributes: { class: 'fx-seed-expenses', data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
     - row.with_value(text: claim.expenses_total, classes: 'total-expenses')
 
   - summary_list.with_row do |row|
     - row.with_key(html_attributes: { class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount }) do
-      = t('.vat')
+      = t('external_users.claims.summary_claims_sidebar.vat')
     - row.with_value(text: claim.vat_amount, classes: 'total-vat')
 
   - summary_list.with_row do |row|
     - row.with_key(html_attributes: { class: 'fx-seed', 'data-total-inc': claim.raw_total_inc }) do
-      = t('.total')
+      = t('external_users.claims.summary_claims_sidebar.total')
     - row.with_value(text: claim.total_inc, classes: 'total-grandTotal')

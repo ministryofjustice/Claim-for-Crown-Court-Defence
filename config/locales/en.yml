@@ -1735,6 +1735,7 @@ en:
         continue: 'Continue'
         graduated_fees: 'Graduated fees'
         interim_fees: 'Interim fees'
+        fixed_fees: 'Fixed fees'
         travel_expenses: 'Travel expenses'
         vat: 'VAT'
         miscellaneous_fees: 'Miscellaneous fees'

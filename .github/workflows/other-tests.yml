@@ -25,14 +25,21 @@ env:
 
 jobs:
   build-test-container:
-    name: Build Test Container (Setup Dependencies)
+    name: Build Test Container
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Ruby
+      - name: Create workspace temporary directories
+        run: |
+          mkdir -p tmp/
+          mkdir -p tmp/coverage/
+          mkdir -p /tmp/test-results/rspec
+          mkdir -p /tmp/test-results/cucumber
+
+      - name: Install bundler and gem dependencies
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
@@ -44,15 +51,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "yarn"
 
-      - name: Install JavaScript dependencies
+      - name: Install javascript package dependencies
         run: yarn install --frozen-lockfile
-
-      - name: Create temporary directories
-        run: |
-          mkdir -p tmp/
-          mkdir -p tmp/coverage/
-          mkdir -p tmp/test-results/rspec
-          mkdir -p tmp/test-results/cucumber
 
   other-tests:
     name: Other Tests (Linting & Security)

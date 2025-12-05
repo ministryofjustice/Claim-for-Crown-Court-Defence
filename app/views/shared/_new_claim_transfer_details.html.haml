@@ -1,7 +1,8 @@
-= govuk_summary_list_row do
-  = govuk_summary_list_key { t('common.transfer_detail_summary') }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.transfer_detail_summary rescue '' }
+- summary_list.with_row do |row|
+  - row.with_key(text: t('common.transfer_detail_summary') )
+  - row.with_value(text: (claim.transfer_detail_summary rescue '' ))
 
-= govuk_summary_list_row do
-  = govuk_summary_list_key { t('common.transfer_date') }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.transfer_date rescue '' }
+- summary_list.with_row do |row|
+  - row.with_key(text: t('common.transfer_date') )
+  - row.with_value(text: (claim.transfer_date rescue ''))
+

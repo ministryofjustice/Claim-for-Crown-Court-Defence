@@ -16,26 +16,40 @@
         = t('shared.summary.no_values.defendants')
   - else
     - claim.defendants.order(:created_at).each.with_index(1) do | defendant, index|
-
       - if claim.defendants.count > 1
         %h3.govuk-heading-m
           = t('.common.defendant_index', index: index)
 
-      = govuk_summary_list do
-        = govuk_summary_list_row_collection( t('first_name', scope: defendant_fields_scope) ) { defendant.first_name }
-        = govuk_summary_list_row_collection( t('last_name', scope: defendant_fields_scope) ) { defendant.last_name }
+      = govuk_summary_list do |summary_list|
+        - summary_list.with_row do |row|
+          - row.with_key(text: t('first_name', scope: defendant_fields_scope))
+          - row.with_value(text: defendant.first_name )
+
+        - summary_list.with_row do |row|
+          - row.with_key(text: t('last_name', scope: defendant_fields_scope))
+          - row.with_value(text: defendant.last_name )
 
         - if defendant.date_of_birth.present?
-          = govuk_summary_list_row_collection( t('date_of_birth', scope: defendant_fields_scope) ) do
-            %time{ 'aria-label': defendant.date_of_birth.strftime(Settings.date_format_label), datetime: defendant.date_of_birth.strftime(Settings.datetime_attribute) }
-              = defendant.date_of_birth.strftime(Settings.date_format)
+          - summary_list.with_row do |row|
+            - row.with_key(text: t('date_of_birth', scope: defendant_fields_scope))
+            - row.with_value do
+              %time{ 'aria-label': defendant.date_of_birth.strftime(Settings.date_format_label),
+                     datetime: defendant.date_of_birth.strftime(Settings.datetime_attribute) }
+                = defendant.date_of_birth.strftime(Settings.date_format)
 
         - unless claim.lgfs? && claim.interim?
-          = govuk_summary_list_row_collection( t('order_for_judicial_apportionment', scope: defendant_fields_scope) ) { defendant.order_for_judicial_apportionment == true ? t('.answer_yes') : t('.answer_no') }
+          - summary_list.with_row do |row|
+            - row.with_key(text: t('order_for_judicial_apportionment', scope: defendant_fields_scope))
+            - row.with_value(text: (defendant.order_for_judicial_apportionment ? t('.answer_yes') : t('.answer_no') ))
 
-        - defendant.representation_orders.each.with_index(1) do | representation_order, index|
-          = govuk_summary_list_row_collection( t('date', scope: rep_order_fields_scope) ) do
-            %time{ 'aria-label': representation_order.representation_order_date.strftime(Settings.date_format_label), datetime: representation_order.representation_order_date.strftime(Settings.datetime_attribute) }
-              = representation_order.representation_order_date.strftime(Settings.date_format)
+        - defendant.representation_orders.each.with_index(1) do |representation_order, index|
+          - summary_list.with_row do |row|
+            - row.with_key(text: t('date', scope: rep_order_fields_scope))
+            - row.with_value do
+              %time{ 'aria-label': representation_order.representation_order_date.strftime(Settings.date_format_label),
+                     datetime: representation_order.representation_order_date.strftime(Settings.datetime_attribute) }
+                = representation_order.representation_order_date.strftime(Settings.date_format)
 
-          = govuk_summary_list_row_collection( t('maat_reference_number', scope: rep_order_fields_scope) ) { representation_order.maat_reference }
+          - summary_list.with_row do |row|
+            - row.with_key(text: t('maat_reference_number', scope: rep_order_fields_scope))
+            - row.with_value(text: representation_order.maat_reference )

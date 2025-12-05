@@ -6,25 +6,36 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
 
-    = govuk_summary_list do
-      = govuk_summary_list_row_collection(t('.provider')) do
-        = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
+    = govuk_summary_list do |summary_list|
 
-      = govuk_summary_list_row_collection(t('.email')) do
-        = govuk_mail_to @external_user.email, @external_user.email
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.provider'))
+        - row.with_value do
+          = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
 
-      = govuk_summary_list_row_collection(t('.name')) { @external_user.name }
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.email'))
+        - row.with_value(text: govuk_mail_to(@external_user.email, @external_user.email))
 
-      = govuk_summary_list_row_collection(t('.supplier_number')) { @external_user.supplier_number }
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.name'))
+        - row.with_value(text:  @external_user.name )
 
-      = govuk_summary_list_row_collection(t('.vat_registered')) do
-        = @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no')
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.supplier_number'))
+        - row.with_value(text: @external_user.supplier_number )
 
-      = govuk_summary_list_row_collection(t('.role')) do
-        = @external_user.roles.map(&:humanize).join(', ')
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.vat_registered'))
+        - row.with_value(text: @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no') )
 
-      = govuk_summary_list_row_collection(t('.state')) do
-        = account_status(@external_user)
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.role'))
+        - row.with_value(text: @external_user.roles.map(&:humanize).join(', ') )
+
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.state'))
+        - row.with_value(text: account_status(@external_user) )
 
     .govuk-button-group
       - if can? :edit, @external_user

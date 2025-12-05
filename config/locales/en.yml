@@ -1098,17 +1098,16 @@ en:
         transfer_court_question_fields:
           case_transferred_from_another_court: 'Was this case transferred from another court?'
         trial_detail_fields:
-          trial_detail: Trial details
-          actual_trial_length: *actual_trial_length
-          actual_trial_length_hint: 'Number of days'
-          estimated_trial_length: 'Estimated trial length'
-          estimated_trial_length_hint: 'Number of days'
+          trial_detail: 'Trial details'
+          date_hint: 'For example, 31 3 2017'
           first_day_of_trial: 'First day of trial'
           trial_concluded_at: 'Trial concluded on'
-          date_hint: 'For example, 31 3 2017'
-          days: "Days"
+          estimated_trial_length_hint: 'Number of days'
+          estimated_trial_length: 'Number of days'
+          actual_trial_length_hint: 'Number of days'
+          actual_trial_length: 'Actual trial length'
         retrial_detail_fields:
-          retrial_detail: Retrial details
+          retrial_detail: 'Retrial details'
           retrial_actual_length: 'Actual retrial length'
           retrial_actual_length_hint: 'Number of days'
           retrial_estimated_length: 'Estimated retrial length'
@@ -1119,11 +1118,11 @@ en:
           date_hint: 'For example, 31 3 2017'
           retrial_reduction_help_link: 'Help with claiming a reduced rate'
           retrial_reduction_help_html: |
-              A reduced rate can be requested if: <br/>
-              <ul class="govuk-list govuk-list--bullet">
-                <li>you represented the defendant(s) at the original trial</li>
-                <li>you don’t want the reduced rate to be applied to the original trial</li>
-              </ul>
+            A reduced rate can be requested if: <br/>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>you represented the defendant(s) at the original trial</li>
+              <li>you don’t want the reduced rate to be applied to the original trial</li>
+            </ul>
           days: "Days"
         offence_id_select:
           offence_class: "Offence class"
@@ -1145,6 +1144,16 @@ en:
           change_link_label: Change case details
           answer_yes: *global_yes
           answer_no: *global_no
+          retrial_actual_length: 'Actual retrial length'
+          first_day_of_trial: 'First day of trial'
+          estimated_trial_length: 'Estimated length of trial'
+          actual_trial_length: 'Actual trial length'
+          trial_concluded_at: "First trial concluded"
+          retrial_estimated_length: 'Estimated retrial length'
+          retrial_started_at: 'First day of retrial'
+          retrial_concluded_at: 'Retrial concluded on'
+          retrial_reduction: 'Apply reduced rate to retrial?'
+          main_hearing_date: 'Main hearing date'
       offence_details:
         actions:
           clear_offence_details: Clear offence details
@@ -1190,6 +1199,8 @@ en:
           order_for_judicial_apportionment:  Order for judicial apportionment
           order_for_judicial_apportionment_html: Order for judicial apportionment <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, ensure you upload a copy of the order to your claim.
+          answer_yes: *global_yes
+          answer_no: *global_no
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
           defendant: Defendant
@@ -1588,6 +1599,11 @@ en:
         summary:
           caption: 'Warrant fees: This section contains info related to interim claimed warrant fees.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
+      lgfs_hardship_claim_sidebar:
+        hardship_fees: 'Hardship fees'
+        miscellaneous_fees: *miscellaneous_fee
+        vat: 'VAT'
+        total: 'Total'
       outstanding:
         page_heading: Your outstanding claims
         claims_value_html: '%{size} of %{total} claims with a total value of'
@@ -1717,7 +1733,14 @@ en:
       summary_claims_sidebar:
         button_label: *continue_to_certification_button
         continue: 'Continue'
-
+        graduated_fees: 'Graduated fees'
+        interim_fees: 'Interim fees'
+        disbursements: 'Disbursements'
+        fixed_fees: 'Fixed fees'
+        travel_expenses: 'Travel expenses'
+        vat: 'VAT'
+        miscellaneous_fees: 'Miscellaneous fees'
+        transfer_fees: 'Transfer fees'
         fees_total: 'Fees Total '
         disbursements_total: 'Disbursements Total'
         expenses_total: 'Expenses Total'
@@ -2110,6 +2133,12 @@ en:
     claims:
       interim_claim_info:
         fields: *interim_claim_info_fields
+    claim_retrial_details:
+      retrial_started_at: 'First day of retrial'
+      retrial_estimated_length: 'Estimated retrial length'
+      retrial_actual_length: 'Actual retrial length'
+      retrial_concluded_at: 'Retrial concluded on'
+      retrial_reduction: 'Apply reduced rate to retrial?'
     errors:
       error: 'error'
       form_error_hint: 'Check below for more detail'

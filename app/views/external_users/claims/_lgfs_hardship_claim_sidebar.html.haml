@@ -1,26 +1,25 @@
-= govuk_summary_list_no_border(class: 'app-summary-list_sidebar') do
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed-hardshipFees', data: { seed: claim.raw_hardship_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-      = t('.hardship_fees')
-    = govuk_summary_list_value(class: 'total-hardshipFees') do
-      = claim.hardship_fees_total
+= govuk_summary_list do |summary_list|
 
-    / TODO: add other fee, expenses and disbursement
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('.hardship_fees') )
+    - row.with_value do
+      %span{ data: { seed: claim.raw_hardship_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
+        = claim.hardship_fees_total
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed-miscFees', data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-      = t('.miscellaneous_fees')
-    = govuk_summary_list_value(class: 'total-miscFees') do
-      = claim.misc_fees_total
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('.miscellaneous_fees') )
+    - row.with_value do
+      %span{ data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
+        = claim.misc_fees_total
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount) do
-      = t('.vat')
-    = govuk_summary_list_value(class: 'total-vat') do
-      = claim.vat_amount
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('.vat') )
+    - row.with_value do
+      %span{ 'data-vat-total': claim.raw_vat_amount }
+        = claim.vat_amount
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed', 'data-total-inc': claim.raw_total_inc) do
-      = t('.total')
-    = govuk_summary_list_value(class: 'total-grandTotal') do
-      = claim.total_inc
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('.total') )
+    - row.with_value do
+      %span{ class: 'font-weight-bold', 'data-total-inc': claim.raw_total_inc }
+        = claim.total_inc

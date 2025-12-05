@@ -18,7 +18,7 @@ concurrency:
 
 env:
   RUBY_VERSION: 3.4.2
-  NODE_VERSION: 18
+  NODE_VERSION: 20
   RAILS_ENV: test
   DATABASE_URL: postgres://postgres:postgres@localhost:5432/cccd_test
   TZ: Europe/London
@@ -186,7 +186,7 @@ jobs:
           SPEC_FILES=$(bundle exec rspec --dry-run --format json | \
             jq -r '.examples[].id' | \
             awk "NR % ${{ matrix.ci_node_total }} == ${{ matrix.ci_node_index }}")
-          
+
           if [ -n "$SPEC_FILES" ]; then
             bundle exec rspec \
               --format progress \

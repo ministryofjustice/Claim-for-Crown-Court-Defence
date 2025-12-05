@@ -1740,6 +1740,7 @@ en:
         travel_expenses: 'Travel expenses'
         vat: 'VAT'
         miscellaneous_fees: 'Miscellaneous fees'
+        transfer_fees: 'Transfer fees'
         fees_total: 'Fees Total '
         disbursements_total: 'Disbursements Total'
         expenses_total: 'Expenses Total'

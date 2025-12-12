@@ -31,8 +31,7 @@
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('case_number', scope: claim_fields))
-        - row.with_value do
-          = claim.case_number
+        - row.with_value(text: claim.case_number) do
           .unique-id-small
             = claim.unique_id
 
@@ -142,9 +141,9 @@
               }
                 = claim&.retrial_concluded_at&.strftime(Settings.date_format)
 
-          - summary_list.with_row do |row|
-            - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_reduction'))
-            - row.with_value(text: (claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') ))
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_reduction'))
+        - row.with_value(text: (claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') ))
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('common.main_hearing_date'))

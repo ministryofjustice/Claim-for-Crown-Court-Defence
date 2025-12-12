@@ -1,3 +1,4 @@
+- claim_fields = %i[external_users claims case_details fields]
 - summary_list.with_row do |row|
   - row.with_key(text: t('offence_category', scope: claim_fields) )
   - row.with_value(text: (claim.offence&.description || t('general.not_provided') ))

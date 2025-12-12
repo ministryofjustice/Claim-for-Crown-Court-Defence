@@ -147,7 +147,7 @@
             - row.with_value(text: (claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') ))
 
       - summary_list.with_row do |row|
-        - row.with_key(text: t('common.main_hearing_date'))
+        - row.with_key(text: t('external_users.claims.case_details.fields.main_hearing_date'))
         - row.with_value do
           %time{'aria-label': claim&.main_hearing_date&.strftime(Settings.date_format_label),
               datetime: claim&.main_hearing_date&.strftime(Settings.datetime_attribute)

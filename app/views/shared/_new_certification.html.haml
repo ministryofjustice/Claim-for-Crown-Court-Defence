@@ -4,8 +4,7 @@
       - row.with_key(text: t('.instructed_heading'))
       - row.with_value(text: @claim.external_user.name )
 
-  - if @claim.agfs?
-    = govuk_summary_list do |summary_list|
+    - if @claim.agfs?
       - summary_list.with_row do |row|
         - row.with_key(text: t('.certification_reason'))
         - row.with_value(text: @claim.certification.certification_type&.name)

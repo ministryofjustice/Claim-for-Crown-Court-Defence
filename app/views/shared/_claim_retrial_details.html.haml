@@ -1,20 +1,19 @@
-= govuk_summary_list do |summary_list|
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('shared.summary.dates_attended.retrial_started_at'))
-    - row.with_value(text: claim&.retrial_started_at&.strftime(Settings.date_format) )
+- summary_list.with_row do |row|
+  - row.with_key(text: t('shared.summary.dates_attended.retrial_started_at'))
+  - row.with_value(text: claim&.retrial_started_at&.strftime(Settings.date_format) )
 
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_estimated_length'))
-    - row.with_value(text: claim&.retrial_estimated_length )
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_estimated_length'))
+  - row.with_value(text: claim&.retrial_estimated_length )
 
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_actual_length'))
-    - row.with_value(text: claim&.retrial_actual_length )
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_actual_length'))
+  - row.with_value(text: claim&.retrial_actual_length )
 
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_concluded_at'))
-    - row.with_value(text: claim&.retrial_concluded_at&.strftime(Settings.date_format) )
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_concluded_at'))
+  - row.with_value(text: claim&.retrial_concluded_at&.strftime(Settings.date_format) )
 
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_reduction'))
-    - row.with_value(text: (claim&.retrial_reduction? ? 'Yes' : 'No' ))
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_reduction'))
+  - row.with_value(text: (claim&.retrial_reduction? ? 'Yes' : 'No' ))

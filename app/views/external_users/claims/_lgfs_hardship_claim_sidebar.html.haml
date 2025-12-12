@@ -1,24 +1,16 @@
 = govuk_summary_list(classes: 'govuk-summary-list--no-border app-summary-list_sidebar') do |summary_list|
   - summary_list.with_row do |row|
-    - row.with_key(text: t('common.hardship_fees'))
-    - row.with_value(text: claim.hardship_fees_total, html_attributes: { data: { seed: claim.raw_hardship_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
+    - row.with_key(text: t('common.hardship_fees'), html_attributes: { data: { seed: claim.raw_hardship_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }, classes: 'fx-seed-hardshipFees')
+    - row.with_value(text: claim.hardship_fees_total, classes: 'total-hardshipFees')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('shared.summary.miscellaneous_fees'))
-    - row.with_value(text: claim.misc_fees_total, html_attributes: { data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
+    - row.with_key(text: t('shared.summary.miscellaneous_fees'), html_attributes: { data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }, classes: 'fx-seed-miscFees')
+    - row.with_value(text: claim.misc_fees_total,  classes: 'total-miscFees')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('common.disbursements'))
-    - row.with_value(text: claim.disbursements_total, html_attributes: { data: { seed: claim.raw_disbursements_total, autovat: 'false', 'seed-vat': claim.raw_disbursements_vat } })
+    - row.with_key(text: t('shared.summary.vat'), html_attributes: { 'data-vat-total': claim.raw_vat_amount }, classes: 'fx-seed')
+    - row.with_value(text: claim.vat_amount, classes: 'total-vat')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('common.expenses'))
-    - row.with_value(text: claim.expenses_total, html_attributes: { data: { seed: claim.raw_expenses_total, autovat: 'false', 'seed-vat': claim.raw_expenses_vat } })
-
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('shared.summary.vat'))
-    - row.with_value(text: claim.vat_amount, html_attributes: { 'data-vat-total': claim.raw_vat_amount })
-
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('shared.new_lgfs_disbursements.total')) # TBC
-    - row.with_value(text: claim.total_inc, html_attributes: { class: 'font-weight-bold', 'data-total-inc': claim.raw_total_inc })
+    - row.with_key(text: t('shared.new_lgfs_disbursements.total'), html_attributes: { class: 'font-weight-bold', 'data-total-inc': claim.raw_total_inc }, classes: 'fx-seed')
+    - row.with_value(text: claim.total_inc, classes: 'total-grandTotal')

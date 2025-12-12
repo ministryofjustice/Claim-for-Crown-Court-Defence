@@ -1186,7 +1186,7 @@ en:
           date_of_birth: Date of birth
           date_of_birth_html: Date of birth <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           date_hint: *date_hint
-          judical_apportionment: Judicial apportionment
+          judicial_apportionment: Judicial apportionment
           order_for_judicial_apportionment:  Order for judicial apportionment
           order_for_judicial_apportionment_html: Order for judicial apportionment <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, ensure you upload a copy of the order to your claim.
@@ -2137,6 +2137,7 @@ en:
     new_claim:
       advocate_category: Advocate category
       provider_reference: Provider reference number
+      claim_submitted: Claim submitted on
       case: Case
       case_cracked: Case cracked in
       case_worker: Case worker

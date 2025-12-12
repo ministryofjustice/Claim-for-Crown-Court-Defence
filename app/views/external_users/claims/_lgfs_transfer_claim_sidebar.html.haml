@@ -1,24 +1,24 @@
 = govuk_summary_list(classes: 'govuk-summary-list--no-border app-summary-list_sidebar') do |summary_list|
   - summary_list.with_row do |row|
-    - row.with_key(text:  t('common.transfer_fees'), classes: 'fx-seed-transferFees', html_attributes: { data: { seed: claim.raw_transfer_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
+    - row.with_key(text:  t('common.transfer_fees'), html_attributes: { data: { seed: claim.raw_transfer_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }, classes: 'fx-seed-transferFees')
     - row.with_value(text: claim.transfer_fees_total, classes: 'total-transferFees')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('shared.summary.miscellaneous_fees'), classes: 'fx-seed-miscFees', html_attributes: { data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
+    - row.with_key(text: t('shared.summary.miscellaneous_fees'), html_attributes: { data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } },  classes: 'fx-seed-miscFees')
     - row.with_value(text: claim.misc_fees_total, classes: 'total-miscFees')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('common.disbursements'), classes: 'fx-seed-disbursements', html_attributes: { data: { seed: claim.raw_disbursements_total, autovat: 'false', 'seed-vat': claim.raw_disbursements_vat } })
+    - row.with_key(text: t('common.disbursements'), html_attributes: { data: { seed: claim.raw_disbursements_total, autovat: 'false', 'seed-vat': claim.raw_disbursements_vat } }, classes: 'fx-seed-disbursements')
     - row.with_value(text: claim.disbursements_total, classes: 'total-disbursements')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('common.expenses'), classes: 'fx-seed-expenses', html_attributes: { data: { seed: claim.raw_expenses_total, autovat: 'false', 'seed-vat': claim.raw_expenses_vat } })
+    - row.with_key(text: t('common.expenses'), html_attributes: { data: { seed: claim.raw_expenses_total, autovat: 'false', 'seed-vat': claim.raw_expenses_vat } }, classes: 'fx-seed-expenses')
     - row.with_value(text: claim.expenses_total, classes: 'total-expenses')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('shared.new_lgfs_disbursements.vat'), classes: 'fx-seed', html_attributes: { 'data-vat-total': claim.raw_vat_amount })
+    - row.with_key(text: t('shared.new_lgfs_disbursements.vat'), html_attributes: { 'data-vat-total': claim.raw_vat_amount }, classes: 'fx-seed')
     - row.with_value(text: claim.vat_amount, classes: 'total-vat')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('external_users.claims.summary_claims_sidebar.total'), classes: 'fx-seed', html_attributes: { 'data-total-inc': claim.raw_total_inc })
+    - row.with_key(text: t('external_users.claims.summary_claims_sidebar.total'), html_attributes: { 'data-total-inc': claim.raw_total_inc }, classes: 'fx-seed')
     - row.with_value(text: claim.total_inc, classes: 'total-grandTotal')

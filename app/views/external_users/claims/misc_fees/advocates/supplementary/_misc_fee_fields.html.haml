@@ -52,7 +52,7 @@
 
         = link_to_add_association t('.add_date_attended'), f, :dates_attended, 'partial' => 'date_attended_fields', data: { 'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}, class: 'govuk-link'
 
-      = govuk_summary_list do |summary_list|
+      = govuk_summary_list(classes: 'govuk-summary-list--no-border') do |summary_list|
         - summary_list.with_row do |row|
           - row.with_key(text: t('.net_amount'))
           - row.with_value(text: fee.amount || number_to_currency(0), classes: 'fee-net-amount total')

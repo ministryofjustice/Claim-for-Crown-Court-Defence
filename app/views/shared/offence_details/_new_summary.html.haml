@@ -1,15 +1,16 @@
 - claim_fields = %i[external_users claims offence_details fields]
 
+%h2.govuk-heading-l{ class:'govuk-!-static-margin-bottom-6'}
+  = t('.header')
+
 = govuk_summary_card(title: t('.header')) do |card|
-  = card.with_summary_list do |summary_list|
-    - if claim.offence
+  - if claim.offence
+    = card.with_summary_list do |summary_list|
       - if claim.agfs_reform?
         = render partial: 'shared/offence_details/new_fee_reform_summary',
                  locals: { claim: claim, summary_list: summary_list, claim_fields: claim_fields }
       - else
         = render partial: 'shared/offence_details/new_default_summary',
                  locals: { claim: claim, summary_list: summary_list, claim_fields: claim_fields }
-    - else
-      - summary_list.with_row do |row|
-        - row.with_key { t('shared.summary.no_values.offence_details') }
-        - row.with_value(text: '' )
+  - else
+    = t('shared.summary.no_values.offence_details')

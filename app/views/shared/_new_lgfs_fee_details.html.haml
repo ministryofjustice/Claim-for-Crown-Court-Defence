@@ -51,3 +51,9 @@
             = row.with_cell(html_attributes: { 'data-label': t('.rate') }, text: fee.rate, numeric: true)
 
           = row.with_cell(html_attributes: { 'data-label': t('.amount') }, text: fee.amount, numeric: true)
+
+  = govuk_table(classes: 'app-table--responsive govuk-!-margin-bottom-2') do |table|
+    = table.with_foot(classes: 'govuk-table__foot') do |foot|
+      = foot.with_row do |row|
+        = row.with_cell(text: t('.fees_total'), classes: 'govuk-table__cell', header: true)
+        = row.with_cell(text: claim.fees_total, classes: 'govuk-table__cell govuk-table__cell--numeric', numeric: true)

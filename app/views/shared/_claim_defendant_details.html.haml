@@ -17,9 +17,8 @@
       - unless @claim.lgfs? && @claim.interim?
         = govuk_summary_list do |summary_list|
           - summary_list.with_row do |row|
-            - row.with_key(text: t('external_users.claims.defendants.defendant_fields.order_for_judicial_apportionment'))
-            - row.with_value do
-              = defendant.order_for_judicial_apportionment? ? t('external_users.claims.offence_details.summary.answer_yes') : t('external_users.claims.offence_details.summary.answer_no')
+            - row.with_key(text: t('external_users.claims.defendants.defendant_fields.judicial_apportionment'))
+            - row.with_value(text: defendant.order_for_judicial_apportionment? ? t('external_users.claims.offence_details.summary.answer_yes') : t('external_users.claims.offence_details.summary.answer_no'))
 
     - if defendant.representation_orders.any?
       = govuk_table(classes: 'app-table--responsive') do |table|

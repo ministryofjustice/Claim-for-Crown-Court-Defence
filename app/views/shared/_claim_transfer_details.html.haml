@@ -1,8 +1,7 @@
-= govuk_summary_list do |summary_list|
-  - summary_list.with_row do |row|
-    - row.with_key(text: t('common.transfer_detail_summary') )
-    - row.with_value(text: claim.transfer_detail_summary )
+- summary_list.with_row do |row|
+  - row.with_key(text: t('common.transfer_detail_summary') )
+  - row.with_value(text: claim.transfer_detail_summary )
 
-  - summary_list.with_row do |row|
-    - row.with_key( t('common.transfer_date') )
-    - row.with_value(text: claim.transfer_date )
+- summary_list.with_row do |row|
+  - row.with_key( t('common.transfer_date') )
+  - row.with_value(text: claim.transfer_date )

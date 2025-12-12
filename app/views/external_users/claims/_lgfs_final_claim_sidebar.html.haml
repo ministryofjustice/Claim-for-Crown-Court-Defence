@@ -9,7 +9,7 @@
       - row.with_value(text: claim.grad_fees_total, classes: 'total-gradFees')
 
   - summary_list.with_row do |row|
-    - row.with_key(text: t('shared.summary.miscellaneous_fees'), html_attributes: { data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } },classes: 'fx-seed-miscFees')
+    - row.with_key(text: t('shared.summary.miscellaneous_fees'), html_attributes: { data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }, classes: 'fx-seed-miscFees')
     - row.with_value(text: claim.misc_fees_total, classes: 'total-miscFees')
 
   - summary_list.with_row do |row|

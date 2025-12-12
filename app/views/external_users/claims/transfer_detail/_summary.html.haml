@@ -9,11 +9,25 @@
 
   - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
     = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :transfer_fee_details }
-  = govuk_summary_list do
-    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.litigator_type")) {claim.litigator_type_description}
-    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.elected_case")) {claim.elected_case_description}
-    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.transfer_stage_#{claim.litigator_type}")) {claim.transfer_stage_description}
-    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.transfer_date_#{claim.litigator_type}")) {claim.transfer_date}
+  = govuk_summary_list do |summary_list|
+    - summary_list.with_row do |row|
+      - row.with_key(text: t("#{transfer_detail_translations}.litigator_type"))
+      - row.with_value(text:  claim.litigator_type_description )
+
+    - summary_list.with_row do |row|
+      - row.with_key(text: t("#{transfer_detail_translations}.elected_case"))
+      - row.with_value(text: claim.elected_case_description )
+
+    - summary_list.with_row do |row|
+      - row.with_key(text: t("#{transfer_detail_translations}.transfer_stage_#{claim.litigator_type}"))
+      - row.with_value(text: claim.transfer_stage_description )
+
+    - summary_list.with_row do |row|
+      - row.with_key(text: t("#{transfer_detail_translations}.transfer_date_#{claim.litigator_type}"))
+      - row.with_value(text: claim.transfer_date )
 
     - if claim.case_conclusion_id.present?
-      = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.case_conclusion")) {claim.case_conclusion_description}
+      - summary_list.with_row do |row|
+        - row.with_key(text: t("#{transfer_detail_translations}.case_conclusion"))
+        - row.with_value(text: claim.case_conclusion_description )
+

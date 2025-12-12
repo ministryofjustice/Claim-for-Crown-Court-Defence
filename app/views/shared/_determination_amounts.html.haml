@@ -1,32 +1,32 @@
 - present(determination) do |determination|
   - unless claim.lgfs? && claim.interim? && claim.disbursement_only?
     = body.with_row do |row|
-      = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('.fees'))
+      = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.determination_amounts.fees'))
       = row.with_cell(html_attributes: { 'data-label': t('.claimed_by', type: claim.external_user_description) }, text: claim.fees_total, numeric: true)
       = row.with_cell(html_attributes: { 'data-label': t('.laa_heading') }, text: determination.fees_total, numeric: true)
 
     = body.with_row do |row|
-      = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('.expenses'))
+      = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.determination_amounts.expenses'))
       = row.with_cell(html_attributes: { 'data-label': t('.claimed_by', type: claim.external_user_description) }, text: claim.expenses_total, numeric: true)
       = row.with_cell(html_attributes: { 'data-label': t('.laa_heading') }, text: determination.expenses_total, numeric: true)
 
     - if claim.can_have_disbursements?
       = body.with_row do |row|
-        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('.disbursements'))
+        = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.determination_amounts.disbursements'))
         = row.with_cell(html_attributes: { 'data-label': t('.claimed_by', type: claim.external_user_description) }, text: claim.disbursements_total, numeric: true)
         = row.with_cell(html_attributes: { 'data-label': t('.laa_heading') }, text: determination.disbursements_total, numeric: true)
 
   = body.with_row do |row|
-    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('.total_without_vat'))
+    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.determination_amounts.total_without_vat'))
     = row.with_cell(html_attributes: { 'data-label': t('.claimed_by', type: claim.external_user_description) }, text: claim.total, numeric: true)
     = row.with_cell(html_attributes: { 'data-label': t('.laa_heading') }, text: determination.total, numeric: true)
 
   = body.with_row do |row|
-    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('.vat', context: "#{VatRate.pretty_rate(Date.parse(claim.vat_date))}"))
+    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.determination_amounts.vat', context: "#{VatRate.pretty_rate(Date.parse(claim.vat_date))}"))
     = row.with_cell(html_attributes: { 'data-label': t('.claimed_by', type: claim.external_user_description) }, text: claim.vat_amount, numeric: true)
     = row.with_cell(html_attributes: { 'data-label': t('.laa_heading') }, text: determination.vat_amount, numeric: true)
 
   = body.with_row do |row|
-    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('.total_with_vat', context: "#{VatRate.pretty_rate(Date.parse(claim.vat_date))}"))
+    = row.with_cell(header: true, html_attributes: { scope: 'row', 'data-label': t('common.description') }, text: t('shared.determination_amounts.total_with_vat', context: "#{VatRate.pretty_rate(Date.parse(claim.vat_date))}"))
     = row.with_cell(html_attributes: { 'data-label': t('.claimed_by', type: claim.external_user_description) }, text: claim.total_inc_vat, numeric: true)
     = row.with_cell(html_attributes: { 'data-label': t('.laa_heading') }, text: determination.total_inc_vat, numeric: true)

@@ -1,24 +1,16 @@
-= govuk_summary_list_no_border(class: 'app-summary-list_sidebar') do
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed-interimFees', data: { seed: claim.raw_warrant_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-      = t('.interim_fees')
-    = govuk_summary_list_value(class: 'total-interimFees') do
-      = claim.warrant_fees_total
+= govuk_summary_list(classes: 'govuk-summary-list--no-border app-summary-list_sidebar') do |summary_list|
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.interim_fees'),  html_attributes: { class: 'fx-seed-interimFees', data: { seed: claim.raw_warrant_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
+    - row.with_value(text: claim.warrant_fees_total, classes: 'total-interimFees')
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed-expenses', data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-      = t('.travel_expenses')
-    = govuk_summary_list_value(class: 'total-expenses') do
-      = claim.expenses_total
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.expenses'), html_attributes: { class: 'fx-seed-expenses', data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' } })
+    - row.with_value(text: claim.expenses_total, classes: 'total-expenses')
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount) do
-      = t('.vat')
-    = govuk_summary_list_value(class: 'total-vat') do
-      = claim.vat_amount
+  - summary_list.with_row do |row|
+    - row.with_key(text:  t('shared.summary.vat'),  html_attributes: { class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount })
+    - row.with_value(text: claim.vat_amount, classes: 'total-vat')
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed', 'data-total-inc': claim.raw_total_inc) do
-      = t('.total')
-    = govuk_summary_list_value(class: 'total-grandTotal') do
-      = claim.total_inc
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('external_users.claims.summary_claims_sidebar.total'), html_attributes: { class: 'fx-seed', 'data-total-inc': claim.raw_total_inc })
+    - row.with_value(text: claim.total_inc, classes: 'total-grandTotal')

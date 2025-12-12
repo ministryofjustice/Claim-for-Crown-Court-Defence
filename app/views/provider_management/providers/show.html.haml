@@ -6,18 +6,28 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
 
-    = govuk_summary_list do
-      = govuk_summary_list_row_collection(t('.provider_type')) { @provider.provider_type.capitalize }
+    = govuk_summary_list do |summary_list|
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.provider_type'))
+        - row.with_value(text: @provider.provider_type.capitalize )
 
-      = govuk_summary_list_row_collection(t('.fee_schemes')) { @provider.roles.map(&:upcase) * ', ' }
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.fee_schemes'))
+        - row.with_value( @provider.roles.map(&:upcase).join(', ') )
 
       - if @provider.lgfs_supplier_numbers.any?
-        = govuk_summary_list_row_collection(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
+        - summary_list.with_row do |row|
+          - row.with_key(text: t('.lgfs_supplier_numbers'))
+          - row.with_value(text: @provider.lgfs_supplier_numbers.to_sentence )
 
       - if @provider.firm? && @provider.agfs?
-        = govuk_summary_list_row_collection(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
+        - summary_list.with_row do |row|
+          - row.with_key(text: t('.firm_agfs_supplier_number'))
+          - row.with_value(text: @provider.firm_agfs_supplier_number )
 
-      = govuk_summary_list_row_collection(t('.vat_registered')) { @provider.vat_registered == true ? t('.answer_yes') : t('.answer_no') }
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.vat_registered'))
+        - row.with_value(text: @provider.vat_registered? ? t('.answer_yes') : t('.answer_no') )
 
     - if can? :edit, @provider
       = govuk_button_link_to(t('.edit'), edit_provider_management_provider_path(@provider))

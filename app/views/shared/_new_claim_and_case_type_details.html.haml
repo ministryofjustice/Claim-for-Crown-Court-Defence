@@ -1,65 +1,64 @@
 - unless claim.providers_ref.blank?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { 'Provider reference number' }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.providers_ref }
+  - summary_list.with_row do |row|
+    - row.with_key(text: 'Provider reference number')
+    - row.with_value(text: claim.providers_ref )
 
 - unless claim.draft?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { 'Claim submitted on' }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.submitted_at }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.new_claim_and_case_type_details.claim_submitted'))
+    - row.with_value(text: claim.submitted_at )
 
 - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('.assignee') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.case_worker_names }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('.assignee'))
+    - row.with_value(text: claim.case_worker_names )
 
 - if @claim.lgfs?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('common.external_user.claim_creator') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.creator.name }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.external_user.claim_creator'))
+    - row.with_value(text: claim.creator.name )
 
 - if @claim.agfs?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t("common.external_user.#{@claim.external_user_type}") }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.external_user.name }
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t("common.external_user.category.#{@claim.external_user_type}") }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.advocate_category }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t("common.external_user.#{@claim.external_user_type}"))
+    - row.with_value(text: claim.external_user.name )
+  - summary_list.with_row do |row|
+    - row.with_key(text: t("common.external_user.category.#{@claim.external_user_type}"))
+    - row.with_value(text: claim.advocate_category )
 
-= govuk_summary_list_row do
-  = govuk_summary_list_key { t("common.external_user.account_number.#{@claim.external_user_type}") }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.supplier_number }
+- summary_list.with_row do |row|
+  - row.with_key(text: t("common.external_user.account_number.#{@claim.external_user_type}"))
+  - row.with_value(text: claim.supplier_number )
 
 - if claim.court
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('common.crown_court') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.court.name }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.crown_court'))
+    - row.with_value(text: claim.court.name )
 
-= govuk_summary_list_row do
-  = govuk_summary_list_key { t('.case_num') }
-  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
-    = claim.case_number
+- summary_list.with_row do |row|
+  - row.with_key(text: t('shared.new_claim_and_case_type_details.case_num'))
+  - row.with_value(text: claim.case_number) do
     %span.unique-id-small= claim.unique_id
 
 - if claim.transfer_court.present?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('common.transfer_court') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.transfer_court.name }
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('common.transfer_case_number') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.transfer_case_number }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.transfer_court'))
+    - row.with_value(text: claim.transfer_court.name )
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.transfer_case_number'))
+    - row.with_value(text: claim.transfer_case_number )
 
 - if claim.case_stage
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('.case_stage') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.case_stage&.description }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.claim.case_stage'))
+    - row.with_value(text: claim.case_stage&.description )
 
 - if claim.display_case_type?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('.case_type') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.case_type&.name }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.new_claim_and_case_type_details.case_type'))
+    - row.with_value(text: claim.case_type&.name )
 
 - if claim.discontinuance?
-  = govuk_summary_list_row do
-    = govuk_summary_list_key { t('common.prosecution_evidence') }
-    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { t(claim.prosecution_evidence?.class) }
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('common.prosecution_evidence'))
+    - row.with_value(text: claim.prosecution_evidence?.class )

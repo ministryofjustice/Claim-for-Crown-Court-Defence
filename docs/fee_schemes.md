@@ -34,7 +34,7 @@ Before creating a new fee scheme;
   * This will involve delegating the method `agfs_scheme_##?` (or lgfs) from `Claims::FetchEligibileMiscFeeTypes` to `:claim` (`Claim::BaseClaim`), and from there to `:fee_scheme` (`FeeScheme`) where you create the actual method.
 * Create a new `scheme_####?` method and a `in_scheme_##` scope in `app/models/offence.rb`
 * Add the scheme to the `ROLES` constant in `app/models/base_fee_type.rb`
-* Add the scheme to `db/seeds/seeds.rb` and create a new `scheme_##.rb` file in `db/seeds`
+* Add the scheme to `db/seeds.rb` and create a new `scheme_##.rb` file in `db/seeds`
 * Create a new schema in `db/seeds/schemas`
 
 

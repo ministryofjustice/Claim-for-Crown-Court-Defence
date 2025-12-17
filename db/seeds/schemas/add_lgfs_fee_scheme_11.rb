@@ -24,12 +24,12 @@ module Seeds
       def up
         create_lgfs_scheme_eleven
         set_lgfs_scheme_eleven_offences
-        # create_lgfs_scheme_eleven_fee_types
+        create_lgfs_scheme_eleven_fee_types
       end 
 
       def down
         unset_lgfs_scheme_eleven_offences
-        # remove_lgfs_scheme_eleven_fee_type_roles
+        remove_lgfs_scheme_eleven_fee_type_roles
         destroy_lgfs_scheme_eleven
       end
 
@@ -124,6 +124,29 @@ module Seeds
 
       def lgfs_scheme_ten_offences
         Offence.joins(:fee_schemes).merge(FeeScheme.version(10)).merge(FeeScheme.lgfs).distinct
+      end
+
+      def create_lgfs_scheme_eleven_fee_types
+        puts "Scheme LGFS 11 fee type count before: #{scheme_11_fee_type_count}".yellow
+        require Rails.root.join('db', 'seeds', 'fee_types', 'csv_seeder')
+        Seeds::FeeTypes::CsvSeeder.new(dry_mode: pretending?, stdout: false).call
+        puts "Scheme LGFS 11 fee type count after: #{scheme_11_fee_type_count}".yellow
+      end
+
+      def remove_lgfs_scheme_eleven_fee_type_roles
+        fee_types_with_claim_11_role = Fee::BaseFeeType.lgfs_scheme_11s
+
+        if pretending?
+          fee_types_with_claim_11_role.each do |fee_type|
+            puts "Would remove LGFS scheme 11 role from fee type #{fee_type.description}".yellow
+          end
+        else
+          fee_types_with_claim_11_role.each do |fee_type|
+            puts "Removing lgfs_scheme_11 role from fee type #{fee_type.description}".green
+            fee_type.roles.delete('lgfs_scheme_11')
+            fee_type.save!
+          end
+        end
       end
     end
   end

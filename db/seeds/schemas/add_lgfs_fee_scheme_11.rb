@@ -23,12 +23,12 @@ module Seeds
 
       def up
         create_lgfs_scheme_eleven
-        # set_lgfs_scheme_eleven_offences
+        set_lgfs_scheme_eleven_offences
         # create_lgfs_scheme_eleven_fee_types
       end 
 
       def down
-        # unset_lgfs_scheme_eleven_offences
+        unset_lgfs_scheme_eleven_offences
         # remove_lgfs_scheme_eleven_fee_type_roles
         destroy_lgfs_scheme_eleven
       end
@@ -86,6 +86,44 @@ module Seeds
           lgfs_fee_scheme_10.update(end_date: nil)
           print "...updated\n".green
         end
+      end
+
+      def set_lgfs_scheme_eleven_offences
+        puts "Setting LGFS scheme 10 offences to include scheme 11".yellow
+        puts "Scheme LGFS 11 offence count before: #{scheme_11_offence_count}".yellow
+        Offence.transaction do
+          lgfs_scheme_ten_offences.each do |offence|
+            if pretending?
+              puts "Would add LGFS scheme 11 to offence #{offence.unique_code}".yellow
+            else
+              next if offence.fee_schemes.include? lgfs_fee_scheme_11
+
+              offence.fee_schemes << lgfs_fee_scheme_11
+              puts "Added LGFS scheme 11 to offence #{offence.unique_code}".green
+            end
+          end
+        end
+        puts
+        puts "Scheme LGFS 11 offence count after: #{scheme_11_offence_count}".yellow
+      end
+
+      def unset_lgfs_scheme_eleven_offences
+        Offence.transaction do
+          Offence.joins(:fee_schemes).merge(FeeScheme.version(11)).merge(FeeScheme.lgfs).distinct.each do |offence|
+            if pretending?
+              puts "Would remove LGFS scheme 11 from offence #{offence.unique_code}".yellow
+            else
+              offence.fee_schemes.delete(lgfs_fee_scheme_11)
+              puts "Removed LGFS scheme 11 from offence #{offence.unique_code}".green
+            end
+          end
+        end
+        puts
+        puts "Scheme LGFS 11 offence count after unset: #{scheme_11_offence_count}".yellow
+      end
+
+      def lgfs_scheme_ten_offences
+        Offence.joins(:fee_schemes).merge(FeeScheme.version(10)).merge(FeeScheme.lgfs).distinct
       end
     end
   end

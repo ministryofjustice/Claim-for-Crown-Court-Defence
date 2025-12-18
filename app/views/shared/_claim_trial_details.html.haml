@@ -1,13 +1,17 @@
 - trial_detail_translations = 'external_users.claims.case_details.trial_detail_fields'
 
-= govuk_summary_list_row_collection(t("#{trial_detail_translations}.first_day_of_trial")) do
-  = claim.first_day_of_trial.strftime(Settings.date_format) rescue ''
+- summary_list.with_row do |row|
+  = row.with_key(text: t("#{trial_detail_translations}.first_day_of_trial"))
+  = row.with_value(text: (claim.first_day_of_trial.strftime(Settings.date_format) rescue '' ))
 
-= govuk_summary_list_row_collection(t("#{trial_detail_translations}.estimated_trial_length")) do
-  = claim.estimated_trial_length rescue ''
+- summary_list.with_row do |row|
+  = row.with_key(text: t("#{trial_detail_translations}.estimated_trial_length"))
+  = row.with_value(text: (claim.estimated_trial_length rescue '' ))
 
-= govuk_summary_list_row_collection(t("#{trial_detail_translations}.actual_trial_length")) do
-  = claim.actual_trial_length rescue ''
+- summary_list.with_row do |row|
+  = row.with_key(text: t("#{trial_detail_translations}.actual_trial_length"))
+  = row.with_value(text: ( claim.actual_trial_length rescue '' ))
 
-= govuk_summary_list_row_collection(t("#{trial_detail_translations}.trial_concluded_at")) do
-  = claim.trial_concluded_at.strftime(Settings.date_format) rescue ''
+- summary_list.with_row do |row|
+  = row.with_key(text: t("#{trial_detail_translations}.trial_concluded_at"))
+  = row.with_value(text: (claim.trial_concluded_at.strftime(Settings.date_format) rescue '' ))

@@ -1,1 +1,2 @@
-= govuk_summary_card(t('shared.new_claim_accordion.additional_information'), claim.additional_information )
+= govuk_summary_card(title: t('shared.new_claim_accordion.additional_information')) do |card|
+  = claim.additional_information

@@ -6,14 +6,30 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
 
-    = govuk_summary_list do
-      = govuk_summary_list_row_collection(t('.provider_name')) { @provider.name }
-      = govuk_summary_list_row_collection(t('.api_key')) { @provider.api_key }
+    = govuk_summary_list do |summary_list|
+
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.provider_name'))
+        - row.with_value(text: @provider.name )
+
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.api_key'))
+        - row.with_value(text: @provider.api_key )
+
       - if @provider.firm?
-        = govuk_summary_list_row_collection(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
+        - summary_list.with_row do |row|
+          - row.with_key(text: t('.lgfs_supplier_numbers'))
+          - row.with_value(text: @provider.lgfs_supplier_numbers.to_sentence )
+
         - if @provider.agfs?
-          = govuk_summary_list_row_collection(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
-      = govuk_summary_list_row_collection(t('.vat_registered')) { @provider.vat_registered == true ? t('global_yes') : t('global_no') }
+          - summary_list.with_row do |row|
+            - row.with_key(text: t('.firm_agfs_supplier_number'))
+            - row.with_value(text: @provider.firm_agfs_supplier_number )
+
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('.vat_registered'))
+        - row.with_value(text: (@provider.vat_registered? ? t('global_yes') : t('global_no') ))
+
 
     .govuk-button-group
       .app-link-group

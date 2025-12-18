@@ -6,14 +6,19 @@
 - else
   - trial_cracked_at_third_key = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.default")
 
-= govuk_summary_list_row_collection(t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")) do
-  = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
+- summary_list.with_row do |row|
+  - row.with_key(text: t("#{cracked_trial_detail_translations}.trial_fixed_notice_at"))
+  - row.with_value(text: (claim.trial_fixed_notice_at&.strftime(Settings.date_format) rescue ''))
 
-= govuk_summary_list_row_collection(t("#{cracked_trial_detail_translations}.trial_fixed_at")) do
-  = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
+- summary_list.with_row do |row|
+  - row.with_key(text: t("#{cracked_trial_detail_translations}.trial_fixed_at"))
+  - row.with_value(text: (claim.trial_fixed_at&.strftime(Settings.date_format) rescue '' ))
 
-= govuk_summary_list_row_collection(t("#{cracked_trial_detail_translations}.trial_cracked_at")) do
-  = claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
+- summary_list.with_row do |row|
+  - row.with_key(text: t("#{cracked_trial_detail_translations}.trial_cracked_at"))
+  - row.with_value(text: (claim.trial_cracked_at&.strftime(Settings.date_format) rescue '' ))
 
-= govuk_summary_list_row_collection(trial_cracked_at_third_key) do
-  = claim.trial_cracked_at_third.humanize rescue ''
+- summary_list.with_row do |row|
+  - row.with_key(text: trial_cracked_at_third_key)
+  - row.with_value(text: (claim.trial_cracked_at_third&.humanize rescue '' ))
+

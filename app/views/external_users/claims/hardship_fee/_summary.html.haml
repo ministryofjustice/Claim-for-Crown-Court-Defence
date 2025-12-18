@@ -14,7 +14,15 @@
   - else
     - fee = present(claim.hardship_fee)
 
-    = govuk_summary_list do
-      = govuk_summary_list_row_collection( t('shared.summary.fee_type') ) { fee.fee_type.description }
-      = govuk_summary_list_row_collection( t('shared.summary.ppe_total') ) { fee.quantity }
-      = govuk_summary_list_row_collection( t('shared.summary.amount') ) { fee.amount }
+    = govuk_summary_list do |summary_list|
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('shared.summary.fee_type') )
+        - row.with_value(text: fee.fee_type.description )
+
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('shared.summary.ppe_total'))
+        - row.with_value(text: fee.quantity )
+
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('shared.summary.amount') )
+        - row.with_value(text: fee.amount )

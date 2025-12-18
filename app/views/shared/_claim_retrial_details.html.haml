@@ -1,16 +1,19 @@
-- retrial_i18n_scope = %i[external_users claims case_details retrial_detail_fields]
+- summary_list.with_row do |row|
+  - row.with_key(text: t('shared.summary.dates_attended.retrial_started_at'))
+  - row.with_value(text: claim&.retrial_started_at&.strftime(Settings.date_format) )
 
-= govuk_summary_list_row_collection(t('retrial_started_at', scope: retrial_i18n_scope)) do
-  = claim&.retrial_started_at&.strftime(Settings.date_format)
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_estimated_length'))
+  - row.with_value(text: claim&.retrial_estimated_length )
 
-= govuk_summary_list_row_collection(t('retrial_estimated_length', scope: retrial_i18n_scope)) do
-  = claim&.retrial_estimated_length
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_actual_length'))
+  - row.with_value(text: claim&.retrial_actual_length )
 
-= govuk_summary_list_row_collection(t('retrial_actual_length', scope: retrial_i18n_scope)) do
-  = claim&.retrial_actual_length
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_concluded_at'))
+  - row.with_value(text: claim&.retrial_concluded_at&.strftime(Settings.date_format) )
 
-= govuk_summary_list_row_collection(t('retrial_concluded_at', scope: retrial_i18n_scope)) do
-  = claim&.retrial_concluded_at&.strftime(Settings.date_format)
-
-= govuk_summary_list_row_collection(t('retrial_reduction', scope: retrial_i18n_scope)) do
-  = claim&.retrial_reduction? ? 'Yes' : 'No'
+- summary_list.with_row do |row|
+  - row.with_key(text: t('external_users.claims.case_details.retrial_detail_fields.retrial_reduction'))
+  - row.with_value(text: (claim&.retrial_reduction? ? 'Yes' : 'No' ))

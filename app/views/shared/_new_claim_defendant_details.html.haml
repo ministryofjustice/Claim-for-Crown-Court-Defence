@@ -1,32 +1,27 @@
-.govuk-summary-card
-  .govuk-summary-card__title-wrapper
-    %h2.govuk-summary-card__title
-      = "#{t('.title_defendant')} #{index}"
+= govuk_summary_card(title: "#{t('.title_defendant')} #{index}") do |card|
+  - card.with_summary_list do |summary_list|
 
-  .govuk-summary-card__content
-    = govuk_summary_list do
-      = govuk_summary_list_row do
-        = govuk_summary_list_key { t('.full_name') }
-        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.name }
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('shared.new_claim_defendant_details.full_name'))
+      - row.with_value(text: defendant.name, classes: 'govuk-!-width-one-quarter')
 
-      = govuk_summary_list_row do
-        = govuk_summary_list_key { t('.date_of_birth') }
-        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.date_of_birth.strftime(Settings.date_format) rescue '' }
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('shared.new_claim_defendant_details.date_of_birth'))
+      - row.with_value(text: (defendant.date_of_birth&.strftime(Settings.date_format) || ''), classes: 'govuk-!-width-one-quarter')
 
-      = govuk_summary_list_row do
-        = govuk_summary_list_key { t('.order_of_judicial_apportionment') }
-        = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { defendant.order_for_judicial_apportionment == true ? t('global_yes') : t('global_no') }
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('shared.new_claim_defendant_details.order_of_judicial_apportionment'))
+      - row.with_value(text: (defendant.order_for_judicial_apportionment ? t('global_yes') : t('global_no')), classes: 'govuk-!-width-one-quarter')
 
-      - if defendant.representation_orders.any?
-        - defendant.representation_orders.each_with_index do |representation_order, index|
-          = govuk_summary_list_row do
-            = govuk_summary_list_key { "#{t('.reporders')} #{index + 1}" }
-            = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
-              %p
-                %span= representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
-              %p
-                %span= t('.maat_reference')
-                = representation_order.maat_reference
-
-      - else
-        = govuk_inset_text(text: t('.no_reporder'))
+    - if defendant.representation_orders.any?
+      - defendant.representation_orders.each_with_index do |representation_order, rep_index|
+        - summary_list.with_row do |row|
+          - row.with_key(text: "#{t('shared.new_claim_defendant_details.reporders')} #{rep_index + 1}")
+          - row.with_value do
+            %p
+              %span= representation_order.representation_order_date&.strftime(Settings.date_format) || ''
+            %p
+              %span= t('shared.new_claim_defendant_details.maat_reference')
+              = representation_order.maat_reference
+    - else
+      = govuk_inset_text(text: t('shared.new_claim_defendant_details.no_reporder'))

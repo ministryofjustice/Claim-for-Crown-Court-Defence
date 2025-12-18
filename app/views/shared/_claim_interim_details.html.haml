@@ -1,42 +1,53 @@
 - fee = present(claim.interim_fee)
 
-= govuk_summary_list_row_collection(t('shared.summary.fee_type')) do
-  = fee.fee_type.description
+- summary_list.with_row do |row|
+  - row.with_key(text: t('shared.summary.fee_type'))
+  - row.with_value(text: fee.fee_type.description)
 
 - if fee.is_interim_warrant?
-  = govuk_summary_list_row_collection(t('shared.summary.warrant_fee.date_issued')) do
-    = fee.warrant_issued_date
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.warrant_fee.date_issued'))
+    - row.with_value(text: fee.warrant_issued_date)
 
 - if fee.warrant_executed_date.present?
-  = govuk_summary_list_row_collection(t('shared.summary.warrant_fee.date_executed')) do
-    = fee.warrant_executed_date
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.warrant_fee.date_executed'))
+    - row.with_value(text: fee.warrant_executed_date)
 
 - else
   - unless fee.is_disbursement?
-    = govuk_summary_list_row_collection(t('shared.summary.ppe_total')) do
-      = fee.quantity
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('shared.summary.ppe_total'))
+      - row.with_value(text: fee.quantity)
 
     - if fee.is_effective_pcmh?
-      = govuk_summary_list_row_collection(t('shared.summary.effective_pcmh_date')) do
-        = fee.effective_pcmh_date
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('shared.summary.effective_pcmh_date'))
+        - row.with_value(text: fee.effective_pcmh_date)
 
 - if fee.is_trial_start?
-  = govuk_summary_list_row_collection(t('shared.summary.trial_start')) do
-    = fee.first_day_of_trial
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.trial_start'))
+    - row.with_value(text: fee.first_day_of_trial)
 
-  = govuk_summary_list_row_collection(t('shared.summary.estimated_trial_length')) do
-    = fee.estimated_trial_length
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.estimated_trial_length'))
+    - row.with_value(text: fee.estimated_trial_length)
 
 - if fee.is_retrial_start?
-  = govuk_summary_list_row_collection(t('shared.summary.retrial_start')) do
-    = fee.retrial_started_at
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.retrial_start'))
+    - row.with_value(text: fee.retrial_started_at)
 
-  = govuk_summary_list_row_collection(t('shared.summary.estimated_retrial_length')) do
-    = fee.retrial_estimated_length
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.estimated_retrial_length'))
+    - row.with_value(text: fee.retrial_estimated_length)
 
 - if fee.is_retrial_new_solicitor?
-  = govuk_summary_list_row_collection(t('shared.summary.legal_aid_transfer_date')) do
-    = fee.legal_aid_transfer_date
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.legal_aid_transfer_date'))
+    - row.with_value(text: fee.legal_aid_transfer_date)
 
-  = govuk_summary_list_row_collection(t('shared.summary.trial_concluded_at')) do
-    = fee.trial_concluded_at
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('shared.summary.trial_concluded_at'))
+    - row.with_value(text: fee.trial_concluded_at)

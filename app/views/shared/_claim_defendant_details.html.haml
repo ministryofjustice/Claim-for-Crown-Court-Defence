@@ -2,31 +2,40 @@
   %h4.govuk-heading-s
     = t('.defendant', context: index)
 
-  = govuk_summary_list do
-    = govuk_summary_list_row_collection( t('external_users.claims.defendants.defendant_fields.full_name') ) { defendant.name }
+    = govuk_summary_list do |summary_list|
+      - summary_list.with_row do |row|
+        - row.with_key(text: t('external_users.claims.defendants.defendant_fields.full_name'))
+        - row.with_value(text: defendant.name )
 
     - if defendant.date_of_birth.present?
-      = govuk_summary_list_row_collection( t('external_users.claims.defendants.defendant_fields.date_of_birth') ) { defendant.date_of_birth.strftime(Settings.date_format) rescue '' }
+      = govuk_summary_list do |summary_list|
+        - summary_list.with_row do |row|
+          - row.with_key(text: t('external_users.claims.defendants.defendant_fields.date_of_birth'))
+          - row.with_value(text: defendant.date_of_birth&.strftime(Settings.date_format) )
 
-    - unless @claim.lgfs? && @claim.interim?
-      = govuk_summary_list_row_collection( t('external_users.claims.defendants.defendant_fields.judical_apportionment') ) { defendant.order_for_judicial_apportionment == true ? t('global_yes') : t('global_no') }
 
-  - if defendant.representation_orders.any?
-    = govuk_table(classes: 'app-table--responsive') do |table|
-      = table.with_caption(text: t('shared.claim.reporders'))
+      - unless @claim.lgfs? && @claim.interim?
+        = govuk_summary_list do |summary_list|
+          - summary_list.with_row do |row|
+            - row.with_key(text: t('external_users.claims.defendants.defendant_fields.judicial_apportionment'))
+            - row.with_value(text: defendant.order_for_judicial_apportionment? ? t('external_users.claims.offence_details.summary.answer_yes') : t('external_users.claims.offence_details.summary.answer_no'))
 
-      = table.with_head do |head|
-        = head.with_row do |row|
-          = row.with_cell(text: t('.date'))
-          = row.with_cell(text: t('external_users.claims.defendants.representation_order_fields.maat_reference_number'))
+    - if defendant.representation_orders.any?
+      = govuk_table(classes: 'app-table--responsive') do |table|
+        = table.with_caption(text: t('shared.claim.reporders'))
 
-      = table.with_body do |body|
-        - defendant.representation_orders.each do | representation_order |
-          = body.with_row do |row|
-            = row.with_cell(html_attributes: { 'data-label': t('.date') }) do
-              = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
-            = row.with_cell(html_attributes: { 'data-label': t('external_users.claims.defendants.representation_order_fields.maat_reference_number') }) do
-              = representation_order.maat_reference
+        = table.with_head do |head|
+          = head.with_row do |row|
+            = row.with_cell(text: t('.date'))
+            = row.with_cell(text: t('external_users.claims.defendants.representation_order_fields.maat_reference_number'))
 
-  - else
-    = govuk_inset_text(text: t('.no_reporder'))
+        = table.with_body do |body|
+          - defendant.representation_orders.each do | representation_order |
+            = body.with_row do |row|
+              = row.with_cell(html_attributes: { 'data-label': t('.date') }) do
+                = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
+              = row.with_cell(html_attributes: { 'data-label': t('external_users.claims.defendants.representation_order_fields.maat_reference_number') }) do
+                = representation_order.maat_reference
+
+    - else
+      = govuk_inset_text(text: t('.no_reporder'))

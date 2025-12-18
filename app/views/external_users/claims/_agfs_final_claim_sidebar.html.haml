@@ -1,38 +1,32 @@
-= govuk_summary_list_no_border(class: 'app-summary-list_sidebar') do
+= govuk_summary_list(classes: 'govuk-summary-list--no-border app-summary-list_sidebar') do |summary_list|
   - if claim.fixed_fee_case?
-    = govuk_summary_list_row do
-      = govuk_summary_list_key(class: 'fx-seed-fixedFees', data: { seed: claim.raw_fixed_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-        = t('.fixed_fees')
-      = govuk_summary_list_value(class: 'total-fixedFees') do
-        = claim.fixed_fees_total
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('shared.summary.fixed_fees'),
+       html_attributes: { data: { seed: claim.raw_fixed_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }}, classes: 'fx-seed-fixedFees')
+      - row.with_value(text: claim.fixed_fees_total, classes: 'total-fixedFees')
 
   - else
-    = govuk_summary_list_row do
-      = govuk_summary_list_key(class: 'fx-seed-gradFees', data: { seed: claim.raw_basic_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-        = t('.graduated_fees')
-      = govuk_summary_list_value(class: 'total-gradFees') do
-        = claim.basic_fees_total
+    - summary_list.with_row do |row|
+      - row.with_key(text: t('.graduated_fees'), html_attributes: { data: { seed: claim.raw_basic_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false'}}, classes: 'fx-seed-gradFees')
+      - row.with_value(text: claim.basic_fees_total, classes: 'total-gradFees')
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed-miscFees', data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-      = t('.miscellaneous_fees')
-    = govuk_summary_list_value(class: 'total-miscFees') do
-      = claim.misc_fees_total
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('external_users.claims.agfs_supplementary_claim_sidebar.miscellaneous_fees'),
+      html_attributes: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false'}, classes: 'fx-seed-miscFees')
+    - row.with_value(text: claim.misc_fees_total, classes: 'total-miscFees')
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed-expenses', data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
-      = t('.travel_expenses')
-    = govuk_summary_list_value(class: 'total-expenses') do
-      = claim.expenses_total
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('external_users.claims.agfs_supplementary_claim_sidebar.travel_expenses'),
+      html_attributes: { data: { seed: claim.raw_expenses_total,
+        autovat: @claim.apply_vat? ? 'true' : 'false'}}, classes:'fx-seed-expenses')
+    - row.with_value(text: claim.expenses_total, classes: 'total-expenses')
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount) do
-      = t('.vat')
-    = govuk_summary_list_value(class: 'total-vat') do
-      = claim.vat_amount
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('external_users.claims.agfs_supplementary_claim_sidebar.vat'),
+      html_attributes: { 'data-vat-total': claim.raw_vat_amount}, classes: 'fx-seed')
+    - row.with_value(text: claim.vat_amount, classes: 'total-vat')
 
-  = govuk_summary_list_row do
-    = govuk_summary_list_key(class: 'fx-seed', 'data-total-inc': claim.raw_total_inc) do
-      = t('.total')
-    = govuk_summary_list_value(class: 'total-grandTotal') do
-      = claim.total_inc
+  - summary_list.with_row do |row|
+    - row.with_key(text: t('external_users.claims.agfs_supplementary_claim_sidebar.total'),
+      html_attributes: { 'data-total-inc': claim.raw_total_inc}, classes: 'fx-seed')
+    - row.with_value(text: claim.total_inc, classes: 'total-grandTotal')

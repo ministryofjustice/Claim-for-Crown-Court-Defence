@@ -45,7 +45,7 @@
             - row.with_value(text: fee.first_day_of_trial )
 
           - summary_list.with_row do |row|
-            - row.with_ke(text: t('shared.summary.estimated_trial_length') )
+            - row.with_key(text: t('shared.summary.estimated_trial_length') )
             - row.with_value(text: fee.estimated_trial_length )
 
         - if fee.is_retrial_start?

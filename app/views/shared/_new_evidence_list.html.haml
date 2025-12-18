@@ -27,3 +27,6 @@
                 - if document.converted_preview_document.present?
                   = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document), target: :_blank
                 = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)
+
+- if claim.additional_information.present?
+  = render partial: 'shared/new_additional_information', locals: { claim: claim }

@@ -34,8 +34,8 @@ RSpec.describe Fee::BaseFeeType do
     end
   end
 
-  it { is_expected.to respond_to(:lgfs?, :lgfs_scheme_9?, :lgfs_scheme_10?, :agfs?, :agfs_scheme_9?, :agfs_scheme_10?, :agfs_scheme_12?, :agfs_scheme_13?, :agfs_scheme_14?, :agfs_scheme_15?, :agfs_scheme_16?) }
-  it { expect(described_class).to respond_to(:lgfs, :lgfs_scheme_9s, :lgfs_scheme_10s, :agfs, :agfs_scheme_9s, :agfs_scheme_10s, :agfs_scheme_12s, :agfs_scheme_13s, :agfs_scheme_14s, :agfs_scheme_15s, :agfs_scheme_16s) }
+  it { is_expected.to respond_to(:lgfs?, :lgfs_scheme_9?, :lgfs_scheme_10?, :lgfs_scheme_11?, :agfs?, :agfs_scheme_9?, :agfs_scheme_10?, :agfs_scheme_12?, :agfs_scheme_13?, :agfs_scheme_14?, :agfs_scheme_15?, :agfs_scheme_16?) }
+  it { expect(described_class).to respond_to(:lgfs, :lgfs_scheme_9s, :lgfs_scheme_10s, :lgfs_scheme_11s, :agfs, :agfs_scheme_9s, :agfs_scheme_10s, :agfs_scheme_12s, :agfs_scheme_13s, :agfs_scheme_14s, :agfs_scheme_15s, :agfs_scheme_16s) }
 
   it_behaves_like 'roles', Fee::MiscFeeType, Fee::MiscFeeType::ROLES # using MiscFeeType because the shared examples use a factory, which rules out the use of a class double
   it_behaves_like 'defendant upliftable'
@@ -171,9 +171,10 @@ RSpec.describe Fee::BaseFeeType do
       create(:fixed_fee_type, description: 'AGFS Scheme 10 and 12 roles', roles: %w[agfs agfs_scheme_10 agfs_scheme_12])
       create(:misc_fee_type, description: 'AGFS Scheme 12 role only', roles: %w[agfs agfs_scheme_12])
       create(:misc_fee_type, description: 'AGFS Scheme 9 role only', roles: %w[agfs agfs_scheme_9])
-      create(:basic_fee_type, description: 'LGFS Scheme 9 and 10 roles', roles: %w[lgfs lgfs_scheme_9 lgfs_scheme_10])
+      create(:basic_fee_type, description: 'LGFS Scheme 9, 10 and 11 roles', roles: %w[lgfs lgfs_scheme_9 lgfs_scheme_10 lgfs_scheme_11])
       create(:fixed_fee_type, description: 'LGFS Scheme 9 role only', roles: %w[lgfs lgfs_scheme_9])
       create(:misc_fee_type, description: 'LGFS Scheme 10 role only', roles: %w[lgfs lgfs_scheme_10])
+      create(:misc_fee_type, description: 'LGFS Scheme 11 role only', roles: %w[lgfs lgfs_scheme_11])
     end
 
     describe '.agfs_scheme_9s' do
@@ -205,13 +206,19 @@ RSpec.describe Fee::BaseFeeType do
     describe '.lgfs_scheme_9s' do
       subject { described_class.lgfs_scheme_9s.map(&:description) }
 
-      it { is_expected.to contain_exactly('LGFS Scheme 9 and 10 roles', 'LGFS Scheme 9 role only') }
+      it { is_expected.to contain_exactly('LGFS Scheme 9, 10 and 11 roles', 'LGFS Scheme 9 role only') }
     end
 
     describe '.lgfs_scheme_10s' do
       subject { described_class.lgfs_scheme_10s.map(&:description) }
 
-      it { is_expected.to contain_exactly('LGFS Scheme 9 and 10 roles', 'LGFS Scheme 10 role only') }
+      it { is_expected.to contain_exactly('LGFS Scheme 9, 10 and 11 roles', 'LGFS Scheme 10 role only') }
+    end
+
+    describe '.lgfs_scheme_11s' do
+      subject { described_class.lgfs_scheme_11s.map(&:description) }
+
+      it { is_expected.to contain_exactly('LGFS Scheme 9, 10 and 11 roles', 'LGFS Scheme 11 role only') }
     end
   end
 end

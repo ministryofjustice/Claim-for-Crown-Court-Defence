@@ -1,2 +1,2 @@
-%nav.pagination.app-pagintion--inline
-  = pagy_nav(@pagy).html_safe if @pagy.pages > 1
+%nav.pagination.app-pagination--inline
+  = govuk_pagination(pagy: @pagy)

@@ -26,7 +26,6 @@ nav {
 
 .pagination {
   padding: $gutter-half 0;
-  float: right;
 
   a {
     padding: $gutter-one-sixth;
@@ -51,6 +50,7 @@ nav {
   }
 }
 
-.app-pagintion--inline li {
-  display: inline-block;
+.app-pagination--inline {
+  display: flex;
+  justify-content: right;
 }

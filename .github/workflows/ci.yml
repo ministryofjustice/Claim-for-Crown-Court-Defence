@@ -10,7 +10,82 @@ env:
   REDIS_URL: redis://localhost:6379/1
 
 jobs:
-  test:
+  rspec:
+    name: RSpec groups ${{ matrix.ci_job_index}}
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+ 
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      BUNDLE_WITHOUT: development
+      CI_TOTAL_JOBS: ${{ matrix.ci_total_jobs }}
+      CI_JOB_INDEX: ${{ matrix.ci_job_index }}
+    strategy:
+      matrix:
+        ci_total_jobs: [8]
+        ci_job_index: [1, 2, 3, 4, 5, 6, 7, 8]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.2'
+          bundler-cache: true  # Automatically runs bundle install and caches
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # Update to your Node version
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client libpq-dev
+
+      - name: Setup database
+        run: |
+          bin/rails db:create
+          bin/rails db:schema:load
+
+      - name: Run RSpec tests
+        run: bundle exec parallel_rspec -n "${{ env.CI_TOTAL_JOBS }}" --only-group ${{ env.CI_JOB_INDEX }} --combine-stderr --serialize-stdout ./spec
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+
+  cucumber:
     runs-on: ubuntu-latest
 
     services:
@@ -64,9 +139,6 @@ jobs:
         run: |
           bin/rails db:create
           bin/rails db:schema:load
-
-      - name: Run RSpec tests
-        run: bundle exec rspec
 
       - name: Run Cucumber tests
         run: bundle exec cucumber

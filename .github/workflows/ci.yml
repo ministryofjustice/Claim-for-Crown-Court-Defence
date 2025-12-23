@@ -75,6 +75,10 @@ jobs:
           bin/rails db:create
           bin/rails db:schema:load
 
+      - name: Precompile assets
+        run: |
+          bin/rails assets:precompile
+
       - name: Run RSpec tests
         run: bundle exec parallel_rspec -n "${{ env.CI_TOTAL_JOBS }}" --only-group ${{ env.CI_JOB_INDEX }} --combine-stderr --serialize-stdout ./spec
 

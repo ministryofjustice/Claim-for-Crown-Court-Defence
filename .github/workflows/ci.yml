@@ -62,7 +62,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Update to your Node version
+          node-version: '20'  # Update to your Node version
           cache: 'npm'
 
       - name: Install dependencies
@@ -131,7 +131,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Update to your Node version
+          node-version: '20'  # Update to your Node version
           cache: 'npm'
 
       - name: Install dependencies

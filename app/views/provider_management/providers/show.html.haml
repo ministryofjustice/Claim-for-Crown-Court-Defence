@@ -13,7 +13,7 @@
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.fee_schemes'))
-        - row.with_value( @provider.roles.map(&:upcase).join(', ') )
+        - row.with_value(text: @provider.roles.map(&:upcase).join(', ') )
 
       - if @provider.lgfs_supplier_numbers.any?
         - summary_list.with_row do |row|

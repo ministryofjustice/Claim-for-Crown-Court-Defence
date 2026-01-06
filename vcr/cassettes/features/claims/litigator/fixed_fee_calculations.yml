@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&main_hearing_date=2016-04-01&type=LGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-29&main_hearing_date=2022-09-29&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 06 Dec 2022 14:46:33 GMT
+      - Wed, 07 Jan 2026 16:29:46 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -27,7 +27,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Origin, Cookie
+      - Accept, origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       Cache-Control:
@@ -38,13 +38,15 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-  recorded_at: Tue, 06 Dec 2022 14:46:33 GMT
+  recorded_at: Wed, 07 Jan 2026 16:29:46 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -55,7 +57,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -64,7 +66,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 06 Dec 2022 14:46:33 GMT
+      - Wed, 07 Jan 2026 16:29:46 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -72,7 +74,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Origin, Cookie
+      - Accept, origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       Cache-Control:
@@ -83,8 +85,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -131,7 +135,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Tue, 06 Dec 2022 14:46:33 GMT
+  recorded_at: Wed, 07 Jan 2026 16:29:46 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=8
@@ -142,7 +146,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -151,7 +155,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 06 Dec 2022 14:46:33 GMT
+      - Wed, 07 Jan 2026 16:29:46 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -159,7 +163,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Origin, Cookie
+      - Accept, origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       Cache-Control:
@@ -170,188 +174,14 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":60505,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"116.49000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Tue, 06 Dec 2022 14:46:33 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2022-10-31&type=LGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Tue, 06 Dec 2022 14:54:05 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '205'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":8,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":"2022-10-31","type":"LGFS","description":"LGFS
-        CLAIR contingency"}]}'
-  recorded_at: Tue, 06 Dec 2022 14:54:05 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/8/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Tue, 06 Dec 2022 14:54:05 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '4119'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
-        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
-        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
-        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
-        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
-        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
-        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
-        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
-        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
-        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
-        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
-        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
-        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
-        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
-        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
-        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
-        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
-        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
-        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
-        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
-        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
-        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
-        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
-        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
-        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
-        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
-        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
-        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
-        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
-        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
-        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
-        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
-        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
-        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
-        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
-        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
-        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
-        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
-        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
-        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
-        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
-        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
-        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
-        issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Tue, 06 Dec 2022 14:54:05 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/8/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=8
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Tue, 06 Dec 2022 14:54:05 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '273'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":239106,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":8,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"133.96000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Tue, 06 Dec 2022 14:54:05 GMT
+  recorded_at: Wed, 07 Jan 2026 16:29:46 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date=2022-09-30&type=LGFS
@@ -362,7 +192,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -371,7 +201,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 06 Dec 2022 15:01:02 GMT
+      - Wed, 07 Jan 2026 16:34:34 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -379,7 +209,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Origin, Cookie
+      - Accept, origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       Cache-Control:
@@ -390,8 +220,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":6,"start_date":"2022-09-30","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
@@ -407,7 +239,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -416,7 +248,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 06 Dec 2022 15:01:02 GMT
+      - Wed, 07 Jan 2026 16:34:34 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -424,7 +256,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Origin, Cookie
+      - Accept, origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       Cache-Control:
@@ -435,8 +267,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
@@ -494,7 +328,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -503,7 +337,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 06 Dec 2022 15:01:02 GMT
+      - Wed, 07 Jan 2026 16:34:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -511,7 +345,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Origin, Cookie
+      - Accept, origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       Cache-Control:
@@ -522,10 +356,194 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":140518,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":6,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"133.96000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
   recorded_at: Sat, 29 Oct 2022 23:00:00 GMT
-recorded_with: VCR 6.1.0
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2022-10-31&type=LGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/2.0.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 07 Jan 2026 17:21:20 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '205'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":8,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":"2022-10-31","type":"LGFS","description":"LGFS
+        CLAIR contingency"}]}'
+  recorded_at: Wed, 07 Jan 2026 17:21:20 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/8/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/2.0.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 07 Jan 2026 17:21:20 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4119'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
+        plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
+        against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
+        for sentence","code":"ST1TS0T7"},{"id":8,"name":"Contempt","code":"ST1TS0T8"},{"id":9,"name":"Breach
+        of crown court order","code":"ST3TS3TB"},{"id":10,"name":"Cracked before retrial","code":"ST1TS0T9"},{"id":11,"name":"Retrial","code":"ST1TS0TA"},{"id":12,"name":"Elected
+        case not proceeded","code":"ST4TS0T1"},{"id":17,"name":"Up to and including
+        PCMH transfer (original solicitor) - cracked trial","code":"ST2TS1T0"},{"id":18,"name":"Up
+        to and including PCMH transfer (new solicitor) - guilty plea","code":"ST3TS1T2"},{"id":19,"name":"Up
+        to and including PCMH transfer (new solicitor) - cracked trial","code":"ST3TS1T3"},{"id":20,"name":"Up
+        to and including PCMH transfer (new solicitor) - trial","code":"ST3TS1T4"},{"id":21,"name":"Before
+        trial transfer (original solicitor) - cracked trial","code":"ST2TS2T0"},{"id":22,"name":"Before
+        trial transfer (new solicitor) - cracked trial","code":"ST3TS2T3"},{"id":23,"name":"Before
+        trial transfer (new solicitor) - trial","code":"ST3TS2T4"},{"id":24,"name":"During
+        trial transfer (original solicitor) - trial","code":"ST2TS3T0"},{"id":25,"name":"During
+        trial transfer (new solicitor) - trial","code":"ST3TS3T4"},{"id":26,"name":"During
+        trial transfer (new solicitor) - retrial","code":"ST3TS3TA"},{"id":27,"name":"Transfer
+        before retrial (original solicitor) - retrial","code":"ST2TS4T0"},{"id":28,"name":"Transfer
+        before retrial (new solicitor) - cracked retrial","code":"ST3TS4T9"},{"id":29,"name":"Transfer
+        before retrial (new solicitor) - retrial","code":"ST3TS4TA"},{"id":30,"name":"Transfer
+        during retrial (original solicitor) - retrial","code":"ST2TS5T0"},{"id":31,"name":"Transfer
+        during retrial (new solicitor) - retrial","code":"ST3TS5TA"},{"id":32,"name":"Hearing
+        subsequent to sentence","code":"ST1TS0TC"},{"id":33,"name":"Transfer after
+        retrial and before sentencing (original)","code":"ST2TS6TA"},{"id":34,"name":"Transfer
+        after retrial and before sentencing (new)","code":"ST3TS6TA"},{"id":35,"name":"Transfer
+        after trial and before sentencing (original)","code":"ST2TS7T4"},{"id":36,"name":"Transfer
+        after trial and before sentencing (new)","code":"ST3TS7T4"},{"id":37,"name":"Elected
+        case not proceeded - up to and including PCMH (original solicitor)","code":"ST4TS0T2"},{"id":38,"name":"Elected
+        case not proceeded - up to and including PCMH (new solicitor)","code":"ST4TS0T3"},{"id":39,"name":"Elected
+        case not proceeded - before trial transfer (original solicitor)","code":"ST4TS0T4"},{"id":40,"name":"Elected
+        case not proceeded - before trial transfer (new solicitor)","code":"ST4TS0T5"},{"id":41,"name":"Elected
+        case not proceeded - transfer before retrial (original solicitor)","code":"ST4TS0T6"},{"id":42,"name":"Elected
+        case not proceeded - transfer before retrial (new solicitor)","code":"ST4TS0T7"},{"id":43,"name":"Interim
+        payment - effective PCMH","code":"ST1TS0T0"},{"id":44,"name":"Interim payment
+        - trial start","code":"ST1TS1T0"},{"id":45,"name":"Interim payment - retrial
+        (new solicitor)","code":"ST1TS2T0"},{"id":46,"name":"Interim payment - retrial
+        start","code":"ST1TS3T0"},{"id":48,"name":"Warrant issued - trial (before
+        plea hearing)","code":null},{"id":49,"name":"Warrant issued - trial (after
+        plea hearing)","code":null},{"id":50,"name":"Warrant issued - trial (after
+        trial start)","code":null},{"id":51,"name":"Warrant issued - appeal against
+        conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
+        sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
+        issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
+        issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
+        issued - retrial (after trial start)","code":null}]}'
+  recorded_at: Wed, 07 Jan 2026 17:21:20 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/8/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/2.0.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 07 Jan 2026 17:21:21 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '273'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":239106,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":8,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"133.96000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 07 Jan 2026 17:21:21 GMT
+recorded_with: VCR 6.3.1

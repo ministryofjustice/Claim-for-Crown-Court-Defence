@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:07 GMT
+      - Tue, 06 Jan 2026 15:59:46 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -38,8 +38,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-11-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
@@ -55,7 +57,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -64,7 +66,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:07 GMT
+      - Tue, 06 Jan 2026 15:59:46 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -83,8 +85,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":16,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
@@ -107,7 +111,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -116,7 +120,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:07 GMT
+      - Tue, 06 Jan 2026 15:59:46 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -135,8 +139,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":265090,"scenario":5,"advocate_type":"JUNIOR","fee_type":8,"offence_class":null,"scheme":12,"unit":"DAY","fee_per_unit":"380.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
@@ -153,7 +159,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -162,7 +168,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:08 GMT
+      - Tue, 06 Jan 2026 15:59:47 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -181,8 +187,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-11-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
@@ -198,7 +206,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -207,7 +215,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:08 GMT
+      - Tue, 06 Jan 2026 15:59:47 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -226,8 +234,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":16,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
@@ -250,7 +260,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -259,7 +269,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:08 GMT
+      - Tue, 06 Jan 2026 15:59:47 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -278,8 +288,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":265090,"scenario":5,"advocate_type":"JUNIOR","fee_type":8,"offence_class":null,"scheme":12,"unit":"DAY","fee_per_unit":"380.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
@@ -296,7 +308,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -305,7 +317,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:08 GMT
+      - Tue, 06 Jan 2026 15:59:48 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -324,8 +336,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-11-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
@@ -341,7 +355,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -350,7 +364,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:09 GMT
+      - Tue, 06 Jan 2026 15:59:48 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -369,8 +383,10 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":16,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
@@ -393,7 +409,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.4.0
+      - laa-fee-calculator-client/2.0.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -402,7 +418,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 13 Nov 2023 15:30:09 GMT
+      - Tue, 06 Jan 2026 15:59:48 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -421,12 +437,14 @@ http_interactions:
       - nosniff
       Referrer-Policy:
       - same-origin
+      Cross-Origin-Opener-Policy:
+      - same-origin
       Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
+      - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":265090,"scenario":5,"advocate_type":"JUNIOR","fee_type":8,"offence_class":null,"scheme":12,"unit":"DAY","fee_per_unit":"380.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
-recorded_with: VCR 6.2.0
+recorded_with: VCR 6.3.1

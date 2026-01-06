@@ -124,7 +124,7 @@ class BaseClaimTest
       location: 'London',
       reason_id: 5,
       reason_text: 'Foo',
-      date: '2016-01-01',
+      date: 6.months.ago.as_json,
       distance: 100.58,
       mileage_rate_id: 1
     }

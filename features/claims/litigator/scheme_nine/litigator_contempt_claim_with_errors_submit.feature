@@ -16,7 +16,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
     And I enter lgfs scheme 9 main hearing date
-    And I enter the case concluded date '2018-04-01'
+    And I enter the case concluded date '2022-09-29'
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -28,7 +28,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
 
     And I should see fixed fee type 'Contempt'
     And the fixed fee rate should be populated with '116.49'
-    And I fill '2018-11-01' as the fixed fee date
+    And I fill '2022-09-29' as the fixed fee date
     And I fill '2' as the fixed fee quantity
     Then I should see fixed fee total '£232.98'
 
@@ -59,7 +59,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I should see in the sidebar total '£347.73'
     Then I should see in the sidebar vat total '£15.50'
 
-    And I enter the date for the first expense '2016-04-02'
+    And I enter the date for the first expense '2022-09-29'
     Then I click "Continue" in the claim form
 
     And I should be in the 'Supporting evidence' form page

@@ -16,7 +16,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     When I select a case type of 'Trial'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2016-04-01'
+    And I enter the case concluded date '2022-09-29'
     And I enter lgfs scheme 9 main hearing date
     Then I click "Continue" I should be on the 'Case details' page and see a "Choose a supplier number" error
 
@@ -66,7 +66,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I click "Continue" in the claim form
     And I should see a page title "Enter graduated fees for litigator final fees claim"
 
-    And I fill '2018-01-01' as the graduated fee date
+    And I fill '2022-09-29' as the graduated fee date
     When I fill '2' as the actual trial length
     Then the graduated fee amount should be populated with '429.12'
     When I enter '51' in the PPE total graduated fee field
@@ -78,7 +78,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I should be in the 'Miscellaneous fees' form page
     And I should see a page title "Enter miscellaneous fees for litigator final fees claim"
-    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee'
+    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee,Unused materials (over 3 hours),Unused materials (up to 3 hours)'
     And I add a litigator miscellaneous fee 'Costs judge application'
 
     When I click "Continue" in the claim form
@@ -94,7 +94,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for scheme 10
+    And I add an expense date for LGFS scheme 10
 
     When I click "Continue" in the claim form
     Then I should be in the 'Supporting evidence' form page
@@ -109,9 +109,9 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should see a page title "View claim summary for litigator final fees claim"
     And I should see the field 'Crown court' with value 'Blackfriars' in 'Case details'
     And I should see the field 'Case type' with value 'Trial' in 'Case details'
-    And I should see the field 'Date case concluded' with value '01/04/2016' in 'Case details'
+    And I should see the field 'Date case concluded' with value '29/09/2022' in 'Case details'
     And I should see the field 'Type of fee' with value 'Trial' in 'Graduated fee'
-    And I should see the field 'First day of hearing' with value '01/01/2018' in 'Graduated fee'
+    And I should see the field 'First day of hearing' with value '29/09/2022' in 'Graduated fee'
     And I should see the field 'Actual trial length' with value '2' in 'Graduated fee'
     And I should see the field 'Total pages of evidence' with value '51' in 'Graduated fee'
     And I should see the field 'Net amount' with value '£437.89' in 'Graduated fee'

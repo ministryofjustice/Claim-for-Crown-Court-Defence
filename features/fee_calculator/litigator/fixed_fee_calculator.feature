@@ -16,7 +16,7 @@ Feature: litigator completes fixed fee page using calculator
     And I select a case type of 'Appeal against conviction'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2018-04-01'
+    And I enter the case concluded date '2022-09-29'
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -29,7 +29,7 @@ Feature: litigator completes fixed fee page using calculator
     And I should be in the 'Fixed fees' form page
 
     And the fixed fee rate should be populated with '349.47'
-    And I fill '2018-11-01' as the fixed fee date
+    And I fill '2022-09-29' as the fixed fee date
     And I fill '1' as the fixed fee quantity
     Then I should see fixed fee total '£349.47'
     And I fill '2' as the fixed fee quantity

@@ -17,7 +17,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select a case type of 'Contempt'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2016-04-01'
+    And I enter the case concluded date '2022-09-29'
     And I enter lgfs scheme 9 main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -42,7 +42,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I should see fixed fee type 'Contempt'
     And the fixed fee rate should be populated with '116.49'
-    And I fill '2018-11-01' as the fixed fee date
+    And I fill '2022-09-29' as the fixed fee date
     And I fill '2' as the fixed fee quantity
     Then I should see fixed fee total '£232.98'
 
@@ -81,7 +81,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I should be on the check your claim page
     And I should see the field 'Crown court' with value 'Blackfriars' in 'Case details'
     And I should see the field 'Case type' with value 'Contempt' in 'Case details'
-    And I should see the field 'Date case concluded' with value '01/04/2016' in 'Case details'
+    And I should see the field 'Date case concluded' with value '29/09/2022' in 'Case details'
     And I should not see 'First day of trial'
     And I should not see 'Estimated trial length'
     And I should not see 'Actual trial length'

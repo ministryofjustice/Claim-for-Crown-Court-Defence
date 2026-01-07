@@ -16,7 +16,7 @@ Feature: litigator completes graduated fee page using calculator
     And I select a case type of 'Guilty plea'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2018-04-01'
+    And I enter the case concluded date '2022-09-29'
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -34,7 +34,7 @@ Feature: litigator completes graduated fee page using calculator
     And I should be in the 'Graduated fee' form page
     And the graduated fee amount should be populated with '442.91'
 
-    And I fill '2018-01-01' as the graduated fee date
+    And I fill '2022-09-29' as the graduated fee date
 
     # ppe impact for guilty plea
     And I enter '41' in the PPE total graduated fee field
@@ -56,7 +56,7 @@ Feature: litigator completes graduated fee page using calculator
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I goto claim form step 'graduated fees'
     And the graduated fee amount should be populated with '0.00'
-    And I fill '2018-01-01' as the graduated fee date
+    And I fill '2022-09-29' as the graduated fee date
 
     # trial length (days) impact for trials
     When I fill '2' as the actual trial length

@@ -65,6 +65,9 @@ class Offence < ApplicationRecord
   scope :in_lgfs_scheme_ten, -> { joins(:fee_schemes).merge(FeeScheme.lgfs).merge(FeeScheme.ten).distinct }
   singleton_class.send(:alias_method, :in_lgfs_scheme_10, :in_lgfs_scheme_ten)
 
+  scope :in_lgfs_scheme_eleven, -> { joins(:fee_schemes).merge(FeeScheme.lgfs).merge(FeeScheme.eleven).distinct }
+  singleton_class.send(:alias_method, :in_lgfs_scheme_11, :in_lgfs_scheme_eleven)
+
   def offence_class_description
     offence_class.letter_and_description
   end
@@ -108,6 +111,11 @@ class Offence < ApplicationRecord
 
   def lgfs_scheme_ten?
     fee_schemes.lgfs.map(&:version).any?(FeeScheme::TEN)
+  end
+
+  # Are these methods actually used?? Test removing this to see what the effect is
+  def lgfs_scheme_eleven?
+    fee_schemes.lgfs.map(&:version).any?(FeeScheme::ELEVEN)
   end
 
   def post_agfs_reform?

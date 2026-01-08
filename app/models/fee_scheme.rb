@@ -31,6 +31,10 @@ class FeeScheme < ApplicationRecord
     lgfs? && version.eql?(10)
   end
 
+  def lgfs_scheme_11?
+    lgfs? && version.eql?(11)
+  end
+
   def agfs_reform?
     agfs? && version >= 10
   end

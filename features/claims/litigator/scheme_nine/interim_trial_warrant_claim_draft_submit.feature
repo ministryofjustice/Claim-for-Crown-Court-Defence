@@ -41,8 +41,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should be in the 'Interim fee' form page
     And I select an interim fee type of 'Warrant'
     And the interim fee amount should be populated with ''
-    And I enter '2016-01-01' as the warrant issued date
-    And I enter '2016-04-01' as the warrant executed date
+    And I enter '2022-06-29' as the warrant issued date
+    And I enter '2022-09-29' as the warrant executed date
     And I enter '680.39' in the interim fee total field
 
     And I eject the VCR cassette

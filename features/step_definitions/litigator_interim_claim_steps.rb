@@ -9,7 +9,7 @@ And(/^I select an interim fee type of '(.*)'$/) do |name|
 end
 
 And(/^I enter the effective PCMH date\s*(.*?)$/) do |date|
-  date = date.present? ? date : "2016-04-01"
+  date = date.present? ? date : "2022-09-29"
   @litigator_interim_claim_form_page.interim_fee.effective_pcmh_date.set_date date
 end
 

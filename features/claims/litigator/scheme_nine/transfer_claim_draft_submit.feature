@@ -67,7 +67,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I eject the VCR cassette
 
     And I should be in the 'Miscellaneous fees' form page
-    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee'
+    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee,Unused materials (over 3 hours),Unused materials (up to 3 hours)'
     And I add a litigator miscellaneous fee 'Costs judge application'
 
     And I should see a page title "Enter miscellaneous fees for litigator transfer fees claim"

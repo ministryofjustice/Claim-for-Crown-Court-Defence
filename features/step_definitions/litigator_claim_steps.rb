@@ -71,7 +71,7 @@ Then("I fill {string} as the actual trial length") do |length|
 end
 
 And(/^I enter the case concluded date\s*(.*?)$/) do |date|
-  date = date.present? ? date : "2016-04-01"
+  date = date.present? ? date : "2022-09-29"
   @litigator_claim_form_page.case_concluded_date.set_date date
 end
 

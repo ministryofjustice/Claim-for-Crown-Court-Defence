@@ -14,7 +14,7 @@ Feature: litigator completes transfer fee page using calculator
     When I choose the litigator type option 'New'
     And I choose the elected case option 'No'
     And I select the transfer stage 'During trial transfer'
-    And I enter the transfer date '2016-04-01'
+    And I enter the transfer date '2022-09-29'
     And I select a case conclusion of 'Trial'
 
     And I click "Continue" in the claim form

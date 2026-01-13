@@ -34,7 +34,7 @@ module Claim
       def ==(other)
         return false unless litigator_type == other.litigator_type
         return false unless equal_for_scheme_nine?(other)
-        return false unless equal_for_scheme_ten?(other)
+        return false unless equal_for_scheme_ten_or_later?(other)
         return false unless transfer_stage_id == other.transfer_stage_id
 
         true
@@ -54,12 +54,12 @@ module Claim
         true
       end
 
-      def equal_for_scheme_ten?(other)
-        return true unless other.fee_scheme_version == 10
+      def equal_for_scheme_ten_or_later?(other)
+        return true unless other.fee_scheme_version >= 10
         return false if elected_case
 
         if other.elected_case
-          return false unless scheme_ten_elected_case_equivalent
+          return false unless scheme_ten_or_later_elected_case_equivalent
         else
           return false unless conclusion == other.conclusion
         end
@@ -67,7 +67,7 @@ module Claim
         true
       end
 
-      def scheme_ten_elected_case_equivalent
+      def scheme_ten_or_later_elected_case_equivalent
         (litigator_type == 'new' && conclusion&.include?('Cracked')) || litigator_type == 'original'
       end
     end

@@ -90,6 +90,11 @@ using webmock for all tests, and set to local storage in development mode.
 
 See `config/aws.yaml` and note that because we use the [config](https://github.com/railsconfig/config) gem, secret settings like `Settings.aws.s3.access` require an envvar `SETTINGS__AWS__S3__ACCESS`.
 
+#### Setting up the pre-commit hooks
+- [DevSecOps Hooks](https://github.com/ministryofjustice/devsecops-hooks)
+  - To avoid committing secrets we use pre-commit hooks configured by DevSecOps. Please install Prek by following the instructions so the hooks can run when you commit your changes.
+
+
 ## Sidekiq Console
 
 To process sidekiq jobs in the *foreground*, in development only, you can set `INLINE_SIDEKIQ` env var to process sidekiq jobs in the foreground. This will output job results (including mail content) to the rails server terminal.
@@ -171,7 +176,7 @@ $ bundle exec rails db:dump:run_job['dev','my-branch-latest']
 
 This task requires you have kubectl installed locally.
 
-This will create a `private` dump file in the host environment's s3 bucket and list all such dumps at the end. 
+This will create a `private` dump file in the host environment's s3 bucket and list all such dumps at the end.
 
  ### Downloading dump files
 
@@ -219,7 +224,7 @@ $ kubectl cp cccd-production/<pod-name>:tmp/production/20201013214202_dump.psql 
 $ bundle exec rails db:restore['tmp/production/20201013214202_dump.psql']
 ```
 
-Alternatively, if dump files already exist for the environment, you can list them while logged onto a kubernetes pod 
+Alternatively, if dump files already exist for the environment, you can list them while logged onto a kubernetes pod
 - eg `bundle exec rails db:dump:list_s3_dumps['production]` - and then copy the one you want locally. Dumps are listed in
 chronological order, most recent first.
 

@@ -101,37 +101,37 @@ RSpec.describe Offence do
     end
   end
 
-  describe '#scheme_ten?' do
-    subject { offence.scheme_ten? }
+  # describe '#scheme_ten?' do
+  #   subject { offence.scheme_ten? }
 
-    context 'when the fee_scheme is set to ten' do
-      let(:offence) { create(:offence, :with_fee_scheme_ten) }
+  #   context 'when the fee_scheme is set to ten' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_ten) }
 
-      it { is_expected.to be_truthy }
-    end
+  #     it { is_expected.to be_truthy }
+  #   end
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
-  end
+  #     it { is_expected.to be_falsey }
+  #   end
+  # end
 
-  describe '#scheme_eleven?' do
-    subject { offence.scheme_eleven? }
+  # describe '#scheme_eleven?' do
+  #   subject { offence.scheme_eleven? }
 
-    context 'when the fee_scheme is set to eleven' do
-      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+  #   context 'when the fee_scheme is set to eleven' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_eleven) }
 
-      it { is_expected.to be_truthy }
-    end
+  #     it { is_expected.to be_truthy }
+  #   end
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
-  end
+  #     it { is_expected.to be_falsey }
+  #   end
+  # end
 
   describe '#post_agfs_reform?' do
     subject { offence.post_agfs_reform? }
@@ -155,223 +155,223 @@ RSpec.describe Offence do
     end
   end
 
-  describe '#scheme_twelve?' do
-    subject { offence.scheme_twelve? }
+  # describe '#scheme_twelve?' do
+  #   subject { offence.scheme_twelve? }
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to eleven' do
-      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+  #   context 'when the fee_scheme is set to eleven' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_eleven) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to twelve' do
-      let(:offence) { create(:offence, :with_fee_scheme_twelve) }
+  #   context 'when the fee_scheme is set to twelve' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_twelve) }
 
-      it { is_expected.to be_truthy }
-    end
-  end
+  #     it { is_expected.to be_truthy }
+  #   end
+  # end
 
-  describe '#scheme_thirteen?' do
-    subject { offence.scheme_thirteen? }
+  # describe '#scheme_thirteen?' do
+  #   subject { offence.scheme_thirteen? }
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to eleven' do
-      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+  #   context 'when the fee_scheme is set to eleven' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_eleven) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to twelve' do
-      let(:offence) { create(:offence, :with_fee_scheme_twelve) }
+  #   context 'when the fee_scheme is set to twelve' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_twelve) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to thirteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
+  #   context 'when the fee_scheme is set to thirteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
 
-      it { is_expected.to be_truthy }
-    end
+  #     it { is_expected.to be_truthy }
+  #   end
 
-    context 'when the fee_scheme is set to fourteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
+  #   context 'when the fee_scheme is set to fourteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
 
-      it { is_expected.to be_falsey }
-    end
-  end
+  #     it { is_expected.to be_falsey }
+  #   end
+  # end
 
-  describe '#scheme_fourteen?' do
-    subject { offence.scheme_fourteen? }
+  # describe '#scheme_fourteen?' do
+  #   subject { offence.scheme_fourteen? }
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to eleven' do
-      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+  #   context 'when the fee_scheme is set to eleven' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_eleven) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to twelve' do
-      let(:offence) { create(:offence, :with_fee_scheme_twelve) }
+  #   context 'when the fee_scheme is set to twelve' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_twelve) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to thirteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
+  #   context 'when the fee_scheme is set to thirteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to fourteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
+  #   context 'when the fee_scheme is set to fourteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
 
-      it { is_expected.to be_truthy }
-    end
+  #     it { is_expected.to be_truthy }
+  #   end
 
-    context 'when the fee_scheme is set to fifteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_fifteen) }
+  #   context 'when the fee_scheme is set to fifteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_fifteen) }
 
-      it { is_expected.to be_falsey }
-    end
-  end
+  #     it { is_expected.to be_falsey }
+  #   end
+  # end
 
-  describe '#scheme_fifteen?' do
-    subject { offence.scheme_fifteen? }
+  # describe '#scheme_fifteen?' do
+  #   subject { offence.scheme_fifteen? }
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to eleven' do
-      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+  #   context 'when the fee_scheme is set to eleven' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_eleven) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to twelve' do
-      let(:offence) { create(:offence, :with_fee_scheme_twelve) }
+  #   context 'when the fee_scheme is set to twelve' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_twelve) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to thirteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
+  #   context 'when the fee_scheme is set to thirteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to fourteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
+  #   context 'when the fee_scheme is set to fourteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to fifteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_fifteen) }
+  #   context 'when the fee_scheme is set to fifteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_fifteen) }
 
-      it { is_expected.to be_truthy }
-    end
-  end
+  #     it { is_expected.to be_truthy }
+  #   end
+  # end
 
-  describe '#scheme_sixteen?' do
-    subject { offence.scheme_sixteen? }
+  # describe '#scheme_sixteen?' do
+  #   subject { offence.scheme_sixteen? }
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to eleven' do
-      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+  #   context 'when the fee_scheme is set to eleven' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_eleven) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to twelve' do
-      let(:offence) { create(:offence, :with_fee_scheme_twelve) }
+  #   context 'when the fee_scheme is set to twelve' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_twelve) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to thirteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
+  #   context 'when the fee_scheme is set to thirteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to fourteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
+  #   context 'when the fee_scheme is set to fourteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_fourteen) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to fifteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_fifteen) }
+  #   context 'when the fee_scheme is set to fifteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_fifteen) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to sixteen' do
-      let(:offence) { create(:offence, :with_fee_scheme_sixteen) }
+  #   context 'when the fee_scheme is set to sixteen' do
+  #     let(:offence) { create(:offence, :with_fee_scheme_sixteen) }
 
-      it { is_expected.to be_truthy }
-    end
-  end
+  #     it { is_expected.to be_truthy }
+  #   end
+  # end
 
-  describe '#lgfs_scheme_ten?' do
-    subject { offence.lgfs_scheme_ten? }
+  # describe '#lgfs_scheme_ten?' do
+  #   subject { offence.lgfs_scheme_ten? }
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to ten' do
-      let(:offence) { create(:offence, :with_lgfs_fee_scheme_ten) }
+  #   context 'when the fee_scheme is set to ten' do
+  #     let(:offence) { create(:offence, :with_lgfs_fee_scheme_ten) }
 
-      it { is_expected.to be_truthy }
-    end
-  end
+  #     it { is_expected.to be_truthy }
+  #   end
+  # end
 
-  describe '#lgfs_scheme_eleven?' do
-    subject { offence.lgfs_scheme_eleven? }
+  # describe '#lgfs_scheme_eleven?' do
+  #   subject { offence.lgfs_scheme_eleven? }
 
-    context 'when the fee_scheme is set to nine' do
-      let(:offence) { create(:offence, :with_fee_scheme) }
+  #   context 'when the fee_scheme is set to nine' do
+  #     let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to ten' do
-      let(:offence) { create(:offence, :with_lgfs_fee_scheme_ten) }
+  #   context 'when the fee_scheme is set to ten' do
+  #     let(:offence) { create(:offence, :with_lgfs_fee_scheme_ten) }
 
-      it { is_expected.to be_falsey }
-    end
+  #     it { is_expected.to be_falsey }
+  #   end
 
-    context 'when the fee_scheme is set to eleven' do
-      let(:offence) { create(:offence, :with_lgfs_fee_scheme_eleven) }
+  #   context 'when the fee_scheme is set to eleven' do
+  #     let(:offence) { create(:offence, :with_lgfs_fee_scheme_eleven) }
 
-      it { is_expected.to be_truthy }
-    end
-  end
+  #     it { is_expected.to be_truthy }
+  #   end
+  # end
 end

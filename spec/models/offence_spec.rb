@@ -38,9 +38,12 @@ RSpec.describe Offence do
         :in_scheme_14,
         :in_scheme_fifteen,
         :in_scheme_15,
-        :in_lgfs_scheme_10,
         :in_scheme_16,
-        :in_scheme_sixteen
+        :in_scheme_sixteen,
+        :in_lgfs_scheme_10,
+        :in_lgfs_scheme_ten,
+        :in_lgfs_scheme_11,
+        :in_lgfs_scheme_eleven
       )
   end
 
@@ -345,6 +348,28 @@ RSpec.describe Offence do
 
     context 'when the fee_scheme is set to ten' do
       let(:offence) { create(:offence, :with_lgfs_fee_scheme_ten) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#lgfs_scheme_eleven?' do
+    subject { offence.lgfs_scheme_eleven? }
+
+    context 'when the fee_scheme is set to nine' do
+      let(:offence) { create(:offence, :with_fee_scheme) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the fee_scheme is set to ten' do
+      let(:offence) { create(:offence, :with_lgfs_fee_scheme_ten) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the fee_scheme is set to eleven' do
+      let(:offence) { create(:offence, :with_lgfs_fee_scheme_eleven) }
 
       it { is_expected.to be_truthy }
     end

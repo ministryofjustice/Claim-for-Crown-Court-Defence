@@ -112,7 +112,7 @@ class Provider < ApplicationRecord
   end
 
   def upcase_firm_agfs_supplier_number
-    firm_agfs_supplier_number.upcase! if firm_agfs_supplier_number.present?
+    firm_agfs_supplier_number.presence&.upcase!
   end
 
   def set_api_key

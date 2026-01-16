@@ -44,7 +44,7 @@ class DocumentsController < ApplicationController
 
   def delete
     document = Document.find_by(id: params[:delete], creator: current_user, claim: nil)
-    document.destroy if document.present?
+    document.presence&.destroy
 
     render json: { file: { filename: params[:delete] } }
   end

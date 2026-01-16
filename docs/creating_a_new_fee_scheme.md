@@ -74,12 +74,15 @@ Add the new role to `app/interfaces/api/v1/dropdown_data.rb`:
 
 ```ruby
 # app/interfaces/api/v1/dropdown_data.rb
-def fee_type_roles
-  %w[
-    agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 agfs_scheme_13
-    agfs_scheme_14 agfs_scheme_15 agfs_scheme_16 agfs_scheme_17
-    lgfs lgfs_scheme_9 lgfs_scheme_10 lgfs_scheme_11
-  ]
+params :scheme_role_filter do
+  optional :role,
+            type: String,
+            desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
+            values: %w[
+              agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12
+              agfs_scheme_13 agfs_scheme_14 agfs_scheme_15 agfs_scheme_16 agfs_scheme_17
+              lgfs lgfs_scheme_9 lgfs_scheme_10
+            ]
 end
 ```
 
@@ -102,6 +105,8 @@ end
 
 Update the appropriate factory to include the new scheme's date range. Ususally this requires a simple date range, as detailed below. These
 factories allow for more complex fee scheme determination if necessary. See, for example. AGFS fee scheme 13 and LGFS fee scheme 10.
+
+The end date of the previous fee scheme should also be updated, from `Time.zone.today` to the date one day prior to the start of the new fee scheme.
 
 #### For AGFS
 
@@ -154,8 +159,8 @@ class Offence < ApplicationRecord
   scope :in_scheme_17, -> { joins(:fee_schemes).merge(FeeScheme.agfs.where(version: 17)) }
   
   # Method to determine if offence is valid for the new fee scheme
-  def scheme_17?
-    fee_schemes.agfs.exists?(version: 17)
+  def scheme_seventeen?
+    fee_schemes.map(&:version).any?(17)
   end
 end
 ```
@@ -199,11 +204,38 @@ end
 > At present this is only necessary for AGFS fee schemes. All LGFS fee schemes use the same fee types. Should this change with
 > future LGFS fee schemes it will be necessary to create a similar `lgfs_scheme_scope` method.
 
+### Step 8: Update Claim::TransferBrain::DataItem model
+
+> [!NOTE]
+> This is only necessary for LGFS fee schemes. An update may only be required if the new fee scheme includes a change to the 
+> logic governing transfer cases
+
+The Claim::TransferBrain::DataItem model contains logic used for LGFS transfer claims. The rules for transfer claims changed 
+after LGFS fee scheme 9. This class contains two methods used to override the `==` operater depending on fee scheme in effect.
+The `equal_for_scheme_nine?` and `equal_for_scheme_ten_or_later?` methods are used to do this. If the rules around transfer 
+claims change again in a future fee scheme, it may be necessary to update this class.
+
+For example by renaming `equal_for_scheme_ten_or_later?` to `equal_for_scheme_ten_or_eleven` and creating `equal_for_scheme_twelve?`
+to handle the new scenarios:
+
+``` ruby
+# Claim-for-Crown-Court-Defence/app/models/claim/transfer_brain/data_item.rb
+def ==(other)
+  return false unless litigator_type == other.litigator_type
+  return false unless equal_for_scheme_nine?(other)
+  return false unless equal_for_scheme_ten_or_eleven?(other)
+  return false unless equal_for_scheme_twelve?(other)
+  return false unless transfer_stage_id == other.transfer_stage_id
+
+  true
+end
+```
+
 ---
 
 ## Part 2: Seed Data and Rake Tasks
 
-### Step 8: Create Seed Data
+### Step 9: Create Seed Data
 
 #### Create seed file
 
@@ -293,7 +325,7 @@ SEED_FILES = %w[
 > [!NOTE]
 > These seed files are applied in order so it is important that the new file is added to the end of the list.
 
-### Step 9: Create Rake Tasks
+### Step 10: Create Rake Tasks
 
 Create a rake file for the scheme migration. Use existing rake files (e.g., `lib/tasks/agfs_scheme_thirteen.rake`) as a template:
 
@@ -348,7 +380,7 @@ end
 
 ## Part 3: Test Updates
 
-### Step 10: Update Cucumber Hooks
+### Step 11: Update Cucumber Hooks
 
 Update `features/support/hooks.rb` to include the new seed file:
 
@@ -367,7 +399,7 @@ end
 > `Rails.root.join('db/seeds/scheme.rb')` are equivalent. The latter is now
 > recommended.
 
-### Step 11: Update Factories
+### Step 12: Update factories and helpers
 
 #### Offence factory
 
@@ -419,6 +451,24 @@ FactoryBot.define do
 end
 ```
 
+#### Base claims factory
+
+Update `spec/factories/claim/base_claims.rb`:
+
+```ruby
+# spec/factories/claim/base_claims.rb
+   transient do
+      # ... existing code ...
+      create_defendant_and_rep_order_for_scheme_17 { false }
+    end
+    after(:create) do |claim, evaluator|
+      if evaluator.create_defendant_and_rep_order_for_scheme_17
+        add_defendant_and_reporder(claim, scheme_date_for('scheme 17'))
+      elsif # ... existing code ...
+      end
+    end
+```
+
 #### Advocate claim traits
 
 Update `spec/factories/claim/shared/advocate_claim_traits.rb`:
@@ -436,6 +486,8 @@ trait :agfs_scheme_17 do
 end
 ```
 
+For LGFS fee schemes, `spec/factories/claim/litigator_claims.rb` should be updated instead.
+
 #### API claims factory
 
 Update `spec/factories/claim/api_claims.rb`:
@@ -448,7 +500,7 @@ trait :with_scheme_seventeen_offence do
 end
 ```
 
-### Step 12: Update Support Helpers
+### Step 13: Update Support Helpers
 
 #### Scheme date helpers
 
@@ -475,13 +527,13 @@ module SchemeDateHelpers
 end
 ```
 
-#### Seeds helpers
+#### Seed helpers
 
-Update `spec/support/seeds_helpers.rb`:
+Update `spec/support/seed_helpers.rb`:
 
 ```ruby
-# spec/support/seeds_helpers.rb
-module SeedsHelpers
+# spec/support/seed_helpers.rb
+module SeedHelpers
   def self.seed_fee_schemes
     # ... existing schemes ...
     
@@ -504,7 +556,7 @@ end
 > Previous `find_or_create_by` lines pass all attributes as arguments while the
 > examples given above use a block to achive the same effect.
 
-### Step 13: Update Spec Files
+### Step 14: Update Spec Files
 
 #### Fee scheme factory spec
 
@@ -514,16 +566,14 @@ The fee scheme factory finds the correct fee scheme based on the representation
 order and main hearing date. The main hearing date was introduced specifically
 for AGFS fee scheme 13 and LGFS fee scheme 10 which applied to earlier
 representation order dates depending on this main hearing date. It was not used
-again in subsequent fee schemes and this is reflected in the spec files. In the
-AGFS tests there are shared examples for fee schemes 9 to 11 and a separate set
-of shared examples for fee schemes 12 onwards. This is to accommodate the
-special case of fee schemes 12 and 13.
+again in subsequent fee schemes and this is reflected in the spec files. 
 
-With LGFS the current two fee schemes, 9 and 10, constitute the 'special case'
-and so when creating the next fee scheme it may be advisable to implement a
-similar division of shared examples as in AGFS.
-
-See the existing tests for reference.
+In the AGFS tests there are shared examples for fee schemes 9 to 11 and a separate 
+set of shared examples for fee schemes 12 onwards. This is to accommodate the
+special case of fee schemes 12 and 13. In the LGFS tests there are shared examples
+for fee schemes 9 and 10 which accommodate this special case, and a separate set
+of shared examples for fee schemes 11 onwards for fee schemes where the main 
+hearing date is not relevant.
 
 #### Base fee type spec
 
@@ -554,10 +604,75 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories do
 end
 ```
 
-### Step 14: Create Feature Tests
+#### Offence spec
+
+Update `spec/models/offence_spec.rb`.
+
+Add details of the new fee scheme to the `'can be queried by fee scheme types'` spec:
+
+```ruby
+# spec/models/offence_spec.rb
+  expect(described_class).to \
+    respond_to(
+      # ... existing code ..
+      :in_scheme_16,
+      :in_scheme_sixteen,
+      :in_scheme_17,
+      :in_scheme_seventeen
+    )
+```
+
+Add a new set of tests for the new fee scheme, replicating what exists for the previous scheme:
+
+```ruby
+# spec/models/offence_spec.rb
+  describe '#scheme_seventeen?' do
+    subject { offence.scheme_seventeen? }
+
+    # Appropriate contexts for scheme 17
+  end
+```
+
+#### TransferBrain::DataItem spec
+
+Update `spec/models/claim/transfer_brain/data_item_spec.rb` if changes have been made to the `TransferBrain::DataItem` class for LGFS transfer claims.
+
+#### Fee scheme usage specs
+
+Update `spec/services/stats/fee_scheme_usage_generator_spec.rb` and `spec/services/stats/graphs/six_month_period_spec.rb`
+to include the new fee scheme in specs that test the visualisation of fee scheme usage.
+
+A test in `spec/requests/super_admins/stats_request_spec.rb` will fail if the number of fee schemes is greater than or equal 
+to the number of colours defined for use by the ChartKick library. If this occurs, it can fixed by adding additional colours
+to the `@chart_colours` variable in `app/controllers/super_admins/stats_controller.rb`.
+
+### Step 15: Create Feature Tests
 
 Create new feature tests in `features/claims/advocate/` (or `features/claims/litigator/`).
-These can be copied from the previous fee scheme and modified.
+These can be copied from the previous fee scheme and modified. 
+
+These tests assert that the fee values returned from Fee Calculator are correct. To test
+this. It will be necessary to initially run these tests using the `FEE_CALC_VCR_MODE=new_episodes`
+prefix to record new VCR cassettes. If fee values are being changed in the new fee scheme
+then the tests should be run against a Fee Calculator instance which has had the correspinding
+changes implemented.
+
+
+### Step 16: Update API release notes
+
+Update `app/views/pages/api_release_notes.html.haml` to provide details of the new fee scheme to
+software vendors who maintain case management systems that integrate with the CCCD API and may need 
+to make changes to their software.
+
+### Step 17: Enable manual testing
+
+Manual testing will need to be carried out before the start date of the new fee scheme. CCCD does 
+not allow the creation of claims with dates in the future. To facilitate this testing, the 
+`ALLOW_FUTURE_DATES` flag can be set to `true` in the `app-config.yaml` file for the appropriate
+environment.
+
+This is enabled by default in the `dev-lgfs` and `api-sandbox` environments. It should never be enabled
+in the `production` environment.
 
 ---
 
@@ -576,12 +691,14 @@ Before deploying to production, verify:
 - [ ] Offence model updated with scope and query method
 - [ ] Claim delegation added
 - [ ] Eligibility services updated
+- [ ] TransferBrain logic updated
 - [ ] Seed data created
 - [ ] Rake tasks created and tested locally
 - [ ] All factory traits created
 - [ ] Unit tests passing
 - [ ] Feature tests passing
 - [ ] Rake task tested in staging environment
+- [ ] API release notes updated
 
 ### Running the Migration
 

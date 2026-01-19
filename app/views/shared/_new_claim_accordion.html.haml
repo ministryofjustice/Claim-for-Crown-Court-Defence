@@ -11,7 +11,7 @@
             = t('shared.position_and_count', position: claim_position_and_count)
 
             - unless last_claim?
-              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+              = next_claim_link 'Next claim'.html_safe, class: 'next-claim'
 
   = render partial: 'shared/claim_history', locals: { claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }

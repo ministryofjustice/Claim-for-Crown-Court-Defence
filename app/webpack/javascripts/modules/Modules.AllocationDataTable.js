@@ -152,7 +152,7 @@ moj.Modules.AllocationDataTable = {
       targets: 1,
       data: null,
       render: function (data, type, full) {
-        return '<span class="js-test-case-number"><a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a></span>'
+        return '<span class="js-test-case-number"><a class="govuk-link" aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a></span>'
       }
 
     }, {

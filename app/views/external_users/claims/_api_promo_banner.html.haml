@@ -8,4 +8,4 @@
 
     %ul.govuk-list
       %li.hide-link
-        = link_to t('callout_banner.api_promo_hide_banner'), settings_user_path(current_user.id, api_promo_seen: 1), method: :put, remote: true
+        = govuk_link_to t('callout_banner.api_promo_hide_banner'), settings_user_path(current_user.id, api_promo_seen: 1), method: :put, remote: true

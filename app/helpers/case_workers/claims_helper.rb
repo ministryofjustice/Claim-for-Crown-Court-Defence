@@ -28,7 +28,7 @@ module CaseWorkers::ClaimsHelper
   end
 
   def next_claim_link(text, options = {})
-    link_to text, case_workers_claim_path(claim_ids[claim_ids.index(@claim.id) + 1]), options
+    govuk_link_to text, case_workers_claim_path(claim_ids[claim_ids.index(@claim.id) + 1]), options
   end
 
   def claim_ids

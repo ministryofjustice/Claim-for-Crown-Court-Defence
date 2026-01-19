@@ -79,7 +79,7 @@ module ApplicationHelper
     query_params = params.except(:page).merge(sort: column, direction:, anchor: column).permit!
     html_options = options.merge(class: css_class)
 
-    link_to [title].join(' ').html_safe, query_params, html_options
+    govuk_link_to [title].join(' ').html_safe, query_params, html_options
   end
 
   def column_sort_icon

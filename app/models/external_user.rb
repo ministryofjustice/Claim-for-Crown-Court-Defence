@@ -34,7 +34,7 @@ class ExternalUser < ApplicationRecord
 
   default_scope { includes(:user, :provider) }
 
-  before_validation { supplier_number.upcase! if supplier_number.present? }
+  before_validation { supplier_number.presence&.upcase! }
 
   validates :user, presence: true
   validates :provider, presence: true

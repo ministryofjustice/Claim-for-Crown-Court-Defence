@@ -84,7 +84,7 @@ end
 def publicise_errors(claim)
   yield
 rescue StandardError => e
-  puts "***************** DEBUG validation errors #{__FILE__}::#{__LINE__} **********"
+  Rails.logger.debug { "***************** DEBUG validation errors #{__FILE__}::#{__LINE__} **********" }
   show_errors_of([claim]) do |c|
     show_errors_of(c.defendants) { |defendant| show_errors_of(defendant.representation_orders) }
     show_errors_of(c.fees)
@@ -95,8 +95,8 @@ end
 
 def show_errors_of(attributes)
   attributes.each do |attribute|
-    ap attribute
-    puts attribute.errors.full_messages
+    Rails.logger.debug(attribute.inspect)
+    Rails.logger.debug(attribute.errors.full_messages)
     yield(attribute) if block_given?
   end
 end

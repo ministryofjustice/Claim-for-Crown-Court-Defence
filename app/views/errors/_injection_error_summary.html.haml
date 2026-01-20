@@ -11,7 +11,6 @@
         %ul.govuk-list.govuk-error-summary__list
           - ep.injection_errors.each do |message|
             %li
-              = link_to '#injection_error' do
-                = message
+              = govuk_link_to message, '#injection_error'
       .hide-link
-        = link_to ep.injection_error_dismiss_text, dismiss_injection_attempt_path(ep.last_injection_attempt), method: :patch, remote: true, class: 'cb-dismiss-link'
+        = govuk_link_to ep.injection_error_dismiss_text, dismiss_injection_attempt_path(ep.last_injection_attempt), method: :patch, remote: true, class: 'cb-dismiss-link'

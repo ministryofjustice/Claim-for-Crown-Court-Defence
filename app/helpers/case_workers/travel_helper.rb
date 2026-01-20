@@ -8,7 +8,7 @@ module CaseWorkers::TravelHelper
     @origin = @options.delete(:origin)
     @destination = @options.delete(:destination)
 
-    link_to(link_text, google_map_url(@origin, @destination, travel_mode), @options) if can_link?
+    govuk_link_to(link_text, google_map_url(@origin, @destination, travel_mode), @options) if can_link?
   end
 
   private

@@ -27,8 +27,8 @@ RSpec.describe CaseWorkers::TravelHelper do
         expect(link.attributes['target'].value).to match(/_blank/)
       end
 
-      it 'passes other html options to link_to' do
-        expect(helper).to receive(:link_to).with('View public transport journey', link.attributes['href'].value, { target: '_not_a_real_value', class: 'not-a-class' })
+      it 'passes other html options to govuk_link_to' do
+        expect(helper).to receive(:govuk_link_to).with('View public transport journey', link.attributes['href'].value, { target: '_not_a_real_value', class: 'not-a-class' })
         helper.link_to_map(expense, origin: 'SE9 2XX', destination: 'SE9 3XX', target: '_not_a_real_value', class: 'not-a-class')
       end
     end
@@ -48,8 +48,8 @@ RSpec.describe CaseWorkers::TravelHelper do
         expect(link.attributes['target'].value).to match(/_blank/)
       end
 
-      it 'passes other html options to link_to' do
-        expect(helper).to receive(:link_to).with('View car journey', link.attributes['href'].value, { target: '_not_a_real_value', class: 'not-a-class' })
+      it 'passes other html options to govuk_link_to' do
+        expect(helper).to receive(:govuk_link_to).with('View car journey', link.attributes['href'].value, { target: '_not_a_real_value', class: 'not-a-class' })
         helper.link_to_map(expense, origin: 'SE9 2XX', destination: 'SE9 3XX', target: '_not_a_real_value', class: 'not-a-class')
       end
     end

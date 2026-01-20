@@ -41,6 +41,6 @@
       = f.fields_for :representation_orders do |repo_form|
         = render partial: 'external_users/claims/defendants/representation_order_fields', locals: { f: repo_form }
     .links
-      = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, partial: 'external_users/claims/defendants/representation_order_fields'
+      = link_to_add_association t('.add_another_rep_order'), f, :representation_orders, partial: 'external_users/claims/defendants/representation_order_fields', class: 'govuk-link'
 
   - @defendant_count += 1

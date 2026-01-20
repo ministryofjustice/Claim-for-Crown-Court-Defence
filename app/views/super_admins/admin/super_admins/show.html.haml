@@ -3,13 +3,12 @@
 
 = render partial: 'layouts/header', locals: {page_heading: 'Your account'}
 
-
 %p
   Name:
   = @super_admin.name
 
 - if can? :edit, @super_admin
-  = link_to 'Edit', edit_super_admins_admin_super_admin_path(@super_admin), class: 'button'
+  = govuk_link_to 'Edit', edit_super_admins_admin_super_admin_path(@super_admin), class: 'button'
 
 - if can? :change_password, @super_admin
-  = link_to 'Change password', change_password_super_admins_admin_super_admin_path(@super_admin), class: 'button'
+  = govuk_link_to 'Change password', change_password_super_admins_admin_super_admin_path(@super_admin), class: 'button'

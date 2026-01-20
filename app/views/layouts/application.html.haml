@@ -48,7 +48,7 @@
     = render partial: 'layouts/primary_navigation'
 
     .govuk-width-container
-      = govuk_phase_banner(nil, t('.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report'), query_claim: contact_us_page_path)) unless @disable_phase_banner
+      = feedback_banner(t('.feedback_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report'), query_claim: contact_us_page_path)) unless @disable_feedback_banner
 
       - if @enable_breadcrumb
         .govuk-grid-row

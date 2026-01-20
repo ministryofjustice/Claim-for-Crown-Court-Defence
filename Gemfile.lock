@@ -721,8 +721,7 @@ GEM
     useragent (0.16.11)
     utf8-cleaner (1.0.0)
       activesupport
-    vcr (6.3.1)
-      base64
+    vcr (6.4.0)
     version_gem (1.1.9)
     view_component (4.1.1)
       actionview (>= 7.1.0, < 8.2)

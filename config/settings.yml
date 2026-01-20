@@ -234,7 +234,6 @@ maat_regexp: !ruby/regexp <%= ENV['MAAT_REGEXP'] || '/^[2-9][0-9]{6}$/' %>
 maat_api_url: <%= ENV['MAAT_API_URL'] %>
 maat_api_oauth_client_id: <%= ENV['OAUTH_CLIENT_ID'] %>
 maat_api_oauth_client_secret: <%= ENV['OAUTH_CLIENT_SECRET'] %>
-maat_api_oauth_scope: <%=ENV['OAUTH_SCOPE'] %>
 maat_api_oauth_url: <%=ENV['OAUTH_URL']%>
 
 secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>

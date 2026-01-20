@@ -823,6 +823,7 @@ DEPENDENCIES
   net-smtp
   net-ssh (~> 7.3)
   nokogiri (~> 1.18)
+  oauth2
   pagy
   paper_trail (~> 17.0.0)
   parallel_tests

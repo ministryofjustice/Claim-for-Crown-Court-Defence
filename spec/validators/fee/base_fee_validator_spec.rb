@@ -543,10 +543,10 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           }
 
           it {
-            should_error_if_equal_to_value(pcm_fee, :quantity, 4, fee_quantity_error_message)
+            should_error_if_equal_to_value(pcm_fee, :quantity, 11, fee_quantity_error_message)
           }
 
-          it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
+          it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 10) }
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
         end
 
@@ -578,10 +578,10 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         }
 
         it {
-          should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 4, fee_quantity_error_message)
+          should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 11, fee_quantity_error_message)
         }
 
-        it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 3) }
+        it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 10) }
         it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 1) }
       end
 

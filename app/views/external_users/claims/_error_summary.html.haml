@@ -15,4 +15,4 @@
         %ul.govuk-list.govuk-error-summary__list
           - ep.summary_errors.each do |error_detail|
             %li
-              = error_detail.long_message_link
+              = govuk_link_to(error_detail.long_message, anchor: error_detail.attribute)

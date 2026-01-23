@@ -81,6 +81,7 @@ module Fee
     end
 
     def validate_pcm_quantity
+      # Note that plea and case management hearings (PCM) have been renamed to pre and trial preparation hearings (PTPH)
       if @record.claim.supplementary? || @record.claim.case_type.try(:allow_pcmh_fee_type?)
         add_error(:quantity, :pcm_numericality) if @record.quantity > 10
       else

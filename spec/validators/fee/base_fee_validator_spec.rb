@@ -531,8 +531,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
       end
 
-      context 'plea and case management hearing (PCM)' do
-        context 'permitted case type' do
+      context 'with PTPH (plea and trial preparation hearing, formerly PCM)' do
+        context 'with a permitted case type' do
           before do
             claim.case_type = build :case_type, :allow_pcmh_fee_type
           end
@@ -550,7 +550,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
         end
 
-        context 'unpermitted case type' do
+        context 'with an unpermitted case type' do
           before do
             claim.case_type = build :case_type
           end
@@ -567,7 +567,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
       end
 
-      context 'plea and case management hearing (PCM) for supplementary claims' do
+      context 'with PTPH (plea and trial preparation hearing, formerly PCM) for supplementary claims' do
         before do
           supplementary_claim.force_validation = true
         end

@@ -9,20 +9,32 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     context 'scheme 9 claim' do
       let(:claim) { create(:authorised_claim, case_type:) }
 
-      attendances_incl_in_basic_fee = 2
-
-      context 'for trials' do
+      context 'with a trial' do
         let(:case_type) { build(:case_type, :trial) }
 
         context 'when no daily attendance uplift fees applied' do
-          [0, 1, 3, nil].each do |trial_length|
-            context "and claim has an actual trial length of #{trial_length || 'nil'}" do
-              before { claim.update(actual_trial_length: trial_length) }
+          context 'when the trial length for the claim is missing' do
+            before { claim.update(actual_trial_length: nil) }
 
-              it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual trial length or #{attendances_incl_in_basic_fee} (included in basic fee)" do
-                is_expected.to eql [trial_length, attendances_incl_in_basic_fee].compact.min
-              end
-            end
+            it { is_expected.to eq 2 }
+          end
+
+          context 'when the claim has an actual trial length of 0 days' do
+            before { claim.update(actual_trial_length: 0) }
+
+            it { is_expected.to eq 0 }
+          end
+
+          context 'when the claim has an actual trial length of 1 day' do
+            before { claim.update(actual_trial_length: 1) }
+
+            it { is_expected.to eq 1 }
+          end
+
+          context 'when the claim has an actual trial length of 3 days' do
+            before { claim.update(actual_trial_length: 3) }
+
+            it { is_expected.to eq 2 }
           end
         end
 
@@ -34,7 +46,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
             create(:basic_fee, :daj_fee, claim:, quantity: 1, rate: 1.0)
           end
 
-          it "returns sum of daily attendance fee types plus #{attendances_incl_in_basic_fee} (included in basic fee)" do
+          it "returns sum of daily attendance fee types plus 2 (included in basic fee)" do
             is_expected.to eq 51
           end
         end
@@ -44,14 +56,28 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
         let(:case_type) { build(:case_type, :retrial) }
 
         context 'when no daily attendance uplift fees applied' do
-          [0, 1, 3, nil].each do |trial_length|
-            context "and claim has an actual retrial length of #{trial_length || 'nil'}" do
-              before { claim.update(retrial_actual_length: trial_length) }
+          context 'when the retrial length for the claim is missing' do
+            before { claim.update(retrial_actual_length: nil) }
 
-              it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual retrial length or 2 (included in basic fee)" do
-                is_expected.to eql [trial_length, 2].compact.min
-              end
-            end
+            it { is_expected.to eq 2 }
+          end
+
+          context 'when the claim has an actual retrial length of 0 days' do
+            before { claim.update(retrial_actual_length: 0) }
+
+            it { is_expected.to eq 0 }
+          end
+
+          context 'when the claim has an actual retrial length of 1 day' do
+            before { claim.update(retrial_actual_length: 1) }
+
+            it { is_expected.to eq 1 }
+          end
+
+          context 'when the claim has an actual retrial length of 3 days' do
+            before { claim.update(retrial_actual_length: 3) }
+
+            it { is_expected.to eq 2 }
           end
         end
       end
@@ -60,20 +86,32 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     context 'scheme 10 claim' do
       let(:claim) { create(:authorised_claim, :agfs_scheme_10, case_type:, form_step: :case_details, offence: create(:offence, :with_fee_scheme_ten)) }
 
-      attendances_incl_in_basic_fee = 1
-
-      context 'for trials' do
+      context 'with a trial' do
         let(:case_type) { build(:case_type, :trial) }
 
         context 'when no daily attendance uplift fee (2+) applied' do
-          [0, 1, 2, nil].each do |trial_length|
-            context "and claim has an actual trial length of #{trial_length || 'nil'}" do
-              before { claim.update(actual_trial_length: trial_length) }
+          context 'when the trial length for the claim is missing' do
+            before { claim.update(actual_trial_length: nil) }
 
-              it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual trial length or #{attendances_incl_in_basic_fee} (included in basic fee)" do
-                is_expected.to eql [trial_length, attendances_incl_in_basic_fee].compact.min
-              end
-            end
+            it { is_expected.to eq 1 }
+          end
+
+          context 'when the claim has an actual trial length of 0 days' do
+            before { claim.update(actual_trial_length: 0) }
+
+            it { is_expected.to eq 0 }
+          end
+
+          context 'when the claim has an actual trial length of 1 day' do
+            before { claim.update(actual_trial_length: 1) }
+
+            it { is_expected.to eq 1 }
+          end
+
+          context 'when the claim has an actual trial length of 2 days' do
+            before { claim.update(actual_trial_length: 2) }
+
+            it { is_expected.to eq 1 }
           end
         end
 
@@ -83,7 +121,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
             create(:basic_fee, :dat_fee, claim:, quantity: 9, rate: 1.0)
           end
 
-          it "returns sum of daily attendance fee types plus #{attendances_incl_in_basic_fee} (included in basic fee)" do
+          it "returns sum of daily attendance fee types plus 1 (included in basic fee)" do
             is_expected.to eq 10
           end
         end
@@ -93,14 +131,28 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
         let(:case_type) { build(:case_type, :retrial) }
 
         context 'when no daily attendance uplift fee (2+) applied' do
-          [0, 1, 2, nil].each do |trial_length|
-            context "and claim has an actual retrial length of #{trial_length || 'nil'}" do
-              before { claim.update(retrial_actual_length: trial_length) }
+          context 'when the retrial length for the claim is missing' do
+            before { claim.update(retrial_actual_length: nil) }
 
-              it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual retrial length or #{attendances_incl_in_basic_fee} (included in basic fee)" do
-                is_expected.to eql [trial_length, attendances_incl_in_basic_fee].compact.min
-              end
-            end
+            it { is_expected.to eq 1 }
+          end
+
+          context 'when the claim has an actual retrial length of 0 days' do
+            before { claim.update(retrial_actual_length: 0) }
+
+            it { is_expected.to eq 0 }
+          end
+
+          context 'when the claim has an actual retrial length of 1 day' do
+            before { claim.update(retrial_actual_length: 1) }
+
+            it { is_expected.to eq 1 }
+          end
+
+          context 'when the claim has an actual retrial length of 3 days' do
+            before { claim.update(retrial_actual_length: 3) }
+
+            it { is_expected.to eq 1 }
           end
         end
       end

@@ -6,7 +6,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
   describe '#attendances' do
     subject { described_class.new(claim).attendances }
 
-    context 'scheme 9 claim' do
+    context 'with a scheme 9 claim' do
       let(:claim) { create(:authorised_claim, case_type:) }
 
       context 'with a trial' do
@@ -46,13 +46,13 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
             create(:basic_fee, :daj_fee, claim:, quantity: 1, rate: 1.0)
           end
 
-          it "returns sum of daily attendance fee types plus 2 (included in basic fee)" do
+          it 'returns sum of daily attendance fee types plus 2 (included in basic fee)' do
             is_expected.to eq 51
           end
         end
       end
 
-      context 'for retrials' do
+      context 'with a retrial' do
         let(:case_type) { build(:case_type, :retrial) }
 
         context 'when no daily attendance uplift fees applied' do
@@ -83,8 +83,16 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
       end
     end
 
-    context 'scheme 10 claim' do
-      let(:claim) { create(:authorised_claim, :agfs_scheme_10, case_type:, form_step: :case_details, offence: create(:offence, :with_fee_scheme_ten)) }
+    context 'with a scheme 10 claim' do
+      let(:claim) do
+        create(
+          :authorised_claim,
+          :agfs_scheme_10,
+          case_type:,
+          form_step: :case_details,
+          offence: create(:offence, :with_fee_scheme_ten)
+        )
+      end
 
       context 'with a trial' do
         let(:case_type) { build(:case_type, :trial) }
@@ -121,13 +129,13 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
             create(:basic_fee, :dat_fee, claim:, quantity: 9, rate: 1.0)
           end
 
-          it "returns sum of daily attendance fee types plus 1 (included in basic fee)" do
+          it 'returns sum of daily attendance fee types plus 1 (included in basic fee)' do
             is_expected.to eq 10
           end
         end
       end
 
-      context 'for retrials' do
+      context 'with a retrial' do
         let(:case_type) { build(:case_type, :retrial) }
 
         context 'when no daily attendance uplift fee (2+) applied' do
@@ -160,15 +168,18 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
   end
 
   describe '.attendances_for' do
-    subject { described_class.attendances_for(claim) }
+    subject(:attendances_for) { described_class.attendances_for(claim) }
 
     let(:claim) { build(:authorised_claim) }
     let(:adapter) { instance_double described_class }
 
-    it 'calls #attendances' do
-      expect(described_class).to receive(:new).with(claim).and_return adapter
-      expect(adapter).to receive(:attendances)
-      subject
+    before do
+      allow(described_class).to receive(:new).with(claim).and_return adapter
+      allow(adapter).to receive(:attendances)
+
+      attendances_for
     end
+
+    it { expect(adapter).to have_received(:attendances) }
   end
 end

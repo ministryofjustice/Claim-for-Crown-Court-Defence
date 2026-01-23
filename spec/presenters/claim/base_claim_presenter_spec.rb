@@ -604,22 +604,16 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  describe '#reason_text' do
+  it_behaves_like 'last claim state transition reason_text' do
     subject { presenter.reason_text }
-
-    include_examples 'last claim state transition reason_text'
   end
 
-  describe '#reject_reason_text' do
+  it_behaves_like 'last claim state transition reason_text' do
     subject { presenter.reject_reason_text }
-
-    include_examples 'last claim state transition reason_text'
   end
 
-  describe '#refuse_reason_text' do
+  it_behaves_like 'last claim state transition reason_text' do
     subject { presenter.refuse_reason_text }
-
-    include_examples 'last claim state transition reason_text'
   end
 
   describe '#claim_state' do

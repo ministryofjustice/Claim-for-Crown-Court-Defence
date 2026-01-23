@@ -235,7 +235,7 @@ en:
               npw_invalid: Enter a valid quantity for number of prosecution witnesses fees
               pcm_invalid: Enter a valid quantity for plea and trial preparation hearing
               pcm_not_applicable: Plea and case management hearing fee not applicable to case type
-              pcm_numericality: Enter a valid quantity (1 to 3) for plea and case management hearing fees
+              pcm_numericality: Enter a valid quantity (1 to 10) for plea and case management hearing fees
               ppe_invalid: Enter a valid quantity for pages of prosecution evidence fees
               saf_invalid: Enter a valid quantity for standard appearance fees
             rate:
@@ -364,7 +364,7 @@ en:
               miste_numericality: Enter a valid quantity (1) for section 28 hearing
               miumu_numericality: Enter a valid quantity (1) for unused material (up to 3 hours)
               pcm_invalid: Enter a valid quantity for plea and trial preparation hearing
-              pcm_numericality: Enter a valid quantity (1 to 3) for plea and case management hearing fees
+              pcm_numericality: Enter a valid quantity (1 to 10) for plea and case management hearing fees
             rate:
               invalid: Enter a valid rate for the miscellaneous fee
               pcm_invalid: Enter a valid rate for the Plea and trial preparation hearing

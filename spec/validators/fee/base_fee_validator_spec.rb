@@ -338,7 +338,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         'The number of daily attendance fees \(2\+ days\) does not fit the actual \(re\)trial length'
       end
       let(:fee_quantity_error_message) do
-        'Enter a valid quantity \(1 to 3\) for plea and case management hearing fees'
+        'Enter a valid quantity \(1 to 10\) for plea and case management hearing fees'
       end
 
       context 'basic fee (BAF)' do
@@ -537,14 +537,14 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
             claim.case_type = build :case_type, :allow_pcmh_fee_type
           end
 
-          it {
+          it do
             should_error_if_equal_to_value(pcm_fee, :quantity, 0,
                                            'Enter a valid quantity for plea and trial preparation hearing')
-          }
+          end
 
-          it {
+          it do
             should_error_if_equal_to_value(pcm_fee, :quantity, 11, fee_quantity_error_message)
-          }
+          end
 
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 10) }
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
@@ -555,15 +555,15 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
             claim.case_type = build :case_type
           end
 
-          it {
+          it do
             should_error_if_equal_to_value(pcm_fee, :quantity, 1,
                                            'Plea and case management hearing fee not applicable to case type')
-          }
+          end
 
-          it {
+          it do
             should_error_if_equal_to_value(pcm_fee, :quantity, -1,
                                            'Plea and case management hearing fee not applicable to case type')
-          }
+          end
         end
       end
 

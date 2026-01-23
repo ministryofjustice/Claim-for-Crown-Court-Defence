@@ -78,7 +78,7 @@ group :development, :test do
   gem 'brakeman', :require => false
   gem 'better_errors'
   gem 'byebug'
-  gem 'listen', '~> 3.9.0'
+  gem 'listen', '~> 3.10.0'
   gem 'meta_request'
   gem 'parallel_tests'
   gem 'pry-byebug'

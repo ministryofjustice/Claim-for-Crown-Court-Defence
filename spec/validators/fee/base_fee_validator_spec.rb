@@ -338,7 +338,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         'The number of daily attendance fees \(2\+ days\) does not fit the actual \(re\)trial length'
       end
       let(:fee_quantity_error_message) do
-        'Enter a valid quantity \(1 to 10\) for plea and case management hearing fees'
+        'Enter a valid quantity \(1 to 10\) for plea and trial preparation hearing fees'
       end
 
       context 'basic fee (BAF)' do

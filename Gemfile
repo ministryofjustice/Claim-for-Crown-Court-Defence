@@ -72,7 +72,7 @@ gem 'laa-cda', git: 'https://github.com/ministryofjustice/laa-cda'
 # Rails 7.0. It should be possible to remove this restriction when we move to
 # Rails 7.1.
 # See https://github.com/ruby-concurrency/concurrent-ruby/issues/1077
-gem 'concurrent-ruby', '< 1.3.6'
+gem 'concurrent-ruby', '< 1.3.7'
 
 group :development, :test do
   gem 'annotate'

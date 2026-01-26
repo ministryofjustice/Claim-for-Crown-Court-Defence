@@ -1,8 +1,6 @@
 require 'rails_helper'
 require 'cgi'
 
-METHOD_NAMES = %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].freeze
-
 RSpec.shared_examples 'last claim state transition reason_text' do
   let(:mock_claim_state_transitions) do
     [
@@ -17,6 +15,13 @@ RSpec.shared_examples 'last claim state transition reason_text' do
   it 'returns last claim state transition reason text' do
     is_expected.to eql 'last reason'
   end
+end
+
+RSpec.shared_examples 'a currency formatted method' do |method_name|
+  before { allow(claim).to receive(method_name).and_return 1234.56 }
+
+  it { is_expected.to respond_to(method_name) }
+  it { expect(presenter.send(method_name)).to eql('£1,234.56') }
 end
 
 RSpec.describe Claim::BaseClaimPresenter do
@@ -257,21 +262,18 @@ RSpec.describe Claim::BaseClaimPresenter do
     it { expect(presenter.assessment_total).to eql('£152.48') }
   end
 
-  describe 'dynamically defined methods' do
-    %w[expenses disbursements].each do |object_name|
-      METHOD_NAMES.each do |method|
-        method_name = :"#{object_name}_#{method}"
-        it { is_expected.to respond_to(method_name) }
-
-        describe "##{method_name}" do
-          it 'returns currency format' do
-            allow(claim).to receive(method_name).and_return 100
-            expect(presenter.send(method_name)).to match(/£\d+\.\d+/)
-          end
-        end
-      end
-    end
-  end
+  it_behaves_like 'a currency formatted method', :expenses_total
+  it_behaves_like 'a currency formatted method', :expenses_vat
+  it_behaves_like 'a currency formatted method', :expenses_with_vat_net
+  it_behaves_like 'a currency formatted method', :expenses_with_vat_gross
+  it_behaves_like 'a currency formatted method', :expenses_without_vat_net
+  it_behaves_like 'a currency formatted method', :expenses_without_vat_gross
+  it_behaves_like 'a currency formatted method', :disbursements_total
+  it_behaves_like 'a currency formatted method', :disbursements_vat
+  it_behaves_like 'a currency formatted method', :disbursements_with_vat_net
+  it_behaves_like 'a currency formatted method', :disbursements_with_vat_gross
+  it_behaves_like 'a currency formatted method', :disbursements_without_vat_net
+  it_behaves_like 'a currency formatted method', :disbursements_without_vat_gross
 
   describe '#expenses_gross' do
     before { claim.update!(expenses_total: 100, expenses_vat: 25) }
@@ -602,22 +604,16 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  describe '#reason_text' do
+  it_behaves_like 'last claim state transition reason_text' do
     subject { presenter.reason_text }
-
-    include_examples 'last claim state transition reason_text'
   end
 
-  describe '#reject_reason_text' do
+  it_behaves_like 'last claim state transition reason_text' do
     subject { presenter.reject_reason_text }
-
-    include_examples 'last claim state transition reason_text'
   end
 
-  describe '#refuse_reason_text' do
+  it_behaves_like 'last claim state transition reason_text' do
     subject { presenter.refuse_reason_text }
-
-    include_examples 'last claim state transition reason_text'
   end
 
   describe '#claim_state' do

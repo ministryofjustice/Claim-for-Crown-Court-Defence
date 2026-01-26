@@ -364,7 +364,7 @@ en:
               miste_numericality: Enter a valid quantity (1) for section 28 hearing
               miumu_numericality: Enter a valid quantity (1) for unused material (up to 3 hours)
               pcm_invalid: Enter a valid quantity for plea and trial preparation hearing
-              pcm_numericality: Enter a valid quantity (1 to 10) for plea and case management hearing fees
+              pcm_numericality: Enter a valid quantity (1 to 10) for plea and trial preparation hearing fees
             rate:
               invalid: Enter a valid rate for the miscellaneous fee
               pcm_invalid: Enter a valid rate for the Plea and trial preparation hearing

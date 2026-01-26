@@ -338,7 +338,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         'The number of daily attendance fees \(2\+ days\) does not fit the actual \(re\)trial length'
       end
       let(:fee_quantity_error_message) do
-        'Enter a valid quantity \(1 to 3\) for plea and case management hearing fees'
+        'Enter a valid quantity \(1 to 10\) for plea and trial preparation hearing fees'
       end
 
       context 'basic fee (BAF)' do
@@ -531,43 +531,43 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
       end
 
-      context 'plea and case management hearing (PCM)' do
-        context 'permitted case type' do
+      context 'with PTPH (plea and trial preparation hearing, formerly PCM)' do
+        context 'with a permitted case type' do
           before do
             claim.case_type = build :case_type, :allow_pcmh_fee_type
           end
 
-          it {
+          it do
             should_error_if_equal_to_value(pcm_fee, :quantity, 0,
                                            'Enter a valid quantity for plea and trial preparation hearing')
-          }
+          end
 
-          it {
-            should_error_if_equal_to_value(pcm_fee, :quantity, 4, fee_quantity_error_message)
-          }
+          it do
+            should_error_if_equal_to_value(pcm_fee, :quantity, 11, fee_quantity_error_message)
+          end
 
-          it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
+          it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 10) }
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
         end
 
-        context 'unpermitted case type' do
+        context 'with an unpermitted case type' do
           before do
             claim.case_type = build :case_type
           end
 
-          it {
+          it do
             should_error_if_equal_to_value(pcm_fee, :quantity, 1,
                                            'Plea and case management hearing fee not applicable to case type')
-          }
+          end
 
-          it {
+          it do
             should_error_if_equal_to_value(pcm_fee, :quantity, -1,
                                            'Plea and case management hearing fee not applicable to case type')
-          }
+          end
         end
       end
 
-      context 'plea and case management hearing (PCM) for supplementary claims' do
+      context 'with PTPH (plea and trial preparation hearing, formerly PCM) for supplementary claims' do
         before do
           supplementary_claim.force_validation = true
         end
@@ -578,10 +578,10 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         }
 
         it {
-          should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 4, fee_quantity_error_message)
+          should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 11, fee_quantity_error_message)
         }
 
-        it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 3) }
+        it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 10) }
         it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 1) }
       end
 

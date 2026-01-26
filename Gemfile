@@ -68,12 +68,6 @@ gem 'uri', '< 2.0.0'
 
 gem 'laa-cda', git: 'https://github.com/ministryofjustice/laa-cda'
 
-# Version 1.3.5 of concurrent-ruby removes logger and this causes issues with
-# Rails 7.0. It should be possible to remove this restriction when we move to
-# Rails 7.1.
-# See https://github.com/ruby-concurrency/concurrent-ruby/issues/1077
-gem 'concurrent-ruby', '< 1.3.6'
-
 group :development, :test do
   gem 'annotate'
   gem 'brakeman', :require => false

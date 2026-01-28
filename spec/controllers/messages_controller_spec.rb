@@ -1,19 +1,3 @@
-# == Schema Information
-#
-# Table name: messages
-#
-#  id                      :integer          not null, primary key
-#  body                    :text
-#  claim_id                :integer
-#  sender_id               :integer
-#  created_at              :datetime
-#  updated_at              :datetime
-#  attachment_file_name    :string
-#  attachment_content_type :string
-#  attachment_file_size    :integer
-#  attachment_updated_at   :datetime
-#
-
 require 'rails_helper'
 
 RSpec.describe MessagesController do
@@ -49,6 +33,18 @@ RSpec.describe MessagesController do
       context 'when message does not have attachment' do
         it 'raises an exception' do
           expect { download_attachment }.to raise_exception('No attachment present on this message')
+        end
+      end
+
+      context 'when user attempts to download another provider\'s message attachment' do
+        let(:other_user) { create(:external_user) }
+
+        before { sign_in other_user.user }
+
+        it 'denies access and redirects to root' do
+          download_attachment
+          expect(response).to redirect_to(external_users_root_url)
+          expect(flash[:alert]).to eq(I18n.t('common.unauthorised'))
         end
       end
     end

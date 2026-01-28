@@ -31,11 +31,5 @@ module ErrorMessage
     def to_summary_error
       [attribute, long_message]
     end
-
-    # rubocop:disable Rails/OutputSafety
-    def long_message_link
-      %(<a href="##{@attribute}">#{@long_message}</a>).html_safe
-    end
-    # rubocop:enable Rails/OutputSafety
   end
 end

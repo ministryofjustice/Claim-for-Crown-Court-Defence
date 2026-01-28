@@ -3,7 +3,8 @@ module SuperAdmins
     skip_load_and_authorize_resource only: :show
 
     def show
-      @chart_colours = %w[#ffdd00	#00703c #5694ca #912b88 #f47738 #85994b #003078 #f499be #b52c17 #ea7361 #66ff66]
+      @chart_colours = %w[#ffdd00 #00703c #5694ca #912b88 #f47738 #85994b #003078 #f499be #b52c17 #ea7361 #66ff66
+                          #00b2a9 #8c564b #666666 #ff6f91 #2ca02c]
       set_times
       generate_graph_data
     end

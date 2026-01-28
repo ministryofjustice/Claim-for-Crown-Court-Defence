@@ -63,7 +63,14 @@ FactoryBot.define do
     trait :lgfs_ten do
       name { 'LGFS' }
       start_date { Settings.lgfs_scheme_10_clair_release_date.beginning_of_day }
+      end_date { Settings.lgfs_scheme_11_feb_2026_release_date.end_of_day - 1.day }
       version { 10 }
+    end
+
+    trait :lgfs_eleven do
+      name { 'LGFS' }
+      start_date { Settings.lgfs_scheme_11_feb_2026_release_date.beginning_of_day }
+      version { 11 }
     end
   end
 end

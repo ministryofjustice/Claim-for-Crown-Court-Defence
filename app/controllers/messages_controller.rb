@@ -19,6 +19,8 @@ class MessagesController < ApplicationController
 
   respond_to :html
 
+  before_action :authorize_message_access!, only: [:download_attachment]
+
   def create
     @message = Message.new(message_params.merge(sender_id: current_user.id))
     attach_documents(@message)
@@ -40,6 +42,11 @@ class MessagesController < ApplicationController
 
   def message
     @message ||= Message.find(params[:id])
+  end
+
+  def authorize_message_access!
+    claim = message.claim
+    authorize! :show, claim
   end
 
   def redirect_to_url

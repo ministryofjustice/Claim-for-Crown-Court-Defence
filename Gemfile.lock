@@ -280,7 +280,7 @@ GEM
       logger
     faraday-follow_redirects (0.4.0)
       faraday (>= 1, < 3)
-    faraday-http-cache (2.5.1)
+    faraday-http-cache (2.6.1)
       faraday (>= 0.8)
     faraday-multipart (1.1.1)
       multipart-post (~> 2.0)

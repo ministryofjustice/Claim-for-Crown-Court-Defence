@@ -823,10 +823,7 @@ DEPENDENCIES
   logstasher (= 3.0.0)
   logstuff (= 0.0.2)
   meta_request
-  net-imap
-  net-pop
   net-scp (~> 4.1)
-  net-smtp
   net-ssh (~> 7.3)
   nokogiri (~> 1.19)
   pagy

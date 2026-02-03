@@ -19,6 +19,8 @@ require 'rails_helper'
 RSpec.describe MessagesController do
   context 'standard sign in' do
     let(:sender) { create(:external_user) }
+    let(:claim) { create(:claim, external_user: sender, creator: sender) }
+    let(:message) { create(:message, claim: claim, sender: sender.user) }
 
     before do
       sign_in sender.user
@@ -33,7 +35,6 @@ RSpec.describe MessagesController do
       end
 
       context 'when message has attachment' do
-        let(:message) { create(:message) }
         let(:test_url) { 'https://document.storage/attachment.doc#123abc' }
 
         before do
@@ -46,10 +47,20 @@ RSpec.describe MessagesController do
       end
 
       context 'when message does not have attachment' do
-        let(:message) { create(:message) }
-
-        it 'redirects to 500 page' do
+        it 'raises an exception' do
           expect { download_attachment }.to raise_exception('No attachment present on this message')
+        end
+      end
+
+      context 'when user attempts to download another provider\'s message attachment' do
+        let(:other_user) { create(:external_user) }
+
+        before { sign_in other_user.user }
+
+        it 'denies access and redirects to root' do
+          download_attachment
+          expect(response).to redirect_to(external_users_root_url)
+          expect(flash[:alert]).to eq(I18n.t('common.unauthorised'))
         end
       end
     end

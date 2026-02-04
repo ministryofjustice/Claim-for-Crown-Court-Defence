@@ -282,7 +282,7 @@ GEM
       faraday (>= 1, < 3)
     faraday-http-cache (2.6.1)
       faraday (>= 0.8)
-    faraday-multipart (1.1.1)
+    faraday-multipart (1.2.0)
       multipart-post (~> 2.0)
     faraday-net_http (3.4.2)
       net-http (~> 0.5)

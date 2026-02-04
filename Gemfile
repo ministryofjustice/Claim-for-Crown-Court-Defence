@@ -13,7 +13,7 @@ gem 'chartkick',              '~> 5.2.1'
 gem 'cocoon',                 '~> 1.2.15'
 gem 'connection_pool',        '< 3.0.0'    # This can be removed after Rails is updated to 8.1
 gem 'csv'
-gem 'devise', '~> 4.9.4'
+gem 'devise', '~> 5.0.0'
 gem 'dotenv-rails', '~> 3.2'
 gem 'factory_bot_rails', '~> 6.5.1'
 gem 'faker',                  '~> 3.5.3'

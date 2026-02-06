@@ -49,10 +49,9 @@ class CourtData
 
   def all_prosecution_case_by_defendant(defendant)
     representation_orders = defendant.representation_orders.map(&:maat_reference)
-    LAA::Cda::ProsecutionCase.search(name: defendant.name, date_of_birth: defendant.date_of_birth)
-                             .find do |prosecution_case|
-      prosecution_case.defendants.map { |d| d.representation_orders.map(&:reference) }.flatten
-                      .intersect?(representation_orders)
+    LAA::Cda::ProsecutionCase.search(name: defendant.name, date_of_birth: defendant.date_of_birth).find do |pc|
+      pc.defendants.map { |d| d.representation_orders.map(&:reference) }.flatten
+        .intersect?(representation_orders)
     end
   end
 

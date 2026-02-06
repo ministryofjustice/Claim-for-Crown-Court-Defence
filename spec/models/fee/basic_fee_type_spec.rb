@@ -75,7 +75,7 @@ module Fee
 
     describe 'automatic calculation of amount' do
       context 'for fee types not requiring calculation' do
-        let(:fee) { FactoryBot.build(:basic_fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999) }
+        let(:fee) { build(:basic_fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999) }
 
         it 'does not calculate the amount' do
           expect(fee).to be_valid

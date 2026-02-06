@@ -14,7 +14,7 @@ class StageCollection
   def previous_stage(stage)
     path = path_until(stage)
     return if path.length <= 1
-    path[path.length - 2]
+    path[-2]
   end
 
   def next_stage(stage)

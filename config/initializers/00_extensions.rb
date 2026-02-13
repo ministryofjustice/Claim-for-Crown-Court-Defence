@@ -5,10 +5,6 @@ class Array
   include Extensions::RemoteExtension
 end
 
-class Hash
-  include Extensions::HashExtension
-end
-
 class String
   include Extensions::StringExtension
 end

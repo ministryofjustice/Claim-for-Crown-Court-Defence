@@ -59,7 +59,7 @@ gem 'ruby-progressbar'
 gem 'laa-fee-calculator-client', '~> 2.0'
 gem 'active_storage_validations'
 gem 'faraday', '~> 2.14'
-gem 'faraday-follow_redirects', '~> 0.4'
+gem 'faraday-follow_redirects', '~> 0.5'
 gem 'puma'
 gem 'uri', '< 2.0.0'
 

@@ -9,7 +9,23 @@ RSpec.describe API::V2::MI::AGFSSchemeTenClaims do
   let(:external_user) { create(:external_user) }
   let(:params) { { api_key: } }
   let(:transitory_params) { {} }
-  let(:expected_json_keys) { %i[id type defendant case_number claim_submitted case_type court offence offence_band provider_name user_name created_at representation_order_date] }
+  let(:expected_json_keys) do
+    %i[
+      id
+      type
+      defendant
+      case_number
+      claim_submitted
+      case_type
+      court
+      offence
+      offence_band
+      provider_name
+      user_name
+      created_at
+      representation_order_date
+    ]
+  end
 
   before do
     # Not included claims
@@ -34,8 +50,8 @@ RSpec.describe API::V2::MI::AGFSSchemeTenClaims do
     end
 
     it 'returns JSON keys' do
-      result_keys = JSON.parse(last_response.body, symbolize_names: true).first.all_keys
-      expect(result_keys).to eq(expected_json_keys)
+      result_keys = JSON.parse(last_response.body, symbolize_names: true).first.keys
+      expect(result_keys).to match_array(expected_json_keys)
     end
 
     it 'returns the expected two rows' do

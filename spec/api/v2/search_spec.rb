@@ -38,6 +38,10 @@ RSpec.describe API::V2::Search do
       maat_references
       injection_errors
       filter
+    ]
+  }
+  let(:search_filter_keys) {
+    %i[
       disk_evidence
       redetermination
       fixed_fee
@@ -53,6 +57,11 @@ RSpec.describe API::V2::Search do
       risk_based_bills
       injection_errored
       cav_warning
+      additional_prep_fee_warning
+      agfs_hardship
+      clar_fees_warning
+      lgfs_hardship
+      supplementary
     ]
   }
 
@@ -78,16 +87,16 @@ RSpec.describe API::V2::Search do
     end
 
     context 'when accessed by a CaseWorker' do
+      let(:result_data) { JSON.parse(last_response.body, symbolize_names: true).first }
+
       before { do_request }
 
       it 'returns success' do
         expect(last_response).to be_ok
       end
 
-      it 'returns JSON with the required search result keys' do
-        search_result_keys = JSON.parse(last_response.body, symbolize_names: true).first.all_keys
-        expect(search_result_keys).to include(*search_keys)
-      end
+      it { expect(result_data.keys).to match_array(search_keys) }
+      it { expect(result_data[:filter].keys).to match_array(search_filter_keys) }
 
       it 'returns JSON with expected injection error message' do
         search_result = JSON.parse(last_response.body, symbolize_names: true).first

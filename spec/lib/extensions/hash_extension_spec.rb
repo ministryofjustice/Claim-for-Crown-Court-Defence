@@ -31,20 +31,4 @@ RSpec.describe Hash do
       is_expected.to contain_exactly('1', '2', '3', '4', '5', '6', { key_id: '7' }, '7', %i[key_id key_id])
     end
   end
-
-  describe '#all_keys' do
-    subject(:result) { h.all_keys }
-
-    it 'returns an array of all keys' do
-      is_expected.to contain_exactly(
-        :array1, :array2, :array3, :array4,
-        :hash1, :hash2, :hash3,
-        :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id
-      )
-    end
-
-    it 'returns duplicate keys' do
-      expect(result.count { |el| el.eql?(:key_id) }).to eql 9
-    end
-  end
 end

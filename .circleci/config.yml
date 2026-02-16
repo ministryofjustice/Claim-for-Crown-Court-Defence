@@ -42,7 +42,7 @@ executors:
   basic-executor:
     resource_class: small
     docker:
-      - image: cimg/base:2020.01
+      - image: cimg/base:2025.09
         environment:
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
@@ -90,7 +90,7 @@ executors:
   test-executor:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:3.4.2-browsers
+      - image: cimg/ruby:3.4.5-browsers
         environment:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_test
@@ -371,6 +371,15 @@ jobs:
     executor: test-executor
     steps:
       - checkout
+      - browser-tools/install_chrome:
+          chrome_version: 133.0.6943.98
+          replace_existing: true
+      - run: |
+          uname -a
+          ruby --version
+          node --version
+          java --version
+          google-chrome --version
       - setup_remote_docker
       - *create-tmp-dir
       - build-base

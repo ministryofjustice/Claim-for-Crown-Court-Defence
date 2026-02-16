@@ -301,9 +301,8 @@ RSpec.describe ClaimStateTransitionReason do
     end
 
     it 'returns deeply nested hash of string reasons' do
-      transition_reasons.key_paths.each do |path|
-        expect(transition_reasons.dig(*path)).to be_a(String)
-      end
+      # E.g. disbursement -> no_prior_authority -> short -> message = "No prior authority provided"
+      expect(transition_reasons.values.flat_map(&:values).flat_map(&:values)).to all(be_a(String))
     end
   end
 end

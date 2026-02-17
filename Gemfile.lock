@@ -705,7 +705,7 @@ GEM
     state_machines-audit_trail (3.0.0)
       state_machines (>= 0.10.0)
     stringio (3.2.0)
-    sys-uname (1.4.1)
+    sys-uname (1.5.0)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
     temple (0.10.4)

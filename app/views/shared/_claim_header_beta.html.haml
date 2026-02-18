@@ -11,9 +11,9 @@
             %p{ class: 'govuk-!-margin-bottom-0' }
               = t('shared.position_and_count', position: claim_position_and_count)
 
-            - unless last_claim?
-              %p
-                = next_claim_link 'Next claim', class: 'next-claim'
+            = govuk_pagination(block_mode: true) do |p|
+              - p.with_previous_page(href: previous_claim_link, text: 'Previous') if not_first_claim?
+              - p.with_next_page(href: next_claim_link, text: 'Next') if not_last_claim?
 
   %h1.govuk-heading-xl
     = claim.defendant_name_and_initial + claim.other_defendant_summary

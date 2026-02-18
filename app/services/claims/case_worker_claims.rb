@@ -3,6 +3,7 @@ module Claims
     attr_accessor :current_user, :action, :criteria
 
     def initialize(current_user:, action:, criteria:)
+      # binding.pry
       self.current_user = current_user
       self.action = action
       self.criteria = criteria
@@ -21,6 +22,10 @@ module Claims
       else
         raise ArgumentError, format('Unknown action: %{s}', s: action)
       end
+    end
+
+    def next_after(claim)
+      claims.index(claim) + 1
     end
 
     private

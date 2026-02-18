@@ -1,0 +1,3 @@
+config/settings/test.yml:generic-api-key:10
+config/settings/development.yml:generic-api-key:1
+config/initializers/devise.rb:generic-api-key:7

@@ -4,7 +4,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
   @fee_calc_vcr
   Scenario: I create an interim claim, save it to draft and later complete it
 
-    Given the current date is '2026-02-27'
+    Given the current date is '2026-03-03'
     And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
@@ -43,7 +43,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I enter '50' in the PPE total interim fee field
     Then the interim fee amount should be populated with '307.78'
 
-    And I enter the effective PCMH date '2026-02-27'
+    And I enter the effective PCMH date '2026-03-03'
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
@@ -71,7 +71,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see 'PPE total at the time'
     And I should see '51'
     And I should see 'Effective PCMH'
-    And I should see '27/02/2026'
+    And I should see '03/03/2026'
     And I should see '£307.78'
 
     And I should see 'Disbursements'

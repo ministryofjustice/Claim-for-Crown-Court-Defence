@@ -5,8 +5,8 @@ module SeedHelpers
   # rubocop:disable Metrics/MethodLength
   def self.seed_fee_schemes
     FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.new(2014, 03, 20).beginning_of_day, end_date: Settings.lgfs_scheme_10_clair_release_date - 1.day)
-    FeeScheme.find_or_create_by(name: 'LGFS', version: 10, start_date: Settings.lgfs_scheme_10_clair_release_date.beginning_of_day, end_date: Settings.lgfs_scheme_11_feb_2026_release_date.beginning_of_day - 1.day)
-    FeeScheme.find_or_create_by(name: 'LGFS', version: 11, start_date: Settings.lgfs_scheme_11_feb_2026_release_date.beginning_of_day, end_date: nil)
+    FeeScheme.find_or_create_by(name: 'LGFS', version: 10, start_date: Settings.lgfs_scheme_10_clair_release_date.beginning_of_day, end_date: Settings.lgfs_scheme_11_release_date.beginning_of_day - 1.day)
+    FeeScheme.find_or_create_by(name: 'LGFS', version: 11, start_date: Settings.lgfs_scheme_11_release_date.beginning_of_day, end_date: nil)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 9, start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Settings.agfs_fee_reform_release_date.beginning_of_day, end_date: Settings.agfs_scheme_11_release_date - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day, end_date: Settings.clar_release_date.end_of_day - 1.day)

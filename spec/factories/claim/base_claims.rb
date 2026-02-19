@@ -73,7 +73,7 @@ FactoryBot.define do
         add_defendant_and_reporder(claim, Settings.lgfs_scheme_10_clair_release_date)
       elsif evaluator.create_defendant_and_rep_order_for_scheme_11
         claim.defendants.clear
-        add_defendant_and_reporder(claim, Settings.lgfs_scheme_11_feb_2026_release_date)
+        add_defendant_and_reporder(claim, Settings.lgfs_scheme_11_release_date)
       end
 
       if claim.defendants.blank? && evaluator.create_defendant_and_rep_order

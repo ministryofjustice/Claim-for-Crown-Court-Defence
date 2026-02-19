@@ -95,7 +95,7 @@ FactoryBot.define do
         claim.defendants.each do |defendant|
           defendant
             .representation_orders
-            .update_all(representation_order_date: Settings.lgfs_scheme_11_feb_2026_release_date + 1)
+            .update_all(representation_order_date: Settings.lgfs_scheme_11_release_date + 1)
         end
       end
     end

@@ -148,7 +148,7 @@ RSpec.describe Claim::TransferBrain::DataItem do
       context 'with scheme 11 elected case claims' do
         let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_11: true) }
 
-        before { travel_to(Settings.lgfs_scheme_11_feb_2026_release_date.beginning_of_day) }
+        before { travel_to(Settings.lgfs_scheme_11_release_date.beginning_of_day) }
 
         it { expect(non_elected_item).to eq test_item }
       end

@@ -1640,7 +1640,7 @@ http_interactions:
   recorded_at: Sat, 29 Oct 2022 23:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2026-02-27&main_hearing_date=2026-02-27&type=LGFS
+    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2026-03-03&main_hearing_date=2026-03-03&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1657,7 +1657,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:32 GMT
+      - Thu, 19 Feb 2026 17:16:08 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1682,9 +1682,9 @@ http_interactions:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":13,"start_date":"2026-02-27","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":13,"start_date":"2026-01-27","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Scheme 11 (2026-02)"}]}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
     uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/13/scenarios/
@@ -1704,7 +1704,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:32 GMT
+      - Thu, 19 Feb 2026 17:16:08 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1773,7 +1773,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
     uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/13/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&scenario=4
@@ -1793,7 +1793,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:32 GMT
+      - Thu, 19 Feb 2026 17:16:08 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1819,10 +1819,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":0.0}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2026-02-27&main_hearing_date=2026-02-27&type=LGFS
+    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2026-03-03&main_hearing_date=2026-03-03&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1839,7 +1839,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:33 GMT
+      - Thu, 19 Feb 2026 17:16:09 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1864,9 +1864,9 @@ http_interactions:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":13,"start_date":"2026-02-27","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":13,"start_date":"2026-01-27","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Scheme 11 (2026-02)"}]}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
     uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/13/scenarios/
@@ -1886,7 +1886,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:33 GMT
+      - Thu, 19 Feb 2026 17:16:09 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1955,7 +1955,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
     uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/13/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&scenario=4
@@ -1975,7 +1975,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:33 GMT
+      - Thu, 19 Feb 2026 17:16:09 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2001,10 +2001,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":656.62}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2026-02-27&main_hearing_date=2026-02-27&type=LGFS
+    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2026-03-03&main_hearing_date=2026-03-03&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2021,7 +2021,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:34 GMT
+      - Thu, 19 Feb 2026 17:16:10 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2046,9 +2046,9 @@ http_interactions:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":13,"start_date":"2026-02-27","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":13,"start_date":"2026-01-27","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Scheme 11 (2026-02)"}]}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
     uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/13/scenarios/
@@ -2068,7 +2068,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:34 GMT
+      - Thu, 19 Feb 2026 17:16:10 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2137,7 +2137,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
 - request:
     method: get
     uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/13/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&ppe=51&scenario=4
@@ -2157,7 +2157,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 19 Jan 2026 17:15:34 GMT
+      - Thu, 19 Feb 2026 17:16:11 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2183,5 +2183,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":665.39}'
-  recorded_at: Fri, 27 Feb 2026 00:00:00 GMT
-recorded_with: VCR 6.3.1
+  recorded_at: Tue, 03 Mar 2026 00:00:00 GMT
+recorded_with: VCR 6.4.0

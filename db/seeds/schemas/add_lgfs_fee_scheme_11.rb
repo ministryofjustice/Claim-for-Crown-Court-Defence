@@ -112,20 +112,20 @@ module Seeds
         lgfs_fee_scheme_ten = FeeScheme.find_by(name: 'LGFS', version: 10)
         lgfs_fee_scheme_ten ? print("...found\n".green) : print("...not found\n".red)
 
-        print "Updating LGFS fee scheme 10 end date to #{Settings.lgfs_scheme_11_feb_2026_release_date.end_of_day-1.day}".yellow
+        print "Updating LGFS fee scheme 10 end date to #{Settings.lgfs_scheme_11_release_date.end_of_day-1.day}".yellow
         print "...not updated\n".green if pretending?
         return if pretending?
 
-        lgfs_fee_scheme_ten.update(end_date: Settings.lgfs_scheme_11_feb_2026_release_date.end_of_day-1.day)
+        lgfs_fee_scheme_ten.update(end_date: Settings.lgfs_scheme_11_release_date.end_of_day-1.day)
         print "...updated\n".green
       end
 
       def create_lgfs_scheme_eleven
-        print "Finding or creating LGFS fee scheme 11 with start date #{Settings.lgfs_scheme_11_feb_2026_release_date.beginning_of_day}...".yellow
+        print "Finding or creating LGFS fee scheme 11 with start date #{Settings.lgfs_scheme_11_release_date.beginning_of_day}...".yellow
         print "...not created\n".green if pretending?
         return if pretending?
 
-        FeeScheme.find_or_create_by(name: 'LGFS', version: 11, start_date: Settings.lgfs_scheme_11_feb_2026_release_date.beginning_of_day)
+        FeeScheme.find_or_create_by(name: 'LGFS', version: 11, start_date: Settings.lgfs_scheme_11_release_date.beginning_of_day)
         print "...created\n".green
       end
 

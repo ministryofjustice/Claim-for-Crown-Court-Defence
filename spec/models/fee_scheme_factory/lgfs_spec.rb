@@ -25,13 +25,13 @@ RSpec.shared_examples 'find LGFS fee schemes 9 and 10' do
 end
 
 # Simple cases where the rep order date falls after CLAIR. This includes
-# fee scheme 11 (27/02/2026) onwards. Tests for new fee schemes can be
+# fee scheme 11 (03/03/2026) onwards. Tests for new fee schemes can be
 # added here.
 RSpec.shared_examples 'find LGFS fee scheme 11+' do
-  context 'with a rep order on 27 February 2026' do
-    let(:representation_order_date) { Date.parse('27 February 2026') }
+  context 'with a rep order on 03 March 2026' do
+    let(:representation_order_date) { Date.parse('03 March 2026') }
 
-    before { travel_to(Date.new(2026, 2, 28)) }
+    before { travel_to(Date.new(2026, 3, 3)) }
 
     it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 11) }
   end

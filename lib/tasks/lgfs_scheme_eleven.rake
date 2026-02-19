@@ -2,13 +2,13 @@ require Rails.root.join('db','seeds', 'schemas', 'add_lgfs_fee_scheme_11')
 
 namespace :db do
   namespace :lgfs_scheme_eleven do
-    desc 'Display status of db structures and records for LGFS Fee Scheme 11 - Feb 2026'
+    desc 'Display status of db structures and records for LGFS Fee Scheme 11 - March 2026'
     task :status => :environment do
       adder = Seeds::Schemas::AddLGFSFeeScheme11.new(pretend: false)
       puts adder.status
     end
 
-    desc 'Create the db structures and records required for LGFS Fee Scheme 11 - Feb 2026, pass \'true\' to run'
+    desc 'Create the db structures and records required for LGFS Fee Scheme 11 - March 2026, pass \'true\' to run'
     task :seed, [:not_pretend] => :environment do |_task, args|
 
       # seed['true'] should seed, otherwise pretend
@@ -16,7 +16,7 @@ namespace :db do
       not_pretend = !args.not_pretend.to_s.downcase.eql?('false')
       pretend = !not_pretend
 
-      continue?('This will seed data for LGFS Fee Scheme 11 - Feb 2026. Are you sure?') if not_pretend
+      continue?('This will seed data for LGFS Fee Scheme 11 - March 2026. Are you sure?') if not_pretend
       puts "#{pretend ? 'pretending' : 'working'}...".yellow
 
       log_level = ActiveRecord::Base.logger.level
@@ -26,7 +26,7 @@ namespace :db do
       ActiveRecord::Base.logger.level = log_level
     end
 
-    desc 'Destroy the db structures and records required for LGFS Fee Scheme 11 - Feb 2026, pass \'true\' to run'
+    desc 'Destroy the db structures and records required for LGFS Fee Scheme 11 - March 2026, pass \'true\' to run'
     task :rollback, [:not_pretend] => :environment do |_task, args|
 
       # rollback['true'] should rollback, otherwise pretend
@@ -34,7 +34,7 @@ namespace :db do
       not_pretend = !args.not_pretend.to_s.downcase.eql?('false')
       pretend = !not_pretend
 
-      continue?('This will destroy LGFS Fee Scheme 11 - Feb 2026, offences and fee types. Are you sure?') if not_pretend
+      continue?('This will destroy LGFS Fee Scheme 11 - March 2026, offences and fee types. Are you sure?') if not_pretend
       puts "#{pretend ? 'pretending' : 'working'}...".yellow
 
       adder = Seeds::Schemas::AddLGFSFeeScheme11.new(pretend: pretend)

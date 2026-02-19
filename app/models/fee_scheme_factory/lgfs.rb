@@ -19,13 +19,13 @@ module FeeSchemeFactory
     end
 
     def scheme_ten_range
-      return (Settings.clar_release_date..(Settings.lgfs_scheme_11_feb_2026_release_date - 1.day)) if clair_contingency
+      return (Settings.clar_release_date..(Settings.lgfs_scheme_11_release_date - 1.day)) if clair_contingency
 
-      Settings.lgfs_scheme_10_clair_release_date..(Settings.lgfs_scheme_11_feb_2026_release_date - 1.day)
+      Settings.lgfs_scheme_10_clair_release_date..(Settings.lgfs_scheme_11_release_date - 1.day)
     end
 
     def scheme_eleven_range
-      Settings.lgfs_scheme_11_feb_2026_release_date..Time.zone.today
+      Settings.lgfs_scheme_11_release_date..Time.zone.today
     end
   end
 end

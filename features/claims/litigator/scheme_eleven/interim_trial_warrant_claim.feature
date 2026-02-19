@@ -3,7 +3,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
   Scenario: I create an interim claim, save it to draft and later complete it
 
-    Given the current date is '2026-02-27'
+    Given the current date is '2026-03-03'
     And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
@@ -32,8 +32,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should be in the 'Interim fee' form page
     And I select an interim fee type of 'Warrant'
     And the interim fee amount should be populated with ''
-    And I enter '2026-02-27' as the warrant issued date
-    And I enter '2026-02-27' as the warrant executed date
+    And I enter '2026-03-03' as the warrant issued date
+    And I enter '2026-03-03' as the warrant executed date
     And I enter '680.39' in the interim fee total field
 
     And I eject the VCR cassette

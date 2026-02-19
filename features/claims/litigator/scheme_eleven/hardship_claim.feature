@@ -4,7 +4,7 @@ Feature: Litigator completes hardship claims
   @fee_calc_vcr
   Scenario: I create a litigator hardship claim where evidence was served
 
-    Given the current date is '2026-02-27'
+    Given the current date is '2026-03-03'
     And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page

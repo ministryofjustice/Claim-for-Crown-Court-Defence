@@ -4,7 +4,7 @@ Feature: Litigator fills out a draft final fee claim and submits it
   @fee_calc_vcr
   Scenario: I create and submit a final fee claim
 
-    Given the current date is '2026-02-27'
+    Given the current date is '2026-03-03'
     And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
@@ -17,7 +17,7 @@ Feature: Litigator fills out a draft final fee claim and submits it
     When I select a case type of 'Trial'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2026-02-27'
+    And I enter the case concluded date '2026-03-03'
     And I enter lgfs scheme 11 main hearing date
     Then I click "Continue" I should be on the 'Case details' page and see a "Choose a supplier number" error
 
@@ -40,7 +40,7 @@ Feature: Litigator fills out a draft final fee claim and submits it
     Then I click "Continue" in the claim form
     And I should see a page title "Enter graduated fees for litigator final fees claim"
 
-    And I fill '2026-02-27' as the graduated fee date
+    And I fill '2026-03-03' as the graduated fee date
     When I fill '2' as the actual trial length
     Then the graduated fee amount should be populated with '656.62'
     When I enter '51' in the PPE total graduated fee field
@@ -83,9 +83,9 @@ Feature: Litigator fills out a draft final fee claim and submits it
     And I should see a page title "View claim summary for litigator final fees claim"
     And I should see the field 'Crown court' with value 'Blackfriars' in 'Case details'
     And I should see the field 'Case type' with value 'Trial' in 'Case details'
-    And I should see the field 'Date case concluded' with value '27/02/2026' in 'Case details'
+    And I should see the field 'Date case concluded' with value '03/03/2026' in 'Case details'
     And I should see the field 'Type of fee' with value 'Trial' in 'Graduated fee'
-    And I should see the field 'First day of hearing' with value '27/02/2026' in 'Graduated fee'
+    And I should see the field 'First day of hearing' with value '03/03/2026' in 'Graduated fee'
     And I should see the field 'Actual trial length' with value '2' in 'Graduated fee'
     And I should see the field 'Total pages of evidence' with value '51' in 'Graduated fee'
     And I should see the field 'Net amount' with value '£665.39' in 'Graduated fee'

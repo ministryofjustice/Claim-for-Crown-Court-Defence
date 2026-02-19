@@ -4,7 +4,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
   @fee_calc_vcr
   Scenario: I create a final fee claim, save it to draft and later complete it
 
-    Given the current date is '2026-02-27'
+    Given the current date is '2026-03-03'
     And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
@@ -18,7 +18,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select a case type of 'Contempt'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2026-02-27'
+    And I enter the case concluded date '2026-03-03'
     And I enter lgfs scheme 11 main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I enter defendant, LGFS Scheme 11 representation order and MAAT reference
@@ -29,7 +29,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     And I should see fixed fee type 'Contempt'
     And the fixed fee rate should be populated with '133.96'
-    And I fill '2026-02-27' as the fixed fee date
+    And I fill '2026-03-03' as the fixed fee date
     And I fill '2' as the fixed fee quantity
     Then I should see fixed fee total '267.92'
 
@@ -68,7 +68,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I should be on the check your claim page
     And I should see the field 'Crown court' with value 'Blackfriars' in 'Case details'
     And I should see the field 'Case type' with value 'Contempt' in 'Case details'
-    And I should see the field 'Date case concluded' with value '27/02/2026' in 'Case details'
+    And I should see the field 'Date case concluded' with value '03/03/2026' in 'Case details'
     And I should not see 'First day of trial'
     And I should not see 'Estimated trial length'
     And I should not see 'Actual trial length'

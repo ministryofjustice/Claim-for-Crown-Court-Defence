@@ -152,7 +152,7 @@ agfs_scheme_16_section_twenty_eight_increase: 2023-11-16
 
 # LGFS Fee scheme dates
 lgfs_scheme_10_clair_release_date: 2022-09-30
-lgfs_scheme_11_feb_2026_release_date: 2026-02-27
+lgfs_scheme_11_release_date: 2026-03-03
 
 # AGFS and LGFS CLAIR Contingency date
 clair_contingency_date: 2022-10-31

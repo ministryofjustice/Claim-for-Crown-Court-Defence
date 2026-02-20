@@ -10,8 +10,9 @@
           - if claim_ids.present? && claim_ids.include?(@claim.id)
             = t('shared.position_and_count', position: claim_position_and_count)
 
-            - unless last_claim?
-              = next_claim_link 'Next claim'.html_safe, class: 'next-claim'
+            = govuk_pagination(block_mode: true) do |p|
+              - p.with_previous_page(href: previous_claim_link, text: 'Previous') if not_first_claim?
+              - p.with_next_page(href: next_claim_link, text: 'Next') if not_last_claim?
 
   = render partial: 'shared/claim_history', locals: { claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }

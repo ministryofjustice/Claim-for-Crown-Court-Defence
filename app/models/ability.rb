@@ -58,7 +58,10 @@ class Ability
   end
 
   def case_worker(persona)
-    can %i[index show show_message_controls archived], Claim::BaseClaim
+    can [:index], Claim::BaseClaim
+    can %i[show show_message_controls archived], Claim::BaseClaim do |claim|
+      claim.case_workers.map(&:id).include?(persona.id)
+    end
     can [:update], Claim::BaseClaim do |claim|
       claim.case_workers.include?(persona)
     end

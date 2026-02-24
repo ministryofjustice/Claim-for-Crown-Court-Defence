@@ -25,6 +25,7 @@ module CaseWorkers
     def archived; end
 
     def show
+      authorize! :show, @claim
       prepare_show_action
     end
 

@@ -59,7 +59,7 @@ RSpec.describe CaseWorkers::ClaimsController do
       get :download_zip, params: { id: claim }
     end
 
-    it 'responds  with an http success' do
+    it 'responds with an http success' do
       expect(response).to be_successful
     end
 
@@ -82,6 +82,13 @@ RSpec.describe CaseWorkers::ClaimsController do
 
     it 'responds with an http success' do
       expect(response).to be_successful
+    end
+
+    it 'responds with a forbidden status if the claim is not assigned to the case worker' do
+      other_claim = create(:claim)
+      get :show, params: { id: other_claim }
+      expect(response).to redirect_to(case_workers_root_url)
+      expect(flash[:alert]).to eq(I18n.t('common.unauthorised'))
     end
 
     it 'populates instance variables' do

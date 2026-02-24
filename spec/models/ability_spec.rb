@@ -411,8 +411,26 @@ RSpec.describe Ability do
     it { should be_able_to(:update_settings, user) }
     it { should_not be_able_to(:update_settings, another_user) }
 
-    %i[index archived show show_message_controls].each do |action|
+    %i[index archived].each do |action|
       it { should be_able_to(action, Claim::AdvocateClaim.new) }
+    end
+
+    context 'can show and view message controls when assigned to claim' do
+      let(:claim) { create(:advocate_claim) }
+
+      before { case_worker.claims << claim }
+
+      %i[show show_message_controls archived].each do |action|
+        it { should be_able_to(action, claim) }
+      end
+    end
+
+    context 'cannot show or view message controls when not assigned to claim' do
+      let(:claim) { create(:advocate_claim) }
+
+      %i[show show_message_controls archived].each do |action|
+        it { should_not be_able_to(action, claim) }
+      end
     end
 
     context 'can update claim when assigned to claim' do

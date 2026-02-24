@@ -54,9 +54,12 @@ RSpec.describe CaseWorkers::ClaimsController do
   describe 'GET download_zip' do
     let(:claim) { create(:claim) }
 
-    before { get :download_zip, params: { id: claim } }
+    before do
+      claim.case_workers << @case_worker
+      get :download_zip, params: { id: claim }
+    end
 
-    it 'responds with an http success' do
+    it 'responds  with an http success' do
       expect(response).to be_successful
     end
 
@@ -72,7 +75,10 @@ RSpec.describe CaseWorkers::ClaimsController do
   describe 'GET show' do
     let(:claim) { create(:claim) }
 
-    before { get :show, params: { id: claim } }
+    before do
+      claim.case_workers << @case_worker
+      get :show, params: { id: claim }
+    end
 
     it 'responds with an http success' do
       expect(response).to be_successful
@@ -93,6 +99,7 @@ RSpec.describe CaseWorkers::ClaimsController do
     let(:claim) { create(:claim) }
 
     it 'renders the messages partial' do
+      claim.case_workers << @case_worker
       get :messages, params: { id: claim.id }
       expect(response).to render_template('messages/claim_messages')
     end
@@ -104,6 +111,7 @@ RSpec.describe CaseWorkers::ClaimsController do
     let(:params) { strong_params('additional_information' => 'foo bar', 'current_user' => @case_worker.user) }
 
     before do
+      claim.case_workers << @case_worker
       expect(updater).to receive(:update!).and_return(updater)
       expect(updater).to receive(:claim).and_return(claim)
       expect(Claims::CaseWorkerClaimUpdater).to receive(:new).with(claim.id.to_s, params).and_return(updater)

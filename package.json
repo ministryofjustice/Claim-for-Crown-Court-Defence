@@ -67,6 +67,9 @@
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^6.0.4"
   },
+  "resolutions": {
+    "minimatch": "^10.2.1"
+  },
   "standard": {
     "env": [
       "jasmine",

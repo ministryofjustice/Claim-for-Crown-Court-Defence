@@ -43,7 +43,7 @@ gem 'redis',                  '~> 5.4.1'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
-gem 'sentry-rails', '~> 6.3'
+gem 'sentry-rails', '~> 6.4'
 gem 'sentry-sidekiq', '~> 6.3'
 gem 'sprockets-rails', '~> 3.5.2'
 gem 'state_machines-activerecord'

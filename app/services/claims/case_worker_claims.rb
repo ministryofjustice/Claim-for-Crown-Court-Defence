@@ -3,7 +3,6 @@ module Claims
     attr_accessor :current_user, :action, :criteria
 
     def initialize(current_user:, action:, criteria:)
-      # binding.pry
       self.current_user = current_user
       self.action = action
       self.criteria = criteria

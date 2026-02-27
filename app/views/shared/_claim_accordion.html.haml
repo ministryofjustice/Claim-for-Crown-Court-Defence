@@ -5,14 +5,7 @@
         = t('.h2_messages')
 
     .govuk-grid-column-one-half
-      - if current_user.persona.is_a?(CaseWorker)
-        .other-claims
-          - if claim_ids.present? && claim_ids.include?(@claim.id)
-            = t('shared.position_and_count', position: claim_position_and_count)
-
-            = govuk_pagination(block_mode: true) do |p|
-              - p.with_previous_page(href: previous_claim_link, text: 'Previous') if not_first_claim?
-              - p.with_next_page(href: next_claim_link, text: 'Next') if not_last_claim?
+      = render partial: 'shared/other_claims_links', locals: {claim: claim, navigation: @claim_navigation, current_user: }
 
   = render partial: 'shared/claim_history', locals: { claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }

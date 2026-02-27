@@ -16,6 +16,7 @@ module CaseWorkers
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
     before_action :set_claim, only: %i[show messages download_zip]
+    before_action :authorize_claim, only: %i[show download_zip messages update]
 
     include ReadMessages
     include MessageControlsDisplay
@@ -25,7 +26,6 @@ module CaseWorkers
     def archived; end
 
     def show
-      authorize! :show, @claim
       prepare_show_action
     end
 
@@ -136,6 +136,10 @@ module CaseWorkers
 
     def criteria_params
       { sorting: sort_column, direction: sort_direction, page: current_page, limit: page_size, search: search_terms }
+    end
+
+    def authorize_claim
+      authorize! action_name.to_sym, @claim
     end
   end
 end

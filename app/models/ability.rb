@@ -58,12 +58,8 @@ class Ability
   end
 
   def case_worker(persona)
-    can [:index], Claim::BaseClaim
-    can %i[show show_message_controls archived], Claim::BaseClaim do |claim|
+    can %i[show show_message_controls update index archived], Claim::BaseClaim do |claim|
       claim.case_workers.map(&:id).include?(persona.id)
-    end
-    can [:update], Claim::BaseClaim do |claim|
-      claim.case_workers.include?(persona)
     end
     can_administer_any_provider if persona.roles.include?('provider_management')
     can %i[upload delete], Document
@@ -125,7 +121,7 @@ class Ability
 
   def can_manage_own_claims_of_class(persona, claim_klass)
     can [:create], ClaimIntention
-    can %i[index outstanding authorised archived new create], claim_klass
+    can %i[index outstanding authorised archived new create], claim_klass, external_user_id: persona.id
     can MANAGE_CLAIM_METHODS, claim_klass, external_user_id: persona.id
     can %i[show create update], Certification
     can_manage_own_documents(persona)

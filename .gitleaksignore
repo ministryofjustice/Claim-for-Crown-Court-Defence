@@ -1,0 +1,8 @@
+config/settings/test.yml:generic-api-key:10
+config/settings/development.yml:generic-api-key:1
+config/initializers/devise.rb:generic-api-key:7
+vcr/cassettes/features/case_workers/admin/allocation.yml:generic-api-key:5
+vcr/cassettes/features/case_workers/admin/allocation.yml:generic-api-key:97
+vcr/cassettes/features/case_workers/admin/reallocation.yml:generic-api-key:5
+vcr/cassettes/features/case_workers/admin/reallocation.yml:generic-api-key:89
+vcr/cassettes/features/case_workers/admin/reallocation.yml:generic-api-key:174

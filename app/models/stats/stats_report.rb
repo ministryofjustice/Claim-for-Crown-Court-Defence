@@ -1,6 +1,6 @@
 module Stats
   class StatsReport < ApplicationRecord
-    Report = Struct.new(:name, :date_required, :hidden, :updatable, keyword_init: true) do
+    Report = Struct.new(:name, :date_required, :hidden, :updatable) do
       def initialize(name:, date_required: false, hidden: false, updatable: true)
         super
       end

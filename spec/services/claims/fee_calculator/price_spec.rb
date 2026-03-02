@@ -1,7 +1,7 @@
 RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
   subject { described_class.new(price, unit_modifiers, parent_quantity) }
 
-  MockModifier = Struct.new(:name, :limit_from, keyword_init: true)
+  MockModifier = Struct.new(:name, :limit_from)
 
   # IMPORTANT: use specific case type, offence class, fee types and reporder
   # date in order to reduce and afix VCR cassettes required (that have to match

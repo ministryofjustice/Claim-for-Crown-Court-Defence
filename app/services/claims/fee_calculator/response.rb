@@ -3,6 +3,6 @@
 #
 module Claims
   module FeeCalculator
-    Response = Struct.new(:success?, :data, :errors, :message, keyword_init: true)
+    Response = Struct.new(:success?, :data, :errors, :message)
   end
 end

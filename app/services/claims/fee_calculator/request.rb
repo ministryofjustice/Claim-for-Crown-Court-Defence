@@ -7,7 +7,7 @@ module Claims
     class Request
       attr_reader :service
 
-      Data = Struct.new(:amount, :unit, keyword_init: true)
+      Data = Struct.new(:amount, :unit)
 
       def initialize(service)
         @service = service

@@ -2,7 +2,7 @@ module Claims
   class CaseWorkerClaimsLocal
     PERMITTED = {
       actions: %w[current archived],
-      columns: %w[type case_number advocate total_inc_vat case_type last_submitted_at],
+      columns: %w[type case_number advocate total_inc_vat state case_type last_submitted_at],
       directions: %w[asc desc]
     }.freeze
 

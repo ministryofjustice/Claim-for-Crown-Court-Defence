@@ -5,7 +5,7 @@ module CaseWorkers
     skip_load_and_authorize_resource
     authorize_resource class: Claim::BaseClaim
 
-    helper_method :sort_column, :sort_direction, :selection_type, :search_terms
+    helper_method :sort_column, :sort_direction, :selection_type, :tab, :search_terms
 
     respond_to :html
 
@@ -88,7 +88,7 @@ module CaseWorkers
 
     def set_claim_navigation
       @claim_navigation = Claims::CaseWorkerClaimsLocal.new(
-        current_user:, action: tab, sort_column:, sort_direction:, search: search_terms
+        current_user:, action: selection_type, sort_column:, sort_direction:, search: search_terms
       ).navigation(@claim)
     end
 
@@ -122,9 +122,7 @@ module CaseWorkers
     end
 
     def selection_type
-      return @selection_type ||= 'allocated' if params[:action] == 'index'
-
-      @selection_type ||= params[:action]
+      @selection_type ||= params[:selection_type].presence || 'current'
     end
 
     def search_terms

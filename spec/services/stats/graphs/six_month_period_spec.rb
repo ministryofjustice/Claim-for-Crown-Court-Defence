@@ -36,6 +36,8 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
         { name: 'LGFS 9', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
         { name: 'LGFS 10', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
+                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
+        { name: 'LGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
                                    mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } }
       ]
     end
@@ -61,7 +63,9 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
         { name: 'LGFS 9', data: { mon_name[0] => 2, mon_name[1] => 1, mon_name[2] => 2,
                                   mon_name[3] => 1, mon_name[4] => 2, mon_name[5] => 1 } },
         { name: 'LGFS 10', data: { mon_name[0] => 1, mon_name[1] => 2, mon_name[2] => 1,
-                                   mon_name[3] => 2, mon_name[4] => 1, mon_name[5] => 2 } }
+                                   mon_name[3] => 2, mon_name[4] => 1, mon_name[5] => 2 } },
+        { name: 'LGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
+                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } }
       ]
     end
 
@@ -86,7 +90,9 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
         { name: 'LGFS 9', data: { mon_name[0] => 2, mon_name[1] => 0, mon_name[2] => 2,
                                   mon_name[3] => 0, mon_name[4] => 2, mon_name[5] => 0 } },
         { name: 'LGFS 10', data: { mon_name[0] => 0, mon_name[1] => 2, mon_name[2] => 0,
-                                   mon_name[3] => 2, mon_name[4] => 0, mon_name[5] => 2 } }
+                                   mon_name[3] => 2, mon_name[4] => 0, mon_name[5] => 2 } },
+        { name: 'LGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
+                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } }
       ]
     end
 

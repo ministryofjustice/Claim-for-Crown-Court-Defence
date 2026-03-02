@@ -65,6 +65,9 @@ class Offence < ApplicationRecord
   scope :in_lgfs_scheme_ten, -> { joins(:fee_schemes).merge(FeeScheme.lgfs).merge(FeeScheme.ten).distinct }
   singleton_class.send(:alias_method, :in_lgfs_scheme_10, :in_lgfs_scheme_ten)
 
+  scope :in_lgfs_scheme_eleven, -> { joins(:fee_schemes).merge(FeeScheme.lgfs).merge(FeeScheme.eleven).distinct }
+  singleton_class.send(:alias_method, :in_lgfs_scheme_11, :in_lgfs_scheme_eleven)
+
   def offence_class_description
     offence_class.letter_and_description
   end
@@ -78,37 +81,42 @@ class Offence < ApplicationRecord
     fee_schemes.map(&:version).any?(FeeScheme::NINE)
   end
 
-  def scheme_ten?
-    fee_schemes.map(&:version).any?(FeeScheme::TEN)
-  end
+  # def scheme_ten?
+  #   fee_schemes.map(&:version).any?(FeeScheme::TEN)
+  # end
 
-  def scheme_eleven?
-    fee_schemes.map(&:version).any?(FeeScheme::ELEVEN)
-  end
+  # def scheme_eleven?
+  #   fee_schemes.map(&:version).any?(FeeScheme::ELEVEN)
+  # end
 
-  def scheme_twelve?
-    fee_schemes.map(&:version).any?(FeeScheme::TWELVE)
-  end
+  # def scheme_twelve?
+  #   fee_schemes.map(&:version).any?(FeeScheme::TWELVE)
+  # end
 
-  def scheme_thirteen?
-    fee_schemes.map(&:version).any?(FeeScheme::THIRTEEN)
-  end
+  # def scheme_thirteen?
+  #   fee_schemes.map(&:version).any?(FeeScheme::THIRTEEN)
+  # end
 
-  def scheme_fourteen?
-    fee_schemes.map(&:version).any?(14)
-  end
+  # def scheme_fourteen?
+  #   fee_schemes.map(&:version).any?(14)
+  # end
 
-  def scheme_fifteen?
-    fee_schemes.map(&:version).any?(15)
-  end
+  # def scheme_fifteen?
+  #   fee_schemes.map(&:version).any?(15)
+  # end
 
-  def scheme_sixteen?
-    fee_schemes.map(&:version).any?(16)
-  end
+  # def scheme_sixteen?
+  #   fee_schemes.map(&:version).any?(16)
+  # end
 
-  def lgfs_scheme_ten?
-    fee_schemes.lgfs.map(&:version).any?(FeeScheme::TEN)
-  end
+  # def lgfs_scheme_ten?
+  #   fee_schemes.lgfs.map(&:version).any?(FeeScheme::TEN)
+  # end
+
+  # # Are these methods actually used?? Test removing this to see what the effect is
+  # def lgfs_scheme_eleven?
+  #   fee_schemes.lgfs.map(&:version).any?(FeeScheme::ELEVEN)
+  # end
 
   def post_agfs_reform?
     fee_schemes.any? { |fs| fs.name == 'AGFS' && fs.version > FeeScheme::NINE }

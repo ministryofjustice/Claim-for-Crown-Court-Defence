@@ -73,7 +73,7 @@ RSpec.describe ClaimStateTransitionReason do
 
     context 'with a Litigator interim, disbursement only claim' do
       let(:claim) { create(:interim_claim, :disbursement_only_fee, state: 'rejected') }
-      let(:all_reasons) { (lgfs_reasons + disbursement_only_reasons) }
+      let(:all_reasons) { lgfs_reasons + disbursement_only_reasons }
 
       it 'returns base rejection reasons and disbursement specific reasons' do
         expect(reject_reasons_for.map(&:code)).to match_array(all_reasons)

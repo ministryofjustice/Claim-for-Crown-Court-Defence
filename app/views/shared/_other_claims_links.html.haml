@@ -2,6 +2,6 @@
   .other-claims
     - if navigation.present? && !navigation[:position].nil?
       = govuk_pagination do |p|
-        - p.with_previous_page(href: case_workers_claim_path(navigation[:previous]), text: 'Previous') unless navigation[:previous].nil?
+        - p.with_previous_page(href: case_workers_claim_path(navigation[:previous], **request.query_parameters), text: 'Previous') unless navigation[:previous].nil?
         - p.with_items(navigation[:items])
-        - p.with_next_page(href: case_workers_claim_path(navigation[:next]), text: 'Next') unless navigation[:next].nil?
+        - p.with_next_page(href: case_workers_claim_path(navigation[:next], **request.query_parameters), text: 'Next') unless navigation[:next].nil?

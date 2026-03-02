@@ -88,7 +88,7 @@ module CaseWorkers
 
     def set_claim_navigation
       @claim_navigation = Claims::CaseWorkerClaimsLocal.new(
-        current_user:, action: tab, sort_column:, sort_direction:
+        current_user:, action: tab, sort_column:, sort_direction:, search: search_terms
       ).navigation(@claim)
     end
 

@@ -99,7 +99,7 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
     let(:claim) { instance_double(Claim::BaseClaim, id: 25) }
 
     before do
-      selected_claims = instance_double(ActiveRecord::AssociationRelation, pluck: claim_ids)
+      selected_claims = instance_double(ActiveRecord::AssociationRelation, map: claim_ids)
       claims = instance_double(ActiveRecord::AssociationRelation, where: selected_claims)
       allow(case_worker).to receive(:claims).and_return(claims)
     end
@@ -158,6 +158,26 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
         expect(navigation[:items])
           .to eq([{ number: 1 }, { ellipsis: true }, { number: 4, current: true }])
       end
+    end
+
+    context 'when there is only one claim in the list' do
+      let(:claim_ids) { [claim.id] }
+
+      it { expect(navigation[:previous]).to be_nil }
+      it { expect(navigation[:next]).to be_nil }
+      it { expect(navigation[:position]).to eq(1) }
+      it { expect(navigation[:count]).to eq(1) }
+      it { expect(navigation[:items]).to eq([{ number: 1, current: true }]) }
+    end
+
+    context 'when the claim is not in the list' do
+      let(:claim_ids) { [57, 19, 98] }
+
+      it { expect(navigation[:previous]).to be_nil }
+      it { expect(navigation[:next]).to be_nil }
+      it { expect(navigation[:position]).to be_nil }
+      it { expect(navigation[:count]).to eq(3) }
+      it { expect(navigation[:items]).to eq([{ number: 1 }, { ellipsis: true }, { number: 3 }]) }
     end
   end
 end

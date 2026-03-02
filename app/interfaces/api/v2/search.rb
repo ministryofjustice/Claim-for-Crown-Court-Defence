@@ -16,7 +16,7 @@ module API
 
         helpers do
           def in_statement_for(arr)
-            arr.map(&:to_s).join('\', \'').prepend('(\'').concat('\')')
+            arr.join('\', \'').prepend('(\'').concat('\')')
           end
 
           def claim_types_for_scheme

@@ -2,7 +2,7 @@ class Fee::BaseFeePresenter < BasePresenter
   presents :fee
 
   def dates_attended_delimited_string
-    fee.dates_attended.order(date: :asc).map(&:to_s).join(', ')
+    fee.dates_attended.order(date: :asc).join(', ')
   end
 
   def date

@@ -9,8 +9,8 @@ module CCR
         end
 
         def mappings
-          @mappings ||= fee_types.each_with_object({}) do |fee_type_unique_code, mappings|
-            mappings[fee_type_unique_code.to_sym] = { bill_type:, bill_subtype: }
+          @mappings ||= fee_types.to_h do |fee_type_unique_code|
+            [fee_type_unique_code.to_sym, { bill_type:, bill_subtype: }]
           end
         end
 

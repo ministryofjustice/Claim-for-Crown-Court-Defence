@@ -36,7 +36,7 @@ module Stats
           end
 
           def in_statement_for(arr)
-            arr.map(&:to_s).join('\', \'').prepend('(\'').concat('\')')
+            arr.join('\', \'').prepend('(\'').concat('\')')
           end
         end
       end

@@ -10,7 +10,7 @@
 #
 module Claims
   module FeeCalculator
-    UnitModifier = Struct.new(:name, :limit_from, keyword_init: true)
+    UnitModifier = Struct.new(:name, :limit_from)
 
     class UnitPrice < CalculatePrice
       private

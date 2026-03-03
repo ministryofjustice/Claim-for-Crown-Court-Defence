@@ -159,12 +159,47 @@ module ExternalUsers
 
     def unarchive
       claim_url = external_users_claim_url(@claim)
-      return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
-      @claim = @claim.paper_trail.previous_version
+
+      # 1. Must be allowed to unarchive
+      unless unarchive_allowed?
+        return redirect_to(claim_url, alert: t('.not_archived'))
+      end
+
+      # 2. Find the version to restore
+      version = @claim.versions.last
+      unless version
+        return redirect_to(claim_url, alert: t('.no_previous_version'))
+      end
+
+      # 3. Reify (PaperTrail's way to rebuild the past record)
+      restored = version.reify
+      unless restored
+        return redirect_to(claim_url, alert: t('.no_previous_version'))
+      end
+
+      # 4. Apply the restored attributes to the current claim
+      # (Do NOT replace @claim with `restored`, it breaks associations & AR state)
+      @claim.assign_attributes(restored.attributes.slice(*allowed_unarchive_attributes))
+
+      # 5. Ensure numeric totals are set (your app logic)
       @claim.zeroise_nil_totals!
-      @claim.save!(validate: false)
-      redirect_to external_users_claims_url, notice: t('.unarchived')
-    rescue StandardError
+
+      # 6. Save normally (with validations)
+      if @claim.save
+        redirect_to external_users_claims_url, notice: t('.unarchived')
+      else
+        Rails.logger.warn(
+          "Unarchive validation failed for claim #{@claim.id}: #{@claim.errors.full_messages.join(', ')}"
+        )
+        redirect_to claim_url, alert: t('.unarchived_validation_failed')
+      end
+
+    rescue => e
+      # 7. Log real error while still giving user a friendly message
+      Rails.logger.error(
+        "Unarchive failed for claim #{@claim&.id}: #{e.class} - #{e.message}\n" \
+          "#{e.backtrace&.first(10)&.join("\n")}"
+      )
       redirect_to claim_url, alert: t('.unarchivable')
     end
 

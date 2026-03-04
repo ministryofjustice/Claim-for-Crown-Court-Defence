@@ -2671,6 +2671,7 @@ en:
     no_message_found: 'No messages found'
     summary_totals: 'Summary totals'
     vat: 'VAT'
+    position_and_count: 'Showing %{position} of %{count} claims'
     password_updated: 'Password successfully updated'
   case_workers:
     table_headings:

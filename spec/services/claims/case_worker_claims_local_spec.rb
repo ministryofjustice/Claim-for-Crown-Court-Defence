@@ -111,11 +111,6 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
       it { expect(navigation[:next]).to eq(57) }
       it { expect(navigation[:position]).to eq(1) }
       it { expect(navigation[:count]).to eq(4) }
-
-      it do
-        expect(navigation[:items])
-          .to eq([{ number: 1, current: true }, { ellipsis: true }, { number: 4 }])
-      end
     end
 
     context 'when the claim is the second in the list' do
@@ -125,11 +120,6 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
       it { expect(navigation[:next]).to eq(19) }
       it { expect(navigation[:position]).to eq(2) }
       it { expect(navigation[:count]).to eq(4) }
-
-      it do
-        expect(navigation[:items])
-          .to eq([{ number: 1 }, { number: 2, current: true }, { ellipsis: true }, { number: 4 }])
-      end
     end
 
     context 'when the claim is the third in the list' do
@@ -139,11 +129,6 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
       it { expect(navigation[:next]).to eq(98) }
       it { expect(navigation[:position]).to eq(3) }
       it { expect(navigation[:count]).to eq(4) }
-
-      it do
-        expect(navigation[:items])
-          .to eq([{ number: 1 }, { ellipsis: true }, { number: 3, current: true }, { number: 4 }])
-      end
     end
 
     context 'when the claim is the fourth in the list' do
@@ -153,11 +138,6 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
       it { expect(navigation[:next]).to be_nil }
       it { expect(navigation[:position]).to eq(4) }
       it { expect(navigation[:count]).to eq(4) }
-
-      it do
-        expect(navigation[:items])
-          .to eq([{ number: 1 }, { ellipsis: true }, { number: 4, current: true }])
-      end
     end
 
     context 'when there is only one claim in the list' do
@@ -167,7 +147,6 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
       it { expect(navigation[:next]).to be_nil }
       it { expect(navigation[:position]).to eq(1) }
       it { expect(navigation[:count]).to eq(1) }
-      it { expect(navigation[:items]).to eq([{ number: 1, current: true }]) }
     end
 
     context 'when the claim is not in the list' do
@@ -177,7 +156,6 @@ RSpec.describe Claims::CaseWorkerClaimsLocal do
       it { expect(navigation[:next]).to be_nil }
       it { expect(navigation[:position]).to be_nil }
       it { expect(navigation[:count]).to eq(3) }
-      it { expect(navigation[:items]).to eq([{ number: 1 }, { ellipsis: true }, { number: 3 }]) }
     end
   end
 end

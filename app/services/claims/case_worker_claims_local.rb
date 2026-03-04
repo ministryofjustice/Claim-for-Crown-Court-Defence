@@ -28,8 +28,7 @@ module Claims
         previous: previous_claim_id(claim),
         next: next_claim_id(claim),
         position: position(claim),
-        count: claim_ids.count,
-        items: items(claim)
+        count: claim_ids.count
       }
     end
 
@@ -56,16 +55,6 @@ module Claims
       return unless claim_ids.include?(claim.id)
 
       claim_ids.index(claim.id) + 1
-    end
-
-    def items(claim)
-      [
-        ({ number: 1 } if claim_ids.first != claim.id),
-        ({ ellipsis: true } if claim_ids[0, 2]&.exclude?(claim.id)),
-        ({ number: position(claim), current: true } if claim_ids.include?(claim.id)),
-        ({ ellipsis: true } if claim_ids[-2, 2]&.exclude?(claim.id) && claim_ids.include?(claim.id)),
-        ({ number: claim_ids.count } if claim_ids.last != claim.id)
-      ].compact
     end
 
     def fetch_permitted(key, value, default: nil) = PERMITTED[key].include?(value) ? value : default

@@ -5,7 +5,7 @@ module CaseWorkers
     skip_load_and_authorize_resource
     authorize_resource class: Claim::BaseClaim
 
-    helper_method :sort_column, :sort_direction, :selection_type, :tab, :search_terms
+    helper_method :sort_column, :sort_direction, :selection_type, :tab, :navigation, :search_terms
 
     respond_to :html
 
@@ -16,7 +16,7 @@ module CaseWorkers
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
     before_action :set_claim, only: %i[show messages download_zip]
-    before_action :set_claim_navigation, only: :show
+    before_action :set_navigation, only: :show
 
     include ReadMessages
     include MessageControlsDisplay
@@ -86,8 +86,8 @@ module CaseWorkers
       @claims = Claims::CaseWorkerClaims.new(current_user:, action: tab, criteria: criteria_params).claims
     end
 
-    def set_claim_navigation
-      @claim_navigation = Claims::CaseWorkerClaimsLocal.new(
+    def set_navigation
+      @navigation = Claims::CaseWorkerClaimsLocal.new(
         current_user:, action: selection_type, sort_column:, sort_direction:, search: search_terms
       ).navigation(@claim)
     end

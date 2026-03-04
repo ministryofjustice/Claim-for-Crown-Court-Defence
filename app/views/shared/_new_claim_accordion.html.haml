@@ -5,7 +5,7 @@
         = t('.messages')
 
     .govuk-grid-column-one-half
-      = render partial: 'shared/other_claims_links', locals: {claim: claim, navigation: @claim_navigation, current_user: }
+      = render partial: 'shared/other_claims_links', locals: {claim: claim, navigation: @navigation, current_user: }
 
   = render partial: 'shared/claim_history', locals: { claim: claim }
   = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }

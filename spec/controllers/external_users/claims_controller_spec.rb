@@ -773,6 +773,13 @@ RSpec.describe ExternalUsers::ClaimsController do
         context 'when the current version of paper trail is used' do
           before { patch :unarchive, params: { id: claim } }
 
+          it 'has previous versions' do
+            expect(claim.versions.map do |v|
+              YAML.safe_load(v.object_changes)['state']
+            end.flatten).to include('draft', 'submitted', 'allocated', 'rejected',
+                                    'archived_pending_review')
+          end
+
           it 'unarchives the claim and restores to state prior to archiving' do
             expect(claim.reload).to be_rejected
           end
@@ -823,6 +830,10 @@ RSpec.describe ExternalUsers::ClaimsController do
 
       it 'redirects to external users root url' do
         expect(response).to redirect_to(external_users_claim_url(claim))
+      end
+
+      it 'displays a success message' do
+        expect(flash[:alert]).to eq('This claim is not in the archive')
       end
     end
 

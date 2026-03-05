@@ -17,6 +17,8 @@ module Claims
       else
         claim.archive_pending_delete!(audit_attributes)
       end
+      # Force a PT version even if validations were skipped or callbacks differ
+      claim.paper_trail.save_with_version(validate: false)
     end
 
     def clone_rejected

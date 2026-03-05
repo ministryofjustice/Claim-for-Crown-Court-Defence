@@ -435,9 +435,23 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can view and download documents' do
+    context 'can view and download documents on allocated claims' do
+      let(:claim) { create(:advocate_claim) }
+      let(:document) { create(:document, claim:) }
+
+      before { case_worker.claims << claim }
+
       %i[show download].each do |action|
-        it { should be_able_to(action, Document.new) }
+        it { should be_able_to(action, document) }
+      end
+    end
+
+    context 'can not view and download documents on claims that are not allocated to them' do
+      let(:claim) { create(:advocate_claim) }
+      let(:document) { create(:document, claim:) }
+
+      %i[show download].each do |action|
+        it { should_not be_able_to(action, document) }
       end
     end
 

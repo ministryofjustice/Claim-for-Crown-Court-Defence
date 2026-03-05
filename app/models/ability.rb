@@ -64,7 +64,9 @@ class Ability
     end
     can_administer_any_provider if persona.roles.include?('provider_management')
     can %i[upload delete], Document
-    can %i[show download], Document
+    can %i[show download], Document do |document|
+      document.claim.case_workers.include?(persona)
+    end
     can %i[index feedback], CourtData
     can_manage_own_password(persona)
     can %i[dismiss], InjectionAttempt

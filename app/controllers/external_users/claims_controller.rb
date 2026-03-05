@@ -160,13 +160,17 @@ module ExternalUsers
     def unarchive
       claim_url = external_users_claim_url(@claim)
       return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
+
       version = @claim.versions.last
       return redirect_to claim_url, alert: t('.cannot_unarchive_no_version') unless version
+
       @claim = version.reify
       @claim.zeroise_nil_totals!
       @claim.save!(validate: false)
       redirect_to external_users_claims_url, notice: t('.unarchived')
-    rescue StandardError
+    rescue ActiveRecord::RecordNotSaved,
+      ActiveRecord::StatementInvalid => e
+      Rails.logger.error(e.full_message)
       redirect_to claim_url, alert: t('.unarchivable')
     end
 

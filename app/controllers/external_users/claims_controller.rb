@@ -189,12 +189,15 @@ module ExternalUsers
     rescue ActiveRecord::RecordNotSaved,
            ActiveRecord::StatementInvalid => e
       Rails.logger.error(e.full_message)
-      redirect_to claim_url, alert: t('.unarchivable')
+      redirect_to claim_url, alert: t('external_users.claims.unarchive.unarchivable')
     end
 
     def claim_previous_version
       version = @claim.versions.last
-      return redirect_to claim_url, alert: t('.cannot_unarchive_no_version') unless version
+      unless version
+        return redirect_to claim_url,
+                           alert: t('external_users.claims.unarchive.cannot_unarchive_no_version')
+      end
       @claim = version.reify
     end
 

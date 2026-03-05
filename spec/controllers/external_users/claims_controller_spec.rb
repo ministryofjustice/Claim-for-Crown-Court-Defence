@@ -827,12 +827,19 @@ RSpec.describe ExternalUsers::ClaimsController do
     end
 
     context 'when the claim is archived with assessed values' do
+      # It looks like there were some changes to the validation rules which meant that a claim could end up in a situation where:
+      # Validation is set to false so that this test is testing that behaviour.
+      # - it was originally valid
+      # - it was archived
+      # - the validation rules changed
+      # - if someone tried to unarchive the claim it would now be invalid and the the unarchiving would fail.
       subject(:claim) { create(:advocate_claim, external_user: advocate) }
 
       before do
         claim.submit!
         claim.allocate!
-        claim.assessment.update(fees: 123.00, expenses: 23.45)
+        claim.assessment.update(fees: 123.00, expenses: 23.45) # cant be zero for part auth but must be zero for refused state
+        # the line above was relying on @claim.save! to have been called with validate:false.
         claim.authorise_part!
         claim.redetermine!
         claim.allocate!

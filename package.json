@@ -35,7 +35,6 @@
     "datatables.net-dt": "^2.3.4",
     "datatables.net-fixedheader-dt": "^4.0.3",
     "datatables.net-select": "3.1.0",
-    "file-loader": "^6.2.0",
     "govuk-frontend": "^5.9.0",
     "jquery": "^3.7.1",
     "jquery-accessible-accordion-aria": "^2.6.1",
@@ -53,7 +52,6 @@
     "stickyfilljs": "^2.1.0",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.17",
-    "url-loader": "^4.1.1",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1",
     "webpack-remove-empty-scripts": "^1.1.1"
@@ -67,8 +65,5 @@
     "stylelint": "^16.25.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^6.0.4"
-  },
-  "resolutions": {
-    "minimatch": "^10.2.1"
   }
 }

@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence#readme",
   "scripts": {
-    "validate:js": "standard",
+    "validate:js": "eslint",
     "validate:scss": "stylelint **/*.scss",
     "test:jasmine-headless": "npx jasmine-browser-runner runSpecs",
     "test:jasmine": "npx jasmine-browser-runner",
@@ -59,30 +59,16 @@
     "webpack-remove-empty-scripts": "^1.1.1"
   },
   "devDependencies": {
+    "eslint": "^9.0.0",
     "expose-loader": "^5.0.1",
     "jasmine-browser-runner": "^3.0.0",
     "jasmine-core": "^5.10.0",
-    "standard": "^17.1.2",
+    "neostandard": "^0.13.0",
     "stylelint": "^16.25.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^6.0.4"
   },
   "resolutions": {
     "minimatch": "^10.2.1"
-  },
-  "standard": {
-    "env": [
-      "jasmine",
-      "jquery"
-    ],
-    "globals": [
-      "GOVUK",
-      "moj",
-      "Stickyfill"
-    ],
-    "ignore": [
-      "app/webpack/javascripts/vendor/",
-      "spec/javascripts/helpers/"
-    ]
   }
 }

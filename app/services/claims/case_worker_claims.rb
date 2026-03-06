@@ -23,6 +23,10 @@ module Claims
       end
     end
 
+    def next_after(claim)
+      claims.index(claim) + 1
+    end
+
     private
 
     def current_claims

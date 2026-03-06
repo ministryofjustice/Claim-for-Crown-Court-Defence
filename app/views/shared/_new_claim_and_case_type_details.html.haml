@@ -39,7 +39,6 @@
   - row.with_key(text: t('shared.new_claim_and_case_type_details.case_num'))
   - row.with_value do
     = claim.case_number
-    %span.unique-id-small= claim.unique_id
 
 - if claim.transfer_court.present?
   - summary_list.with_row do |row|

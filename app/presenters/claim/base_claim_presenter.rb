@@ -134,10 +134,6 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.case_number.blank? ? 'N/A' : claim.case_number.scan(/.{1,3}/).join(' ')
   end
 
-  def unique_id
-    "##{claim.id}"
-  end
-
   def vat_date(format = nil)
     if format == :db
       claim.vat_date.to_fs(:db)

@@ -14,7 +14,7 @@ Feature: A user can provide a bug report
     And I fill in 'What went wrong?' with 'Something went wrong'
     And I click the button 'Send'
 
-    Then I see confirmation that my 'bug report' was received
+    Then I see confirmation that my bug report was received
     And I should be on the your claims page
 
   @stub_bug_report_success
@@ -29,7 +29,7 @@ Feature: A user can provide a bug report
     And I fill in 'What is your email address? (Optional)' with 'joe.bloggs@example.com'
     And I click the button 'Send'
 
-    Then I see confirmation that my 'bug report' was received
+    Then I see confirmation that my bug report was received
     And I should be on the sign in page
 
   @stub_bug_report_failure

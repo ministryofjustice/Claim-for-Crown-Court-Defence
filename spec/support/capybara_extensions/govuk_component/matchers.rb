@@ -26,9 +26,7 @@ module CapybaraExtensions
       end
 
       def has_govuk_notification_banner?(**)
-        [
-          has_selector?('.govuk-notification-banner__content', **)
-        ].all?
+        has_selector?('.govuk-notification-banner__content', **)
       end
 
       def has_govuk_warning?(text = nil)

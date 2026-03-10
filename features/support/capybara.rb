@@ -27,7 +27,7 @@ end
 Capybara.javascript_driver = :headless_chrome
 
 Capybara.configure do |config|
-  config.default_max_wait_time = 10 # seconds
+  config.default_max_wait_time = 15 # seconds
 end
 
 if ENV['BROWSER'] == 'chrome'

@@ -122,14 +122,89 @@ class ClaimFormPage < BasePage
   end
 
   def attach_evidence(count: 1, document: '*')
+    puts "\n=== ATTACH EVIDENCE DEBUG ==="
+    puts "Count: #{count || 1}"
+    puts "Document pattern: #{document}"
+
     count ||= 1
     available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"
-    available_docs[0...count].each do |path|
-      # element needs to be visible in order to attach_file
-      page.execute_script("$('.moj-multi-file-upload__input').css('position','unset')")
-      input_field = page.find("input[name='attachments']")
-      input_field.attach_file(path)
+
+    puts "Available documents found: #{available_docs.length}"
+    available_docs.each_with_index do |doc, idx|
+      puts "  #{idx + 1}. #{doc}"
     end
+
+    if available_docs.empty?
+      puts "❌ WARNING: No documents found matching pattern!"
+      puts "Search path: #{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"
+      puts "Files in fixtures directory:"
+      Dir.glob("#{Rails.root}/spec/fixtures/files/*.pdf").each { |f| puts "  - #{File.basename(f)}" }
+    end
+
+    available_docs[0...count].each_with_index do |path, idx|
+      puts "\nAttaching document #{idx + 1}/#{count}: #{File.basename(path)}"
+      
+      # Check if file exists and is readable
+      unless File.exist?(path)
+        puts "❌ ERROR: File does not exist: #{path}"
+        next
+      end
+      
+      unless File.readable?(path)
+        puts "❌ ERROR: File is not readable: #{path}"
+        next
+      end
+      
+      puts "File size: #{File.size(path)} bytes"
+
+      # Make element visible
+      begin
+        page.execute_script("$('.moj-multi-file-upload__input').css('position','unset')")
+        puts "✅ Made input visible via JavaScript"
+      rescue => e
+        puts "⚠️  Could not make input visible: #{e.message}"
+      end
+
+    # Find and attach to input field
+    begin
+      input_field = page.find("input[name='attachments']", visible: :all, wait: 5)
+      puts "✅ Found input field"
+      
+      # Check input field state
+      puts "Input field visible: #{input_field.visible?}"
+      puts "Input field disabled: #{input_field.disabled?}"
+      
+      input_field.attach_file(path)
+      puts "✅ Attached file successfully"
+      
+      # Wait a moment for the file to be processed
+      sleep 0.5
+      
+      # Check if file appears in the UI
+      if page.has_css?('.moj-multi-file-upload__item', wait: 2)
+        uploaded_count = page.all('.moj-multi-file-upload__item').length
+        puts "✅ Files in upload list: #{uploaded_count}"
+      else
+        puts "⚠️  No upload list items found"
+      end
+      
+      rescue Capybara::ElementNotFound => e
+        puts "❌ ERROR: Could not find input field"
+        puts "Error: #{e.message}"
+        
+        # Debug: Show what upload elements exist
+        puts "\nUpload elements on page:"
+        page.all('input[type="file"]', visible: :all).each_with_index do |input, i|
+          puts "  #{i + 1}. name='#{input[:name]}', id='#{input[:id]}', visible=#{input.visible?}"
+        end
+        
+      rescue => e
+        puts "❌ ERROR attaching file: #{e.class} - #{e.message}"
+        puts e.backtrace.first(3).join("\n")
+      end
+    end
+
+    puts "=========================\n"
   end
 
   def check_evidence_checklist(count = 1)

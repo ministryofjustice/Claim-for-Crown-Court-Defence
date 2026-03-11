@@ -111,6 +111,10 @@ RSpec.describe Claim::BaseClaimPresenter do
     it { expect { presenter.authorised_at(rubbish: false) }.to raise_error(ArgumentError) }
   end
 
+  describe '#unique_id' do
+    it { expect(presenter.unique_id).to eql("##{presenter.id}") }
+  end
+
   describe '#case_number' do
     it { expect(presenter.case_number).to eql(claim.case_number) }
 

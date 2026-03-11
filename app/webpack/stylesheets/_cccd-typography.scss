@@ -3,6 +3,12 @@ p {
   @extend %govuk-body-m;
 }
 
+.unique-id-small {
+  @include govuk-font(14);
+  display: block;
+  color: govuk-colour("black");
+}
+
 .sub-header {
   margin-bottom: $gutter-half;
 }

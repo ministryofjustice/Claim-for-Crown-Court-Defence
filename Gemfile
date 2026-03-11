@@ -76,7 +76,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rack-livereload', '~> 0.5.2'
-  gem 'rspec-rails', '~> 8.0.3'
+  gem 'rspec-rails', '~> 8.0.4'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
   gem 'net-ssh', '~> 7.3'

@@ -132,12 +132,6 @@ And(/^I should see in the sidebar vat total '(.*?)'$/) do |total|
 end
 
 Then(/^I should see a page title "([^"]*)"$/) do |page_title|
-  # Add debugging
-  puts "Current URL: #{page.current_url}"
-  puts "Current path: #{page.current_path}"
-  puts "Page title: #{page.title}"
-  puts "H1 content: #{page.find('h1', match: :first).text rescue 'No H1 found'}"
-
   expect(page.title).to have_content(page_title)
 end
 

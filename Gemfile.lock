@@ -214,7 +214,7 @@ GEM
     cucumber-html-formatter (22.3.0)
       cucumber-messages (> 23, < 33)
     cucumber-messages (32.2.0)
-    cucumber-rails (4.0.0)
+    cucumber-rails (4.0.1)
       capybara (>= 3.25, < 4)
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
@@ -797,7 +797,7 @@ DEPENDENCIES
   config (~> 5.6)
   connection_pool (< 3.0.0)
   csv
-  cucumber-rails (~> 4.0.0)
+  cucumber-rails (~> 4.0.1)
   database_cleaner
   devise (~> 5.0.2)
   dotenv-rails (~> 3.2)

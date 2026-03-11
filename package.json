@@ -64,6 +64,6 @@
     "neostandard": "^0.13.0",
     "stylelint": "^16.25.0",
     "stylelint-config-gds": "^2.0.0",
-    "stylelint-order": "^6.0.4"
+    "stylelint-order": "^8.0.0"
   }
 }

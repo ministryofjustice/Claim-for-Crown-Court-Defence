@@ -3,17 +3,24 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: read
+
 jobs:
   cucumber-tests:
     name: Run Cucumber tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    permissions:
+      contents: read
+      checks: write
+
     strategy:
+      fail-fast: false
       matrix:
         ci_node_total: [6]
         ci_node_index: [1, 2, 3, 4, 5, 6]
-      fail-fast: false
 
     services:
       postgres:
@@ -37,6 +44,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+
+      - name: Set up Chrome for Selenium tests
+        uses: browser-actions/setup-chrome@v2
 
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
@@ -84,6 +94,7 @@ jobs:
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: cucumber-results
+          name: cucumber-results-${{ matrix.ci_node_index }}
           path: /tmp/test-results/cucumber_${{ matrix.ci_node_index }}.xml

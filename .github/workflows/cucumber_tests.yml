@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    strategy:
+      matrix:
+        ci_node_total: [6]
+        ci_node_index: [1, 2, 3, 4, 5, 6]
+
     services:
       postgres:
         image: postgres:17
@@ -43,21 +48,41 @@ jobs:
 
       - name: Set up database
         run: |
-          bundle exec rake db:create
           bundle exec rake db:schema:load
 
       - name: Precompile assets
         run: bundle exec rake assets:precompile
 
-      - name: Run Cucumber tests
+      - name: Split and run Cucumber tests
+        env:
+          CI_NODE_TOTAL: ${{ matrix.ci_node_total }}
+          CI_NODE_INDEX: ${{ matrix.ci_node_index }}
         run: |
+          # Get all feature files and split them across nodes
+          ALL_FEATURES=$(find features -name "*.feature" | sort)
+          TOTAL=$(echo "$ALL_FEATURES" | wc -l | tr -d ' ')
+
+          # Calculate which files this node should run
+          NODE_FEATURES=$(echo "$ALL_FEATURES" | awk -v node_total="$CI_NODE_TOTAL"  \
+                                                     -v node_index="$CI_NODE_INDEX" \
+                                                     'NR % node_total == node_index - 1')
+
+          if [ -z "$NODE_FEATURES" ]; then
+            echo "No feature files to run for this node."
+            exit 0
+          fi
+
+          echo "Running $(echo "$NODE_FEATURES" | wc -l) of $TOTAL feature files on node $CI_NODE_INDEX"
+          echo "$NODE_FEATURES"
+
           bundle exec cucumber \
             --format pretty \
             --format junit,fileattribute=true \
-            --out /tmp/test-results/cucumber.xml
+            --out /tmp/test-results/cucumber_${{ matrix.ci_node_index }}.xml \
+            $NODE_FEATURES
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-results
-          path: /tmp/test-results/cucumber.xml
+          path: /tmp/test-results/cucumber_${{ matrix.ci_node_index }}.xml

@@ -23,6 +23,16 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
+Capybara.register_driver :headless_firefox do |app|
+  options = Selenium::WebDriver::Firefox::Options.new(
+    args: %w[headless window-size=1366,768]
+  )
+  Capybara::Selenium::Driver.new(app, browser: :firefox, options:)
+end
+
+driver = ENV.fetch('CAPYBARA_DRIVER', 'headless_chrome').to_sym
+Capybara.default_driver = driver
+
 # use headless chrome for javascript
 Capybara.javascript_driver = :headless_chrome
 

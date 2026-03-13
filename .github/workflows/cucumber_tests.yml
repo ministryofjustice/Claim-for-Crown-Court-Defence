@@ -1,0 +1,63 @@
+name: Cucumber tests
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  cucumber-tests:
+    name: Run Cucumber tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:password@localhost:5432/cccd_test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.2
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Set up database
+        run: |
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
+
+      - name: Precompile assets
+        run: bundle exec rake assets:precompile
+
+      - name: Run Cucumber tests
+        run: |
+          bundle exec cucumber \
+            --format pretty \
+            --format junit,fileattribute=true \
+            --out /tmp/test-results/cucumber.xml
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-results
+          path: /tmp/test-results/cucumber.xml

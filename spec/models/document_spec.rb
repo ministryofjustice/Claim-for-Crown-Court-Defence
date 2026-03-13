@@ -45,7 +45,7 @@ RSpec.describe Document do
   end
 
   it { is_expected.to belong_to(:external_user) }
-  it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
+  it { is_expected.to belong_to(:creator).class_name('User') }
   it { is_expected.to belong_to(:claim) }
   it { is_expected.to delegate_method(:provider_id).to(:external_user) }
 

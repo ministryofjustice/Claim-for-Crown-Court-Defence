@@ -45,8 +45,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Chrome for Selenium tests
-        uses: browser-actions/setup-chrome@v2
+      - name: Set up Firefox for Selenium tests
+        uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: latest
+
+      - name: Setup up Geckodriver
+        uses: browser-actions/setup-geckodriver@latest
 
       - name: Ruby setup
         uses: ruby/setup-ruby@v1
@@ -68,6 +73,7 @@ jobs:
         env:
           CI_NODE_TOTAL: ${{ matrix.ci_node_total }}
           CI_NODE_INDEX: ${{ matrix.ci_node_index }}
+          CAPYBARA_DRIVER: headless_firefox
         run: |
           # Get all feature files and split them across nodes
           ALL_FEATURES=$(find features -name "*.feature" | sort)

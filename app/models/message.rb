@@ -102,6 +102,8 @@ class Message < ApplicationRecord
   def process_written_reasons
     return unless claim.written_reasons_outstanding?
     return unless written_reasons_submitted == '1'
+    # A claim with written reason by necessity has already more than 2 state transitions (it comes after a claim has been authorised - submitted, allocated, authorised, Awaiting written reasons),
+    # so calling second event will not raise an error.
     claim.send(:"#{claim.filtered_state_transitions.second.event}!", author_id: sender_id)
   end
 

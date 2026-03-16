@@ -2094,7 +2094,7 @@ date-fns@>=2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-4.1.0.tgz#64b3d83fff5aa80438f5b1a633c2e83b8a1c2d14"
   integrity sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==
 
-debug@^4.1.0, debug@^4.3.1, debug@^4.3.2, debug@^4.3.5, debug@^4.4.0, debug@^4.4.3:
+debug@^4.1.0, debug@^4.3.1, debug@^4.3.2, debug@^4.4.0, debug@^4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.4.3.tgz#c6ae432d9bd9662582fce08709b038c58e9e3d6a"
   integrity sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==
@@ -3054,7 +3054,7 @@ http-errors@^2.0.0:
     statuses "2.0.1"
     toidentifier "1.0.1"
 
-http-errors@~2.0.1:
+http-errors@^2.0.1, http-errors@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-2.0.1.tgz#36d2f65bc909c8790018dd36fb4d93da6caae06b"
   integrity sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==
@@ -3737,10 +3737,17 @@ mime-types@^2.1.27:
   dependencies:
     mime-db "1.52.0"
 
-mime-types@^3.0.0, mime-types@^3.0.1:
+mime-types@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-3.0.1.tgz#b1d94d6997a9b32fd69ebaed0db73de8acb519ce"
   integrity sha512-xRc4oEhT6eaBpU1XF7AjpOFD+xQmXNB5OVKwp4tqCuBpHLS/ZbBDrc07mYTDqVMg6PfxUjjNp85O6Cd2Z/5HWA==
+  dependencies:
+    mime-db "^1.54.0"
+
+mime-types@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-3.0.2.tgz#39002d4182575d5af036ffa118100f2524b2e2ab"
+  integrity sha512-Lbgzdk0h4juoQ9fCKXW4by0UJqj+nOOrI9MJ1sSj4nI8aI2eo1qmvQEie4VD1glsS250n15LsWsYtCugiStS5A==
   dependencies:
     mime-db "^1.54.0"
 
@@ -4491,21 +4498,21 @@ semver@^7.5.4, semver@^7.6.3, semver@^7.7.3:
   integrity sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==
 
 send@^1.1.0, send@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/send/-/send-1.2.0.tgz#32a7554fb777b831dfa828370f773a3808d37212"
-  integrity sha512-uaW0WwXKpL9blXE2o0bRhoL2EGXIrZxQ2ZQ4mgcfoBxdFmQold+qWsD2jLrfZ0trjKL6vOw0j//eAwcALFjKSw==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/send/-/send-1.2.1.tgz#9eab743b874f3550f40a26867bf286ad60d3f3ed"
+  integrity sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==
   dependencies:
-    debug "^4.3.5"
+    debug "^4.4.3"
     encodeurl "^2.0.0"
     escape-html "^1.0.3"
     etag "^1.8.1"
     fresh "^2.0.0"
-    http-errors "^2.0.0"
-    mime-types "^3.0.1"
+    http-errors "^2.0.1"
+    mime-types "^3.0.2"
     ms "^2.1.3"
     on-finished "^2.4.1"
     range-parser "^1.2.1"
-    statuses "^2.0.1"
+    statuses "^2.0.2"
 
 serve-static@^2.2.0:
   version "2.2.0"
@@ -4659,7 +4666,7 @@ statuses@2.0.1, statuses@^2.0.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
-statuses@~2.0.2:
+statuses@^2.0.2, statuses@~2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.2.tgz#8f75eecef765b5e1cfcdc080da59409ed424e382"
   integrity sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==

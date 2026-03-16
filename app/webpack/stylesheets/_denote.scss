@@ -3,7 +3,7 @@
   position: absolute;
   margin: 2px 0 0 2px;
   padding: $gutter-one-sixth + 1 $gutter-one-third + 2;
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
   line-height: 1.1;
 
   @include govuk-media-query($from: tablet) {

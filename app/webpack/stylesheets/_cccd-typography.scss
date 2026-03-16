@@ -4,9 +4,9 @@ p {
 }
 
 .unique-id-small {
-  @include govuk-font(14);
   display: block;
   color: govuk-colour("black");
+  font-size: govuk-px-to-rem(14px);
 }
 
 .sub-header {
@@ -31,7 +31,7 @@ p {
 
     .resubmit-claim {
       width: $govuk-gutter * 7;
-      padding-left: $govuk-gutter / 10;
+      padding-left: calc($govuk-gutter / 10);
     }
 
     .action-wrapper a:first-child,

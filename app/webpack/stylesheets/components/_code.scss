@@ -1,10 +1,10 @@
 .app-code {
-  @include govuk-font(14);
   padding: govuk-spacing(1) govuk-spacing(1) 2px;
   border: 1px solid $govuk-border-colour;
   color: $govuk-text-colour;
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
   font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  font-size: govuk-px-to-rem(14px);
   line-height: 1.5;
   text-align: left;
   text-shadow: 0 1px govuk-colour("white");

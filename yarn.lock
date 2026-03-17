@@ -3356,10 +3356,10 @@ jasmine-browser-runner@^3.0.0:
     glob "^10.0.0"
     selenium-webdriver "^4.12.0"
 
-jasmine-core@^5.10.0:
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.10.0.tgz#7e6c3efde6eb1ec9afc58d4373f6ace1e91c459e"
-  integrity sha512-MrChbWV5LBo+EaeKwTM1eZ6oYSz1brvFExnRafraEkJkbJ9evbUxABhnIgGQimhpMxhg+BD6QmOvb/e3NXsNdg==
+jasmine-core@^5.13.0:
+  version "5.13.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.13.0.tgz#3ff5765a93a23bac0728ae87ad82ce0569a5f7a8"
+  integrity sha512-vsYjfh7lyqvZX5QgqKc4YH8phs7g96Z8bsdIFNEU3VqXhlHaq+vov/Fgn/sr6MiUczdZkyXRC3TX369Ll4Nzbw==
 
 jest-worker@^27.4.5:
   version "27.5.1"

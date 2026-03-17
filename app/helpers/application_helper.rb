@@ -179,4 +179,24 @@ module ApplicationHelper
     tab = tab_present(path)
     request.GET[:tab] == tab
   end
+
+  def govuk_tag_active_user?(user)
+    user.active? && user.enabled? ? govuk_tag(text: 'Active', colour: "green") : govuk_tag(text: 'Inactive', colour: "red")
+  end
+
+  def state_colour
+    {
+      'authorised' => 'green',
+      'accepted' => 'green',
+      'allocated' => 'purple',
+      'draft' => 'blue',
+      'rejected' => 'red',
+      'refused' => 'red',
+      'unverified' => 'red',
+      'archived-pending-delete'=> 'dark-grey',
+      'redermination' => "black",
+      'part-authorised' => "blue",
+      'submitted' => "grey",
+    }
+  end
 end

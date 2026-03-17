@@ -1,40 +1,38 @@
-// stylelint-disable declaration-no-important
-
 .app-tag--authorised,
 .app-tag--accepted {
-  color: govuk-shade(govuk-colour("green"), 20%) !important;
-  background: govuk-tint(govuk-colour("green"), 80%) !important;
+  color: govuk-colour("green", $variant: "shade-50");
+  background-color: govuk-colour("green", $variant: "tint-80");
 }
 
 .app-tag--allocated {
-  color: govuk-shade(govuk-colour("purple"), 20%) !important;
-  background: govuk-tint(govuk-colour("purple"), 80%) !important;
+  color: govuk-colour("purple", $variant: "shade-50");
+  background-color: govuk-colour("purple", $variant: "tint-80");
 }
 
 .app-tag--draft {
-  color: govuk-shade(govuk-colour("blue"), 30%) !important;
-  background: govuk-tint(govuk-colour("blue"), 80%) !important;
+  color: govuk-colour("blue", $variant: "shade-50");
+  background-color: govuk-colour("blue", $variant: "tint-80");
 }
 
 .app-tag--rejected,
 .app-tag--refused,
 .app-tag--unverified {
-  color: govuk-shade(govuk-colour("red"), 30%) !important;
-  background: govuk-tint(govuk-colour("red"), 80%) !important;
+  color: govuk-colour("red", $variant: "shade-50");
+  background-color: govuk-colour("red", $variant: "tint-80");
 }
 
 .app-tag--archived-pending-delete,
 .app-tag--submitted {
-  color: govuk-shade(govuk-colour("black", $variant: "tint-25"), 30%) !important;
-  background: govuk-tint(govuk-colour("black", $variant: "tint-25"), 90%) !important;
+  color: govuk-colour("black");
+  background-color: govuk-colour("black", $variant: "tint-80");
 }
 
 .app-tag--redetermination {
-  color: govuk-shade(govuk-colour("black"), 30%) !important;
-  background: govuk-tint(govuk-colour("black"), 80%) !important;
+  color: govuk-colour("black");
+  background-color: govuk-colour("black", $variant: "tint-80");
 }
 
 .app-tag--part-authorised {
-  color: govuk-shade(govuk-colour("blue"), 30%) !important;
-  background: govuk-tint(govuk-colour("blue"), 80%) !important;
+  color: govuk-colour("blue", $variant: "shade-50");
+  background-color: govuk-colour("blue", $variant: "tint-80");
 }

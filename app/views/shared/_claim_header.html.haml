@@ -11,7 +11,7 @@
       %p.govuk-heading-l
         %span.govuk-caption-l
           = t('.status')
-        = govuk_tag(text: claim.state.humanize, colour: state_colour[claim.state])
+        = govuk_tag(text: claim.state.humanize, colour: state_colour(claim.state))
 
     .govuk-grid-column-one-third
       %p.govuk-heading-l

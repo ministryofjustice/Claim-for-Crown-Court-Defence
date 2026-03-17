@@ -3,7 +3,7 @@
     %span
       = expense.name
     - if current_user_is_caseworker? && @claim.lgfs?
-      = govuk_tag(text: expense.state, colour: state_colour[claim.state])
+      = govuk_tag(text: expense.state, colour: state_colour(claim.state))
   = row.with_cell(html_attributes: { 'data-label': t('.reason') }) do
     %span
       = expense.reason

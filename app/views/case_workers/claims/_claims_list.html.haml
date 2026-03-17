@@ -55,7 +55,7 @@
             = row.with_cell(classes: 'js-test-total', html_attributes: { 'data-label': t('.total') }, text: claim.total_inc_vat, numeric: true)
             - if params[:action] == 'archived'
               = row.with_cell(html_attributes: { 'data-label': t('.status') }) do
-                = govuk_tag(text: claim.state.humanize, colour: state_colour[claim.state])
+                = govuk_tag(text: claim.state.humanize, colour: state_colour(claim.state))
             = row.with_cell(html_attributes: { 'data-label': t('.case_type') }) do
               = claim.case_type_name
               %br/

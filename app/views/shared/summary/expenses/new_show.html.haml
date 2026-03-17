@@ -3,13 +3,13 @@
     %span
       = expense.name
     - if current_user_is_caseworker? && @claim.lgfs?
-      = govuk_tag expense.state, class: "app-tag--#{expense.state.downcase}"
+      = govuk_tag(text: expense.state, colour: state_colour[claim.state])
   = row.with_cell(html_attributes: { 'data-label': t('.reason') }) do
     %span
       = expense.reason
   = row.with_cell(html_attributes: { 'data-label': t('.details') }) do
     = render partial: 'shared/summary/expenses/new_details', locals: { claim: claim, expense: expense }
-  = row.with_cell(html_attributes: { 'data-label': t('.date') }, text: expense.pretty_date) 
+  = row.with_cell(html_attributes: { 'data-label': t('.date') }, text: expense.pretty_date)
   = row.with_cell(html_attributes: { 'data-label': t('.net_amount') }, text: expense.amount, numeric: true)
   - if expense.vat_present?
     = row.with_cell(html_attributes: { 'data-label': t('.vat') }, text: expense.vat_amount, numeric: true)

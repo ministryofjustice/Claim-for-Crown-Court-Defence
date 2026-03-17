@@ -7,10 +7,10 @@
 
 .feedback-banner__content {
   @include govuk-font($size: 16);
-  @include govuk-text-colour;
 
   display: table;
   margin: 0;
+  color: $govuk-text-colour;
 }
 
 .feedback-banner__text {

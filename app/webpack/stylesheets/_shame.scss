@@ -41,10 +41,10 @@
   padding: 1rem;
   clear: both;
   overflow: hidden;
-  background-color: govuk-colour("light-grey");
+  background-color: govuk-colour("black", $variant: "tint-95");
 
   &:nth-child(even) {
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
   }
 }
 
@@ -126,14 +126,14 @@ form {
 
     td,
     th {
-      border-top: 1px solid govuk-colour("mid-grey");
+      border-top: 1px solid govuk-colour("black", $variant: "tint-80");
       border-bottom: 0;
     }
 
     &.extra-data th,
     &.extra-data td {
       border-top: 0;
-      border-bottom: 1px solid govuk-colour("mid-grey");
+      border-bottom: 1px solid govuk-colour("black", $variant: "tint-80");
     }
   }
 }
@@ -187,7 +187,7 @@ form {
   }
 
   .working-day {
-    background-color: govuk-colour("mid-grey");
+    background-color: govuk-colour("black", $variant: "tint-80");
   }
 }
 
@@ -373,12 +373,12 @@ form {
 
   .offence-item:nth-child(odd) {
     color: govuk-colour("black");
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
   }
 
   .offence-item:hover {
     color: govuk-colour("black");
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
   }
 
   .offence-item .offence-item-button {
@@ -392,13 +392,13 @@ form {
   .empty-message {
     border-bottom: 1px solid $govuk-border-colour;
     color: govuk-colour("black");
-    background-color: govuk-colour("light-grey");
+    background-color: govuk-colour("black", $variant: "tint-95");
   }
 }
 
 .selected-offence {
   padding: $gutter-half $govuk-gutter;
-  background: govuk-colour("light-grey");
+  background: govuk-colour("black", $variant: "tint-95");
 }
 
 .highlight {

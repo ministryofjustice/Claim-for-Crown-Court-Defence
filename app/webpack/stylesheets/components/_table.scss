@@ -31,7 +31,7 @@ tr {
     tr {
       display: block;
       margin-bottom: $gutter-one-third;
-      border-bottom: 3px solid govuk-colour("light-grey");
+      border-bottom: 3px solid govuk-colour("black", $variant: "tint-95");
 
       .govuk-table__header:last-child,
       .govuk-table__cell:last-child,
@@ -39,7 +39,7 @@ tr {
       td {
         display: block;
         padding: $gutter-half;
-        border-bottom: 1px solid govuk-colour("light-grey");
+        border-bottom: 1px solid govuk-colour("black", $variant: "tint-95");
         text-align: right;
 
         br {
@@ -172,7 +172,7 @@ table.dataTable {
 }
 
 td.active {
-  background: govuk-colour("light-grey");
+  background: govuk-colour("black", $variant: "tint-95");
   text-align: center;
 }
 

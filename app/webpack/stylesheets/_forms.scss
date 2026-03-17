@@ -5,7 +5,7 @@ input[type="radio"] {
 
 .form-control:disabled,
 .form-control:read-only {
-  border-color: govuk-colour("light-grey");
+  border-color: govuk-colour("black", $variant: "tint-95");
   cursor: not-allowed;
 }
 

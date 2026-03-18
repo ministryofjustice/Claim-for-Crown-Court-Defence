@@ -63,7 +63,7 @@ describe('Modules.FeeCalculator.js', function () {
       it('...should return the correct `CASE`', function () {
         expect(module.setHintLabel('CASE')).toEqual('Number of additional cases')
       })
-      it('...should return the correct `CASE`', function () {
+      it('...should return the correct `AABB`', function () {
         expect(module.setHintLabel('AABB')).toEqual('Number of aabbs')
       })
     })

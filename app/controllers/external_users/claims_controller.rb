@@ -163,8 +163,9 @@ module ExternalUsers
       claim_previous_version
       @claim.zeroise_nil_totals!
       @claim.save!(validate: false)
-      redirect_to external_users_claims_url, notice: t('.unarchived')
-      rescue_and_log_errors
+    rescue ActiveRecord::RecordNotSaved, ActiveRecord::StatementInvalid => e
+      Rails.logger.error(e.full_message)
+      redirect_to claim_url, alert: t('.unarchivable')
     end
 
     class << self
@@ -184,13 +185,6 @@ module ExternalUsers
     end
 
     private
-
-    def rescue_and_log_errors
-    rescue ActiveRecord::RecordNotSaved,
-           ActiveRecord::StatementInvalid => e
-      Rails.logger.error(e.full_message)
-      redirect_to claim_url, alert: t('external_users.claims.unarchive.unarchivable')
-    end
 
     def claim_previous_version
       version = @claim.versions.last

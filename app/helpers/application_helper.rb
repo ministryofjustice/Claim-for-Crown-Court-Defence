@@ -2,21 +2,6 @@ module ApplicationHelper
   include GOVUKDesignSystemFormBuilder::BuilderHelper
   include Pagy::Frontend
 
-  STATE_COLOURS =
-    {
-      'authorised' => 'green',
-      'accepted' => 'green',
-      'allocated' => 'purple',
-      'draft' => 'blue',
-      'rejected' => 'red',
-      'refused' => 'red',
-      'unverified' => 'red',
-      'archived-pending-delete' => 'dark-grey',
-      'redetermination' => 'black',
-      'part_authorised' => 'blue',
-      'submitted' => 'grey'
-    }.freeze
-
   def current_user_is_caseworker?
     current_user&.persona.is_a?(CaseWorker)
   end
@@ -193,20 +178,5 @@ module ApplicationHelper
   def tab_matches?(path)
     tab = tab_present(path)
     request.GET[:tab] == tab
-  end
-
-  def govuk_tag_active_user?(user)
-    if user.active? && user.enabled?
-      govuk_tag(text: 'Active',
-                colour: 'green')
-    else
-      govuk_tag(
-        text: 'Inactive', colour: 'red'
-      )
-    end
-  end
-
-  def state_colour(state)
-    STATE_COLOURS[state] || 'grey'
   end
 end

@@ -55,13 +55,13 @@
             = row.with_cell(classes: 'js-test-total', html_attributes: { 'data-label': t('.total') }, text: claim.total_inc_vat, numeric: true)
             - if params[:action] == 'archived'
               = row.with_cell(html_attributes: { 'data-label': t('.status') }) do
-                = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state.dasherize}"
+                = govuk_tag(text: claim.state.humanize, colour: state_colour(claim.state))
             = row.with_cell(html_attributes: { 'data-label': t('.case_type') }) do
               = claim.case_type_name
               %br/
               %span.claim-state
                 = claim.claim_state
-            = row.with_cell(html_attributes: { 'data-label': t('.submission_date') }, text: claim.submitted_at(include_time: false), numeric: true) 
+            = row.with_cell(html_attributes: { 'data-label': t('.submission_date') }, text: claim.submitted_at(include_time: false), numeric: true)
             = row.with_cell(classes: 'messages', html_attributes: { 'data-label': t('.messages') }) do
               - if claim.has_messages?
                 - if claim.remote?

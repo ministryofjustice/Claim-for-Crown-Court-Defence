@@ -356,7 +356,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         render
       end
 
-      it { is_expected.to have_css('strong.govuk-tag.app-tag--rejected', text: 'Rejected') }
+      it { is_expected.to have_css('strong.govuk-tag.govuk-tag--red', text: 'Rejected') }
       it { is_expected.to have_content('Reason provided:') }
       it { is_expected.to have_css('li', text: 'No amending representation order') }
 

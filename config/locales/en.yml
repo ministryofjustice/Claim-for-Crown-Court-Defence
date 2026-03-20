@@ -2179,7 +2179,7 @@ en:
       full_name: Full name
       date_of_birth: Date of birth
       order_of_judicial_apportionment: Order of judicial apportionment
-      reporders: Represention order
+      reporders: Representation order
       maat_reference: 'MAAT reference:'
       no_reporder: No representation orders have been supplied for this defendant.
     new_claim_defendants:

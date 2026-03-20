@@ -2,7 +2,7 @@ class Document < ApplicationRecord
   include Duplicable
 
   belongs_to :external_user
-  belongs_to :creator, class_name: 'ExternalUser'
+  belongs_to :creator, class_name: 'User'
   belongs_to :claim, class_name: 'Claim::BaseClaim'
 
   has_one_attached :converted_preview_document

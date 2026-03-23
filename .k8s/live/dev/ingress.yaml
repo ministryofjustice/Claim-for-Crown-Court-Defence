@@ -27,18 +27,8 @@ metadata:
   name: cccd-app-ingress-v1
   namespace: cccd-dev
 spec:
-  ingressClassName: beta
+  ingressClassName: modsec-non-prod
   rules:
-    - host: dev-claim-crown-court-defence.beta.cloud-platform.service.justice.gov.uk
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: cccd-app-service
-                port:
-                  number: 80
     - host: dev.claim-crown-court-defence.service.justice.gov.uk
       http:
         paths:

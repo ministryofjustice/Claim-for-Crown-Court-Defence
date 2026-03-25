@@ -2960,11 +2960,11 @@ has-tostringtag@^1.0.2:
     has-symbols "^1.0.3"
 
 hashery@^1.4.0, hashery@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/hashery/-/hashery-1.5.0.tgz#f28a8068b8d08f5a40afd2a5515e4a1c8b84444a"
-  integrity sha512-nhQ6ExaOIqti2FDWoEMWARUqIKyjr2VcZzXShrI+A3zpeiuPWzx6iPftt44LhP74E5sW36B75N6VHbvRtpvO6Q==
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/hashery/-/hashery-1.5.1.tgz#4ba82ad54911ac617467870845d57a9fe508a400"
+  integrity sha512-iZyKG96/JwPz1N55vj2Ie2vXbhu440zfUfJvSwEqEbeLluk7NnapfGqa7LH0mOsnDxTF85Mx8/dyR6HfqcbmbQ==
   dependencies:
-    hookified "^1.14.0"
+    hookified "^1.15.0"
 
 hasown@^2.0.2:
   version "2.0.2"
@@ -2973,7 +2973,7 @@ hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
-hookified@^1.14.0, hookified@^1.15.0, hookified@^1.15.1:
+hookified@^1.15.0, hookified@^1.15.1:
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/hookified/-/hookified-1.15.1.tgz#b1fafeaa5489cdc29cb85546a8f837ed4ffbbcb6"
   integrity sha512-MvG/clsADq1GPM2KGo2nyfaWVyn9naPiXrqIe4jYjXNZQt238kWyOGrsyc/DmRAQ+Re6yeo6yX/yoNCG5KAEVg==

@@ -186,9 +186,12 @@ module ExternalUsers
     private
 
     def revert_to_version_before_archived
-      @claim = @claim.versions.select do |v|
-        v.object_changes['archived_pending_review'] || v.object_changes['archived_pending_delete']
-      end.compact.last.reify
+      version = @claim.versions.reverse.detect do |v|
+        obj = v.reify
+        obj && !obj.state.to_s.start_with?('archived_')
+      end
+
+      @claim = version&.reify
     end
 
     def log(message, error: nil, level: :info)

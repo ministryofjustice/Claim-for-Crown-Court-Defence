@@ -878,6 +878,7 @@ en:
           See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a> for full details
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
+        agfs_permission_rb: Advocate permission fee
         lgfs_hardship_hint_html: If a PTPH has already taken place, it is advisable to submit an interim claim. See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank" title="Financial relief for legal aid practitioners">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a> for full details.
         claim_type_prompt_section_heading: 'What would you like to do?'
         choose_claim_type_prompt_text: Choose your bill type
@@ -887,6 +888,7 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
         lgfs_hardship_rb: Litigator hardship fee
+        lgfs_permission_rb: Litigator permission fee
     claims:
       errors:
         already_saved: Claim already saved - please edit existing claim

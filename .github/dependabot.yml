@@ -7,6 +7,8 @@ updates:
     day: wednesday
     time: "03:00"
     timezone: Europe/London
+  cooldown:
+    default-days: 7
   groups:
     babel:
       patterns:
@@ -28,6 +30,8 @@ updates:
     day: wednesday
     time: "03:00"
     timezone: Europe/London
+  cooldown:
+    default-days: 7
   groups:
     aws:
       patterns:
@@ -53,13 +57,13 @@ updates:
   ignore:
     - dependency-name: "rails"
       versions:
-        - ">= 7.1"
+        - ">= 7.2"
     - dependency-name: "active*"
       versions:
-        - ">= 7.1"
+        - ">= 7.2"
     - dependency-name: "action*"
       versions:
-        - ">= 7.1"
+        - ">= 7.2"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
@@ -67,6 +71,8 @@ updates:
     day: tuesday
     time: "03:00"
     timezone: Europe/London
+  cooldown:
+    default-days: 7
   open-pull-requests-limit: 5
   rebase-strategy: "disabled"
   allow:

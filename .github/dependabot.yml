@@ -57,13 +57,13 @@ updates:
   ignore:
     - dependency-name: "rails"
       versions:
-        - ">= 7.2"
+        - ">= 8.0"
     - dependency-name: "active*"
       versions:
-        - ">= 7.2"
+        - ">= 8.0"
     - dependency-name: "action*"
       versions:
-        - ">= 7.2"
+        - ">= 8.0"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:

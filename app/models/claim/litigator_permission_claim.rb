@@ -24,5 +24,7 @@ module Claim
         dependencies: %i[defendants]
       }
     ].freeze
+
+    def requires_case_type? = false
   end
 end

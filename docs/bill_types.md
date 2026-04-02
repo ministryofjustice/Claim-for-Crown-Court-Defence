@@ -388,9 +388,20 @@ SUBMISSION_STAGES = [
 > `supporting_evidence`. The stages will need to be extended as the form
 > journey is fleshed out.
 
-### 2. Add routes
+### 2. Override `requires_case_type?`
 
-Add `resources :permission_claims` to both the `advocates` and `litigators`
+`BaseClaim#requires_case_type?` returns `true` by default, meaning the claim
+validation expects a `case_type` to be present. Permission hearings do not
+use case types, so both models override this to return `false`:
+
+```ruby
+def requires_case_type? = false
+```
+
+This is the same pattern used by `AdvocateInterimClaim`, `AdvocateSupplementaryClaim`,
+and `TransferClaim`.
+
+### 4. Add routes
 namespaces in `config/routes.rb`:
 
 ```ruby
@@ -411,7 +422,7 @@ This generates the URL helpers used in the next step:
 - `new_advocates_permission_claim_url`
 - `new_litigators_permission_claim_url`
 
-### 3. Add the redirect in `ClaimTypesController`
+### 5. Add the redirect in `ClaimTypesController`
 
 Add the two new context key → URL mappings to
 `claim_type_redirect_url_for` in
@@ -428,7 +439,7 @@ def claim_type_redirect_url_for(claim_type)
 end
 ```
 
-### 4. Create the controllers
+### 6. Create the controllers
 
 Create a controller for each bill type, inheriting from
 `ExternalUsers::ClaimsController`.
@@ -483,7 +494,7 @@ The difference in `build_nested_resources` reflects the difference in claim
 type: the litigator controller also builds `disbursements`, which advocates
 do not have.
 
-### 5. Create the presenters
+### 7. Create the presenters
 
 Presenters drive the claim summary page. Create one for each bill type.
 
@@ -554,7 +565,7 @@ end
 > noting they are copied from `AdvocateHardshipClaimPresenter` and will need
 > further adjustment.
 
-### 6. Create the views
+### 8. Create the views
 
 #### AGFS: `app/views/external_users/advocates/permission_claims/`
 
@@ -603,7 +614,7 @@ renders `external_users/claims/hardship_fee/fields`. This appears to be
 copied from the litigator hardship claim and will likely need renaming or
 replacing.
 
-### 7. Add locale strings for form steps
+### 9. Add locale strings for form steps
 
 Add page title and heading strings for each form step under both
 `external_users.advocates.permission_claims` and
@@ -655,6 +666,7 @@ claims:
 ### Application code
 - [ ] Add `SUBMISSION_STAGES` to `app/models/claim/advocate_permission_claim.rb`
 - [ ] Add `SUBMISSION_STAGES` to `app/models/claim/litigator_permission_claim.rb`
+- [ ] Override `requires_case_type?` to return `false` in both model files
 - [ ] Add `resources :permission_claims` to advocates namespace in `config/routes.rb`
 - [ ] Add `resources :permission_claims` to litigators namespace in `config/routes.rb`
 - [ ] Add `agfs_permission` and `lgfs_permission` redirect mappings to `ClaimTypesController#claim_type_redirect_url_for`

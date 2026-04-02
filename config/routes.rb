@@ -117,12 +117,14 @@ Rails.application.routes.draw do
       resources :supplementary_claims, only: amend_actions
       resources :hardship_claims, only: amend_actions
       resources :interim_claims, only: amend_actions
+      resources :permission_claims, only: amend_actions
     end
     namespace :litigators do
       resources :claims, only: amend_actions
       resources :interim_claims, only: amend_actions
       resources :transfer_claims, only: amend_actions
       resources :hardship_claims, only: amend_actions
+      resources :permission_claims, only: amend_actions
     end
   end
 

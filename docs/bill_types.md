@@ -329,7 +329,347 @@ All other examples should pass, confirming that:
 
 ---
 
-## Further Steps
+## Step 2: Set up the claim form journey
 
-Subsequent steps to complete the full bill type journey will be documented
-here as they are implemented.
+This step wires up the multi-step claim form for the new bill types. After
+this step a user can navigate through all the form steps for the new bill
+type, although the form may not yet validate or persist correctly.
+
+### 1. Add `SUBMISSION_STAGES` to the model
+
+`SUBMISSION_STAGES` defines the ordered sequence of form steps and the
+transitions between them. It is read by `BaseClaim#submission_stages` to
+drive navigation. Add it to both model files:
+
+```ruby
+# app/models/claim/advocate_permission_claim.rb
+SUBMISSION_STAGES = [
+  {
+    name: :case_details,
+    transitions: [{ to_stage: :defendants }]
+  },
+  {
+    name: :defendants,
+    transitions: [{ to_stage: :miscellaneous_fees }],
+    dependencies: %i[case_details]
+  },
+  {
+    name: :miscellaneous_fees,
+    transitions: [{ to_stage: :expenses }],
+    dependencies: %i[defendants]
+  }
+].freeze
+```
+
+```ruby
+# app/models/claim/litigator_permission_claim.rb
+SUBMISSION_STAGES = [
+  {
+    name: :case_details,
+    transitions: [{ to_stage: :defendants }]
+  },
+  {
+    name: :defendants,
+    transitions: [{ to_stage: :miscellaneous_fees }],
+    dependencies: %i[case_details]
+  },
+  {
+    name: :miscellaneous_fees,
+    transitions: [{ to_stage: :expenses }],
+    dependencies: %i[defendants]
+  }
+].freeze
+```
+
+> **Note**: the `SUBMISSION_STAGES` currently defined for both models ends at
+> `miscellaneous_fees → expenses` but does not include `expenses` as a named
+> stage with its own transitions. Compare with `AdvocateHardshipClaim` which
+> continues through `expenses`, `offence_details`, and
+> `supporting_evidence`. The stages will need to be extended as the form
+> journey is fleshed out.
+
+### 2. Add routes
+
+Add `resources :permission_claims` to both the `advocates` and `litigators`
+namespaces in `config/routes.rb`:
+
+```ruby
+scope module: 'external_users' do
+  amend_actions = %i[new create edit update]
+  namespace :advocates do
+    # ...existing routes...
+    resources :permission_claims, only: amend_actions
+  end
+  namespace :litigators do
+    # ...existing routes...
+    resources :permission_claims, only: amend_actions
+  end
+end
+```
+
+This generates the URL helpers used in the next step:
+- `new_advocates_permission_claim_url`
+- `new_litigators_permission_claim_url`
+
+### 3. Add the redirect in `ClaimTypesController`
+
+Add the two new context key → URL mappings to
+`claim_type_redirect_url_for` in
+`app/controllers/external_users/claim_types_controller.rb`:
+
+```ruby
+def claim_type_redirect_url_for(claim_type)
+  {
+    # ...existing mappings...
+    'agfs_permission' => new_advocates_permission_claim_url,
+    # ...
+    'lgfs_permission' => new_litigators_permission_claim_url
+  }[claim_type.to_s]
+end
+```
+
+### 4. Create the controllers
+
+Create a controller for each bill type, inheriting from
+`ExternalUsers::ClaimsController`.
+
+```ruby
+# app/controllers/external_users/advocates/permission_claims_controller.rb
+module ExternalUsers
+  module Advocates
+    class PermissionClaimsController < ExternalUsers::ClaimsController
+      skip_load_and_authorize_resource
+
+      resource_klass Claim::AdvocatePermissionClaim
+
+      private
+
+      def build_nested_resources
+        %i[misc_fees expenses].each do |association|
+          build_nested_resource(@claim, association)
+        end
+
+        super
+      end
+    end
+  end
+end
+```
+
+```ruby
+# app/controllers/external_users/litigators/permission_claims_controller.rb
+module ExternalUsers
+  module Litigators
+    class PermissionClaimsController < ExternalUsers::ClaimsController
+      skip_load_and_authorize_resource
+
+      resource_klass Claim::LitigatorPermissionClaim
+
+      private
+
+      def build_nested_resources
+        %i[misc_fees disbursements expenses].each do |association|
+          build_nested_resource(@claim, association)
+        end
+
+        super
+      end
+    end
+  end
+end
+```
+
+The difference in `build_nested_resources` reflects the difference in claim
+type: the litigator controller also builds `disbursements`, which advocates
+do not have.
+
+### 5. Create the presenters
+
+Presenters drive the claim summary page. Create one for each bill type.
+
+```ruby
+# app/presenters/claim/advocate_permission_claim_presenter.rb
+class Claim::AdvocatePermissionClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :basic_fees_total
+
+  SUMMARY_SECTIONS = {
+    case_details: :case_details,
+    defendants: :defendants,
+    offence_details: :offence_details,
+    basic_fees: :basic_fees,
+    misc_fees: :miscellaneous_fees,
+    expenses: :travel_expenses,
+    supporting_evidence: :supporting_evidence,
+    additional_information: :supporting_evidence
+  }.freeze
+
+  def pretty_type = 'AGFS Permission'
+  def type_identifier = 'agfs_permission'
+  def can_have_disbursements? = false
+  def summary_sections = SUMMARY_SECTIONS
+
+  def mandatory_case_details?
+    claim.case_type && claim.court && claim.case_number && claim.external_user
+  end
+
+  # ...fee total helpers omitted for brevity
+end
+```
+
+```ruby
+# app/presenters/claim/litigator_permission_claim_presenter.rb
+class Claim::LitigatorPermissionClaimPresenter < Claim::BaseClaimPresenter
+  present_with_currency :permission_fees_total
+
+  SUMMARY_SECTIONS = {
+    case_details: :case_details,
+    defendants: :defendants,
+    offence_details: :offence_details,
+    permission_fee: :permission_fees,
+    misc_fees: :miscellaneous_fees,
+    supporting_evidence: :supporting_evidence,
+    additional_information: :supporting_evidence
+  }.freeze
+
+  def requires_trial_dates? = false
+  def requires_retrial_dates? = false
+  def pretty_type = 'LGFS Permission'
+  def type_identifier = 'lgfs_permission'
+  def summary_sections = SUMMARY_SECTIONS
+
+  def mandatory_case_details?
+    claim.case_type && claim.court && claim.case_number && claim.supplier_number
+  end
+
+  # ...fee total helpers omitted for brevity
+end
+```
+
+> **Note**: `LitigatorPermissionClaimPresenter#SUMMARY_SECTIONS` references
+> `:permission_fee` / `:permission_fees` — this implies a `permission_fee`
+> association and fee total on the model that has not yet been defined.
+> `AdvocatePermissionClaimPresenter` also references `:offence_details` and
+> `:basic_fees` in `SUMMARY_SECTIONS` which may not match the
+> `SUBMISSION_STAGES` defined in Step 2.1. Both presenters carry a comment
+> noting they are copied from `AdvocateHardshipClaimPresenter` and will need
+> further adjustment.
+
+### 6. Create the views
+
+#### AGFS: `app/views/external_users/advocates/permission_claims/`
+
+Create `new.html.haml` and `edit.html.haml` — both are identical boilerplate
+shared by all bill types:
+
+```haml
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'external_users/claims/error_summary', locals: { ep: @error_presenter }
+
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+
+= render partial: 'external_users/claims/form_layout_wrapper', locals: { claim: @claim }
+```
+
+Then create a form step partial for each stage in `SUBMISSION_STAGES`. The
+AGFS permission claim uses the same partials as `hardship_claims` with the
+exception of `_basic_fees_form_step.html.haml` which uses the
+`permission_claims`-specific locale namespace.
+
+#### LGFS: `app/views/external_users/litigators/permission_claims/`
+
+Create the same `new.html.haml` / `edit.html.haml` boilerplate.
+
+The LGFS `_case_details_form_step.html.haml` differs from the AGFS version —
+it includes a `govuk_inset_text` case stage warning and renders the
+`supplier_number/fields` partial (required for litigator claims):
+
+```haml
+= govuk_inset_text(text: t('.case_stage_warning_html'))
+
+%h2.govuk-heading-l
+  = t('.page_heading')
+
+= render partial: 'external_users/claims/api_promo_banner', locals: { claim: @claim }
+
+= render partial: 'external_users/claims/supplier_number/fields', locals: { f: f }
+
+= render partial: 'external_users/claims/case_details/fields', locals: { f: f }
+```
+
+The LGFS controller also has a `_hardship_fees_form_step.html.haml` which
+renders `external_users/claims/hardship_fee/fields`. This appears to be
+copied from the litigator hardship claim and will likely need renaming or
+replacing.
+
+### 7. Add locale strings for form steps
+
+Add page title and heading strings for each form step under both
+`external_users.advocates.permission_claims` and
+`external_users.litigators.permission_claims` in `config/locales/en.yml`:
+
+```yaml
+advocates:
+  permission_claims:
+    new:
+      page_title: &agfs_permission_claim_title Enter case details for advocate permission fees claim
+      page_heading: &agfs_permission_claim_heading Claim for advocate permission fees
+    edit:
+      page_title: *agfs_permission_claim_title
+      page_heading: *agfs_permission_claim_heading
+    case_details_form_step:
+      page_title: *agfs_permission_claim_title
+      page_heading: Case details
+    defendants_form_step:
+      page_title: Enter defendant details for advocate permission fees claim
+    # ...etc for each step
+
+litigators:
+  permission_claims:
+    new:
+      page_title: &lgfs_permission_claim_title Enter case details for litigator permission fees claim
+      page_heading: &lgfs_permission_claim_heading Claim for litigator permission fees
+    # ...etc
+```
+
+Also add claim summary page titles under `external_users.claims.show`:
+
+```yaml
+claims:
+  show:
+    agfs:
+      advocate_permission_claim:
+        page_title: View claim summary for advocate permission fees claim
+        page_heading: Claim for advocate permission fees
+    lgfs:
+      litigator_permission_claim:
+        page_title: View claim summary for litigator permission fees claim
+        page_heading: Claim for litigator permission fees
+```
+
+---
+
+## Checklist for Step 2
+
+### Application code
+- [ ] Add `SUBMISSION_STAGES` to `app/models/claim/advocate_permission_claim.rb`
+- [ ] Add `SUBMISSION_STAGES` to `app/models/claim/litigator_permission_claim.rb`
+- [ ] Add `resources :permission_claims` to advocates namespace in `config/routes.rb`
+- [ ] Add `resources :permission_claims` to litigators namespace in `config/routes.rb`
+- [ ] Add `agfs_permission` and `lgfs_permission` redirect mappings to `ClaimTypesController#claim_type_redirect_url_for`
+- [ ] Create `app/controllers/external_users/advocates/permission_claims_controller.rb`
+- [ ] Create `app/controllers/external_users/litigators/permission_claims_controller.rb`
+- [ ] Create `app/presenters/claim/advocate_permission_claim_presenter.rb`
+- [ ] Create `app/presenters/claim/litigator_permission_claim_presenter.rb`
+- [ ] Create AGFS views under `app/views/external_users/advocates/permission_claims/`
+- [ ] Create LGFS views under `app/views/external_users/litigators/permission_claims/`
+- [ ] Add form step locale strings for AGFS permission claim to `config/locales/en.yml`
+- [ ] Add form step locale strings for LGFS permission claim to `config/locales/en.yml`
+
+### Tests
+- [ ] Controller spec for `ExternalUsers::Advocates::PermissionClaimsController`
+- [ ] Controller spec for `ExternalUsers::Litigators::PermissionClaimsController`
+- [ ] Presenter spec for `Claim::AdvocatePermissionClaimPresenter`
+- [ ] Presenter spec for `Claim::LitigatorPermissionClaimPresenter`
+- [ ] Update `claim_type_redirect_mappings` in `spec/controllers/external_users/claim_types_controller_spec.rb` (both mappings should now pass)

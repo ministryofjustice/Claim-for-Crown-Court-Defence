@@ -1411,6 +1411,9 @@ en:
           advocate_hardship_claim:
             page_title: View claim summary for advocate hardship fees claim
             page_heading: Claim for advocate hardship fees
+          advocate_permission_claim:
+            page_title: View claim summary for advocate permission fees claim
+            page_heading: Claim for advocate permission fees
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
@@ -1427,6 +1430,9 @@ en:
           transfer_claim:
             page_title: View claim summary for litigator transfer fees claim
             page_heading: Claim for litigator transfer fees
+          litigator_permission_claim:
+            page_title: View claim summary for litigator permission fees claim
+            page_heading: Claim for litigator permission fees
         page_title: View claim summary for litigator transfer fees claim
       fee_fields:
         add_date_attended: 'Add dates'
@@ -1861,6 +1867,36 @@ en:
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for advocate msupplementary fee claim
+      permission_claims:
+        new:
+          page_title: &agfs_permission_claim_title Enter case details for advocate permission fees claim
+          page_heading: &agfs_permission_claim_heading Claim for advocate permission fees
+
+        edit:
+          page_title: *agfs_permission_claim_title
+          page_heading: *agfs_permission_claim_heading
+
+        case_details_form_step:
+          page_title: *agfs_permission_claim_title
+          page_heading: Case details
+
+        defendants_form_step:
+          page_title: Enter defendant details for advocate permission fees claim
+
+        basic_fees_form_step:
+          page_title: Enter graduated fees for advocate permission fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for advocate permission fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for advocate permission fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for advocate permission fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for advocate permission fees claim
     litigators:
 
       interim_claims:
@@ -2002,6 +2038,37 @@ en:
 
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for litigator hardship fees claim
+
+      permission_claims:
+        new:
+          page_title: &lgfs_permission_claim_title Enter case details for litigator permission fees claim
+          page_heading: &lgfs_permission_claim_heading Claim for litigator permission fees
+
+        edit:
+          page_title: *lgfs_permission_claim_title
+          page_heading: *lgfs_permission_claim_heading
+
+        case_details_form_step:
+          page_title: *lgfs_permission_claim_title
+          page_heading: Case details
+
+        defendants_form_step:
+          page_title: Enter defendant details for litigator permission fees claim
+
+        basic_fees_form_step:
+          page_title: Enter graduated fees for litigator permission fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for litigator permission fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for litigator permission fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for litigator permission fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for litigator permission fees claim
 
   # en.users
   users:

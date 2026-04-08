@@ -244,7 +244,8 @@ module Claim
       [Claim::AdvocateClaim,
        Claim::AdvocateInterimClaim,
        Claim::AdvocateSupplementaryClaim,
-       Claim::AdvocateHardshipClaim]
+       Claim::AdvocateHardshipClaim,
+       Claim::AdvocatePermissionClaim]
     end
 
     def self.lgfs_claim_types

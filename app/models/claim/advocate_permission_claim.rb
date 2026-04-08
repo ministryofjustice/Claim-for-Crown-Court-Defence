@@ -4,6 +4,8 @@ module Claim
 
     include ProviderDelegation
 
+    delegate :agfs?, to: :class
+
     SUBMISSION_STAGES = [
       {
         name: :case_details,

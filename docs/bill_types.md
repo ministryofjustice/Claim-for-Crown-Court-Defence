@@ -424,7 +424,42 @@ All other AGFS claim models (`AdvocateClaim`, `AdvocateHardshipClaim`,
 `AdvocateInterimClaim`, `AdvocateSupplementaryClaim`) include this module.
 LGFS models do not — they use a different supplier number mechanism.
 
-### 5. Set `fee_scheme_factory`
+### 5. Delegate `agfs?` to the class (AGFS only)
+
+`BaseClaim` defines `agfs?` as a class method that checks whether the class
+is in `agfs_claim_types`. Some parts of the codebase call `agfs?` on a claim
+instance rather than the class. Delegating to `:class` makes this work:
+
+```ruby
+delegate :agfs?, to: :class
+```
+
+This must be added to the AGFS model alongside `include ProviderDelegation`.
+The `ProviderDelegation` module itself relies on `agfs?` being available on
+the instance (to decide which supplier number to return), so this delegation
+is a prerequisite for that module to work correctly.
+
+### 6. Register the class in `BaseClaim.agfs_claim_types`
+
+`BaseClaim.agfs_claim_types` is the authoritative list of AGFS claim classes
+used for class-level `agfs?` / `lgfs?` checks, STI queries, and admin
+tooling. Add `Claim::AdvocatePermissionClaim` to this list in
+`app/models/claim/base_claim.rb`:
+
+```ruby
+def self.agfs_claim_types
+  [Claim::AdvocateClaim,
+   Claim::AdvocateInterimClaim,
+   Claim::AdvocateSupplementaryClaim,
+   Claim::AdvocateHardshipClaim,
+   Claim::AdvocatePermissionClaim]  # New
+end
+```
+
+Similarly, `Claim::LitigatorPermissionClaim` will need to be added to
+`lgfs_claim_types` when the LGFS journey is completed.
+
+### 8. Set `fee_scheme_factory`
 
 `BaseClaim#fee_scheme` calls `fee_scheme_factory` to determine which fee
 scheme applies to the claim based on the representation order date. Each
@@ -445,7 +480,7 @@ def fee_scheme_factory = FeeSchemeFactory::LGFS
 > **Note**: `LitigatorPermissionClaim` does not yet define
 > `fee_scheme_factory`. This will need to be added.
 
-### 6. Add routes
+### 9. Add routes
 namespaces in `config/routes.rb`:
 
 ```ruby
@@ -466,7 +501,7 @@ This generates the URL helpers used in the next step:
 - `new_advocates_permission_claim_url`
 - `new_litigators_permission_claim_url`
 
-### 7. Add the redirect in `ClaimTypesController`
+### 10. Add the redirect in `ClaimTypesController`
 
 Add the two new context key → URL mappings to
 `claim_type_redirect_url_for` in
@@ -483,7 +518,7 @@ def claim_type_redirect_url_for(claim_type)
 end
 ```
 
-### 8. Create the controllers
+### 11. Create the controllers
 
 Create a controller for each bill type, inheriting from
 `ExternalUsers::ClaimsController`.
@@ -538,7 +573,7 @@ The difference in `build_nested_resources` reflects the difference in claim
 type: the litigator controller also builds `disbursements`, which advocates
 do not have.
 
-### 9. Create the presenters
+### 12. Create the presenters
 
 Presenters drive the claim summary page. Create one for each bill type.
 
@@ -609,7 +644,7 @@ end
 > noting they are copied from `AdvocateHardshipClaimPresenter` and will need
 > further adjustment.
 
-### 10. Create the views
+### 13. Create the views
 
 #### AGFS: `app/views/external_users/advocates/permission_claims/`
 
@@ -658,7 +693,34 @@ renders `external_users/claims/hardship_fee/fields`. This appears to be
 copied from the litigator hardship claim and will likely need renaming or
 replacing.
 
-### 11. Add locale strings for form steps
+#### Claim summary sidebar partial
+
+The claim summary page displays a sidebar showing the running fee totals. Each
+claim type needs its own sidebar partial in
+`app/views/external_users/claims/`. The partial is named after the claim type:
+
+```
+app/views/external_users/claims/_agfs_permission_claim_sidebar.html.haml
+```
+
+The AGFS permission claim sidebar displays:
+
+- Graduated fees total (`basic_fees_total`)
+- Miscellaneous fees total (`misc_fees_total`)
+- Expenses total (`expenses_total`)
+- VAT
+- Grand total (inc. VAT)
+
+These are rendered using `govuk_summary_list` rows that carry `data-seed`
+attributes used by the JavaScript fee calculator to update totals
+dynamically. The structure mirrors the `_agfs_hardship_claim_sidebar.html.haml`
+partial.
+
+> **Note**: an equivalent LGFS sidebar partial
+> (`_lgfs_permission_claim_sidebar.html.haml`) will be needed for the
+> litigator journey.
+
+### 14. Add locale strings for form steps
 
 Add page title and heading strings for each form step under both
 `external_users.advocates.permission_claims` and
@@ -712,6 +774,9 @@ claims:
 - [ ] Add `SUBMISSION_STAGES` to `app/models/claim/litigator_permission_claim.rb`
 - [ ] Override `requires_case_type?` to return `false` in both model files
 - [ ] Add `include ProviderDelegation` to `app/models/claim/advocate_permission_claim.rb`
+- [ ] Add `delegate :agfs?, to: :class` to `app/models/claim/advocate_permission_claim.rb`
+- [ ] Add `Claim::AdvocatePermissionClaim` to `BaseClaim.agfs_claim_types` in `app/models/claim/base_claim.rb`
+- [ ] Add `Claim::LitigatorPermissionClaim` to `BaseClaim.lgfs_claim_types` in `app/models/claim/base_claim.rb`
 - [ ] Add `fee_scheme_factory = FeeSchemeFactory::AGFS` to `app/models/claim/advocate_permission_claim.rb`
 - [ ] Add `fee_scheme_factory = FeeSchemeFactory::LGFS` to `app/models/claim/litigator_permission_claim.rb`
 - [ ] Add `resources :permission_claims` to advocates namespace in `config/routes.rb`
@@ -723,6 +788,8 @@ claims:
 - [ ] Create `app/presenters/claim/litigator_permission_claim_presenter.rb`
 - [ ] Create AGFS views under `app/views/external_users/advocates/permission_claims/`
 - [ ] Create LGFS views under `app/views/external_users/litigators/permission_claims/`
+- [ ] Create `app/views/external_users/claims/_agfs_permission_claim_sidebar.html.haml`
+- [ ] Create `app/views/external_users/claims/_lgfs_permission_claim_sidebar.html.haml`
 - [ ] Add form step locale strings for AGFS permission claim to `config/locales/en.yml`
 - [ ] Add form step locale strings for LGFS permission claim to `config/locales/en.yml`
 

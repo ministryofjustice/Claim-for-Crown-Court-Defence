@@ -28,5 +28,6 @@ module Claim
     ].freeze
 
     def requires_case_type? = false
+    def fee_scheme_factory = FeeSchemeFactory::AGFS
   end
 end

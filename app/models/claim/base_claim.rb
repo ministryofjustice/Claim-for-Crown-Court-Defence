@@ -199,6 +199,8 @@ module Claim
       false
     end
 
+    def permission? = false
+
     def supplementary?
       false
     end

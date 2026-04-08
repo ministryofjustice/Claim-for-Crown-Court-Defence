@@ -31,5 +31,6 @@ module Claim
 
     def requires_case_type? = false
     def fee_scheme_factory = FeeSchemeFactory::AGFS
+    def permission? = true
   end
 end

@@ -480,7 +480,55 @@ def fee_scheme_factory = FeeSchemeFactory::LGFS
 > **Note**: `LitigatorPermissionClaim` does not yet define
 > `fee_scheme_factory`. This will need to be added.
 
-### 9. Add routes
+### 9. Define `permission?` and register the bill scenario
+
+`Claims::FeeCalculator::BillScenario` is the service that determines which
+scenario code to send to the LAA Fee Calculator API when fetching eligible
+fees. It delegates a set of predicate methods — `interim?`, `hardship?`,
+`supplementary?`, `permission?`, etc. — to the claim, and uses them to
+select a scenario code:
+
+```ruby
+# app/services/claims/fee_calculator/bill_scenario.rb
+def bill_scenario
+  return transfer_detail.bill_scenario if transfer?
+  return find_by_code(fee_type.unique_code) if interim?
+  return find_by_code('GRTRL') if supplementary?
+  return find_by_code('HARDSHIP') if hardship? && lgfs?
+  return find_by_code('PERMISSION') if permission?
+  find_by_code(case_type.fee_type_code)
+end
+```
+
+`BaseClaim` defines the default as `false` for all claim types:
+
+```ruby
+# app/models/claim/base_claim.rb
+def permission? = false
+```
+
+Override it to `true` on the AGFS model (and later the LGFS model):
+
+```ruby
+# app/models/claim/advocate_permission_claim.rb
+def permission? = true
+```
+
+> **Note**: the `'PERMISSION'` scenario code must also exist in the LAA Fee
+> Calculator. As the commit message notes, the corresponding fees will need
+> to be added there for them to be fetched correctly.
+
+The same commit also adds `PERMISSION: 'AS000012'` to
+`CCR::CaseTypeAdapter::BILL_SCENARIOS`, mapping the `'PERMISSION'` scenario
+code to the correct API scenario ID.
+
+> **Note**: `CCR::CaseTypeAdapter` serves two purposes. It is used by
+> `BillScenario` (described above) when looking up eligible fees from the
+> LAA Fee Calculator API, and it is also used when injecting claims into CCR
+> (Crown Court Remuneration). Adding `PERMISSION` here is therefore
+> necessary both for fee lookup and for claim injection to work correctly.
+
+### 10. Add routes
 namespaces in `config/routes.rb`:
 
 ```ruby
@@ -501,7 +549,7 @@ This generates the URL helpers used in the next step:
 - `new_advocates_permission_claim_url`
 - `new_litigators_permission_claim_url`
 
-### 10. Add the redirect in `ClaimTypesController`
+### 11. Add the redirect in `ClaimTypesController`
 
 Add the two new context key → URL mappings to
 `claim_type_redirect_url_for` in
@@ -518,7 +566,7 @@ def claim_type_redirect_url_for(claim_type)
 end
 ```
 
-### 11. Create the controllers
+### 12. Create the controllers
 
 Create a controller for each bill type, inheriting from
 `ExternalUsers::ClaimsController`.
@@ -573,7 +621,7 @@ The difference in `build_nested_resources` reflects the difference in claim
 type: the litigator controller also builds `disbursements`, which advocates
 do not have.
 
-### 12. Create the presenters
+### 13. Create the presenters
 
 Presenters drive the claim summary page. Create one for each bill type.
 
@@ -644,7 +692,7 @@ end
 > noting they are copied from `AdvocateHardshipClaimPresenter` and will need
 > further adjustment.
 
-### 13. Create the views
+### 14. Create the views
 
 #### AGFS: `app/views/external_users/advocates/permission_claims/`
 
@@ -720,7 +768,7 @@ partial.
 > (`_lgfs_permission_claim_sidebar.html.haml`) will be needed for the
 > litigator journey.
 
-### 14. Add locale strings for form steps
+### 15. Add locale strings for form steps
 
 Add page title and heading strings for each form step under both
 `external_users.advocates.permission_claims` and
@@ -779,6 +827,10 @@ claims:
 - [ ] Add `Claim::LitigatorPermissionClaim` to `BaseClaim.lgfs_claim_types` in `app/models/claim/base_claim.rb`
 - [ ] Add `fee_scheme_factory = FeeSchemeFactory::AGFS` to `app/models/claim/advocate_permission_claim.rb`
 - [ ] Add `fee_scheme_factory = FeeSchemeFactory::LGFS` to `app/models/claim/litigator_permission_claim.rb`
+- [ ] Add `def permission? = false` default to `app/models/claim/base_claim.rb`
+- [ ] Override `permission?` to return `true` in `app/models/claim/advocate_permission_claim.rb` (and later `litigator_permission_claim.rb`)
+- [ ] Add `:permission?` to the delegated methods in `app/services/claims/fee_calculator/bill_scenario.rb`
+- [ ] Add `return find_by_code('PERMISSION') if permission?` to `BillScenario#bill_scenario`
 - [ ] Add `resources :permission_claims` to advocates namespace in `config/routes.rb`
 - [ ] Add `resources :permission_claims` to litigators namespace in `config/routes.rb`
 - [ ] Add `agfs_permission` and `lgfs_permission` redirect mappings to `ClaimTypesController#claim_type_redirect_url_for`

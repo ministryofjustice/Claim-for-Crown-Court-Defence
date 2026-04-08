@@ -401,7 +401,51 @@ def requires_case_type? = false
 This is the same pattern used by `AdvocateInterimClaim`, `AdvocateSupplementaryClaim`,
 and `TransferClaim`.
 
-### 4. Add routes
+### 4. Include `ProviderDelegation` (AGFS only)
+
+AGFS claim models include the `ProviderDelegation` module, which handles the
+difference between firms (where the supplier number lives on the `Provider`)
+and chambers (where it lives on the `ExternalUser`). It provides:
+
+- `provider_delegator` — returns the `Provider` or `ExternalUser` depending
+  on the provider type
+- `agfs_supplier_number` — returns the correct supplier number for the claim
+- `set_supplier_number` — sets the claim's supplier number from the
+  appropriate source
+
+Add it to the AGFS model immediately after `route_key_name`:
+
+```ruby
+# app/models/claim/advocate_permission_claim.rb
+include ProviderDelegation
+```
+
+All other AGFS claim models (`AdvocateClaim`, `AdvocateHardshipClaim`,
+`AdvocateInterimClaim`, `AdvocateSupplementaryClaim`) include this module.
+LGFS models do not — they use a different supplier number mechanism.
+
+### 5. Set `fee_scheme_factory`
+
+`BaseClaim#fee_scheme` calls `fee_scheme_factory` to determine which fee
+scheme applies to the claim based on the representation order date. Each
+claim type must point at the correct factory constant.
+
+For AGFS claims:
+
+```ruby
+def fee_scheme_factory = FeeSchemeFactory::AGFS
+```
+
+For LGFS claims:
+
+```ruby
+def fee_scheme_factory = FeeSchemeFactory::LGFS
+```
+
+> **Note**: `LitigatorPermissionClaim` does not yet define
+> `fee_scheme_factory`. This will need to be added.
+
+### 6. Add routes
 namespaces in `config/routes.rb`:
 
 ```ruby
@@ -422,7 +466,7 @@ This generates the URL helpers used in the next step:
 - `new_advocates_permission_claim_url`
 - `new_litigators_permission_claim_url`
 
-### 5. Add the redirect in `ClaimTypesController`
+### 7. Add the redirect in `ClaimTypesController`
 
 Add the two new context key → URL mappings to
 `claim_type_redirect_url_for` in
@@ -439,7 +483,7 @@ def claim_type_redirect_url_for(claim_type)
 end
 ```
 
-### 6. Create the controllers
+### 8. Create the controllers
 
 Create a controller for each bill type, inheriting from
 `ExternalUsers::ClaimsController`.
@@ -494,7 +538,7 @@ The difference in `build_nested_resources` reflects the difference in claim
 type: the litigator controller also builds `disbursements`, which advocates
 do not have.
 
-### 7. Create the presenters
+### 9. Create the presenters
 
 Presenters drive the claim summary page. Create one for each bill type.
 
@@ -565,7 +609,7 @@ end
 > noting they are copied from `AdvocateHardshipClaimPresenter` and will need
 > further adjustment.
 
-### 8. Create the views
+### 10. Create the views
 
 #### AGFS: `app/views/external_users/advocates/permission_claims/`
 
@@ -614,7 +658,7 @@ renders `external_users/claims/hardship_fee/fields`. This appears to be
 copied from the litigator hardship claim and will likely need renaming or
 replacing.
 
-### 9. Add locale strings for form steps
+### 11. Add locale strings for form steps
 
 Add page title and heading strings for each form step under both
 `external_users.advocates.permission_claims` and
@@ -667,6 +711,9 @@ claims:
 - [ ] Add `SUBMISSION_STAGES` to `app/models/claim/advocate_permission_claim.rb`
 - [ ] Add `SUBMISSION_STAGES` to `app/models/claim/litigator_permission_claim.rb`
 - [ ] Override `requires_case_type?` to return `false` in both model files
+- [ ] Add `include ProviderDelegation` to `app/models/claim/advocate_permission_claim.rb`
+- [ ] Add `fee_scheme_factory = FeeSchemeFactory::AGFS` to `app/models/claim/advocate_permission_claim.rb`
+- [ ] Add `fee_scheme_factory = FeeSchemeFactory::LGFS` to `app/models/claim/litigator_permission_claim.rb`
 - [ ] Add `resources :permission_claims` to advocates namespace in `config/routes.rb`
 - [ ] Add `resources :permission_claims` to litigators namespace in `config/routes.rb`
 - [ ] Add `agfs_permission` and `lgfs_permission` redirect mappings to `ClaimTypesController#claim_type_redirect_url_for`

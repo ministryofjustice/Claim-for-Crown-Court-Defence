@@ -337,22 +337,21 @@ moj.Modules.AllocationDataTable = {
 
     // EVENT: Allocate claims
     $('.allocation-submit').on('click', function (e) {
-      self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error govuk-notification-banner--success')
-      self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Allocating.. please wait a moment..')
-
       e.preventDefault()
-      self.ui.$submit.prop('disabled', true)
 
       const quantityToAllocate = $('#quantity-to-allocate-field').val() || false
-
       const allocationCaseWorkerId = $('#allocation-case-worker-id-field-select').val()
 
       if (!allocationCaseWorkerId) {
-        $.publish('/allocation/error/', {
-          msg: 'Select a case worker.'
-        })
+        self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--success')
+        self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Select a case worker.')
         return
       }
+
+      self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error govuk-notification-banner--success')
+      self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Allocating.. please wait a moment..')
+      self.ui.$submit.prop('disabled', true)
 
       const filters = {
         order: 'current',

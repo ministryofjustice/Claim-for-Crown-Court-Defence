@@ -1,2 +1,2 @@
 = govuk_summary_card(title: t('shared.new_claim_accordion.additional_information')) do |card|
-  = claim.additional_information
+  = format_multiline(claim.additional_information)

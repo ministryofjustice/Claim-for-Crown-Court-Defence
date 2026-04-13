@@ -14,4 +14,4 @@
 
   - if claim.travel_expense_additional_information.present?
     = govuk_summary_card(title: t('shared.summary.expenses.travel_expense_additional_information')) do
-      = claim.travel_expense_additional_information
+      = format_multiline(claim.travel_expense_additional_information)

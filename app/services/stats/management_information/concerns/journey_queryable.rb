@@ -60,7 +60,7 @@ module Stats
                 where id = c.id
               ) c2 ON TRUE
               LEFT JOIN LATERAL (
-                select (transitions ->> 'created_at')::timestamptz at time zone 'Europe/London' as completed_at
+                select (transitions ->> 'created_at')::timestamp as completed_at
                   from jsonb_array_elements(j.journey) transitions
                 where transitions ->> 'to' in ('rejected', 'refused', 'authorised', 'part_authorised')
                 fetch first row only
@@ -161,7 +161,7 @@ module Stats
                       on t.subject_id = subjects.id
                     where t.claim_id = in_claim_id
                     and t.to not in (select * from unnest(filtered_states))
-                    and DATE_TRUNC('day', t.created_at at time zone 'utc' at time zone 'Europe/London') >= DATE_TRUNC('day', (current_date - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London')
+                    and DATE_TRUNC('day', t.created_at at time zone 'utc' at time zone 'Europe/London') >= (current_date - '6 months'::interval)
                   )
                   select t.claim_id,
                         jsonb_agg(to_jsonb(t) order by t.created_at asc) as transitions

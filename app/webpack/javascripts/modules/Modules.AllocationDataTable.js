@@ -388,7 +388,8 @@ moj.Modules.AllocationDataTable = {
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
         self.ui.$notificationMsg.find('.govuk-notification-banner__heading').text(result.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
-
+        $('#quantity-to-allocate-field').val('')
+        self.resetAutocomplete()
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         })
@@ -436,6 +437,16 @@ moj.Modules.AllocationDataTable = {
         max: null
       }
     })
+  },
+  // Destroy and recreate the accessible-autocomplete to cleanly reset it.
+  // So that the old Case Worker value is cleared and the input field is reset to its default state.
+  resetAutocomplete: function () {
+    const selectEl = document.querySelector('#allocation-case-worker-id-field-select')
+    if (!selectEl) return
+    selectEl.selectedIndex = 0
+    selectEl.id = selectEl.id.replace(/-select$/, '')
+    selectEl.parentElement.querySelector('.autocomplete__wrapper').remove()
+    moj.Modules.AutocompleteWrapper.Autocomplete(selectEl.id)
   },
 
   // Wrapper to clear search & filters

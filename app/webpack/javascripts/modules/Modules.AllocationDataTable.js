@@ -349,7 +349,6 @@ moj.Modules.AllocationDataTable = {
       const quantityToAllocate = $('#quantity-to-allocate-field').val() || false
       const allocationCaseWorkerInput = $('#allocation-case-worker-id-field').val()
       const allocationCaseWorkerId = $('#allocation-case-worker-id-field-select').val()
-      
       if (!allocationCaseWorkerInput) {
         $.publish('/allocation/error/', {
           msg: 'Select a case worker.'

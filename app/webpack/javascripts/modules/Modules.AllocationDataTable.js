@@ -385,10 +385,12 @@ moj.Modules.AllocationDataTable = {
           claim_ids: data
         }
       }).done(function (result) {
+        const allocatedCaseWorkerName = $('#allocation-case-worker-id-field-select').find('option:selected').text()
+        const $quantityToAllocateField = $('#quantity-to-allocate-field')
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
-        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').text(result.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
-        $('#quantity-to-allocate-field').val('')
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').text(result.allocated_claims.length + ' claims have been allocated to ' + allocatedCaseWorkerName)
+        $quantityToAllocateField.val('')
         self.resetAutocomplete()
         self.reloadScheme({
           scheme: self.searchConfig.scheme

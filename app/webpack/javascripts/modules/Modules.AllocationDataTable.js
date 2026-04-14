@@ -335,17 +335,25 @@ moj.Modules.AllocationDataTable = {
       self.clearFilter()
     })
 
+    // EVENT: No case worker allocation error
+    $.subscribe('/allocation/error/', function (e, data) {
+      self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--success')
+      self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
+      self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.msg)
+      self.ui.$submit.prop('disabled', false)
+    })
+
     // EVENT: Allocate claims
     $('.allocation-submit').on('click', function (e) {
       e.preventDefault()
-
       const quantityToAllocate = $('#quantity-to-allocate-field').val() || false
+      const allocationCaseWorkerInput = $('#allocation-case-worker-id-field').val()
       const allocationCaseWorkerId = $('#allocation-case-worker-id-field-select').val()
-
-      if (!allocationCaseWorkerId) {
-        self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--success')
-        self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
-        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Select a case worker.')
+      
+      if (!allocationCaseWorkerInput) {
+        $.publish('/allocation/error/', {
+          msg: 'Select a case worker.'
+        })
         return
       }
 

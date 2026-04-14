@@ -79,6 +79,9 @@ Rails/FilePath:
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
+Rails/StrongParametersExpect:
+  Enabled: false
+
 RSpec:
   Language:
     Expectations:

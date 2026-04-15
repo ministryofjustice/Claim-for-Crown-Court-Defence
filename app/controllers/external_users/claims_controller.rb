@@ -161,7 +161,7 @@ module ExternalUsers
       claim_url = external_users_claim_url(@claim)
       return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
       revert_to_version_before_archived
-      return redirect_to claim_url, alert: t('.unarchivable') if @claim.nil?
+      return redirect_to claim_url, alert: t('.cannot_unarchive_no_version') if @claim.nil?
       @claim.zeroise_nil_totals!
       @claim.save!(validate: false)
       redirect_to external_users_claims_url, notice: t('.unarchived')

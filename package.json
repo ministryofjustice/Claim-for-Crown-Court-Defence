@@ -46,7 +46,7 @@
     "jquery.iframe-transport": "^1.0.0",
     "jsrender": "^1.0.16",
     "mini-css-extract-plugin": "^2.10.2",
-    "postcss": "^8.5.8",
+    "postcss": "^8.5.9",
     "sass": "^1.99.0",
     "sass-loader": "^16.0.7",
     "stickyfilljs": "^2.1.0",

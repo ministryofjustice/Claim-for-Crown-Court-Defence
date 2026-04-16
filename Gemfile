@@ -75,7 +75,7 @@ group :development, :test do
   gem 'parallel_tests'
   gem 'pry-byebug'
   gem 'pry-rails'
-  gem 'rack-livereload', '~> 0.5.2'
+  gem 'rack-livereload', '~> 0.6.1'
   gem 'rspec-rails', '~> 8.0.4'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'

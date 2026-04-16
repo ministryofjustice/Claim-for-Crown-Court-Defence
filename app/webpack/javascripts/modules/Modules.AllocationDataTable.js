@@ -335,24 +335,30 @@ moj.Modules.AllocationDataTable = {
       self.clearFilter()
     })
 
+    // EVENT: No case worker allocation error
+    $.subscribe('/allocation/error/', function (e, data) {
+      self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--success')
+      self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
+      self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.msg)
+      self.ui.$submit.prop('disabled', false)
+    })
+
     // EVENT: Allocate claims
     $('.allocation-submit').on('click', function (e) {
-      self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error govuk-notification-banner--success')
-      self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Allocating.. please wait a moment..')
-
       e.preventDefault()
-      self.ui.$submit.prop('disabled', true)
-
       const quantityToAllocate = $('#quantity-to-allocate-field').val() || false
-
+      const allocationCaseWorkerInput = $('#allocation-case-worker-id-field').val()
       const allocationCaseWorkerId = $('#allocation-case-worker-id-field-select').val()
-
-      if (!allocationCaseWorkerId) {
+      if (!allocationCaseWorkerInput) {
         $.publish('/allocation/error/', {
           msg: 'Select a case worker.'
         })
         return
       }
+
+      self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error govuk-notification-banner--success')
+      self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Allocating.. please wait a moment..')
+      self.ui.$submit.prop('disabled', true)
 
       const filters = {
         order: 'current',
@@ -378,10 +384,13 @@ moj.Modules.AllocationDataTable = {
           claim_ids: data
         }
       }).done(function (result) {
+        const allocatedCaseWorkerName = $('#allocation-case-worker-id-field-select').find('option:selected').text()
+        const $quantityToAllocateField = $('#quantity-to-allocate-field')
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
-        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').text(result.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
-
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').text(result.allocated_claims.length + ' claims have been allocated to ' + allocatedCaseWorkerName)
+        $quantityToAllocateField.val('')
+        self.resetAutocomplete()
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         })
@@ -429,6 +438,16 @@ moj.Modules.AllocationDataTable = {
         max: null
       }
     })
+  },
+  // Destroy and recreate the accessible-autocomplete to cleanly reset it.
+  // So that the old Case Worker value is cleared and the input field is reset to its default state.
+  resetAutocomplete: function () {
+    const selectEl = document.querySelector('#allocation-case-worker-id-field-select')
+    if (!selectEl) return
+    selectEl.selectedIndex = 0
+    selectEl.id = selectEl.id.replace(/-select$/, '')
+    selectEl.parentElement.querySelector('.autocomplete__wrapper').remove()
+    moj.Modules.AutocompleteWrapper.Autocomplete(selectEl.id)
   },
 
   // Wrapper to clear search & filters

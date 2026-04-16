@@ -39,3 +39,15 @@ Feature: Case worker admin allocates claims
     And I sign out
 
     And I eject the VCR cassette
+
+  Scenario: I see an error when I try to allocate without selecting a case worker
+    Given submitted claims exist with case numbers "T20160001"
+    And I insert the VCR cassette 'features/case_workers/admin/allocation'
+
+    When I am a signed in case worker admin
+    And I visit the allocation page
+    And I select claims "T20160001"
+    And I click Allocate
+    Then I should see 'Select a case worker.'
+
+    And I eject the VCR cassette

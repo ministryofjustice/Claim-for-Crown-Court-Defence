@@ -258,7 +258,6 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       context 'with a completed journey' do
         before do
-          pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           travel_to(authorised_at) { claim }
 
           travel_to(redetermine_at) do
@@ -270,13 +269,13 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
 
         it 'returns the created_at timestamp for the claim transition to the completed state' do
-          expect(completed_ats).to eql([authorised_at, refused_at])
+          expect(completed_ats.map { |t| t.strftime('%F %T') })
+            .to eql([authorised_at, refused_at].map { |t| t.in_time_zone('Europe/London').strftime('%F %T') })
         end
       end
 
       context 'with an uncompleted journey' do
         before do
-          pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           travel_to(authorised_at) { claim }
 
           travel_to(redetermine_at) do
@@ -286,7 +285,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
 
         it 'returns nil for timestamp of claim transition to a completed state' do
-          expect(completed_ats).to eql([authorised_at, nil])
+          expect(completed_ats.map { |t| t&.strftime('%F %T') })
+            .to eql([authorised_at.in_time_zone('Europe/London').strftime('%F %T'), nil])
         end
       end
 
@@ -302,12 +302,12 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       #
       context 'when handling timezones' do
         before do
-          pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           create(:advocate_final_claim, :authorised)
         end
 
         it 'returns date in same time zone as current time zone for rails' do
-          expect(completed_ats.first.utc).to be_within(5.seconds).of(Time.current.utc)
+          expected_time = Time.current.in_time_zone('Europe/London').strftime('%F %H:%M')
+          expect(completed_ats.first.strftime('%F %H:%M')).to eq(expected_time)
         end
       end
     end

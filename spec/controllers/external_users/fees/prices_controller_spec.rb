@@ -16,7 +16,7 @@ end
 
 RSpec.shared_examples 'a failed price calculation response' do
   it 'returns unprocessible entity' do
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it 'returns JSON' do

@@ -57,7 +57,7 @@ RSpec.describe 'Distance calculation for travel expenses' do
         calculate_distance
 
         expect(response.media_type).to eq('application/json')
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(json_body).to eq('error' => 'Cannot calculate distance without a valid claim')
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe 'Distance calculation for travel expenses' do
         calculate_distance
 
         expect(response.media_type).to eq('application/json')
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(json_body).to eq('error' => 'Cannot calculate distance for this type of claim')
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe 'Distance calculation for travel expenses' do
         calculate_distance
 
         expect(response.media_type).to eq('application/json')
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(json_body).to eq('error' => 'Supplier associated with the claim does not have a postcode')
       end
     end

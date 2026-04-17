@@ -32,5 +32,5 @@ class CspReportsController < ApplicationController
     @report ||= { error: 'Unable to parse data' }
   end
 
-  def body = @body ||= request.body.read
+  def body = @body ||= request.raw_post
 end

@@ -31,6 +31,7 @@ module Claims
     end
 
     def eligible_agfs_misc_fee_types
+      return filter_guilty_only_types(filtered_trial_results, apply_guilty_fee_filter?) if case_type&.is_guilty_fee?
       filter_trial_only_types(agfs_fee_types_by_claim_type, apply_trial_fee_filter?)
     end
 
@@ -79,6 +80,10 @@ module Claims
       case_type && !case_type.is_trial_fee?
     end
 
+    def apply_guilty_fee_filter?
+      case_type && !case_type.is_guilty_fee?
+    end
+
     def apply_clar_rep_order_filter?
       claim&.earliest_representation_order_date &&
         (claim.earliest_representation_order_date < Settings.clar_release_date.to_date.beginning_of_day)
@@ -90,6 +95,10 @@ module Claims
 
     def filter_trial_only_types(relation, filter)
       filter ? relation.without_trial_fee_only : relation
+    end
+
+    def filter_guilty_only_types(relation, filter)
+      filter && agfs_scheme_15? ? relation.without_guilty_fee_only : relation
     end
   end
 end

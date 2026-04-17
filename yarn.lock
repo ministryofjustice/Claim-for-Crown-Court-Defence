@@ -4311,14 +4311,14 @@ schema-utils@^4.0.0, schema-utils@^4.3.0, schema-utils@^4.3.3:
     ajv-keywords "^5.1.0"
 
 selenium-webdriver@^4.12.0:
-  version "4.41.0"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.41.0.tgz#53b4e459462c4df64a99d5aedd15d4520a7c9977"
-  integrity sha512-1XxuKVhr9az24xwixPBEDGSZP+P0z3ZOnCmr9Oiep0MlJN2Mk+flIjD3iBS9BgyjS4g14dikMqnrYUPIjhQBhA==
+  version "4.43.0"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.43.0.tgz#f19f9ba6f7b3d7e986f0d3794695ba6da09943ad"
+  integrity sha512-dV4zBTT37or3Z3/8uD6rS8zvd4ZxPuG4EJVlqYIbZCGZCYttZm7xb9rlFLSk4rrsQHAeDYvudl7cquo0vWpHjg==
   dependencies:
     "@bazel/runfiles" "^6.5.0"
     jszip "^3.10.1"
     tmp "^0.2.5"
-    ws "^8.19.0"
+    ws "^8.20.0"
 
 semver@^6.3.1:
   version "6.3.1"
@@ -5137,7 +5137,7 @@ write-file-atomic@^5.0.1:
     imurmurhash "^0.1.4"
     signal-exit "^4.0.1"
 
-ws@^8.19.0:
+ws@^8.20.0:
   version "8.20.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.20.0.tgz#4cd9532358eba60bc863aad1623dfb045a4d4af8"
   integrity sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==

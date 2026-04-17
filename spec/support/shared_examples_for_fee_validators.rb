@@ -19,6 +19,7 @@ RSpec.shared_examples 'common LGFS fee date validations' do
       expect(fee.errors[:date]).to include(match(/(.*?)(Fixed|Graduated) fee date cannot be too far in the future/))
     end
 
+    # as we've removed the 2 year limit, introduced a test to ensure that the error is same
     it 'error if > 2 years before the first repo order date should be same as other dates before earliest reporder' do
       allow(claim).to receive(:earliest_representation_order_date).and_return(Time.zone.today)
       allow(fee).to receive(:claim).and_return(claim)

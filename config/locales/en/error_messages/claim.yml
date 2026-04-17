@@ -1906,6 +1906,10 @@ graduated_fee:
       long: Graduated fee date cannot be too far in the past
       short: _
       api: Graduated fee date cannot be too far in the past
+    the_graduated_fee_date_can_be_no_earlier_than_the_earliest_representation_order_date:
+      long: The graduated fee date can be no earlier than the earliest representation order date
+      short: _
+      api: The graduated fee date can be no earlier than the earliest representation order date
     the_fixed_fee_date_must_be_no_earlier_than_two_years_before_the_earliest_representation_order_date:
       long: The fixed fee date must be no earlier than two years before the earliest representation order date
       short: _
@@ -1948,6 +1952,10 @@ graduated_fee_attributes_date:
     long: Graduated fee date cannot be too far in the past
     short: _
     api: Graduated fee date cannot be too far in the past
+  the_graduated_fee_date_can_be_no_earlier_than_the_earliest_representation_order_date:
+    long: The graduated fee date can be no earlier than the earliest representation order date
+    short: _
+    api: The graduated fee date can be no earlier than the earliest representation order date
   the_fixed_fee_date_must_be_no_earlier_than_two_years_before_the_earliest_representation_order_date:
     long: The fixed fee date must be no earlier than two years before the earliest representation order date
     short: _

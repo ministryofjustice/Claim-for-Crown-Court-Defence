@@ -60,7 +60,7 @@
     "eslint": "^9.0.0",
     "expose-loader": "^5.0.1",
     "jasmine-browser-runner": "^4.0.0",
-    "jasmine-core": "^6.1.0",
+    "jasmine-core": "^6.2.0",
     "neostandard": "^0.13.0",
     "stylelint": "^16.26.1",
     "stylelint-config-gds": "^2.0.0",

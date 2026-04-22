@@ -455,6 +455,15 @@ RSpec.describe Ability do
       end
     end
 
+    context 'can view and download documents on archived claims that are not allocated to them' do
+      let(:archived_claim) { create(:advocate_claim, :archived_pending_delete) }
+      let(:archived_document) { create(:document, claim: archived_claim) }
+
+      %i[show download].each do |action|
+        it { should be_able_to(action, archived_document) }
+      end
+    end
+
     context 'can view their own profile' do
       it { should be_able_to(:show, case_worker) }
     end

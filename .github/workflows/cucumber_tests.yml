@@ -1,0 +1,106 @@
+name: Cucumber tests
+on:
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  cucumber-tests:
+    name: Run Cucumber tests
+    runs-on: macOS-26-arm64
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+      checks: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ci_node_total: [12]
+        ci_node_index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:password@localhost:5432/cccd_test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Firefox for Selenium tests
+        uses: browser-actions/setup-firefox@v1
+        with:
+          firefox-version: latest
+
+      - name: Setup up Geckodriver
+        uses: browser-actions/setup-geckodriver@latest
+
+      - name: Ruby setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.8
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Set up database
+        run: |
+          bundle exec rake db:schema:load
+
+      - name: Precompile assets
+        run: bundle exec rake assets:precompile
+
+      - name: Split and run Cucumber tests
+        env:
+          CI_NODE_TOTAL: ${{ matrix.ci_node_total }}
+          CI_NODE_INDEX: ${{ matrix.ci_node_index }}
+          CAPYBARA_DRIVER: headless_firefox
+        run: |
+          # Get all feature files and split them across nodes
+          ALL_FEATURES=$(find features -name "*.feature" | sort)
+          TOTAL=$(echo "$ALL_FEATURES" | wc -l | tr -d ' ')
+
+          # Calculate which files this node should run
+          NODE_FEATURES=$(echo "$ALL_FEATURES" | awk -v node_total="$CI_NODE_TOTAL"  \
+                                                     -v node_index="$CI_NODE_INDEX" \
+                                                     'NR % node_total == node_index - 1')
+
+          if [ -z "$NODE_FEATURES" ]; then
+            echo "No feature files to run for this node."
+            exit 0
+          fi
+
+          echo "Running $(echo "$NODE_FEATURES" | wc -l) of $TOTAL feature files on node $CI_NODE_INDEX"
+          echo "$NODE_FEATURES"
+
+          bundle exec cucumber \
+            --format pretty \
+            --format junit,fileattribute=true \
+            --out /tmp/test-results/cucumber_${{ matrix.ci_node_index }}.xml \
+            $NODE_FEATURES
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-results-${{ matrix.ci_node_index }}
+          path: /tmp/test-results/cucumber_${{ matrix.ci_node_index }}.xml

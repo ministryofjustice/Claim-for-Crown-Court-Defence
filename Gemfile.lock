@@ -766,6 +766,7 @@ GEM
 PLATFORMS
   arm64-darwin-23
   arm64-darwin-24
+  arm64-darwin-25
   x86_64-darwin-24
   x86_64-linux-gnu
 
@@ -1163,7 +1164,7 @@ CHECKSUMS
   zendesk_api (3.1.1) sha256=f85b646263729fee8dc3c47f02bb3caaf26f1650a094299dee46c063e26e7216
 
 RUBY VERSION
-   ruby 3.4.2p28
+   ruby 3.4.9p82
 
 BUNDLED WITH
    2.6.2

@@ -11,13 +11,12 @@
 
 .govuk-width-container
   .govuk-grid-row
-  = form_with url: super_admins_stats_path, method: 'post' do |f|
+  = form_with url: super_admins_stats_path, method: 'post', scope: :stats do |f|
     .govuk-grid-column-one-third
       = f.govuk_date_field :date_from, legend: { size: 'm',
                                                  tag: 'h2',
                                                  text: 'From'},
                                        maxlength_enabled: true
-
     .govuk-grid-column-one-third
       = f.govuk_date_field :date_to, legend: { size: 'm',
                                                  tag: 'h2',

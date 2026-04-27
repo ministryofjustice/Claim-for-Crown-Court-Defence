@@ -27,12 +27,24 @@ module SuperAdmins
     end
 
     def parse_time(date)
-      Time.zone.parse("#{params["#{date}(3i)"]}-#{params["#{date}(2i)"]}-#{params["#{date}(1i)"]}")
+      return if stats_params[:stats].nil?
+
+      Date.new(
+        stats_params[:stats]["#{date}(1i)"].to_i,
+        stats_params[:stats]["#{date}(2i)"].to_i,
+        stats_params[:stats]["#{date}(3i)"].to_i
+      )
+    rescue Date::Error
+      nil
     end
 
     def set_times
       @from = parse_time('date_from') || Time.current.at_beginning_of_month
       @to = parse_time('date_to')
+    end
+
+    def stats_params
+      params.permit(stats: %i[date_from date_to])
     end
   end
 end

@@ -667,7 +667,7 @@ GEM
       redis-client (>= 0.23.0, < 1)
     sidekiq-failures (1.1.0)
       sidekiq (>= 4.0.0)
-    sidekiq-scheduler (6.0.1)
+    sidekiq-scheduler (6.0.2)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 7.3, < 9)
     simplecov (0.22.0)
@@ -858,7 +858,7 @@ DEPENDENCIES
   shoulda-matchers (~> 7.0)
   sidekiq (~> 7.3)
   sidekiq-failures (~> 1.1)
-  sidekiq-scheduler (~> 6.0.1)
+  sidekiq-scheduler (~> 6.0.2)
   simplecov
   site_prism (~> 6.0)
   sprockets-rails (~> 3.5.2)
@@ -1116,7 +1116,7 @@ CHECKSUMS
   shoulda-matchers (7.0.1) sha256=b4bfd8744c10e0a36c8ac1a687f921ee7e25ed529e50488d61b79a8688749c77
   sidekiq (7.3.10) sha256=781eb4f65ef36042534ad73d72f211283afb7fee82eec786ada4ed1972ef8e3c
   sidekiq-failures (1.1.0) sha256=c874e10cee8be2db23d22c29887273e0f93d42f345075ed413ca2b2fac40a2f1
-  sidekiq-scheduler (6.0.1) sha256=e1fc04e851a3e2d9896bc6ab00f03d790fef8923bb56915e5b141804bca34062
+  sidekiq-scheduler (6.0.2) sha256=1065f1a989e750849de1d23d1f34338c104ed6ec5a6dc22a2620c5af54a2d6fc
   simplecov (0.22.0) sha256=fe2622c7834ff23b98066bb0a854284b2729a569ac659f82621fc22ef36213a5
   simplecov-html (0.13.2) sha256=bd0b8e54e7c2d7685927e8d6286466359b6f16b18cb0df47b508e8d73c777246
   simplecov_json_formatter (0.1.4) sha256=529418fbe8de1713ac2b2d612aa3daa56d316975d307244399fa4838c601b428

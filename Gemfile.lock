@@ -313,9 +313,9 @@ GEM
       mustermann-grape (~> 1.1.0)
       rack (>= 2)
       zeitwerk
-    grape-entity (1.0.1)
+    grape-entity (1.0.4)
       activesupport (>= 3.0.0)
-      multi_json (>= 1.3.2)
+      multi_json (>= 1.0)
     grape-papertrail (0.2.0)
       loofah (~> 2.2.x)
       nokogiri (~> 1.8, >= 1.8.2)
@@ -804,7 +804,7 @@ DEPENDENCIES
   govuk_design_system_formbuilder (~> 6.1)
   govuk_notify_rails (~> 3.0.0)
   grape (~> 3.2.1)
-  grape-entity (~> 1.0.1)
+  grape-entity (~> 1.0.4)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 2.1.4)
   grape-swagger-rails (~> 0.7.0)
@@ -976,7 +976,7 @@ CHECKSUMS
   govuk_design_system_formbuilder (6.1.0) sha256=b0fdb3714e59665f1a522291840bcc89801cb4325f243e8717e0f9be87d1192c
   govuk_notify_rails (3.0.0) sha256=e0e1b8b0a7c47f90963034f290fb2982652aa8051a733c25c178680d44f2d7aa
   grape (3.2.1) sha256=448072f55904e5a4dca2e3781f0a373942514be65402cafb6177f5bc73db1b94
-  grape-entity (1.0.1) sha256=e00f9e94e407aff77aa2945d741f544d07e48501927942988799913151d02634
+  grape-entity (1.0.4) sha256=cda42416d87831de0da2f28aa1f5ba9b38856b936b4a5ba995e52d32de1ec0bd
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
   grape-swagger (2.1.4) sha256=3279351bebafbca24e0331b9f7c6dbfefb262042a1f3d224ed41cf2be4aee35b
   grape-swagger-rails (0.7.0) sha256=61f767f4e94ef2f9e7b3fb5722013ec4237e8bf6a2a468945c19f69a269c7d63

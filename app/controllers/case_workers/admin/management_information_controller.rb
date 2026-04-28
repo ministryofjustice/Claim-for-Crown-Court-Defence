@@ -7,9 +7,11 @@ module CaseWorkers
 
       skip_load_and_authorize_resource only: %i[index download generate create]
       before_action -> { authorize! :view, :management_information }, only: %i[index download generate create]
-      before_action :validate_report_type, only: %i[download generate create]
-      before_action :validate_report_type_is_updatable, only: %i[generate create]
-      before_action :validate_and_set_date, only: %i[create]
+      before_action :validate_report_type, only: %i[download generate]
+      before_action :validate_report_type_is_updatable, only: :generate
+      before_action :validate_report_type_with_date, only: :create
+      before_action :validate_report_type_is_updatable_with_date, only: :create
+      before_action :validate_and_set_date, only: :create
 
       def index
         @available_reports = Stats::StatsReport::REPORTS.index_with do |report|
@@ -54,11 +56,20 @@ module CaseWorkers
         redirect_to case_workers_admin_management_information_url, alert: t('.report_cannot_be_updated')
       end
 
+      def validate_report_type_with_date
+        return if Stats::StatsReport.reports[report_params[:report_type]]
+
+        redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
+      end
+
+      def validate_report_type_is_updatable_with_date
+        return if Stats::StatsReport.reports[report_params[:report_type]].updatable?
+
+        redirect_to case_workers_admin_management_information_url, alert: t('.report_cannot_be_updated')
+      end
+
       def report_params
-        params.permit(
-          :report_type,
-          :start_at
-        )
+        params.require(:report).permit(:report_type, :start_at)
       end
 
       def validate_and_set_date

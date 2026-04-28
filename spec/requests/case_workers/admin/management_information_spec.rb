@@ -179,10 +179,10 @@ RSpec.describe 'Management information administration' do
 
     context 'with a valid report type and valid date' do
       let(:params) do
-        { report_type:,
-          'start_at(3i)' => '25',
-          'start_at(2i)' => '12',
-          'start_at(1i)' => '2020' }
+        { report: { report_type:,
+                    'start_at(3i)' => '25',
+                    'start_at(2i)' => '12',
+                    'start_at(1i)' => '2020' } }
       end
 
       let(:report_type) { 'agfs_management_information_statistics' }
@@ -211,10 +211,10 @@ RSpec.describe 'Management information administration' do
 
     context 'with an invalid report type and valid date' do
       let(:params) do
-        { report_type: 'invalid_report_type',
-          'day(3i)' => '25',
-          'day(2i)' => '12',
-          'day(1i)' => '2020' }
+        { report: { report_type: 'invalid_report_type',
+                    'start_at(3i)' => '25',
+                    'start_at(2i)' => '12',
+                    'start_at(1i)' => '2020' } }
       end
 
       it_behaves_like 'report validator'
@@ -222,7 +222,7 @@ RSpec.describe 'Management information administration' do
 
     context 'with valid report type but no date' do
       let(:params) do
-        { report_type: 'agfs_management_information_statistics' }
+        { report: { report_type: 'agfs_management_information_statistics' } }
       end
 
       it_behaves_like 'date validator'
@@ -230,10 +230,10 @@ RSpec.describe 'Management information administration' do
 
     context 'with valid report type but an invalid date' do
       let(:params) do
-        { report_type: 'agfs_management_information_statistics',
-          'day(3i)' => '-1',
-          'day(2i)' => '12',
-          'day(1i)' => '2020' }
+        { report: { report_type: 'agfs_management_information_statistics',
+                    'start_at(3i)' => '-1',
+                    'start_at(2i)' => '12',
+                    'start_at(1i)' => '2020' } }
       end
 
       it_behaves_like 'date validator'

@@ -59,13 +59,13 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(
-      :sender_id,
-      :claim_id,
-      :attachments,
-      :body,
-      :claim_action,
-      :written_reasons_submitted
+    params.expect(
+      message: %i[sender_id
+                  claim_id
+                  attachments
+                  body
+                  claim_action
+                  written_reasons_submitted]
     )
   end
 

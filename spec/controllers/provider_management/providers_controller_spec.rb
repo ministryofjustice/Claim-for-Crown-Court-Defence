@@ -97,7 +97,7 @@ RSpec.describe ProviderManagement::ProvidersController do
         before do
           put :update, params: {
             id: subject,
-            provider: { supplier_numbers_attributes: [{ supplier_number: 'XY123' }, { supplier_number: '' }] }
+            provider: { lgfs_supplier_numbers_attributes: [{ supplier_number: 'XY123' }, { supplier_number: '' }] }
           }
         end
 

@@ -77,12 +77,13 @@ module ProviderManagement
     private
 
     def external_user_params
-      params.require(:external_user).permit(
-        :availability,
-        :vat_registered,
-        :supplier_number,
-        roles: [],
-        user_attributes: %i[id email email_confirmation password password_confirmation first_name last_name]
+      params.expect(
+        external_user: [:availability, :vat_registered, :supplier_number,
+                        {
+                          roles: [],
+                          user_attributes: %i[id email email_confirmation password password_confirmation
+                                              first_name last_name]
+                        }]
       )
     end
 

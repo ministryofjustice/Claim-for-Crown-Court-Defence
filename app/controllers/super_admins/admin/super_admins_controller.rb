@@ -28,15 +28,15 @@ module SuperAdmins
       end
 
       def super_admin_params
-        params.require(:super_admin).permit(
-          user_attributes: %i[id
-                              email
-                              email_confirmation
-                              password
-                              password_confirmation
-                              current_password
-                              first_name
-                              last_name]
+        params.expect(
+          super_admin: [{ user_attributes: %i[id
+                                              email
+                                              email_confirmation
+                                              password
+                                              password_confirmation
+                                              current_password
+                                              first_name
+                                              last_name] }]
         )
       end
     end

@@ -334,7 +334,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
         end
 
         it 'redirects to external_users index' do
-          put :update, params: { id: external_user, external_user: { email: 'bobsmith@example.com' } }
+          put :update, params: { id: external_user, external_user: { user_attributes: { id: external_user.user.id, email: 'bobsmith@example.com' } } }
           expect(response).to redirect_to(external_users_claims_path)
         end
       end

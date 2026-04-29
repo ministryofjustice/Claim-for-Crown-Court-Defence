@@ -287,158 +287,160 @@ module ExternalUsers
 
     # rubocop:disable Metrics/MethodLength
     def claim_params
-      params.require(:claim).permit(
-        :form_id,
-        :form_step,
-        :advocate_category,
-        :providers_ref,
-        :source,
-        :external_user_id,
-        :supplier_number,
-        :court_id,
-        :case_transferred_from_another_court,
-        :transfer_court_id,
-        :transfer_case_number,
-        :case_number,
-        :case_type_id,
-        :case_stage_id,
-        :offence_id,
-        :travel_expense_additional_information,
-        :first_day_of_trial,
-        :estimated_trial_length,
-        :actual_trial_length,
-        :trial_concluded_at,
-        :retrial_started_at,
-        :retrial_estimated_length,
-        :retrial_actual_length,
-        :main_hearing_date,
-        :retrial_concluded_at,
-        :retrial_reduction,
-        :trial_fixed_notice_at,
-        :trial_fixed_at,
-        :trial_cracked_at,
-        :case_concluded_at,
-        :effective_pcmh_date,
-        :legal_aid_transfer_date,
-        :trial_cracked_at_third,
-        :additional_information,
-        :litigator_type,
-        :elected_case,
-        :transfer_stage_id,
-        :transfer_date,
-        :case_conclusion_id,
-        :disk_evidence,
-        :prosecution_evidence,
-        evidence_checklist_ids: [],
-        defendants_attributes: [
-          :id,
-          :claim_id,
-          :first_name,
-          :last_name,
-          :date_of_birth,
-          :order_for_judicial_apportionment,
-          :_destroy,
-          { representation_orders_attributes: %i[
-            id
-            document
-            maat_reference
-            representation_order_date
-            _destroy
-          ] }
-        ],
-        basic_fees_attributes: [
-          :id,
-          :claim_id,
-          :fee_type_id,
-          :fee_id,
-          :quantity,
-          :rate,
-          :amount,
-          :case_numbers,
-          :price_calculated,
-          :_destroy,
-          common_dates_attended_attributes
-        ],
-        disbursements_attributes: %i[
-          id
-          claim_id
-          disbursement_type_id
-          net_amount
-          vat_amount
-          _destroy
-        ],
-        fixed_fees_attributes: common_fees_attributes, # agfs has_many
-        fixed_fee_attributes: common_fees_attributes, # lgfs has_one
-        misc_fees_attributes: common_fees_attributes,
-        graduated_fee_attributes: %i[
-          id
-          claim_id
-          fee_type_id
-          quantity
-          amount
-          price_calculated
-          date
-        ],
-        interim_fee_attributes: %i[
-          id
-          claim_id
-          fee_type_id
-          quantity
-          amount
-          price_calculated
-          warrant_issued_date
-          warrant_executed_date
-        ],
-        transfer_fee_attributes: %i[
-          id
-          claim_id
-          fee_type_id
-          amount
-          price_calculated
-          quantity
-        ],
-        warrant_fee_attributes: %i[
-          id
-          claim_id
-          fee_type_id
-          amount
-          price_calculated
-          warrant_issued_date
-          warrant_executed_date
-        ],
-        hardship_fee_attributes: %i[
-          id
-          claim_id
-          fee_type_id
-          amount
-          price_calculated
-          quantity
-        ],
-        expenses_attributes: [
-          :id,
-          :claim_id,
-          :expense_type_id,
-          :location,
-          :location_type,
-          :quantity,
-          :amount,
-          :vat_amount,
-          :rate,
-          :reason_id,
-          :reason_text,
-          :distance,
-          :calculated_distance,
-          :mileage_rate_id,
-          :hours,
-          :date,
-          :_destroy,
-          common_dates_attended_attributes
-        ],
-        interim_claim_info_attributes: %i[
-          warrant_fee_paid
-          warrant_issued_date
-          warrant_executed_date
-        ]
+      params.expect(
+        claim: [:form_id,
+                :form_step,
+                :advocate_category,
+                :providers_ref,
+                :source,
+                :external_user_id,
+                :supplier_number,
+                :court_id,
+                :case_transferred_from_another_court,
+                :transfer_court_id,
+                :transfer_case_number,
+                :case_number,
+                :case_type_id,
+                :case_stage_id,
+                :offence_id,
+                :travel_expense_additional_information,
+                :first_day_of_trial,
+                :estimated_trial_length,
+                :actual_trial_length,
+                :trial_concluded_at,
+                :retrial_started_at,
+                :retrial_estimated_length,
+                :retrial_actual_length,
+                :main_hearing_date,
+                :retrial_concluded_at,
+                :retrial_reduction,
+                :trial_fixed_notice_at,
+                :trial_fixed_at,
+                :trial_cracked_at,
+                :case_concluded_at,
+                :effective_pcmh_date,
+                :legal_aid_transfer_date,
+                :trial_cracked_at_third,
+                :additional_information,
+                :litigator_type,
+                :elected_case,
+                :transfer_stage_id,
+                :transfer_date,
+                :case_conclusion_id,
+                :disk_evidence,
+                :prosecution_evidence,
+                {
+                  evidence_checklist_ids: [],
+                  defendants_attributes: [[
+                    :id,
+                    :claim_id,
+                    :first_name,
+                    :last_name,
+                    :date_of_birth,
+                    :order_for_judicial_apportionment,
+                    :_destroy,
+                    { representation_orders_attributes: [%i[
+                      id
+                      document
+                      maat_reference
+                      representation_order_date
+                      _destroy
+                    ]] }
+                  ]],
+                  basic_fees_attributes: [[
+                    :id,
+                    :claim_id,
+                    :fee_type_id,
+                    :fee_id,
+                    :quantity,
+                    :rate,
+                    :amount,
+                    :case_numbers,
+                    :price_calculated,
+                    :_destroy,
+                    common_dates_attended_attributes
+                  ]],
+                  disbursements_attributes: [%i[
+                    id
+                    claim_id
+                    disbursement_type_id
+                    net_amount
+                    vat_amount
+                    _destroy
+                  ]],
+                  fixed_fees_attributes: [common_fees_attributes], # agfs has_many
+                  fixed_fee_attributes: common_fees_attributes, # lgfs has_one
+                  misc_fees_attributes: [common_fees_attributes],
+                  graduated_fee_attributes: %i[
+                    id
+                    claim_id
+                    fee_type_id
+                    quantity
+                    amount
+                    price_calculated
+                    date
+                  ],
+                  interim_fee_attributes: %i[
+                    id
+                    claim_id
+                    fee_type_id
+                    quantity
+                    amount
+                    price_calculated
+                    warrant_issued_date
+                    warrant_executed_date
+                  ],
+                  transfer_fee_attributes: %i[
+                    id
+                    claim_id
+                    fee_type_id
+                    amount
+                    price_calculated
+                    quantity
+                  ],
+                  warrant_fee_attributes: %i[
+                    id
+                    claim_id
+                    fee_type_id
+                    amount
+                    price_calculated
+                    warrant_issued_date
+                    warrant_executed_date
+                  ],
+                  hardship_fee_attributes: %i[
+                    id
+                    claim_id
+                    fee_type_id
+                    amount
+                    price_calculated
+                    quantity
+                  ],
+                  expenses_attributes: [[
+                    :id,
+                    :claim_id,
+                    :expense_type_id,
+                    :location,
+                    :location_type,
+                    :quantity,
+                    :amount,
+                    :vat_amount,
+                    :rate,
+                    :reason_id,
+                    :reason_text,
+                    :distance,
+                    :calculated_distance,
+                    :mileage_rate_id,
+                    :hours,
+                    :date,
+                    :_destroy,
+                    common_dates_attended_attributes
+                  ]],
+                  interim_claim_info_attributes: %i[
+                    warrant_fee_paid
+                    warrant_issued_date
+                    warrant_executed_date
+                  ]
+                }]
       )
     end
     # rubocop:enable Metrics/MethodLength

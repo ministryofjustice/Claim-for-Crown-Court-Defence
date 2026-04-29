@@ -56,10 +56,10 @@ class DocumentsController < ApplicationController
   end
 
   def document_params
-    params.require(:document).permit(
-      :document,
-      :form_id,
-      :creator_id
+    params.expect(
+      document: %i[document
+                   form_id
+                   creator_id]
     )
   end
 

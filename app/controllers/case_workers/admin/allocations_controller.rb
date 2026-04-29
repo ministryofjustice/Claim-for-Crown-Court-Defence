@@ -99,7 +99,7 @@ module CaseWorkers
       end
 
       def allocation_params
-        allocator_params = params.require(:allocation).permit(:case_worker_id, :deallocate, claim_ids: [])
+        allocator_params = params.expect(allocation: [:case_worker_id, :deallocate, { claim_ids: [] }])
         allocator_params.merge(allocating: allocating?)
       end
 

@@ -199,7 +199,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params) { { claim_class: 'Claim::AdvocateClaim' } }
+        let(:invalid_claim_params) { { advocate_category: 'QC' } }
 
         it 'does not create a claim' do
           expect {

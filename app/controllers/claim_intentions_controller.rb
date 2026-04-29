@@ -23,8 +23,8 @@ class ClaimIntentionsController < ApplicationController
   private
 
   def claim_intention_params
-    params.require(:claim_intention).permit(
-      :form_id
+    params.expect(
+      claim_intention: [:form_id]
     ).merge(user_id: current_user.id)
   end
 end

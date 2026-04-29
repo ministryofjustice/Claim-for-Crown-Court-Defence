@@ -57,11 +57,13 @@ module CaseWorkers
       def case_worker_params
         attributes = %i[id email email_confirmation current_password password password_confirmation first_name
                         last_name]
-        params.require(:case_worker).permit(
-          :location_id,
-          user_attributes: attributes,
-          claim_ids: [],
-          roles: []
+        params.expect(
+          case_worker: [:location_id,
+                        {
+                          user_attributes: attributes,
+                          claim_ids: [],
+                          roles: []
+                        }]
         )
       end
     end

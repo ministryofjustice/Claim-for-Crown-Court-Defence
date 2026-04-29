@@ -160,12 +160,11 @@ module ExternalUsers
     def unarchive
       claim_url = external_users_claim_url(@claim)
       return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
-      @claim = @claim.paper_trail.previous_version
+      revert_to_version_before_archived
+      return redirect_to claim_url, alert: t('.cannot_unarchive_no_version') if @claim.nil?
       @claim.zeroise_nil_totals!
       @claim.save!(validate: false)
       redirect_to external_users_claims_url, notice: t('.unarchived')
-    rescue StandardError
-      redirect_to claim_url, alert: t('.unarchivable')
     end
 
     class << self
@@ -185,6 +184,15 @@ module ExternalUsers
     end
 
     private
+
+    def revert_to_version_before_archived
+      version = @claim.versions.reverse.detect do |v|
+        obj = v.reify
+        obj && !obj.state.to_s.start_with?('archived_')
+      end
+
+      @claim = version&.reify
+    end
 
     def log(message, error: nil, level: :info)
       log_data = {

@@ -895,7 +895,7 @@ en:
         not_editable: 'Can only edit "draft" claims'
       unarchive:
         not_archived: 'This claim is not in the archive'
-        unarchivable: 'This claim cannot be unarchived'
+        cannot_unarchive_no_version: 'This claim cannot be unarchived as there is no previous version to restore'
         unarchived: 'Claim unarchived'
       hints:
         fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT.

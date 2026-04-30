@@ -66,7 +66,6 @@ gem 'uri', '< 2.0.0'
 gem 'laa-cda', git: 'https://github.com/ministryofjustice/laa-cda'
 
 group :development, :test do
-  gem 'annotate'
   gem 'brakeman', :require => false
   gem 'better_errors'
   gem 'byebug'

@@ -127,6 +127,70 @@ RSpec.describe CaseWorkers::ClaimsController do
     end
   end
 
+  describe 'PATCH #update when authorising with determination values' do
+    let(:claim) { create(:allocated_claim) }
+
+    before do
+      claim.case_workers << @case_worker
+    end
+
+    context 'with assessment_attributes' do
+      before do
+        patch :update, params: {
+          id: claim,
+          claim: {
+            state: 'authorised',
+            assessment_attributes: { fees: '100.00', expenses: '50.00', disbursements: '0.00' }
+          },
+          commit: 'Update'
+        }
+      end
+
+      it { expect(response).to redirect_to(case_workers_claim_path) }
+      it { expect(claim.reload.state).to eq('authorised') }
+    end
+
+    context 'with redeterminations_attributes on a redetermination claim' do
+      let(:claim) { create(:claim, :redetermination) }
+
+      before do
+        claim.allocate!
+        claim.case_workers << @case_worker
+        patch :update, params: {
+          id: claim,
+          claim: {
+            state: 'authorised',
+            redeterminations_attributes: { '0' => { fees: '100.00', expenses: '50.00', disbursements: '0.00' } }
+          },
+          commit: 'Update'
+        }
+      end
+
+      it { expect(response).to redirect_to(case_workers_claim_path) }
+      it { expect(claim.reload.state).to eq('authorised') }
+    end
+
+    context 'with redeterminations_attributes on an awaiting written reasons claim' do
+      let(:claim) { create(:claim, :awaiting_written_reasons) }
+
+      before do
+        claim.allocate!
+        claim.case_workers << @case_worker
+        patch :update, params: {
+          id: claim,
+          claim: {
+            state: 'authorised',
+            redeterminations_attributes: { '0' => { fees: '100.00', expenses: '50.00', disbursements: '0.00' } }
+          },
+          commit: 'Update'
+        }
+      end
+
+      it { expect(response).to redirect_to(case_workers_claim_path) }
+      it { expect(claim.reload.state).to eq('authorised') }
+    end
+  end
+
   context 'GET #archived' do
     before(:all) do
       @case_worker = create(:case_worker)

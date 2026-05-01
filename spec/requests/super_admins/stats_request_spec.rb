@@ -4,8 +4,9 @@ def post_with_params(from, to)
   from = from.split('/')
   to = to.split('/')
 
-  post '/super_admins/stats', params: { 'date_from(3i)': from[0], 'date_from(2i)': from[1], 'date_from(1i)': from[2],
-                                        'date_to(3i)': to[0], 'date_to(2i)': to[1], 'date_to(1i)': to[2] }
+  post '/super_admins/stats', params: { '[date_from(3i)]': from[0], '[date_from(2i)]': from[1],
+                                        '[date_from(1i)]': from[2], '[date_to(3i)]': to[0],
+                                        '[date_to(2i)]': to[1], '[date_to(1i)]': to[2] }
 end
 
 RSpec.describe 'Stats' do

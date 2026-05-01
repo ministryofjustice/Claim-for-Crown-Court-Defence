@@ -27,7 +27,10 @@ module SuperAdmins
     end
 
     def parse_time(date)
-      Time.zone.parse("#{params["#{date}(3i)"]}-#{params["#{date}(2i)"]}-#{params["#{date}(1i)"]}")
+      day = params["[#{date}(3i)]"]
+      month = params["[#{date}(2i)]"]
+      year = params["[#{date}(1i)]"]
+      Time.zone.parse("#{day}-#{month}-#{year}")
     end
 
     def set_times

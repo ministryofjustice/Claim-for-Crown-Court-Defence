@@ -51,7 +51,7 @@
     "sass-loader": "^16.0.7",
     "stickyfilljs": "^2.1.0",
     "style-loader": "^4.0.0",
-    "terser-webpack-plugin": "^5.4.0",
+    "terser-webpack-plugin": "^5.5.0",
     "webpack": "^5.106.2",
     "webpack-cli": "^7.0.2",
     "webpack-remove-empty-scripts": "^1.1.1"

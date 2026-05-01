@@ -12,20 +12,22 @@ module ProviderAdminConcern
   end
 
   def provider_params
-    params.require(:provider).permit(
-      :name,
-      :provider_type,
-      :firm_agfs_supplier_number,
-      :vat_registered,
-      roles: [],
-      lgfs_supplier_numbers_attributes: %i[
-        id
-        provider_id
-        supplier_number
-        name
-        postcode
-        _destroy
-      ]
+    params.expect(
+      provider: [:name,
+                 :provider_type,
+                 :firm_agfs_supplier_number,
+                 :vat_registered,
+                 {
+                   roles: [],
+                   lgfs_supplier_numbers_attributes: [%i[
+                     id
+                     provider_id
+                     supplier_number
+                     name
+                     postcode
+                     _destroy
+                   ]]
+                 }]
     )
   end
 

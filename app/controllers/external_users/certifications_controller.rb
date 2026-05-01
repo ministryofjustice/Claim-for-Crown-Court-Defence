@@ -59,10 +59,10 @@ module ExternalUsers
     end
 
     def certification_params
-      params.require(:certification).permit(
-        :certification_type_id,
-        :certified_by,
-        :certification_date
+      params.expect(
+        certification: %i[certification_type_id
+                          certified_by
+                          certification_date]
       )
     end
 

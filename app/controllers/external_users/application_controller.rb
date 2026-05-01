@@ -17,13 +17,13 @@ class ExternalUsers::ApplicationController < ApplicationController
 
   def common_dates_attended_attributes
     {
-      dates_attended_attributes: %i[
+      dates_attended_attributes: [%i[
         id
         fee_id
         date
         date_to
         _destroy
-      ]
+      ]]
     }
   end
 

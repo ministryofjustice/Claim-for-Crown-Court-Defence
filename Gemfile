@@ -38,7 +38,7 @@ gem 'logstuff',               '0.0.2'
 gem 'pagy'
 gem 'paper_trail', '~> 17.0.0'
 gem 'pg',                     '~> 1.6.3'
-gem 'rails', '~> 7.2.3'
+gem 'rails', '~> 8.0.5'
 gem 'redis',                  '~> 5.4.1'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism
@@ -66,7 +66,6 @@ gem 'uri', '< 2.0.0'
 gem 'laa-cda', git: 'https://github.com/ministryofjustice/laa-cda'
 
 group :development, :test do
-  gem 'annotate'
   gem 'brakeman', :require => false
   gem 'better_errors'
   gem 'byebug'

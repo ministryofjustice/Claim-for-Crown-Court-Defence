@@ -67,19 +67,21 @@ module ExternalUsers
       end
 
       def admin_external_user_params
-        params.require(:external_user).permit(
-          :vat_registered,
-          :supplier_number,
-          roles: [],
-          user_attributes: ATTRIBUTES
+        params.expect(
+          external_user: [:vat_registered,
+                          :supplier_number,
+                          {
+                            roles: [],
+                            user_attributes: ATTRIBUTES
+                          }]
         )
       end
 
       def non_privileged_external_user_params
-        params.require(:external_user).permit(
-          :vat_registered,
-          :supplier_number,
-          user_attributes: ATTRIBUTES
+        params.expect(
+          external_user: [:vat_registered,
+                          :supplier_number,
+                          { user_attributes: ATTRIBUTES }]
         )
       end
     end

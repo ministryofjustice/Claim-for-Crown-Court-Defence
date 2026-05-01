@@ -53,14 +53,14 @@ class FeedbackController < ApplicationController
   end
 
   def feedback_params
-    params.require(:feedback).permit(
-      :task, :rating, :comment, :other_reason, :type,
-      :event,
-      :outcome,
-      :case_number,
-      :referrer,
-      :email,
-      reason: []
-    )
+    params.expect(feedback: [
+                    :task, :rating, :comment, :other_reason, :type,
+                    :event,
+                    :outcome,
+                    :case_number,
+                    :referrer,
+                    :email,
+                    { reason: [] }
+                  ])
   end
 end

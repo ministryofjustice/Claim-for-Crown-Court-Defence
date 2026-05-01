@@ -203,7 +203,7 @@ Rails.application.routes.draw do
 
   end
 
-  resources :injection_attempts, only: [:dismiss] do
+  resources :injection_attempts, only: [] do
     patch 'dismiss', format: :js, on: :member
     put 'dismiss', format: :js, on: :member
   end

@@ -74,7 +74,7 @@ module CaseWorkers
         claim: [:state, :refuse_reason_text, :reject_reason_text, :additional_information,
                 {
                   assessment_attributes: %i[id fees expenses disbursements vat_amount],
-                  redeterminations_attributes: %i[id fees expenses disbursements vat_amount],
+                  redeterminations_attributes: [%i[id fees expenses disbursements vat_amount]],
                   state_reason: []
                 }]
       )

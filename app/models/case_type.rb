@@ -22,6 +22,7 @@ class CaseType < ApplicationRecord
   include Roles
 
   TRIAL_FEE_TYPES = %w[GRCBR GRRAK GRRTR GRTRL].freeze
+  GUILTY_FEE_TYPES = %w[MIUAV1 MIUAV2].freeze
 
   has_many :case_stages, dependent: :destroy
 
@@ -33,6 +34,7 @@ class CaseType < ApplicationRecord
   scope :not_fixed_fee,           -> { where(is_fixed_fee: false) }
   scope :graduated_fees,          -> { where(fee_type_code: Fee::GraduatedFeeType.select(:unique_code)) }
   scope :trial_fees,              -> { where(fee_type_code: %w[GRCBR GRRAK GRRTR GRTRL]) }
+  scope :guilty_fees,             -> { where(fee_type_code: %w[MIUAV1 MIUAV2]) }
   scope :requires_cracked_dates,  -> { where(requires_cracked_dates: true) }
   scope :requires_trial_dates,    -> { where(requires_trial_dates: true) }
   scope :requires_retrial_dates,  -> { where(requires_retrial_dates: true) }
@@ -62,5 +64,9 @@ class CaseType < ApplicationRecord
 
   def is_trial_fee?
     TRIAL_FEE_TYPES.include?(fee_type_code)
+  end
+
+  def is_guilty_fee?
+    GUILTY_FEE_TYPES.include?(fee_type_code)
   end
 end

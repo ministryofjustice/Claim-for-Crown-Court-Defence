@@ -180,9 +180,9 @@ RSpec.describe 'Management information administration' do
     context 'with a valid report type and valid date' do
       let(:params) do
         { report_type:,
-          'start_at(3i)' => '25',
-          'start_at(2i)' => '12',
-          'start_at(1i)' => '2020' }
+          '[start_at(3i)]' => '25',
+          '[start_at(2i)]' => '12',
+          '[start_at(1i)]' => '2020' }
       end
 
       let(:report_type) { 'agfs_management_information_statistics' }

@@ -72,47 +72,6 @@ describe CaseWorkers::ClaimsHelper do
     end
   end
 
-  context 'carousel helper methods' do
-    let(:claim_ids) { [1244, 36364, 3774, 2773, 73773] }
-
-    before do
-      allow(helper).to receive_messages(claim_ids:, claim_count: claim_ids.size)
-    end
-
-    describe '#claim_position_and_count' do
-      it 'returns the position and count of the claim in the list' do
-        assign(:claim, double(Claim::BaseClaim, id: 2773))
-        expect(helper.claim_position_and_count).to eq '4 of 5'
-      end
-    end
-
-    describe '#last_claim?' do
-      it 'returns true when it is the last claim' do
-        assign(:claim, double(Claim::BaseClaim, id: 73773))
-        expect(helper.last_claim?).to be true
-      end
-
-      it 'returns false when not the last claim' do
-        assign(:claim, double(Claim::BaseClaim, id: 3774))
-        expect(helper.last_claim?).to be false
-      end
-    end
-
-    describe '#next_claim_link' do
-      it 'returns a link for the next claim id in the series' do
-        assign(:claim, double(Claim::BaseClaim, id: 3774))
-        expect(helper.next_claim_link('my_text')).to eq(link_to('my_text', case_workers_claim_path(2773), class: 'govuk-link'))
-      end
-    end
-  end
-
-  describe 'claim_count' do
-    it 'returns the claim count from the session' do
-      session[:claim_count] = 3
-      expect(helper.claim_count).to eq 3
-    end
-  end
-
   describe '#format_miscellaneous_fee_names' do
     subject { format_miscellaneous_fee_names(claim) }
 

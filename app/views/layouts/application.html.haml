@@ -55,11 +55,11 @@
           .govuk-grid-column-full
             - referrer_url = params[:referrer] && url_for_referrer(params[:referrer], @claim)
             - if referrer_url
-              = govuk_back_link_to t('layouts.navigation.back_to_referrer_html'), referrer_url
+              = govuk_back_link(href: referrer_url, text: t('layouts.navigation.back_to_referrer_html'))
             - elsif @claim && @claim.step_back?
-              = govuk_back_link_to t('layouts.navigation.back_to_referrer_html'), edit_polymorphic_path(@claim, step: @claim.previous_step)
+              = govuk_back_link(href: edit_polymorphic_path(@claim, step: @claim.previous_step), text: t('layouts.navigation.back_to_referrer_html'))
             - else
-              = govuk_back_link_to t('layouts.navigation.home'), external_users_root_path
+              = govuk_back_link(href: external_users_root_path, text: t('layouts.navigation.home'))
 
       %main#main-content.govuk-main-wrapper
         .govuk-grid-row

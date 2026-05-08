@@ -35,7 +35,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       render
     end
 
-    it { is_expected.to have_content('First day of trial') }
+    it { is_expected.to have_text('First day of trial') }
   end
 
   context 'with a retrial' do
@@ -47,7 +47,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       render
     end
 
-    it { is_expected.to have_content('First day of retrial') }
+    it { is_expected.to have_text('First day of retrial') }
   end
 
   context 'with fee summaries' do
@@ -180,7 +180,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
-        it { is_expected.to have_content('Accepted') }
+        it { is_expected.to have_text('Accepted') }
       end
 
       context 'with a lower rate and a calculated and reduced distance' do
@@ -190,7 +190,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
-        it { is_expected.to have_content('Accepted') }
+        it { is_expected.to have_text('Accepted') }
       end
 
       context 'with a lower rate and a calculated but increased distance' do
@@ -201,7 +201,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_link('View car journey') }
-        it { is_expected.to have_content('Unverified') }
+        it { is_expected.to have_text('Unverified') }
       end
 
       context 'with a higher rate, non increased calculated distance' do
@@ -211,7 +211,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_link('View public transport journey') }
-        it { is_expected.to have_content('Unverified') }
+        it { is_expected.to have_text('Unverified') }
       end
 
       context 'with a higher rate and a calculated and reduced distance' do
@@ -222,7 +222,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_link('View public transport journey') }
-        it { is_expected.to have_content('Unverified') }
+        it { is_expected.to have_text('Unverified') }
       end
 
       context 'with a higher rate and a calculated but increased distance' do
@@ -233,7 +233,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_link('View public transport journey') }
-        it { is_expected.to have_content('Unverified') }
+        it { is_expected.to have_text('Unverified') }
       end
     end
 
@@ -259,7 +259,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
-        it { is_expected.to have_no_content('Unverified') }
+        it { is_expected.to have_no_text('Unverified') }
       end
 
       context 'with a lower rate and a calculated and reduced distance' do
@@ -269,7 +269,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
-        it { is_expected.to have_no_content('Unverified') }
+        it { is_expected.to have_no_text('Unverified') }
       end
 
       context 'with a lower rate and a calculated but increased distance' do
@@ -280,7 +280,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_no_link('View car journey') }
-        it { is_expected.to have_no_content('Unverified') }
+        it { is_expected.to have_no_text('Unverified') }
       end
 
       context 'with a higher rate, non increased calculated distance' do
@@ -290,7 +290,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_no_link('View public transport journey') }
-        it { is_expected.to have_no_content('Unverified') }
+        it { is_expected.to have_no_text('Unverified') }
       end
 
       context 'with a higher rate and a calculated and reduced distance' do
@@ -301,7 +301,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_no_link('View public transport journey') }
-        it { is_expected.to have_no_content('Unverified') }
+        it { is_expected.to have_no_text('Unverified') }
       end
 
       context 'with a higher rate and a calculated but increased distance' do
@@ -312,7 +312,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it { is_expected.not_to have_link_to(/google.*maps.*origin=.*destination=.*/) }
         it { is_expected.to have_no_link('View public transport journey') }
-        it { is_expected.to have_no_content('Unverified') }
+        it { is_expected.to have_no_text('Unverified') }
       end
     end
   end
@@ -332,7 +332,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
           render
         end
 
-        it { is_expected.to have_no_content(/Reason(s) provided:/) }
+        it { is_expected.to have_no_text(/Reason(s) provided:/) }
         it { is_expected.to have_no_css('li', text: 'No amending representation order') }
         it { is_expected.to have_no_css('li', text: 'Other (rejecting because...)') }
       end
@@ -357,13 +357,13 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       end
 
       it { is_expected.to have_css('strong.govuk-tag.govuk-tag--red', text: 'Rejected') }
-      it { is_expected.to have_content('Reason provided:') }
+      it { is_expected.to have_text('Reason provided:') }
       it { is_expected.to have_css('li', text: 'No amending representation order') }
 
       context 'with multiple reasons' do
         let(:reason_code) { %w[no_amend_rep_order case_still_live other] }
 
-        it { is_expected.to have_content('Reasons provided:') }
+        it { is_expected.to have_text('Reasons provided:') }
         it { is_expected.to have_css('li', text: 'No amending representation order') }
         it { is_expected.to have_css('li', text: 'Case still live') }
         it { is_expected.to have_css('li', text: 'Other (rejecting because...)') }
@@ -431,7 +431,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         assign(:claim, claim)
         request.path_parameters[:id] = claim.id
         render
-        expect(rendered).to have_no_content('Offence details')
+        expect(rendered).to have_no_text('Offence details')
       end
     end
 
@@ -442,7 +442,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         assign(:claim, claim)
         request.path_parameters[:id] = claim.id
         render
-        expect(rendered).to have_content('Offence details')
+        expect(rendered).to have_text('Offence details')
       end
     end
   end
@@ -459,23 +459,23 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     end
 
     it 'displays basic claim' do
-      expect(rendered).to have_content('Basic claim information')
+      expect(rendered).to have_text('Basic claim information')
     end
 
     it 'displays defendant heading' do
-      expect(rendered).to have_content('Defendant details')
+      expect(rendered).to have_text('Defendant details')
     end
 
     it 'displays evidence heading' do
-      expect(rendered).to have_content('Evidence')
+      expect(rendered).to have_text('Evidence')
     end
 
     it 'displays Fees heading' do
-      expect(rendered).to have_content('Fees')
+      expect(rendered).to have_text('Fees')
     end
 
     it 'displays travel expenses heading' do
-      expect(rendered).to have_content('Travel expenses')
+      expect(rendered).to have_text('Travel expenses')
     end
   end
 

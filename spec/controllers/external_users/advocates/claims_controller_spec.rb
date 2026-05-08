@@ -260,7 +260,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
               post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
               expect(response).to have_http_status :ok
               expect(response).to render_template(:new)
-              expect(response.body).to have_content('Case details')
+              expect(response.body).to have_text('Case details')
               claim = assigns(:claim)
               expect(claim.basic_fees.size).to eq 11
               expect(claim.fixed_fees.size).to eq 0

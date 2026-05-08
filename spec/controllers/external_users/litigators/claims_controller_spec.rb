@@ -261,7 +261,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
             end
 
             it 'displays error messages' do
-              expect(response.body).to have_content('Enter a case number')
+              expect(response.body).to have_text('Enter a case number')
             end
 
             it 'does not persist any of the data' do

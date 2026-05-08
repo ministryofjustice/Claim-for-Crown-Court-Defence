@@ -100,7 +100,7 @@ RSpec.describe ExternalUsers::ClaimTypesController do
       before { post :create }
 
       it { expect(response).to render_template(:new) }
-      it { expect(response.body).to have_content('Choose a bill type') }
+      it { expect(response.body).to have_text('Choose a bill type') }
     end
 
     context 'with an invalid claim type' do
@@ -108,7 +108,7 @@ RSpec.describe ExternalUsers::ClaimTypesController do
       before { post :create, params: { claim_type: { id: 'invalid' } } }
 
       it { expect(response).to render_template(:new) }
-      it { expect(response.body).to have_content('Choose a valid bill type') }
+      it { expect(response.body).to have_text('Choose a valid bill type') }
     end
 
     claim_type_redirect_mappings.each_pair do |claim_type_id, claim_type_route|

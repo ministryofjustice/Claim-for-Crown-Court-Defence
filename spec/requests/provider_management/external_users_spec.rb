@@ -348,7 +348,7 @@ RSpec.describe 'providers external users management' do
       let(:user) { super_admin.user }
 
       it { expect(response).to render_template(:change_availability) }
-      it { expect(response.body).to have_content('Are you sure you want to disable') }
+      it { expect(response.body).to have_text('Are you sure you want to disable') }
       it { expect(response.body).to have_button('Disable account') }
     end
 
@@ -358,7 +358,7 @@ RSpec.describe 'providers external users management' do
       let(:external_user) { create(:external_user, provider:).tap(&:disable) }
 
       it { expect(response).to render_template(:change_availability) }
-      it { expect(response.body).to have_content('Are you sure you want to enable') }
+      it { expect(response.body).to have_text('Are you sure you want to enable') }
       it { expect(response.body).to have_button('Enable account') }
     end
   end

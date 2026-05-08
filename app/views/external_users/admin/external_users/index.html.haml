@@ -30,7 +30,7 @@
         = row.with_cell(html_attributes: { 'data-label': t('.supplier_number') }) do
           = advocate.supplier_number ? advocate.supplier_number : '-'
         = row.with_cell(html_attributes: { 'data-label': t('.email') }) do
-          = govuk_mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
+          = govuk_link_to(advocate.email, "mailto:#{advocate.email}",  title: t('.email_title', external_user: advocate.name))
         = row.with_cell(html_attributes: { 'data-label': t('.email_confirmation') }) do
           = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
         = row.with_cell(html_attributes: { 'data-label': t('.status') }, text: govuk_tag_active_user?(advocate))

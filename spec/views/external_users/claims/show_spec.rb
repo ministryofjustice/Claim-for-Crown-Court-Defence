@@ -52,7 +52,7 @@ RSpec.describe 'external_users/claims/show.html.haml' do
         it 'does NOT displays offence details section' do
           assign(:claim, claim)
           render
-          expect(rendered).to have_no_content('Offence details')
+          expect(rendered).to have_no_text('Offence details')
         end
       end
 
@@ -62,7 +62,7 @@ RSpec.describe 'external_users/claims/show.html.haml' do
         it 'displays offence details section' do
           assign(:claim, claim)
           render
-          expect(rendered).to have_content('Offence details')
+          expect(rendered).to have_text('Offence details')
         end
       end
     end

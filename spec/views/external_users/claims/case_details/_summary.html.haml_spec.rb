@@ -51,7 +51,7 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml' do
     context 'with editable claims' do
       before { render summary, claim:, editable: true }
 
-      it { expect(page).to have_content('There are no case details for this claim') }
+      it { expect(page).to have_text('There are no case details for this claim') }
     end
 
     context 'with uneditable claims' do

@@ -7,17 +7,15 @@ en:
           invalid_report_type: &invalid_report_type The requested report type is not supported
         validate_report_type_is_updatable:
           report_cannot_be_updated: &report_cannot_be_updated The requested report type cannot be updated
-        validate_report_type_with_date:
-          invalid_report_type: &invalid_report_type The requested report type is not supported
-        validate_report_type_is_updatable_with_date:
-          report_cannot_be_updated: &report_cannot_be_updated The requested report type cannot be updated
         validate_and_set_date:
           invalid_report_date: &invalid_report_date The supplied date is invalid
         create:
           invalid_report_type: *invalid_report_type
           invalid_report_date: *invalid_report_date
           report_cannot_be_updated: *report_cannot_be_updated
-        download:
+          invalid_report_type: &invalid_report_type The requested report type is not supported
+          missing_report: The requested report is missing
+        download_report:
           invalid_report_type: *invalid_report_type
           missing_report: The requested report is missing
         generate:

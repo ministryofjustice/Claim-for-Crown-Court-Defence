@@ -33,7 +33,7 @@ RSpec.shared_examples 'external user not authorized' do
 end
 
 RSpec.shared_examples 'report validator' do
-  it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
+  it { is_expected.to redirect_to(case_workers_admin_management_information_index_url) }
 
   it 'displays message to indicate report job schedule failure' do
     subject
@@ -42,7 +42,7 @@ RSpec.shared_examples 'report validator' do
 end
 
 RSpec.shared_examples 'date validator' do
-  it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
+  it { is_expected.to redirect_to(case_workers_admin_management_information_index_url) }
 
   it 'displays message to indicate date is invalid' do
     subject
@@ -55,8 +55,8 @@ RSpec.describe 'Management information administration' do
 
   let(:persona) { create(:case_worker, :admin) }
 
-  describe '#GET /case_workers/admin/management_information/index' do
-    subject(:request) { get case_workers_admin_management_information_path }
+  describe '#GET /case_workers/admin/management_information' do
+    subject(:request) { get case_workers_admin_management_information_index_path }
 
     let(:expected_report_types) do
       %w[management_information
@@ -92,151 +92,124 @@ RSpec.describe 'Management information administration' do
     end
   end
 
-  describe '#GET /case_workers/admin/management_information/download' do
-    subject(:request) do
-      get case_workers_admin_management_information_download_path(params: { report_type: })
-    end
-
-    it_behaves_like 'case worker not authorized'
-    it_behaves_like 'external user not authorized'
-
-    context 'with a valid report type' do
-      let(:report_type) { 'management_information' }
-      let(:test_url) { 'https://document.storage/mi_report.csv#123abc' }
-
-      before do
-        stats_report = create(:stats_report, :with_document, report_name: report_type)
-        allow(Stats::StatsReport).to receive(:most_recent_by_type).and_return(stats_report)
-        allow(stats_report.document.blob).to receive(:url).and_return(test_url)
-
-        request
-      end
-
-      it { is_expected.to redirect_to test_url }
-    end
-
-    context 'with a report type that is valid and completed but the file is missing' do
-      before { create(:stats_report, report_name: report_type) }
-
-      let(:report_type) { 'management_information' }
-
-      it { is_expected.to redirect_to case_workers_admin_management_information_url }
-
-      it 'displays error message' do
-        request
-        expect(flash[:alert]).to eq('The requested report is missing')
-      end
-    end
+  describe '#POST /case_workers/admin/management_information' do
+    subject(:request) { post case_workers_admin_management_information_index_path(params:) }
 
     context 'with an invalid report type' do
-      let(:report_type) { 'invalid_report_type' }
+      let(:params) { { report: { report_type: 'invalid_report_type' } } }
 
       it_behaves_like 'report validator'
     end
-  end
-
-  describe '#GET /case_workers/admin/management_information/generate' do
-    subject(:request) do
-      get case_workers_admin_management_information_generate_path(params: { report_type: })
-    end
-
-    it_behaves_like 'case worker not authorized'
-    it_behaves_like 'external user not authorized'
 
     context 'with a valid report type' do
-      let(:report_type) { 'management_information' }
+      let(:params) { { report: { report_type: 'management_information' } } }
 
-      before { ActiveJob::Base.queue_adapter = :test }
+      it_behaves_like 'case worker not authorized'
+      it_behaves_like 'external user not authorized'
 
-      it 'enqueues a StatsReportGenerationJob for specified report' do
-        request
-        expect(StatsReportGenerationJob)
-          .to have_been_enqueued.with(report_type:)
-                                .on_queue('stats_reports')
-                                .at(:no_wait)
+      context 'when the file is present' do
+        let(:test_url) { 'https://document.storage/mi_report.csv#123abc' }
+
+        before do
+          stats_report = create(:stats_report, :with_document, report_name: 'management_information')
+          allow(Stats::StatsReport).to receive(:most_recent_by_type).and_return(stats_report)
+          allow(stats_report.document.blob).to receive(:url).and_return(test_url)
+
+          request
+        end
+
+        it { is_expected.to redirect_to(test_url) }
       end
 
-      it 'displays message to indicate background job enqueued' do
-        request
-        expect(flash[:notification])
-          .to eq('Refresh this page in a few minutes to download the new report.')
+      context 'when the file is missing' do
+        before { create(:stats_report, report_name: 'management_information') }
+
+        it { is_expected.to redirect_to(case_workers_admin_management_information_index_path) }
+
+        it 'displays error message' do
+          request
+          expect(flash[:alert]).to eq('The requested report is missing')
+        end
       end
 
-      it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
-    end
+      context 'with an update parameter' do
+        let(:params) { { report: { report_type: 'management_information', update: 'true' } } }
 
-    context 'with an invalid report type' do
-      let(:report_type) { 'invalid_report_type' }
+        before { ActiveJob::Base.queue_adapter = :test }
 
-      it_behaves_like 'report validator'
-    end
-  end
+        it_behaves_like 'case worker not authorized'
+        it_behaves_like 'external user not authorized'
 
-  describe '#POST /case_workers/admin/management_information/create' do
-    subject(:request) { post case_workers_admin_management_information_create_path(params:) }
+        it 'enqueues a StatsReportGenerationJob for specified report' do
+          request
+          expect(StatsReportGenerationJob)
+            .to have_been_enqueued.with(hash_including(report_type: 'management_information'))
+                                  .on_queue('stats_reports')
+                                  .at(:no_wait)
+        end
 
-    before { ActiveJob::Base.queue_adapter = :test }
+        it 'displays message to indicate background job enqueued' do
+          request
+          expect(flash[:notification])
+            .to eq('Refresh this page in a few minutes to download the new report.')
+        end
 
-    context 'with a valid report type and valid date' do
-      let(:params) do
-        { report: { report_type:,
-                    'start_at(3i)' => '25',
-                    'start_at(2i)' => '12',
-                    'start_at(1i)' => '2020' } }
+        it { is_expected.to redirect_to(case_workers_admin_management_information_index_url) }
       end
 
-      let(:report_type) { 'agfs_management_information_statistics' }
+      context 'with an update parameter for a report that requires a date' do
+        let(:params) do
+          {
+            report: {
+              report_type: 'agfs_management_information_statistics',
+              update: 'true',
+              'start_at(3i)' => '25',
+              'start_at(2i)' => '12',
+              'start_at(1i)' => '2020'
+            }
+          }
+        end
 
-      it 'enqueues a StatsReportGenerationJob for specified report with date' do
-        request
-        expect(StatsReportGenerationJob)
-          .to have_been_enqueued.with(report_type:, start_at: Date.parse('2020-12-25'))
-                                .on_queue('stats_reports')
-                                .at(:no_wait)
+        before { ActiveJob::Base.queue_adapter = :test }
+
+        it 'enqueues a StatsReportGenerationJob for specified report with date' do
+          request
+          expect(StatsReportGenerationJob).to have_been_enqueued.with(
+            report_type: 'agfs_management_information_statistics',
+            start_at: Date.parse('2020-12-25')
+          ).on_queue('stats_reports').at(:no_wait)
+        end
+
+        it 'displays message to indicate background job enqueued' do
+          request
+          expect(flash[:notification])
+            .to eq('Refresh this page in a few minutes to download the new report.')
+        end
+
+        it { is_expected.to redirect_to(case_workers_admin_management_information_index_url) }
       end
 
-      it 'displays message to indicate background job enqueued' do
-        request
-        expect(flash[:notification])
-          .to eq('Refresh this page in a few minutes to download the new report.')
+      context 'with an update parameter for a report that requires a date with the date missing' do
+        let(:params) { { report: { report_type: 'agfs_management_information_statistics', update: 'true' } } }
+
+        it_behaves_like 'date validator'
       end
 
-      it 'returns http redirect' do
-        request
-        expect(response).to have_http_status(:redirect)
+      context 'with an update parameter for a report that requires a date with an invalid date' do
+        let(:params) do
+          {
+            report: {
+              report_type: 'agfs_management_information_statistics',
+              update: 'true',
+              'start_at(3i)' => '32',
+              'start_at(2i)' => '13',
+              'start_at(1i)' => '2020'
+            }
+          }
+        end
+
+        it_behaves_like 'date validator'
       end
-
-      it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
-    end
-
-    context 'with an invalid report type and valid date' do
-      let(:params) do
-        { report: { report_type: 'invalid_report_type',
-                    'start_at(3i)' => '25',
-                    'start_at(2i)' => '12',
-                    'start_at(1i)' => '2020' } }
-      end
-
-      it_behaves_like 'report validator'
-    end
-
-    context 'with valid report type but no date' do
-      let(:params) do
-        { report: { report_type: 'agfs_management_information_statistics' } }
-      end
-
-      it_behaves_like 'date validator'
-    end
-
-    context 'with valid report type but an invalid date' do
-      let(:params) do
-        { report: { report_type: 'agfs_management_information_statistics',
-                    'start_at(3i)' => '-1',
-                    'start_at(2i)' => '12',
-                    'start_at(1i)' => '2020' } }
-      end
-
-      it_behaves_like 'date validator'
     end
   end
 end

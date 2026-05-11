@@ -48,29 +48,6 @@
       "note": "Metaprogramming required to allow Active Record like 'has_one' and 'has_many' relationships."
     },
     {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "463781a59c65a58aad10746c6698db3f169b58a20435304888eff3fe9449b2ec",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/case_workers/admin/management_information_controller.rb",
-      "line": 25,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\"), :allow_other_host => true)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "CaseWorkers::Admin::ManagementInformationController",
-        "method": "download"
-      },
-      "user_input": "Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\")",
-      "confidence": "Weak",
-      "cwe_id": [
-        601
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "Dangerous Eval",
       "warning_code": 13,
       "fingerprint": "64032ddbecad23020e03e74d6251eb61ef3c379208e6752a38986d21afe90ca7",
@@ -91,6 +68,29 @@
       "cwe_id": [
         913,
         95
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "66dafbaaa2cbe7420e0b8ca4945e033589f76437a60ead3e42cd576f6caa50fa",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/case_workers/admin/management_information_controller.rb",
+      "line": 39,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Stats::StatsReport.most_recent_by_type(report_params[:report_type]).document.blob.url(:disposition => \"attachment\"), :allow_other_host => true)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CaseWorkers::Admin::ManagementInformationController",
+        "method": "download_report"
+      },
+      "user_input": "Stats::StatsReport.most_recent_by_type(report_params[:report_type]).document.blob.url(:disposition => \"attachment\")",
+      "confidence": "Weak",
+      "cwe_id": [
+        601
       ],
       "note": ""
     },
@@ -118,5 +118,5 @@
       "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
     }
   ],
-  "brakeman_version": "7.1.0"
+  "brakeman_version": "8.0.4"
 }

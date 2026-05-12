@@ -349,7 +349,8 @@ moj.Modules.AllocationDataTable = {
       const quantityToAllocate = $('#quantity-to-allocate-field').val() || false
       const allocationCaseWorkerInput = $('#allocation-case-worker-id-field').val()
       const allocationCaseWorkerId = $('#allocation-case-worker-id-field-select').val()
-      if (!allocationCaseWorkerInput) {
+      const selectedCaseWorkerName = $('#allocation-case-worker-id-field-select').find('option:selected').text()
+      if (!allocationCaseWorkerInput || !allocationCaseWorkerId || allocationCaseWorkerInput !== selectedCaseWorkerName) {
         $.publish('/allocation/error/', {
           msg: 'Select a case worker.'
         })
@@ -386,11 +387,11 @@ moj.Modules.AllocationDataTable = {
       }).done(function (result) {
         const allocatedCaseWorkerName = $('#allocation-case-worker-id-field-select').find('option:selected').text()
         const $quantityToAllocateField = $('#quantity-to-allocate-field')
+        const $quantityToAllocate = $quantityToAllocateField.val()
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
         self.ui.$notificationMsg.find('.govuk-notification-banner__heading').text(result.allocated_claims.length + ' claims have been allocated to ' + allocatedCaseWorkerName)
-        $quantityToAllocateField.val('')
-        self.resetAutocomplete()
+        $quantityToAllocateField.val($quantityToAllocate)
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         })
@@ -438,16 +439,6 @@ moj.Modules.AllocationDataTable = {
         max: null
       }
     })
-  },
-  // Destroy and recreate the accessible-autocomplete to cleanly reset it.
-  // So that the old Case Worker value is cleared and the input field is reset to its default state.
-  resetAutocomplete: function () {
-    const selectEl = document.querySelector('#allocation-case-worker-id-field-select')
-    if (!selectEl) return
-    selectEl.selectedIndex = 0
-    selectEl.id = selectEl.id.replace(/-select$/, '')
-    selectEl.parentElement.querySelector('.autocomplete__wrapper').remove()
-    moj.Modules.AutocompleteWrapper.Autocomplete(selectEl.id)
   },
 
   // Wrapper to clear search & filters

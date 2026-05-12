@@ -26,6 +26,8 @@ Feature: Case worker admin allocates claims
     And I select case worker "John Smith"
     And I click Allocate
     Then I should see '2 claims have been allocated to John Smith'
+    And the text field 'Number of claims' should be filled with '2'
+    And the text field 'Case worker' should be filled with 'John Smith'
     And claims "T20160003, T20160004" should no longer be displayed
 
     When I sign out

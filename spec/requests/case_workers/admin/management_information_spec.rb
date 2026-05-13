@@ -210,6 +210,22 @@ RSpec.describe 'Management information administration' do
 
         it_behaves_like 'date validator'
       end
+
+      context 'with an update parameter for a report that requires a date with a missing year' do
+        let(:params) do
+          {
+            report: {
+              report_type: 'agfs_management_information_statistics',
+              update: 'true',
+              'start_at(3i)' => '25',
+              'start_at(2i)' => '12',
+              'start_at(1i)' => ''
+            }
+          }
+        end
+
+        it_behaves_like 'date validator'
+      end
     end
   end
 end

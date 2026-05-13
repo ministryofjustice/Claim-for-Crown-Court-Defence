@@ -9,7 +9,8 @@ module CaseWorkers
       before_action -> { authorize! :view, :management_information }, only: %i[index create]
       before_action :validate_report_type, only: :create
       before_action :validate_report_type_is_updatable, only: :create, if: -> { report_params[:update].present? }
-      before_action :validate_and_set_date, only: :create, if: -> { report_params[:update].present? && Stats::StatsReport.reports[report_params[:report_type]].date_required? }
+      before_action :validate_date, only: :create, if: -> { report_params[:update].present? && Stats::StatsReport.reports[report_params[:report_type]].date_required? }
+      before_action :set_date, only: :create, if: -> { report_params[:update].present? && Stats::StatsReport.reports[report_params[:report_type]].date_required? }
 
       def index
         @available_reports = Stats::StatsReport::REPORTS.index_with do |report|
@@ -58,7 +59,13 @@ module CaseWorkers
         params.expect(report: %i[report_type start_at update])
       end
 
-      def validate_and_set_date
+      def validate_date
+        return if report_params['start_at(1i)'].present?
+
+        redirect_to(case_workers_admin_management_information_index_url, alert: t('.invalid_report_date'))
+      end
+
+      def set_date
         @start_at ||= Date.new(report_params['start_at(1i)'].to_i,
                                report_params['start_at(2i)'].to_i,
                                report_params['start_at(3i)'].to_i)

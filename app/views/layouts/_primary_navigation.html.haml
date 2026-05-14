@@ -27,6 +27,6 @@
       - if current_user.persona.provider_management?
         = sn.with_navigation_item(text: t('.manage_providers'), href: provider_management_providers_path)
       - if current_user.persona.admin?
-        = sn.with_navigation_item(text: t('.management_information'), href: case_workers_admin_management_information_path)
+        = sn.with_navigation_item(text: t('.management_information'), href: case_workers_admin_management_information_index_path)
     - else
       = sn.with_navigation_item(text: t('.error'), href: '/')

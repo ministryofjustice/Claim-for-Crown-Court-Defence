@@ -17,7 +17,7 @@ module ExternalUsers
         respond_to do |format|
           format.html
           format.json do
-            render json: response, status: response.success? ? :ok : :unprocessable_entity
+            render json: response, status: response.success? ? :ok : :unprocessable_content
           end
         end
       end

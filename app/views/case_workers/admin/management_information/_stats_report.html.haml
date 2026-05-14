@@ -10,11 +10,13 @@
   %p
     = t('unavailable_report', scope: i18n_scope)
 
-.govuk-button-group
-  - if report_rec&.started_at.present?
-    = govuk_button_link_to(t('download_html', scope: i18n_scope, report_name: report_name_html),
-                      case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
+= form_with url: case_workers_admin_management_information_index_path, scope: :report do |f|
+  = f.hidden_field :report_type, value: report_object.name
 
-  - if report_object.updatable?
-    = govuk_button_link_to(t('update_report_html', scope: i18n_scope, report_name: report_name_html),
-                                case_workers_admin_management_information_generate_url(report_type: report_object.name), secondary: true)
+  = f.govuk_submit(t('download_html', scope: i18n_scope, report_name: report_name_html), disabled: report_rec&.started_at.blank?) do
+    - if report_object.updatable?
+      = f.button t('update_report_html', scope: i18n_scope, report_name: report_name_html),
+        type: 'submit',
+        class: 'govuk-button govuk-button--secondary',
+        name: 'report[update]',
+        value: true

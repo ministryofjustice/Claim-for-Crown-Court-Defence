@@ -16,16 +16,16 @@ end
 
 And("I enter the From date {string}") do |date|
   split_date = date.split("/")
-  find('#_date_from_3i').set(split_date[0])
-  find('#_date_from_2i').set(split_date[1])
-  find('#_date_from_1i').set(split_date[2])
+  find('#stats_date_from_3i').set(split_date[0])
+  find('#stats_date_from_2i').set(split_date[1])
+  find('#stats_date_from_1i').set(split_date[2])
 end
 
 And("I enter the To date {string}") do |date|
   split_date = date.split("/")
-  find('#_date_to_3i').set(split_date[0])
-  find('#_date_to_2i').set(split_date[1])
-  find('#_date_to_1i').set(split_date[2])
+  find('#stats_date_to_3i').set(split_date[0])
+  find('#stats_date_to_2i').set(split_date[1])
+  find('#stats_date_to_1i').set(split_date[2])
 end
 
 And("I click Update") do

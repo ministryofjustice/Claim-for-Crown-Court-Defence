@@ -6,17 +6,18 @@
         scope: i18n_scope,
         datetime: report_rec.started_at.iso8601,
         time: report_rec.started_at.strftime(Settings.report_date_format))
-
-  = govuk_button_link_to(t('download_html', scope: i18n_scope, report_name: report_name_html),
-                      case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
 - else
   %p
     = t('unavailable_report', scope: i18n_scope)
 
-= form_with url: case_workers_admin_management_information_create_path do |f|
+= form_with url: case_workers_admin_management_information_index_path, scope: :report do |f|
+  = f.hidden_field :report_type, value: report_object.name
+  = f.govuk_submit(t('download_html', scope: i18n_scope, report_name: report_name_html), disabled: report_rec&.started_at.blank?)
+
+= form_with url: case_workers_admin_management_information_index_path, scope: :report do |f|
   = f.hidden_field :report_type, value: report_object.name
   = f.govuk_date_field :start_at,
                        legend: { text: t('start_date', scope: i18n_scope) },
                        hint: { text: t('daily_report_count_hint', scope: i18n_scope) }
 
-  = f.govuk_submit(t('update_report_html', scope: i18n_scope, report_name: report_name_html), class: 'govuk-button--secondary')
+  = f.govuk_submit(t('update_report_html', scope: i18n_scope, report_name: report_name_html), name: 'report[update]', value: true, class: 'govuk-button--secondary')

@@ -9,7 +9,7 @@ module ExternalUsers
         respond_to do |format|
           format.json do
             if result.error.present?
-              render json: { error: t(".errors.#{result.error}") }, status: :unprocessable_entity
+              render json: { error: t(".errors.#{result.error}") }, status: :unprocessable_content
             else
               render json: { distance: result.value }
             end

@@ -25,6 +25,6 @@
               = can?(:show, advocate) ? govuk_link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name)) : advocate.name
             = row.with_cell(html_attributes: { 'data-label': t('.supplier_number') }, text: advocate.supplier_number)
             = row.with_cell(html_attributes: { 'data-label': t('.email') }) do
-              = govuk_mail_to advocate.email, advocate.email, 'aria-label': t('.title', provider: advocate.name)
+              = govuk_link_to(advocate.email, "mailto:#{advocate.email}", 'aria-label': t('.title', provider: advocate.name))
             = row.with_cell(html_attributes: { 'data-label': t('.state') }) do
               = (advocate.active? && advocate.enabled?) ? t('.live') : t('.inactive')

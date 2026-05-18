@@ -9,11 +9,5 @@ module GovukComponent
         ActiveSupport.on_load(:action_view) { include GovukComponent::SharedHelpers }
       end
     end
-
-    initializer 'govuk_component.link_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::LinkHelpers }
-      end
-    end
   end
 end

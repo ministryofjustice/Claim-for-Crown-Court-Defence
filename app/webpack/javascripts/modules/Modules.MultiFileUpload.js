@@ -7,17 +7,16 @@ moj.Modules.MultiFileUpload = {
     const fields = container.querySelector('.moj-multi-file__uploaded-fields')
 
     const uploadFile = function (file) {
-      this.params.uploadFileEntryHook(this, file)
       const formData = new FormData()
       formData.append('document[document]', file)
 
-      this.params.uploadFileParamsHook(this, formData)
+      this.config.uploadFileParamsHook(this, formData)
 
-      const item = $(this.getFileRowHtml(file))
-      this.feedbackContainer.find('.moj-multi-file-upload__list').append(item)
+      const item = $(this.getFileRow(file))
+      $(this.$feedbackContainer).find('.moj-multi-file-upload__list').append(item)
 
       $.ajax({
-        url: this.params.uploadUrl,
+        url: this.config.uploadUrl,
         type: 'post',
         data: formData,
         processData: false,
@@ -25,16 +24,16 @@ moj.Modules.MultiFileUpload = {
         success: $.proxy(function (response) {
           if (response.error) {
             item.find('.moj-multi-file-upload__message').html(this.getErrorHtml(response.error))
-            this.status.html(response.error.message)
+            this.$status.textContent = response.error.message
           } else {
             item.find('.moj-multi-file-upload__message').html(this.getSuccessHtml(response.success))
-            this.status.html(response.success.messageText)
+            this.$status.textContent = response.success.messageText
           }
-          item.find('.moj-multi-file-upload__actions').append(this.getDeleteButtonHtml(response.file))
-          this.params.uploadFileExitHook(this, file, response)
+          item.find('.moj-multi-file-upload__actions').append(this.getDeleteButton(response.file))
+          this.config.uploadFileExitHook(this, file, response)
         }, this),
         error: $.proxy(function (jqXHR, textStatus, errorThrown) {
-          this.params.uploadFileErrorHook(this, file, jqXHR, textStatus, errorThrown)
+          this.config.uploadFileErrorHook(this, file, jqXHR, textStatus, errorThrown)
         }, this),
         xhr: function () {
           const xhr = new XMLHttpRequest()
@@ -50,8 +49,7 @@ moj.Modules.MultiFileUpload = {
       })
     }
 
-    const uploader = new MOJFrontend.MultiFileUpload({
-      container,
+    const uploader = new MOJFrontend.MultiFileUpload(container, {
       uploadUrl: '/documents/upload',
       deleteUrl: '/documents/delete',
       uploadFileParamsHook: function (_uploader, formData) {

@@ -56,8 +56,22 @@ module.exports = {
         test: /\.(?:sa|sc|c)ss$/i,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
+          {
+            loader: 'css-loader',
+            options: {
+              url: {
+                filter: (url) => !url.startsWith('/assets/')
+              }
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                loadPaths: [path.resolve(__dirname, '..', '..')]
+              }
+            }
+          }
         ]
       },
       {
@@ -95,7 +109,7 @@ module.exports = {
       jQuery: require.resolve('jquery'),
       jquery: require.resolve('jquery'),
       Stickyfill: require.resolve('stickyfilljs'),
-      MOJFrontend: require.resolve('@ministryofjustice/frontend/moj/all.js')
+      MOJFrontend: require.resolve('@ministryofjustice/frontend')
     })
   ]
 }

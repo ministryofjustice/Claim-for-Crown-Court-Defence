@@ -141,22 +141,6 @@ RSpec.shared_examples 'optional parameter validation' do |options|
   end
 end
 
-RSpec.shared_examples 'advocate claim test setup' do
-  describe 'test setup' do
-    it 'vendor should belong to same provider as advocate' do
-      expect(vendor.provider).to eql(advocate.provider)
-    end
-  end
-end
-
-RSpec.shared_examples 'litigator claim test setup' do
-  describe 'test setup' do
-    it 'vendor should belong to same provider as litigator' do
-      expect(vendor.provider).to eql(litigator.provider)
-    end
-  end
-end
-
 RSpec.shared_examples 'a claim endpoint' do |options|
   context 'when sending non-permitted verbs' do
     ClaimApiEndpoints.for(options[:relative_endpoint]).all.each do |endpoint|

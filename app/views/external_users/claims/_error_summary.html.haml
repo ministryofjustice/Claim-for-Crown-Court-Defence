@@ -1,7 +1,7 @@
 - form_steps = %w[basic_fees case_details defendants disbursements fixed_fees graduated_fees hardship_fees interim_fees miscellaneous_fees offence_details supporting_evidence transfer_fees transfer_fee_details travel_expenses]
 - if form_steps.include?(@claim.form_step.to_s)
   = govuk_error_summary(@claim, :claim, presenter: @error_presenter)
-
+  -# this else statement is only related to older components which may not have been removed
 - else
   - if ep && ep.size > 0
     .govuk-error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}

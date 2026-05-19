@@ -148,7 +148,7 @@ module Fee
       validate_presence(:date, :blank)
       validate_on_or_after(@record.claim.try(:earliest_representation_order_date),
                            :date,
-                           :too_long_before_earliest_reporder)
+                           :not_before_earliest_reporder)
       validate_on_or_after(Settings.earliest_permitted_date, :date, :check_not_too_far_in_past)
       validate_not_in_future(:date)
     end

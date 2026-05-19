@@ -35,14 +35,15 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise  :database_authenticatable,
-          :registerable,
-          :recoverable,
-          :rememberable,
-          :trackable,
-          :timeoutable,
-          :validatable,
-          :lockable
+    devise  :database_authenticatable,
+      :registerable,
+      :recoverable,
+      :rememberable,
+      :trackable,
+      :timeoutable,
+      :validatable,
+      :lockable,
+      :omniauthable, omniauth_providers: [:entra_mock]
 
   attribute :terms_and_conditions_required, :boolean, default: false
   attribute :terms_and_conditions, :boolean

@@ -25,7 +25,8 @@ describe('Modules.MultiFileUpload', () => {
   let container, fields, fileList, multiFileUpload
 
   beforeEach(() => {
-    $('body').append(multiFileUploadFixtureDOM)
+    document.body.classList.add('govuk-frontend-supported')
+    $('body').append(multiFileUploadFixtureDOM.clone())
     container = document.querySelector('.moj-multi-file-upload')
     fields = container.querySelector('.moj-multi-file__uploaded-fields')
     fileList = container.querySelector('.moj-multi-file-upload__list')
@@ -33,6 +34,7 @@ describe('Modules.MultiFileUpload', () => {
   })
 
   afterEach(() => {
+    document.body.classList.remove('govuk-frontend-supported')
     if (container) {
       container.parentNode.removeChild(container)
     }
@@ -56,7 +58,7 @@ describe('Modules.MultiFileUpload', () => {
   describe('uploadFileExitHook', () => {
     it('should append a hidden input field with the file name', () => {
       const response = { file: { filename: 'test-file.txt' } }
-      multiFileUpload.params.uploadFileExitHook(null, null, response)
+      multiFileUpload.config.uploadFileExitHook(null, null, response)
       const input = fields.querySelector('input[type="hidden"]')
       expect(input).not.toBeNull()
       expect(input.name).toBe('message[document_ids][]')
@@ -70,7 +72,7 @@ describe('Modules.MultiFileUpload', () => {
     const errorThrown = 'test-file.txt: Internal Server Error.<br>'
 
     it('should append a hidden input field with the error message', () => {
-      multiFileUpload.params.uploadFileErrorHook(null, file, jqXHR, null, errorThrown)
+      multiFileUpload.config.uploadFileErrorHook(null, file, jqXHR, null, errorThrown)
       const input = fields.querySelector('input[type="hidden"]')
       expect(input).not.toBeNull()
       expect(input.name).toBe('message[document_ids][]')
@@ -78,7 +80,7 @@ describe('Modules.MultiFileUpload', () => {
     })
 
     it('should display an error message in the error summary', () => {
-      multiFileUpload.params.uploadFileErrorHook(null, file, jqXHR, null, errorThrown)
+      multiFileUpload.config.uploadFileErrorHook(null, file, jqXHR, null, errorThrown)
       const errorContainer = document.querySelector('.govuk-error-summary')
       expect(errorContainer).not.toHaveClass('govuk-visually-hidden')
       const error = errorContainer.querySelector('.govuk-list.govuk-error-summary__list span')
@@ -91,10 +93,10 @@ describe('Modules.MultiFileUpload', () => {
   describe('fileDeleteHook', () => {
     it('should remove the corresponding input field', () => {
       const response = { file: { filename: 'test-file.txt' } }
-      multiFileUpload.params.uploadFileExitHook(null, null, response)
+      multiFileUpload.config.uploadFileExitHook(null, null, response)
       const input = fields.querySelector('input[type="hidden"]')
       expect(input).not.toBeNull()
-      multiFileUpload.params.fileDeleteHook(null, response)
+      multiFileUpload.config.fileDeleteHook(null, response)
       expect(fields.querySelector('input[type="hidden"]')).toBeNull()
     })
   })
@@ -119,7 +121,7 @@ describe('Modules.MultiFileUpload', () => {
       formIdElement.value = '12345'
       document.body.appendChild(formIdElement)
 
-      multiFileUpload.params.uploadFileParamsHook(multiFileUpload, formData)
+      multiFileUpload.config.uploadFileParamsHook(multiFileUpload, formData)
 
       expect(formData.has('document[form_id]')).toBeTrue()
       expect(formData.get('document[form_id]')).toBe('12345')
@@ -128,7 +130,7 @@ describe('Modules.MultiFileUpload', () => {
     it('should not modify formData if #claim_form_id does not exist', () => {
       document.querySelector('#claim_form_id')?.remove()
 
-      multiFileUpload.params.uploadFileParamsHook(multiFileUpload, formData)
+      multiFileUpload.config.uploadFileParamsHook(multiFileUpload, formData)
 
       expect(formData.has('document[form_id]')).toBeFalse()
     })
@@ -147,26 +149,21 @@ describe('Modules.MultiFileUpload', () => {
         }, 0)
       })
 
-      spyOn(multiFileUpload, 'getFileRowHtml').and.callFake(() => {
+      spyOn(multiFileUpload, 'getFileRow').and.callFake(() => {
         item = $('<div class="moj-multi-file-upload__row"><div class="moj-multi-file-upload__message"></div></div>')
         return item[0]
       })
 
-      spyOn(multiFileUpload.params, 'uploadFileEntryHook').and.callThrough()
-      spyOn(multiFileUpload.params, 'uploadFileExitHook').and.callThrough()
-      spyOn(multiFileUpload.params, 'uploadFileErrorHook').and.callThrough()
-      spyOn(multiFileUpload.params, 'uploadFileParamsHook').and.callThrough()
+      spyOn(multiFileUpload.config, 'uploadFileExitHook').and.callThrough()
+      spyOn(multiFileUpload.config, 'uploadFileErrorHook').and.callThrough()
+      spyOn(multiFileUpload.config, 'uploadFileParamsHook').and.callThrough()
 
       multiFileUpload.uploadFile(file)
     })
 
     it('should call uploadFileParamsHook before uploading', () => {
       const formData = new FormData()
-      expect(multiFileUpload.params.uploadFileParamsHook).toHaveBeenCalledWith(multiFileUpload, formData)
-    })
-
-    it('should call uploadFileEntryHook before uploading', () => {
-      expect(multiFileUpload.params.uploadFileEntryHook).toHaveBeenCalledWith(multiFileUpload, file)
+      expect(multiFileUpload.config.uploadFileParamsHook).toHaveBeenCalledWith(multiFileUpload, formData)
     })
 
     it('should add the file row to the upload list', () => {
@@ -177,7 +174,7 @@ describe('Modules.MultiFileUpload', () => {
 
     it('should handle a successful upload response', (done) => {
       setTimeout(() => {
-        expect(multiFileUpload.params.uploadFileExitHook).toHaveBeenCalled()
+        expect(multiFileUpload.config.uploadFileExitHook).toHaveBeenCalled()
         expect(fields.querySelector('input[type="hidden"]')).not.toBeNull()
         expect(fields.querySelector('input[type="hidden"]').value).toBe('test-file.txt')
 
@@ -203,7 +200,7 @@ describe('Modules.MultiFileUpload', () => {
       multiFileUpload.uploadFile(file)
 
       setTimeout(() => {
-        expect(multiFileUpload.params.uploadFileErrorHook).toHaveBeenCalled()
+        expect(multiFileUpload.config.uploadFileErrorHook).toHaveBeenCalled()
 
         done()
       }, 10)

@@ -11,7 +11,6 @@ gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.6'
 gem 'chartkick',              '~> 5.2.1'
 gem 'cocoon',                 '~> 1.2.15'
-gem 'connection_pool',        '< 3.0.0'    # This can be removed after Rails is updated to 8.1
 gem 'csv'
 gem 'devise', '~> 5.0.4'
 gem 'dotenv-rails', '~> 3.2'
@@ -38,7 +37,7 @@ gem 'logstuff',               '0.0.2'
 gem 'pagy'
 gem 'paper_trail', '~> 17.0.0'
 gem 'pg',                     '~> 1.6.3'
-gem 'rails', '~> 8.0.5'
+gem 'rails', '~> 8.1.3'
 gem 'redis',                  '~> 5.4.1'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism

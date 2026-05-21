@@ -106,4 +106,52 @@ namespace :canary do
     puts "  - uploading to #{key}"
     s3_bucket.put_object(key, canarytoken.download)
   end
+
+  desc 'Add a Canary document'
+  task create_document_canary: :environment do |_task, args|
+    puts 'Opening factory'
+    factory = ThinkstCanary::Factory.new(
+      factory_auth: ENV['CANARY_FACTORY_AUTH_TOKEN'],
+      flock_id: ENV['CANARY_FLOCK_ID']
+    )
+
+    filename = "#{Faker::Name.first_name} #{Faker::Name.last_name} #{rand(100000)}"
+
+    puts "Creating Canarytoken '#{filename}.docx' based on canary_base.docx"
+    original_file = Rails.root.join('docs', 'samples', 'canary_evidence_document_base.docx')
+    canarytoken_doc = factory.create_token(
+      kind: 'doc-msword',
+      memo: "Document '#{filename}.docx' attachment",
+      file: File.open(original_file)
+    )
+    puts "Creating Canarytoken '#{filename}.docx.pdf' based on canary_base.pdf"
+    original_file = Rails.root.join('docs', 'samples', 'canary_base.pdf')
+    canarytoken_pdf = factory.create_token(
+      kind: 'pdf-acrobat-reader',
+      memo: "Document '#{filename}.docx.pdf' attachment preview",
+      file: File.open(original_file)
+    )
+
+    doc = Document.new
+    doc.document.attach(
+      io: StringIO.new(canarytoken_doc.download),
+      filename: "#{filename}.docx"
+    )
+    doc.converted_preview_document.attach(
+      io: StringIO.new(canarytoken_pdf.download),
+      filename: "#{filename}.docx.pdf"
+    )
+    doc.save
+    puts "Update Canarytoken memo to; Document '#{filename}.docx' [id: #{doc.id}] attachment on '#{ENV['ENV']}'"
+    canarytoken_doc.memo = "Document '#{filename}.docx' [id: #{doc.id}] attachment on '#{ENV['ENV']}'"
+    puts "Update Canarytoken memo to; Document '#{filename}.docx.pdf' [id: #{doc.id}] attachment preview on '#{ENV['ENV']}'"
+    canarytoken_pdf.memo = "Document '#{filename}.docx.pdf' [id: #{doc.id}] attachment preview on '#{ENV['ENV']}'"
+  end
+
+  desc 'List unattached documents and messages'
+  task :find_unattached, [:type] => :environment do |_task, args|
+    require_relative './rake_helpers/canary_checker'
+
+    RakeHelpers::CanaryChecker.new(args[:type]).display
+  end
 end

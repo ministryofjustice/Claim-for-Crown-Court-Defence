@@ -352,6 +352,14 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
               )
             end
           end
+
+          context 'with a "guilty plea" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'MIUAV1') }
+
+            it 'returns additional preparation fee types' do
+              is_expected.to include(*additional_prep_fee_types)
+            end
+          end
         end
       end
 

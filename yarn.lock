@@ -3417,11 +3417,6 @@ jquery-xpath@^0.3.1:
   dependencies:
     jquery ">=1.0.0"
 
-jquery.iframe-transport@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/jquery.iframe-transport/-/jquery.iframe-transport-1.0.0.tgz#98abae85beace1cc362645e7a87360ff9418175f"
-  integrity sha512-dKReRo8hsu7IRhhlWi4/zwpZaYQ+IB/H38X2k9JAY2V5iHxBP56Wk26XvPVt5dh+tEPomt15jXbpd4ApxzraBQ==
-
 "jquery@>= 1.0.0", jquery@>=1.0.0, jquery@>=1.7, jquery@^3.7.1:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"

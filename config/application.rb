@@ -11,9 +11,6 @@ Bundler.require(*Rails.groups)
 # load `.env` earlier in boot sequence for use in settings.yml
 Dotenv::Rails.load
 
-# Custom railties that are not gems can be required here
-require_relative '../lib/govuk_component'
-
 module AdvocateDefencePayments
   class Application < Rails::Application
     config.load_defaults 8.0

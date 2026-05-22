@@ -2,7 +2,6 @@ import '../stylesheets/application.scss'
 
 import Rails from '@rails/ujs'
 import 'jquery/src/jquery'
-import 'jquery-ujs'
 import 'jquery.iframe-transport'
 import 'chartkick/chart.js'
 import 'stickyfilljs'

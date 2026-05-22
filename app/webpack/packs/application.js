@@ -1,5 +1,6 @@
 import '../stylesheets/application.scss'
 
+import Rails from '@rails/ujs'
 import 'jquery/src/jquery'
 import 'jquery-ujs'
 import 'jquery.iframe-transport'
@@ -10,6 +11,8 @@ import 'jsrender/jsrender'
 import 'jquery-highlight'
 import 'jquery-throttle-debounce/jquery.ba-throttle-debounce'
 import 'accessible-autocomplete'
+
+Rails.start()
 
 import '../javascripts/vendor/polyfill.object.keys.js'
 import '../javascripts/vendor/bind.js'

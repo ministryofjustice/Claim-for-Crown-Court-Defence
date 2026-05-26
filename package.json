@@ -43,7 +43,6 @@
     "jquery-highlight": "^3.5.0",
     "jquery-throttle-debounce": "^1.0.0",
     "jquery-xpath": "^0.3.1",
-    "jquery.iframe-transport": "^1.0.0",
     "jsrender": "^1.0.16",
     "mini-css-extract-plugin": "^2.10.2",
     "postcss": "^8.5.14",

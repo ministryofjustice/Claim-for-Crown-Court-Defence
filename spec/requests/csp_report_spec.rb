@@ -44,5 +44,30 @@ RSpec.describe 'Content Security Policy reports' do
       it { expect(response).to be_successful }
       it { expect(a_request(:post, 'https://slack')).not_to have_been_made }
     end
+
+    context 'when the violation is a Google Tag Manager eval' do
+      let(:source_file) { 'https://www.googletagmanager.com/gtm.js' }
+      let(:params) do
+        {
+          'csp-report': {
+            'document-uri': 'https://staging.claim-crown-court-defence.service.justice.gov.uk/',
+            referrer: '',
+            'violated-directive': 'script-src',
+            'effective-directive': 'script-src',
+            'original-policy': "script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline' https: https://*.googletagmanager.com",
+            disposition: 'report',
+            'blocked-uri': 'eval',
+            'line-number': 5,
+            'column-number': 33,
+            'source-file': source_file,
+            'status-code': 200,
+            'script-sample': ''
+          }
+        }.to_json
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(a_request(:post, 'https://slack')).not_to have_been_made }
+    end
   end
 end

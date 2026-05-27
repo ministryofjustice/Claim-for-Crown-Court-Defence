@@ -3,7 +3,7 @@ class CspReportsController < ApplicationController
   skip_forgery_protection
 
   def create
-    unless report['source-file'] == 'chrome-extension'
+    unless ignorable_violation?
       slack_notifier.build_payload(
         icon: ':security:',
         title: 'Content Security Policy violation',
@@ -24,6 +24,16 @@ class CspReportsController < ApplicationController
       formatter: SlackNotifier::Formatter::Generic.new,
       slack_bot_name: 'CSP'
     )
+  end
+
+  def ignorable_violation?
+    report['source-file']&.include?('chrome-extension') ||
+      google_tag_manager_eval_violation?
+  end
+
+  def google_tag_manager_eval_violation?
+    report['blocked-uri'] == 'eval' &&
+      report['source-file']&.end_with?('googletagmanager.com/gtm.js')
   end
 
   def report

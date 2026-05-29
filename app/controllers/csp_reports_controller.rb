@@ -28,12 +28,19 @@ class CspReportsController < ApplicationController
 
   def ignorable_violation?
     report['source-file']&.include?('chrome-extension') ||
-      google_tag_manager_eval_violation?
+      google_tag_manager_eval_violation? ||
+      google_tag_manager_blob_image_violation?
   end
 
   def google_tag_manager_eval_violation?
     report['blocked-uri'] == 'eval' &&
       report['source-file']&.end_with?('googletagmanager.com/gtm.js')
+  end
+
+  def google_tag_manager_blob_image_violation?
+    report['effective-directive'] == 'img-src' &&
+      report['blocked-uri'] == 'blob' &&
+      report['source-file']&.include?('googletagmanager.com')
   end
 
   def report

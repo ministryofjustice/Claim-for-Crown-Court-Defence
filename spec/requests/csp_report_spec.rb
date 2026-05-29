@@ -69,5 +69,27 @@ RSpec.describe 'Content Security Policy reports' do
       it { expect(response).to be_successful }
       it { expect(a_request(:post, 'https://slack')).not_to have_been_made }
     end
+
+    context 'when the violation is a blob image from Google Tag Manager' do
+      let(:params) do
+        {
+          'csp-report': {
+            'document-uri': 'https://staging.claim-crown-court-defence.service.justice.gov.uk',
+            referrer: '',
+            'violated-directive': 'img-src',
+            'effective-directive': 'img-src',
+            'original-policy': "img-src 'self' https: data: https://*.google-analytics.com https://*.googletagmanager.com",
+            disposition: 'report',
+            'blocked-uri': 'blob',
+            'source-file': 'https://www.googletagmanager.com/gtm.js',
+            'status-code': 200,
+            'script-sample': ''
+          }
+        }.to_json
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(a_request(:post, 'https://slack')).not_to have_been_made }
+    end
   end
 end

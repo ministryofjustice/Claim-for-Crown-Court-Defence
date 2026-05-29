@@ -58,7 +58,7 @@
 
           .action-wrapper
             - if claim.rejected?
-              = govuk_button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: :patch, form_class: 'inline-form', class: 'resubmit-claim'
+              = govuk_button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: :patch
 
             = govuk_button_link_to(t('.archive'), external_users_claim_path(claim), 'data-method': 'delete', 'data-confirm': t('.confirm_text'))
 

@@ -32,8 +32,7 @@
 
 
     .govuk-button-group
-      .app-link-group
-        = govuk_button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation') }
+      = govuk_button_link_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, data: { confirm: t('.confirmation') }
 
-        - if can? :edit, @provider
-          = govuk_button_link_to(t('.edit_provider'), edit_external_users_admin_provider_path(@provider), secondary: true)
+      - if can? :edit, @provider
+        = govuk_button_link_to t('.edit_provider'), edit_external_users_admin_provider_path(@provider), secondary: true

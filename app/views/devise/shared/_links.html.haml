@@ -17,6 +17,6 @@
 
   - if devise_mapping.omniauthable?
     - resource_class.omniauth_providers.each do |provider|
-      %li= govuk_link_to "#{t('.sign_in_with')} #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
+      %li= govuk_link_to "#{t('.sign_in_with')} #{provider.to_s.titleize}", "/users/auth/#{provider}"
 
   %li= t('.terms_and_conditions_html', link: tandcs_page_path)

@@ -71,4 +71,4 @@ Rails.configuration.action_controller.action_on_path_relative_redirect = :raise
 #
 # Applications that want to keep generating the `autocomplete` attribute for those tags can set it to `false`.
 #++
-# Rails.configuration.action_view.remove_hidden_field_autocomplete = true
+Rails.configuration.action_view.remove_hidden_field_autocomplete = true

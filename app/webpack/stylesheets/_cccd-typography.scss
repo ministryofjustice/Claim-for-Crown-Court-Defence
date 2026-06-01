@@ -28,16 +28,6 @@ p {
     .button {
       margin-right: $gutter-one-sixth;
     }
-
-    .resubmit-claim {
-      width: $govuk-gutter * 7;
-      padding-left: calc($govuk-gutter / 10);
-    }
-
-    .action-wrapper a:first-child,
-    .action-wrapper .resubmit-claim {
-      margin-right: $gutter-two-thirds;
-    }
   }
 }
 

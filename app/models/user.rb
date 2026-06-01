@@ -43,7 +43,7 @@ class User < ApplicationRecord
       :timeoutable,
       :validatable,
       :lockable,
-      :omniauthable, omniauth_providers: [:entra_mock]
+      :omniauthable, omniauth_providers: [:entra_mock, :entra_id]
 
   attribute :terms_and_conditions_required, :boolean, default: false
   attribute :terms_and_conditions, :boolean

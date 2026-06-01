@@ -2,19 +2,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
 
   def entra_mock
-    auth = request.env['omniauth.auth']
-    unless auth
-      redirect_to new_user_session_path, alert: 'Authentication failed.'
-      return
-    end
+    handle_omniauth
+  end
 
-    user, error_message = find_existing_user_from_auth(auth)
-    if user
-      sign_in_and_redirect user, event: :authentication
-    else
-      message = error_message || 'Authentication failed.'
-      redirect_to new_user_session_path, alert: message
-    end
+  def entra_id
+    handle_omniauth
   end
 
   private
@@ -31,8 +23,46 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def handle_omniauth
+    auth = request.env['omniauth.auth']
+    unless auth
+      redirect_to new_user_session_path, alert: 'Authentication failed.'
+      return
+    end
+
+    log_omniauth_payload(auth)
+
+    user, error_message = find_existing_user_from_auth(auth)
+    if user
+      sign_in_and_redirect user, event: :authentication
+    else
+      message = error_message || 'Authentication failed.'
+      redirect_to new_user_session_path, alert: message
+    end
+  end
+
+  def log_omniauth_payload(auth)
+    return unless Rails.env.development?
+
+    info = auth.info&.to_h || {}
+    raw = auth.extra&.raw_info || {}
+    credentials = auth.credentials&.to_h || {}
+    credentials = credentials.except('token', 'id_token', 'refresh_token', :token, :id_token, :refresh_token)
+
+    payload = {
+      event: 'omniauth_callback',
+      provider: auth.provider,
+      uid: auth.uid,
+      info: info,
+      raw_info: raw,
+      credentials: credentials
+    }
+
+    Rails.logger.info(payload.to_json)
+  end
+
   def find_case_worker(info, raw)
-    email = info.email
+    email = info.email.to_s.downcase
     user = User.find_by(email: email)
     return create_case_worker_from_auth(info, raw) if user.nil?
     return [nil, persona_mismatch_message(email, user.persona_type, 'CaseWorker')] if user.persona_type && user.persona_type != 'CaseWorker'
@@ -41,7 +71,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def find_external_user(info, raw)
-    email = info.email
+    email = info.email.to_s.downcase
     user = User.find_by(email: email)
     return create_external_user_from_auth(info, raw) if user.nil?
     return [nil, persona_mismatch_message(email, user.persona_type, 'ExternalUser')] if user.persona_type && user.persona_type != 'ExternalUser'
@@ -68,7 +98,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def create_case_worker_from_auth(info, raw)
-    email = info.email
+    email = info.email.to_s.downcase
     return [nil, missing_user_message(email)] unless auto_provision_case_workers?
 
     user = nil
@@ -110,7 +140,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def create_external_user_from_auth(info, raw)
-    email = info.email
+    email = info.email.to_s.downcase
     return [nil, missing_user_message(email)] unless auto_provision_external_users?
 
     user = nil

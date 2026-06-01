@@ -27,7 +27,7 @@ RSpec.describe DateAttendedValidator, type: :validator do
     it do
       should_error_if_before_specified_date(
         date_attended, :date, representation_order_date - 2.years - 1.day,
-        'The fee date cannot be more than two years before the earliest representation order date'
+        'The fee date cannot be before the earliest representation order'
       )
     end
 

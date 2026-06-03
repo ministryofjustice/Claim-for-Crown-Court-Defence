@@ -44,18 +44,14 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def log_omniauth_payload(auth)
     return unless Rails.env.development?
 
-    info = auth.info&.to_h || {}
-    raw = auth.extra&.raw_info || {}
-    credentials = auth.credentials&.to_h || {}
+    auth_hash = auth.to_h
+    credentials = auth_hash['credentials'] || {}
     credentials = credentials.except('token', 'id_token', 'refresh_token', :token, :id_token, :refresh_token)
+    auth_hash['credentials'] = credentials
 
     payload = {
-      event: 'omniauth_callback',
-      provider: auth.provider,
-      uid: auth.uid,
-      info: info,
-      raw_info: raw,
-      credentials: credentials
+      event: 'omniauth_callback_full',
+      auth: auth_hash
     }
 
     Rails.logger.info(payload.to_json)

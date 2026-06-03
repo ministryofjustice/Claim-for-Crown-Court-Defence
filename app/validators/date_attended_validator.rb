@@ -15,7 +15,7 @@ class DateAttendedValidator < BaseValidator
   def validate_date
     validate_presence(:date, :blank)
     if @record.earliest_date_before_reporder
-      validate_on_or_after(@record.earliest_date_before_reporder - 2.years, :date, :not_before_earliest_reporder)
+      validate_on_or_after(@record.earliest_date_before_reporder - 2.years, :date, :too_long_before_earliest_reporder)
     end
     validate_on_or_after(Settings.earliest_permitted_date, :date, :not_before_earliest_permitted_date)
     validate_not_in_future(:date)

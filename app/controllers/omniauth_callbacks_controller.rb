@@ -1,6 +1,12 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
 
+  LAA_ROLE_MAPPINGS = {
+    'Caseworker' => 'case_worker',
+    'Provider Management' => 'provider_management',
+    'LAA Administrator' => 'admin'
+  }.freeze
+
   def entra_mock
     handle_omniauth
   end
@@ -63,6 +69,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return create_case_worker_from_auth(info, raw) if user.nil?
     return [nil, persona_mismatch_message(email, user.persona_type, 'CaseWorker')] if user.persona_type && user.persona_type != 'CaseWorker'
 
+    update_case_worker_roles(user, raw)
+
     [user, nil]
   end
 
@@ -124,6 +132,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def extract_case_worker_roles(raw)
+    mapped = map_laa_roles(raw)
+    return mapped if mapped.any?
+
     roles = Array(raw['roles']).map(&:to_s)
     roles = ['case_worker'] if roles.empty?
     roles = roles & CaseWorker::ROLES
@@ -133,6 +144,28 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def extract_location(raw)
     location = raw['location'].to_s.strip
     location.empty? ? 'Nottingham' : location
+  end
+
+  def update_case_worker_roles(user, raw)
+    return unless user.case_worker?
+
+    mapped = map_laa_roles(raw)
+    return if mapped.empty?
+
+    current_roles = Array(user.persona.roles).map(&:to_s).sort
+    desired_roles = mapped.sort
+    return if current_roles == desired_roles
+
+    user.persona.update!(roles: mapped)
+  end
+
+  def map_laa_roles(raw)
+    laa_roles = Array(raw['LAA_ROLES']).map(&:to_s)
+    return [] if laa_roles.empty?
+
+    mapped = laa_roles.filter_map { |role| LAA_ROLE_MAPPINGS[role] }
+    mapped = mapped & CaseWorker::ROLES
+    mapped.uniq
   end
 
   def create_external_user_from_auth(info, raw)

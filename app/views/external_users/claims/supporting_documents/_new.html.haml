@@ -1,5 +1,5 @@
 - unless @claim.agfs? && @claim.interim?
-  %h2.govuk-heading-l
+  %h1.govuk-heading-xl
     = t('.supporting_evidence')
 
   = render partial: 'external_users/claims/supporting_documents/disk_evidence', locals: { f: f }

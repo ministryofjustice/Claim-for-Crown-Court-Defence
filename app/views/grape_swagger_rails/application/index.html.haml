@@ -10,18 +10,18 @@
     = csrf_meta_tags
 
 
-    = favicon_link_tag asset_path('favicon.ico'), sizes: '48x48'
-    = favicon_link_tag asset_path('favicon.svg'), sizes: 'any', type: 'image/svg+xml'
+    = favicon_link_tag asset_path('images/favicon.ico'), sizes: '48x48'
+    = favicon_link_tag asset_path('images/favicon.svg'), sizes: 'any', type: 'image/svg+xml'
     %link{ rel: 'manifest', href: asset_path('manifest.json') }
-    %link{ rel: 'mask-icon', href: asset_path('govuk-icon-mask.svg'), color: '#0b0c0c' }
-    %link{ rel: 'apple-touch-icon', href: asset_path('govuk-icon-180.png') }
+    %link{ rel: 'mask-icon', href: asset_path('images/govuk-icon-mask.svg'), color: '#0b0c0c' }
+    %link{ rel: 'apple-touch-icon', href: asset_path('images/govuk-icon-180.png') }
     %link{ rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Droid+Sans:400,700', type: 'text/css' }
     = stylesheet_link_tag 'grape_swagger_rails/application.css'
     = javascript_include_tag 'grape_swagger_rails/application.js'
 
     = stylesheet_link_tag 'application', media: 'all'
 
-    = tag :meta, property: 'og:image', content: request.base_url + image_tag('govuk-opengraph-image.png')
+    = tag :meta, property: 'og:image', content: request.base_url + asset_path('images/govuk-opengraph-image.png')
     = javascript_tag nonce: true do
       :plain
         (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();

@@ -15,12 +15,14 @@ module Remote
 
       def has_relationship(kind, name, options)
         klass = options.fetch(:class_name, "Remote::#{name.to_s.classify}".constantize)
-        assignment = kind == :one ? "#{klass}.new(attrs)" : "attrs.map { |e| #{klass}.new(e) }"
 
-        class_eval <<-CODE, __FILE__, __LINE__ + 1
-          def #{name}=(attrs); @#{name} = #{assignment}; end
-          def #{name}; @#{name}; end
-        CODE
+        define_method(:"#{name}=") do |attrs|
+          instance_variable_set(:"@#{name}", kind == :one ? klass.new(attrs) : attrs.map { |e| klass.new(e) })
+        end
+
+        define_method(name) do
+          instance_variable_get(:"@#{name}")
+        end
       end
     end
   end

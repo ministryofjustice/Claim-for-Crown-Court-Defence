@@ -8,7 +8,7 @@
   - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
     = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
 
-%h3.govuk-heading-m{ class:'govuk-!-static-margin-bottom-2' }
+%h2.govuk-heading-m{ class:'govuk-!-static-margin-bottom-2' }
   = t('.supporting_evidence_docs')
 
 .moj-multi-file-upload

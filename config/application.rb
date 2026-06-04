@@ -13,7 +13,7 @@ Dotenv::Rails.load
 
 module AdvocateDefencePayments
   class Application < Rails::Application
-    config.load_defaults 8.0
+    config.load_defaults 8.1
 
     config.middleware.use Rack::Deflater
     # Please, add to the `ignore` list any other `lib` subdirectories that do

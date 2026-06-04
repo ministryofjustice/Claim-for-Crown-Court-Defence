@@ -48,7 +48,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController do
           'transfer_stage_id' => '20',
           'transfer_date(3i)' => '2',
           'transfer_date(2i)' => '6',
-          'transfer_date(1i)' => '2016',
+          'transfer_date(1i)' => '2026',
           'case_conclusion_id' => ''
         },
         'commit_continue' => 'Continue'
@@ -183,7 +183,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController do
             'transfer_stage_id' => '10',
             'transfer_date(3i)' => '2',
             'transfer_date(2i)' => '6',
-            'transfer_date(1i)' => '2016',
+            'transfer_date(1i)' => '2026',
             'case_conclusion_id' => ''
           },
           'commit_continue' => 'Continue',
@@ -203,7 +203,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController do
         expect(assigns(:claim).litigator_type).to eq 'original'
         expect(assigns(:claim).elected_case).to be true
         expect(assigns(:claim).transfer_stage_id).to eq 10
-        expect(assigns(:claim).transfer_date).to eq Date.new(2016, 6, 2)
+        expect(assigns(:claim).transfer_date).to eq Date.new(2026, 6, 2)
         expect(assigns(:claim).case_conclusion_id).to be_nil
       end
     end

@@ -54,7 +54,6 @@ module API
       nil
     end
 
-
     def creator_email
       return if request_data['creator_email'].blank?
 

@@ -515,10 +515,8 @@ module Claim
     # This will ensure proper route paths are generated
     # when using helpers like: edit_polymorphic_path(claim)
     def self.route_key_name(name)
-      model_name.class_eval %(
-        def singular_route_key; '#{name}'; end
-        def route_key; '#{name.pluralize}'; end
-      ), __FILE__, __LINE__ - 3
+      model_name.define_singleton_method(:singular_route_key) { name }
+      model_name.define_singleton_method(:route_key) { name.pluralize }
     end
 
     def self.fee_associations

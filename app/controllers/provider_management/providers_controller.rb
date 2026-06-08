@@ -40,7 +40,7 @@ module ProviderManagement
     private
 
     def set_provider
-      @provider = Provider.find(params[:id])
+      @provider = Provider.find(params.expect(:id))
     end
 
     def filtered_params

@@ -202,7 +202,7 @@ RSpec.describe Allocation do
           subject.save
           expect(subject.errors.count).to eq 2 # claim error plus heading error warning
           expect(subject.errors.full_messages.first).to match(/Claim .* has already been allocated/)
-          expect(subject.errors.full_messages.second).to match(/NO claims were allocated/)
+          expect(subject.errors.full_messages.second).to include('NO claims were allocated')
           expect(case_worker.claims.count).to eq 0
         end
       end

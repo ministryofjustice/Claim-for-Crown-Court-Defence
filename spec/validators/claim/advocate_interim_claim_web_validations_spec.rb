@@ -1053,7 +1053,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       it { is_expected.not_to be_valid }
       it { expect(claim.errors[:evidence_checklist_ids].length).to eq(invalid_checklist_ids.length) }
-      it { expect(claim.errors[:evidence_checklist_ids]).to all match(/is invalid/) }
+      it { expect(claim.errors[:evidence_checklist_ids]).to all include('is invalid') }
     end
   end
 

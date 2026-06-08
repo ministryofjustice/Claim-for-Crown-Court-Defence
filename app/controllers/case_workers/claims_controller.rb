@@ -94,7 +94,7 @@ module CaseWorkers
     end
 
     def set_claim
-      @claim = Claim::BaseClaim.active.find(params[:id])
+      @claim = Claim::BaseClaim.active.find(params.expect(:id))
     end
 
     def filter_current_claims

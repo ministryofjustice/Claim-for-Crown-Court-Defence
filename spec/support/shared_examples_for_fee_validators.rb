@@ -75,6 +75,7 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
   let(:noc_case_number_invalid_error_message) do
     'Enter valid case numbers for the Number of cases uplift'
   end
+
   context 'case numbers list valid' do
     it 'when case_numbers is blank and quantity is zero' do
       noc_fee.quantity = 0

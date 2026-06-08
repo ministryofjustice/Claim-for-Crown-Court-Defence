@@ -35,7 +35,7 @@ module Duplicable
         blocks
       end
 
-      blocks = self.amoeba_blocks
+      blocks = amoeba_blocks
 
       amoeba do |config|
         blocks.each { |blk| config.instance_eval(&blk) }

@@ -67,7 +67,7 @@ module ExternalUsers
     end
 
     def set_claim
-      @claim = Claim::BaseClaim.active.find(params[:claim_id])
+      @claim = Claim::BaseClaim.active.find(params.expect(:claim_id))
     end
 
     def claim_tracking_substitutions

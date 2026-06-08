@@ -19,7 +19,7 @@ describe Fee::MiscFeePresenter do
 
       before { allow(misc_fee).to receive(:calculated?).and_return(false) }
 
-      it { is_expected.to match(%r{n/a}) }
+      it { is_expected.to include('n/a') }
     end
 
     context 'with a section 28 fee (MISTE)' do
@@ -27,7 +27,7 @@ describe Fee::MiscFeePresenter do
         create(:misc_fee, rate: 12.01, claim: build(:advocate_claim), fee_type: build(:misc_fee_type, :miste))
       end
 
-      it { is_expected.to match(%r{n/a}) }
+      it { is_expected.to include('n/a') }
     end
 
     context 'with an LGFS claim' do
@@ -35,7 +35,7 @@ describe Fee::MiscFeePresenter do
 
       before { allow(misc_fee).to receive(:calculated?).and_return(true) }
 
-      it { is_expected.to match(%r{n/a}) }
+      it { is_expected.to include('n/a') }
     end
 
     context 'without a fee type' do
@@ -61,13 +61,13 @@ describe Fee::MiscFeePresenter do
         create(:misc_fee, quantity: 77, claim: build(:advocate_claim), fee_type: build(:misc_fee_type, :miste))
       end
 
-      it { is_expected.to match(%r{n/a}) }
+      it { is_expected.to include('n/a') }
     end
 
     context 'with an LGFS claim' do
       let(:misc_fee) { create(:misc_fee, quantity: 77, claim: build(:litigator_claim)) }
 
-      it { is_expected.to match(%r{n/a}) }
+      it { is_expected.to include('n/a') }
     end
 
     context 'without a fee type' do

@@ -1,29 +1,6 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Mass Assignment",
-      "warning_code": 70,
-      "fingerprint": "068f21e75ff2347f986c43eed66f00d0be08ce368dc2b5a2927f198e4f519547",
-      "check_name": "MassAssignment",
-      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
-      "file": "app/helpers/application_helper.rb",
-      "line": 79,
-      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
-      "code": "params.except(:page).merge(:sort => column, :direction => ((\"desc\" or \"asc\")), :anchor => column).permit!",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ApplicationHelper",
-        "method": "sortable"
-      },
-      "user_input": null,
-      "confidence": "Medium",
-      "cwe_id": [
-        915
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "Redirect",
       "warning_code": 18,
       "fingerprint": "66dafbaaa2cbe7420e0b8ca4945e033589f76437a60ead3e42cd576f6caa50fa",
@@ -44,7 +21,7 @@
       "cwe_id": [
         601
       ],
-      "note": ""
+      "note": "False positive: redirects to an Active Storage blob URL for a report looked up by a validated report_type param. The URL is generated internally by Rails (not from user input) and points to the app's own S3 bucket. The allow_other_host flag is required because S3 URLs are on a different domain."
     },
     {
       "warning_type": "File Access",
@@ -67,7 +44,7 @@
       "cwe_id": [
         22
       ],
-      "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
+      "note": "False positive: case_number is used only in the Content-Disposition filename header, not in a file path. The actual file served is a locally-generated zip from S3ZipDownloader. The case_number value comes from the database (not from user input) and cannot influence which file is read from disk."
     }
   ],
   "brakeman_version": "8.0.4"

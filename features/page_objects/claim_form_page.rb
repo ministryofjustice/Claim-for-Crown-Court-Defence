@@ -144,6 +144,7 @@ class ClaimFormPage < BasePage
     end
   end
 
+
   def check_evidence_checklist(count = 1)
     evidence_checklist.items_with_labels[0...count].each { |item| item.label.click }
   end

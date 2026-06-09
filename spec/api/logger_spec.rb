@@ -42,6 +42,46 @@ RSpec.describe API::Logger do
     include_examples 'email validation', :creator_email
   end
 
+  describe '#request_data' do
+    context 'when api.request.input is not JSON' do
+      let(:env) do
+        {
+          'api.request.input' => 'api_key=c3925146-6833-4c90-95d8-1234&claim_id=456',
+          'rack.request.form_hash' => { 'api_key' => 'c3925146-6833-4c90-95d8-1234', 'claim_id' => '456' }
+        }
+      end
+
+      it 'falls back to rack.request.form_hash' do
+        expect(logger.send(:request_data)).to eq({ 'api_key' => 'c3925146-6833-4c90-95d8-1234', 'claim_id' => '456' })
+      end
+    end
+
+    context 'when api.request.input is form-encoded and rack.request.form_hash is missing' do
+      let(:env) do
+        {
+          'api.request.input' => 'api_key=c3925146-6833-4c90-95d8-1234&claim_id=456'
+        }
+      end
+
+      it 'parses the form-encoded input directly' do
+        expect(logger.send(:request_data)).to eq({ 'api_key' => 'c3925146-6833-4c90-95d8-1234', 'claim_id' => '456' })
+      end
+    end
+
+    context 'when api.request.input is valid JSON' do
+      let(:env) do
+        {
+          'api.request.input' => '{"api_key":"c3925146-6833-4c90-95d8-1234","claim_id":"456"}',
+          'rack.request.form_hash' => { 'api_key' => 'ignored', 'claim_id' => 'ignored' }
+        }
+      end
+
+      it 'uses parsed JSON input' do
+        expect(logger.send(:request_data)).to eq({ 'api_key' => 'c3925146-6833-4c90-95d8-1234', 'claim_id' => '456' })
+      end
+    end
+  end
+
   describe 'request log (#before)' do
     context 'when provided an empty set of data' do
       let(:empty_payload) do

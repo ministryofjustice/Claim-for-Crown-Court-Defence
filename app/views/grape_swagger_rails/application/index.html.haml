@@ -16,8 +16,8 @@
     %link{ rel: 'mask-icon', href: asset_path('images/govuk-icon-mask.svg'), color: '#0b0c0c' }
     %link{ rel: 'apple-touch-icon', href: asset_path('images/govuk-icon-180.png') }
     %link{ rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Droid+Sans:400,700', type: 'text/css' }
-    = stylesheet_link_tag 'grape_swagger_rails/application.css'
-    = javascript_include_tag 'grape_swagger_rails/application.js'
+    = stylesheet_link_tag 'grape_swagger_rails/swagger-ui'
+    = stylesheet_link_tag 'grape_swagger_rails/index'
 
     = stylesheet_link_tag 'application', media: 'all'
 
@@ -25,39 +25,6 @@
     = javascript_tag nonce: true do
       :plain
         (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
-
-    = javascript_tag nonce: true do
-      :plain
-        $(function () {
-        var options = $("html").data('swagger-options');
-        var headers = {};
-        window.swaggerUi = new SwaggerUi({
-        url: options.app_url + options.url,
-        dom_id: "swagger-ui-container",
-        supportHeaderParams: true,
-        supportedSubmitMethods: options.supported_submit_methods || [],
-        authorizations: headers,
-        onComplete: function(swaggerApi, swaggerUi){
-        if('console' in window) {
-        console.log("Loaded SwaggerUI")
-        console.log(swaggerApi);
-        console.log(swaggerUi);
-        }
-        $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-        },
-        onFailure: function(data) {
-        if('console' in window) {
-        console.log("Unable to Load SwaggerUI");
-        console.log(data);
-        }
-        },
-        docExpansion: options.doc_expansion,
-        validatorUrl: options.validator_url,
-        apisSorter: "alpha"
-        });
-
-        window.swaggerUi.load();
-        });
 
   %body.govuk-frontend-supported.govuk-template__body.swagger-section
     = javascript_tag nonce: true do
@@ -95,6 +62,10 @@
         #global-app-error.app-error.hidden
 
         = yield
+
+    = javascript_include_tag 'grape_swagger_rails/swagger-ui-bundle'
+    = javascript_include_tag 'grape_swagger_rails/swagger-ui-standalone-preset'
+    = javascript_include_tag grape_swagger_rails_runtime_asset
 
     -# renderd partial err: undefined local variable or method `contact_us_page_path'
 

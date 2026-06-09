@@ -38,11 +38,20 @@ module API
     end
 
     def request_data
-      return JSON.parse(env['api.request.input']) if env['api.request.input'].present?
-      return env['rack.request.form_hash'] if env['rack.request.form_hash'].present?
-      return env['rack.request.query_hash'] if env['rack.request.query_hash'].present?
+      parse_request_input(env['api.request.input']) ||
+        env['rack.request.form_hash'] ||
+        env['rack.request.query_hash'] ||
+        {}
+    end
 
-      {}
+    def parse_request_input(raw_request_input)
+      return if raw_request_input.blank?
+
+      JSON.parse(raw_request_input)
+    rescue JSON::ParserError
+      Rack::Utils.parse_nested_query(raw_request_input)
+    rescue ArgumentError
+      nil
     end
 
     def creator_email

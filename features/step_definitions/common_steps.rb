@@ -137,7 +137,7 @@ end
 
 And(/^I should be in the '(.*?)' form page$/) do |page_heading|
   within('#claim-form') do
-    expect(page.first('h2')).to have_content(page_heading)
+    expect(page.first('h1')).to have_content(page_heading)
   end
   wait_for_ajax
 end

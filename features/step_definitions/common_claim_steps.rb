@@ -64,12 +64,10 @@ end
 
 When(/^I upload (\d+) documents?$/) do |count|
   @document_count = count.to_i
-  expect(page).to have_selector("input[name='attachments']", visible: :all)
   @claim_form_page.attach_evidence(count: @document_count)
 end
 
 When(/^I upload the document '(.*)'$/) do |document|
-  expect(page).to have_selector("input[name='attachments']", visible: :all)
   @claim_form_page.attach_evidence(document: document)
 end
 

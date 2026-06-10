@@ -143,6 +143,7 @@ class ClaimFormPage < BasePage
       end
     end
   end
+end
 
 
   def check_evidence_checklist(count = 1)

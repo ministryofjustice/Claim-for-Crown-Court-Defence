@@ -247,6 +247,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     user = nil
     User.transaction do
+      supplier_number = extract_supplier_number_from_laa_accounts(raw)
+      provider = find_provider_from_firm_name(raw)
+      validate_supplier_number_matches_provider!(supplier_number, provider)
+
       password = Devise.friendly_token.first(32)
       first_name = required_name(info, raw, 'first_name')
       last_name = required_name(info, raw, 'last_name')
@@ -258,10 +262,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         password_confirmation: password
       )
 
-      provider = find_or_create_provider_from_auth(raw)
       external_user = ExternalUser.new(
         roles: extract_external_user_roles(raw, provider),
-        supplier_number: extract_supplier_number(raw),
+        supplier_number: supplier_number,
         provider: provider
       )
       external_user.user = user
@@ -314,6 +317,38 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def auto_provision_external_users?
     Rails.env.development? || Rails.env.test?
+  end
+
+  def extract_supplier_number_from_laa_accounts(raw)
+    accounts = Array(raw['LAA_ACCOUNTS']).map { |value| value.to_s.strip.upcase }.reject(&:empty?)
+    supplier_number = accounts.first
+    raise ArgumentError, 'Missing LAA_ACCOUNTS in auth payload' if supplier_number.blank?
+
+    valid_agfs = ExternalUser::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
+    valid_lgfs = SupplierNumber::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
+    raise ArgumentError, "Invalid LAA_ACCOUNTS supplier number format: #{supplier_number}" unless valid_agfs || valid_lgfs
+
+    supplier_number
+  end
+
+  def find_provider_from_firm_name(raw)
+    firm_name = raw['FIRM_NAME'].to_s.strip
+    raise ArgumentError, 'Missing FIRM_NAME in auth payload' if firm_name.blank?
+
+    provider = Provider.find_by('LOWER(name) = ?', firm_name.downcase)
+    raise ArgumentError, "No provider found for FIRM_NAME: #{firm_name}" if provider.nil?
+
+    provider
+  end
+
+  def validate_supplier_number_matches_provider!(supplier_number, provider)
+    provider_firm_agfs = provider.firm_agfs_supplier_number.to_s.upcase
+    lgfs_match = provider.lgfs_supplier_numbers.where('UPPER(supplier_number) = ?', supplier_number).exists?
+    external_user_match = provider.external_users.where('UPPER(supplier_number) = ?', supplier_number).exists?
+    agfs_match = provider_firm_agfs.present? && provider_firm_agfs == supplier_number
+    return if lgfs_match || external_user_match || agfs_match
+
+    raise ArgumentError, "LAA_ACCOUNTS supplier number #{supplier_number} does not match existing records for provider #{provider.name}"
   end
 
   def find_or_create_provider_from_auth(raw)

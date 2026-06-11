@@ -335,10 +335,28 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     firm_name = raw['FIRM_NAME'].to_s.strip
     raise ArgumentError, 'Missing FIRM_NAME in auth payload' if firm_name.blank?
 
-    provider = Provider.find_by('LOWER(name) = ?', firm_name.downcase)
+    provider = matched_provider_from_firm_name(firm_name)
     raise ArgumentError, "No provider found for FIRM_NAME: #{firm_name}" if provider.nil?
 
     provider
+  end
+
+  def matched_provider_from_firm_name(firm_name)
+    normalized_firm_name = normalize_firm_name(firm_name)
+
+    Provider.find_each do |provider|
+      return provider if normalized_firm_name == normalize_firm_name(provider.name)
+    end
+
+    nil
+  end
+
+  def normalize_firm_name(name)
+    name.to_s.upcase
+        .gsub(/&/, ' AND ')
+        .gsub(/[^A-Z0-9]+/, ' ')
+        .squeeze(' ')
+        .strip
   end
 
   def validate_supplier_number_matches_provider!(supplier_number, provider)

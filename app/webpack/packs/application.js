@@ -1,7 +1,7 @@
 import '../stylesheets/application.scss'
 
 import Rails from '@rails/ujs'
-import 'jquery/src/jquery'
+import 'jquery'
 import 'chartkick/chart.js'
 import 'stickyfilljs'
 import 'jquery-accessible-accordion-aria'

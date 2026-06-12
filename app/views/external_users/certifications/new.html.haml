@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = t(".page_title.#{present(@claim).type_identifier}")
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+= render partial: 'layouts/main_header', locals: { page_heading: t('.page_heading') }
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds

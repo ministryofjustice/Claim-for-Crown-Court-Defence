@@ -143,7 +143,7 @@ en:
               check_not_in_future: Enter a date that is not in the future
               not_before_earliest_permitted_date: Enter a date later than two years before the earliest representation order date
               too_long_before_earliest_reporder: The fee date cannot be more than two years before the earliest representation order date
-              not_before_earliest_reporder: Cannot be before the earliest representation order
+              not_before_earliest_reporder: Cannot be before the earliest representation order date
         disbursement:
           attributes:
             disbursement_type_id:
@@ -272,7 +272,7 @@ en:
               check_not_too_far_in_past: Fixed fee date cannot be too far in the past
               invalid_date: Enter a valid fixed fee date
               too_long_before_earliest_reporder: The fixed fee date cannot be no earlier than two years before the earliest representation order date
-              not_before_earliest_reporder: Cannot be before the earliest representation order
+              not_before_earliest_reporder: Cannot be before the earliest representation order date
 
             fee_type:
               blank: 'Choose a type for the #{fixed_fee}'

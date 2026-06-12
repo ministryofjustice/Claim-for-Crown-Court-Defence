@@ -25,7 +25,7 @@ RSpec.shared_examples 'common LGFS fee date validations' do
 
       fee.date = Time.zone.today - 3.days
       expect(fee).not_to be_valid
-      expect(fee.errors[:date]).to include(match(/.*Cannot be before the earliest representation order*/))
+      expect(fee.errors[:date]).to include(match(/.*Cannot be before the earliest representation order date.*/))
     end
 
     it 'adds same error if more than 2 years before the first repo order date' do
@@ -35,7 +35,7 @@ RSpec.shared_examples 'common LGFS fee date validations' do
 
       fee.date = Time.zone.today - 3.years
       expect(fee).not_to be_valid
-      expect(fee.errors[:date]).to include(match(/.*Cannot be before the earliest representation order*/))
+      expect(fee.errors[:date]).to include(match(/.*Cannot be before the earliest representation order date.*/))
     end
   end
 end

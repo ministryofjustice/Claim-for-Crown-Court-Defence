@@ -34,6 +34,7 @@ moj.Modules.Messaging = {
         .text(rorData.statusMessage)
 
       adpMsg.clearUserMessageBody()
+      moj.Modules.MessageDataPreserver.clearDraft()
       $('.no-messages').hide()
       $('.file-to-be-uploaded').hide()
       $('#message-attachment-field').val('')

@@ -247,9 +247,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     user = nil
     User.transaction do
+      provider = find_or_create_provider_for_external_user(raw)
       supplier_number = extract_supplier_number_from_laa_accounts(raw)
-      provider = find_provider_from_firm_name(raw)
-      validate_supplier_number_matches_provider!(supplier_number, provider)
 
       password = Devise.friendly_token.first(32)
       first_name = required_name(info, raw, 'first_name')
@@ -319,26 +318,60 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     Rails.env.development? || Rails.env.test?
   end
 
-  def extract_supplier_number_from_laa_accounts(raw)
+  def separate_agfs_and_lgfs_supplier_numbers(raw)
     accounts = Array(raw['LAA_ACCOUNTS']).map { |value| value.to_s.strip.upcase }.reject(&:empty?)
-    supplier_number = accounts.first
-    raise ArgumentError, 'Missing LAA_ACCOUNTS in auth payload' if supplier_number.blank?
+    raise ArgumentError, 'Missing LAA_ACCOUNTS in auth payload' if accounts.empty?
 
-    valid_agfs = ExternalUser::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
-    valid_lgfs = SupplierNumber::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
-    raise ArgumentError, "Invalid LAA_ACCOUNTS supplier number format: #{supplier_number}" unless valid_agfs || valid_lgfs
+    agfs_numbers = []
+    lgfs_numbers = []
 
-    supplier_number
+    accounts.each do |supplier_number|
+      valid_agfs = ExternalUser::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
+      valid_lgfs = SupplierNumber::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
+      raise ArgumentError, "Invalid LAA_ACCOUNTS supplier number format: #{supplier_number}" unless valid_agfs || valid_lgfs
+
+      agfs_numbers << supplier_number if valid_agfs
+      lgfs_numbers << supplier_number if valid_lgfs
+    end
+
+    [agfs_numbers, lgfs_numbers]
   end
 
-  def find_provider_from_firm_name(raw)
+  def extract_supplier_number_from_laa_accounts(raw)
+    agfs_numbers, lgfs_numbers = separate_agfs_and_lgfs_supplier_numbers(raw)
+
+    # For external_user, use the first LGFS number if available, otherwise first AGFS
+    return lgfs_numbers.first if lgfs_numbers.any?
+    return agfs_numbers.first if agfs_numbers.any?
+
+    raise ArgumentError, 'No valid supplier numbers found in LAA_ACCOUNTS'
+  end
+
+  def find_or_create_provider_for_external_user(raw)
     firm_name = raw['FIRM_NAME'].to_s.strip
     raise ArgumentError, 'Missing FIRM_NAME in auth payload' if firm_name.blank?
 
+    # Step 1: Try to find by FIRM_NAME
     provider = matched_provider_from_firm_name(firm_name)
-    raise ArgumentError, "No provider found for FIRM_NAME: #{firm_name}" if provider.nil?
+    return provider if provider
 
-    provider
+    # Step 2: Separate AGFS and LGFS supplier numbers
+    agfs_numbers, lgfs_numbers = separate_agfs_and_lgfs_supplier_numbers(raw)
+
+    # Step 3: If there are AGFS matches in external_users, reject and return error
+    agfs_numbers.each do |supplier_number|
+      external_user_match = ExternalUser.where('UPPER(supplier_number) = ?', supplier_number).first
+      raise ArgumentError, "AGFS supplier number #{supplier_number} already registered. User may have registered another account in CCCD" if external_user_match
+    end
+
+    # Step 4: Check if any LGFS supplier_number exists in supplier_numbers table (find matching provider)
+    lgfs_numbers.each do |supplier_number|
+      supplier_number_record = SupplierNumber.where('UPPER(supplier_number) = ?', supplier_number).first
+      return supplier_number_record.provider if supplier_number_record
+    end
+
+    # Step 5-6: Create new provider with all LGFS supplier_numbers if no match found
+    create_provider_with_supplier_numbers(raw, lgfs_numbers)
   end
 
   def matched_provider_from_firm_name(firm_name)
@@ -351,29 +384,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     nil
   end
 
-  def normalize_firm_name(name)
-    name.to_s.upcase
-        .gsub(/&/, ' AND ')
-        .gsub(/[^A-Z0-9]+/, ' ')
-        .squeeze(' ')
-        .strip
-  end
-
-  def validate_supplier_number_matches_provider!(supplier_number, provider)
-    provider_firm_agfs = provider.firm_agfs_supplier_number.to_s.upcase
-    lgfs_match = provider.lgfs_supplier_numbers.where('UPPER(supplier_number) = ?', supplier_number).exists?
-    external_user_match = provider.external_users.where('UPPER(supplier_number) = ?', supplier_number).exists?
-    agfs_match = provider_firm_agfs.present? && provider_firm_agfs == supplier_number
-    return if lgfs_match || external_user_match || agfs_match
-
-    raise ArgumentError, "LAA_ACCOUNTS supplier number #{supplier_number} does not match existing records for provider #{provider.name}"
-  end
-
-  def find_or_create_provider_from_auth(raw)
+  def create_provider_with_supplier_numbers(raw, lgfs_supplier_numbers)
     name = extract_provider_name(raw)
-    provider = Provider.find_by(name: name)
-    return provider if provider
-
     provider_type = extract_provider_type(raw)
     roles = extract_provider_roles(raw, provider_type)
 
@@ -382,9 +394,20 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       provider_type: provider_type,
       roles: roles,
       vat_registered: extract_provider_vat_registered(raw),
-      firm_agfs_supplier_number: extract_firm_agfs_supplier_number(raw, provider_type, roles)
+      firm_agfs_supplier_number: extract_firm_agfs_supplier_number(raw, provider_type, roles),
+      lgfs_supplier_numbers: lgfs_supplier_numbers.map { |supplier_number| SupplierNumber.new(supplier_number: supplier_number) }
     )
   end
+
+  def normalize_firm_name(name)
+    name.to_s.upcase
+        .gsub(/&/, ' AND ')
+        .gsub(/[^A-Z0-9]+/, ' ')
+        .squeeze(' ')
+        .strip
+  end
+
+
 
   def extract_external_user_roles(raw, provider)
     mapped = map_laa_external_roles(raw)
@@ -397,8 +420,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def extract_provider_name(raw)
-    name = raw['provider_name'].to_s.strip
-    name.empty? ? 'Mock Provider' : name
+    name = raw['FIRM_NAME'].to_s.strip
+    raise ArgumentError, 'Missing FIRM_NAME in auth payload' if name.empty?
+
+    name
   end
 
   def extract_provider_type(raw)
@@ -431,8 +456,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return nil unless provider_type == 'firm'
     return nil unless roles.include?('agfs')
 
-    number = raw['firm_agfs_supplier_number'].to_s.strip.upcase
-    number.empty? ? 'ABCDE' : number
+    agfs_numbers, = separate_agfs_and_lgfs_supplier_numbers(raw)
+    agfs_numbers.first
   end
 
   def extract_supplier_number(raw)

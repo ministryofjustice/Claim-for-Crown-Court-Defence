@@ -178,5 +178,5 @@ td.active {
 
 // Override the default colour of a selected row to use the recommended GOVUK colour
 :root {
-  --dt-row-selected: 29,112,184;  // DataTables requires an RGB value to set the colour. This equates to govuk-colour("blue")	(#1d70b8)
+  --dt-row-selected: 244,248,251;  // DataTables requires an RGB value to set the colour. This equates to govuk-colour("blue", $variant: "shade-95")	(#f4f8fb)
 }

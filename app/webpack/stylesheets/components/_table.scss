@@ -67,7 +67,7 @@ tr {
     }
 
     tbody tr td:first-child {
-      background-color: $govuk-border-colour;
+      background-color: govuk-colour("light-grey");
       font-weight: 700;
 
       a {

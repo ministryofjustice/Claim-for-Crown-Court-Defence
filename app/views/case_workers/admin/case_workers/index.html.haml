@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/main_header', locals: { page_heading: t('.page_heading') }
+= render partial: 'layouts/page_heading', locals: { page_heading: t('.page_heading') }
 
 = content_for :search_html_block do
   = govuk_link_to t('.create_case_worker'), new_case_workers_admin_case_worker_path

@@ -176,7 +176,9 @@ td.active {
   text-align: center;
 }
 
-// Override the default colour of a selected row to use the recommended GOVUK colour
+// Override the default colour of a selected row, text and the link - to use the recommended GOVUK colour.
 :root {
-  --dt-row-selected: 244,248,251;  // DataTables requires an RGB value to set the colour. This equates to govuk-colour("blue", $variant: "shade-95")	(#f4f8fb)
+  --dt-row-selected: 244,248,251;
+  --dt-row-selected-text: 0,0,0;
+  --dt-row-selected-link: 26, 101, 166;
 }

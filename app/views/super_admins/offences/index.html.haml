@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = 'Offences'
 
-= render partial: 'layouts/header', locals: { page_heading: 'Offences' }
+= render partial: 'layouts/page_caption', locals: { page_heading: 'Offences' }
 
 = govuk_table(classes: 'app-table--responsive') do |table|
   = table.with_head do |head|

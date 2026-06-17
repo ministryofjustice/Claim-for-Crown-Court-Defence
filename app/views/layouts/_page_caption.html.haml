@@ -1,4 +1,5 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
     - title(page_heading) unless content_for?(:page_title)
-    %span.govuk-caption-xl=page_heading
+    %span.govuk-caption-xl
+      =page_heading

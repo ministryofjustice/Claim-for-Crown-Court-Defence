@@ -4,7 +4,7 @@
       = pagy_info(@pagy).html_safe
 
   .govuk-grid-column-full
-    = govuk_table(classes: 'app-table--responsive') do |table|
+    = govuk_table(classes: 'app-table--responsive', html_attributes: { data: { module: 'moj-sortable-table' } }) do |table|
       = table.with_caption(classes: 'govuk-visually-hidden') do
         = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
 

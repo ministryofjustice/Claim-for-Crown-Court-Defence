@@ -68,7 +68,6 @@ module ApplicationHelper
 
   def sortable(column, title = nil, options = {})
     title ||= column.titleize
-    title = ("#{title} " + column_sort_icon) if column == sort_column
 
     css_class = column == sort_column ? "current #{sort_direction}" : nil
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
@@ -79,10 +78,6 @@ module ApplicationHelper
     html_options = options.merge(class: css_class)
 
     govuk_link_to [title].join(' ').html_safe, query_params, **html_options
-  end
-
-  def column_sort_icon
-    sort_direction == 'asc' ? "\u25B2" : "\u25BC"
   end
 
   def dom_id(record, prefix = nil)

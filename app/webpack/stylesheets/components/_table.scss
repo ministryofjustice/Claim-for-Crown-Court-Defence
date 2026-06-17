@@ -31,7 +31,7 @@ tr {
     tr {
       display: block;
       margin-bottom: $gutter-one-third;
-      border-bottom: 3px solid govuk-colour("black", $variant: "tint-95");
+      border-bottom: 3px solid $govuk-border-colour;
 
       .govuk-table__header:last-child,
       .govuk-table__cell:last-child,
@@ -39,7 +39,7 @@ tr {
       td {
         display: block;
         padding: $gutter-half;
-        border-bottom: 1px solid govuk-colour("black", $variant: "tint-95");
+        border-bottom: 1px solid $govuk-border-colour;
         text-align: right;
 
         br {

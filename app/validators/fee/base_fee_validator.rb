@@ -144,11 +144,13 @@ module Fee
       add_error(:quantity, :"#{fee_code.downcase}_invalid")
     end
 
+    # TODO: - FOR FUTURE REF THEN CONSIDER WHETHER
+    # app/validators/date_attended_validator SHOULD APPLY INSTEAD
     def validate_single_attendance_date
       validate_presence(:date, :blank)
       validate_on_or_after(@record.claim.try(:earliest_representation_order_date),
                            :date,
-                           :too_long_before_earliest_reporder)
+                           :not_before_earliest_reporder)
       validate_on_or_after(Settings.earliest_permitted_date, :date, :check_not_too_far_in_past)
       validate_not_in_future(:date)
     end

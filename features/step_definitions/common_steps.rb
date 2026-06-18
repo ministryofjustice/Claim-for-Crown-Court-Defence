@@ -132,7 +132,7 @@ And(/^I should see in the sidebar vat total '(.*?)'$/) do |total|
 end
 
 Then(/^I should see a page title "([^"]*)"$/) do |page_title|
-  expect(page.title).to have_content(page_title)
+  expect(page).to have_title(page_title)
 end
 
 And(/^I should be in the '(.*?)' form page$/) do |page_heading|

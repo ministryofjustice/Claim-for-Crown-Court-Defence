@@ -41,10 +41,12 @@ Then(/^the transfer fee amount should be populated with '(\d+\.\d+)'$/) do |amou
 end
 
 Then(/^I should (not )?see the days claimed field$/) do |negate|
-  if negate
-    expect(@litigator_transfer_claim_form_page.transfer_fee).to_not have_days_total
-  else
-    expect(@litigator_transfer_claim_form_page.transfer_fee).to have_days_total
+  patiently do
+    if negate
+      expect(@litigator_transfer_claim_form_page.transfer_fee).not_to have_days_total
+    else
+      expect(@litigator_transfer_claim_form_page.transfer_fee).to have_days_total
+    end
   end
 end
 

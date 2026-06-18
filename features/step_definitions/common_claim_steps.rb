@@ -17,14 +17,9 @@ end
 
 When(/^I select a case type of '(.*?)'$/) do |case_type|
   patiently do
-<<<<<<< HEAD
     @claim_form_page.auto_case_type.choose_autocomplete_option(case_type)
   end
   wait_for_ajax
-=======
-  @claim_form_page.auto_case_type.choose_autocomplete_option(case_type)
-  end
->>>>>>> e23a0373e (fix(test): add patiently)
 end
 
 When(/^I select a case stage of '(.*?)'$/) do |case_stage|

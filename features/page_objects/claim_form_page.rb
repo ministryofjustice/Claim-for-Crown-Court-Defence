@@ -125,24 +125,21 @@ class ClaimFormPage < BasePage
     pattern = document.to_s.gsub('.pdf', '')
     paths = Dir.glob(Rails.root.join("spec/fixtures/files/#{pattern}.pdf"))
 
-    raise "No files found for pattern: #{document}" if paths.empty?
+    raise ArgumentError, "No files found for pattern: #{document}" if paths.empty?
 
     paths.first(count).each do |path|
       filename = File.basename(path)
 
-      # ✅ Re-find input every time (handles DOM replacement)
+      # Use Capybara-supported visibility handling
       input_field = find("input[name='attachments']", visible: :all)
-
-      # ✅ Use Capybara-supported visibility handling
       input_field.attach_file(path, visible: :all)
 
-      # ✅ Wait for upload confirmation
       unless page.has_selector?(
         '.moj-multi-file-upload__success',
         text: filename,
         wait: Capybara.default_max_wait_time
       )
-        raise "Upload failed: #{filename} not displayed on #{page.current_path}"
+        raise ArgumentError, "Upload failed: #{filename} not displayed on #{page.current_path}"
       end
     end
   end

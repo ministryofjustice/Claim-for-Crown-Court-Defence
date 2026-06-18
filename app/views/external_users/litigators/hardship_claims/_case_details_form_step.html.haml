@@ -1,11 +1,10 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-
-= govuk_inset_text(text: t('.case_stage_warning_html'))
-
 %h1.govuk-heading-xl
   = t('.page_heading')
+
+= govuk_inset_text(text: t('.case_stage_warning_html'))
 
 = render partial: 'external_users/claims/api_promo_banner', locals: { claim: @claim }
 

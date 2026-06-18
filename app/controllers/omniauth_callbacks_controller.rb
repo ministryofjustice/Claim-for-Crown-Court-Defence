@@ -168,15 +168,19 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     mapped = map_laa_internal_roles(raw)
     return mapped if mapped.any?
 
-    roles = Array(raw['roles']).map(&:to_s)
-    roles = ['case_worker'] if roles.empty?
+    roles = Array(raw['LAA_ROLES']).map { |role| role.to_s.strip.downcase }
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if roles.empty?
+
     roles = roles & CaseWorker::ROLES
-    roles.empty? ? ['case_worker'] : roles
+    raise ArgumentError, 'No valid case worker roles found in LAA_ROLES' if roles.empty?
+
+    roles
   end
 
   def extract_location(raw)
-    location = raw['location'].to_s.strip
-    location.empty? ? 'Nottingham' : location
+    location = 'Nottingham'
+
+    location
   end
 
   def update_case_worker_roles(user, raw)
@@ -412,12 +416,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     mapped = map_laa_external_roles(raw)
     return mapped if mapped.any?
 
-    roles = Array(raw['LAA_APP_ROLES']).map { |role| role.to_s.strip.downcase }
-    raise ArgumentError, 'Missing LAA_APP_ROLES in auth payload' if roles.empty?
+    roles = Array(raw['LAA_ROLES']).map { |role| role.to_s.strip.downcase }
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if roles.empty?
 
     roles = roles & ExternalUser::ROLES
     roles = available_external_user_roles(provider) & roles
-    raise ArgumentError, 'No valid external user roles found in LAA_APP_ROLES' if roles.empty?
+    raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if roles.empty?
 
     roles
   end
@@ -429,15 +433,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     name
   end
 
+  # TODO
   def extract_provider_type(raw)
-    provider_type = raw['provider_type'].to_s.strip.downcase
-    Provider::PROVIDER_TYPES.include?(provider_type) ? provider_type : 'firm'
+    'firm'
   end
 
+  # TODO
   def extract_provider_roles(raw, provider_type)
-    roles = Array(raw['provider_roles']).map(&:to_s)
-    roles = roles & Provider::ROLES
-    roles = ['lgfs'] if roles.empty?
+    roles = ['lgfs']
+
     normalize_provider_roles(roles, provider_type)
   end
 
@@ -448,11 +452,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     roles.include?('lgfs') ? roles : (roles + ['lgfs'])
   end
 
+  # TODO
   def extract_provider_vat_registered(raw)
-    value = raw['vat_registered']
-    return true if value.nil?
-
-    ActiveModel::Type::Boolean.new.cast(value)
+    true
   end
 
   def extract_firm_agfs_supplier_number(raw, provider_type, roles)
@@ -461,11 +463,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     agfs_numbers, = separate_agfs_and_lgfs_supplier_numbers(raw)
     agfs_numbers.first
-  end
-
-  def extract_supplier_number(raw)
-    number = raw['supplier_number'].to_s.strip.upcase
-    number.empty? ? nil : number
   end
 
   def available_external_user_roles(provider)

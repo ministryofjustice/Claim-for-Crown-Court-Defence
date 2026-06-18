@@ -42,6 +42,7 @@ moj.Modules.AllocationDataTable = {
   // See: https://datatables.net/reference/option/
   // => https://datatables.net/reference/
   options: {
+    autoWidth: false,
 
     // default order settings
     // =>/option/order

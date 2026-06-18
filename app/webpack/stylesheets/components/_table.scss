@@ -103,6 +103,31 @@ tr {
     td .state-display {
       display: block;
     }
+
+    &.app-jq-datatable tbody tr td:first-child {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      &::before {
+        margin-right: govuk-spacing(2);
+        float: none;
+      }
+
+      .govuk-form-group {
+        margin: 0;
+        flex: 0 0 auto;
+      }
+
+      .govuk-checkboxes,
+      .govuk-checkboxes__item {
+        margin: 0;
+      }
+
+      .govuk-checkboxes__input {
+        top: 0;
+      }
+    }
   }
 }
 

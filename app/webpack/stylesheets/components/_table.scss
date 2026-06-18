@@ -98,6 +98,11 @@ tr {
     .state {
       display: inline;
     }
+
+    td .claim-state,
+    td .state-display {
+      display: block;
+    }
   }
 }
 

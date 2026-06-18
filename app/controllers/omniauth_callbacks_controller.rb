@@ -168,7 +168,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     mapped = map_laa_internal_roles(raw)
     return mapped if mapped.any?
 
-    roles = Array(raw['LAA_ROLES']).map { |role| role.to_s.strip.downcase }
+    roles = normalized_laa_roles(raw)
     raise ArgumentError, 'Missing LAA_ROLES in auth payload' if roles.empty?
 
     roles = roles & CaseWorker::ROLES
@@ -199,7 +199,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 
   def map_laa_internal_roles(raw)
-    laa_roles = Array(raw['LAA_ROLES']).map(&:to_s)
+    laa_roles = normalized_laa_roles(raw)
     return [] if laa_roles.empty?
 
     mapped = laa_roles.filter_map { |role| LAA_INTERNAL_ROLE_MAPPINGS[role] }
@@ -208,7 +208,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def map_laa_external_roles(raw)
-    laa_roles = Array(raw['LAA_ROLES']).map(&:to_s)
+    laa_roles = normalized_laa_roles(raw)
     return [] if laa_roles.empty?
 
     mapped = laa_roles.filter_map { |role| LAA_EXTERNAL_ROLE_MAPPINGS[role] }
@@ -232,7 +232,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 
   def persona_from_laa_roles(raw)
-    laa_roles = Array(raw['LAA_ROLES']).map(&:to_s)
+    laa_roles = normalized_laa_roles(raw)
     return nil if laa_roles.empty?
     return PERSONA_SUPER_ADMIN if laa_roles.include?(LAA_SUPER_ADMIN_ROLE)
 
@@ -247,7 +247,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def create_external_user_from_auth(info, raw)
     email = info.email.to_s.downcase
-    return [nil, missing_user_message(email)] unless auto_provision_external_users?
 
     user = nil
     User.transaction do
@@ -313,16 +312,16 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     Rails.env.development? || Rails.env.test?
   end
 
+  def auto_create_providers_from_silas?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('AUTO_CREATE_PROVIDERS_FROM_SILAS', 'false'))
+  end
+
   def required_name(info, raw, key)
     value = info.respond_to?(key) ? info.public_send(key) : nil
     value = value.presence || raw[key].presence
     raise ArgumentError, "Missing #{key} in auth payload" if value.blank?
 
     value
-  end
-
-  def auto_provision_external_users?
-    Rails.env.development? || Rails.env.test?
   end
 
   def separate_agfs_and_lgfs_supplier_numbers(raw)
@@ -359,6 +358,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # Step 1: Try to find by FIRM_NAME
     provider = matched_provider_from_firm_name(firm_name)
     return provider if provider
+
+    unless auto_create_providers_from_silas?
+      raise ArgumentError, "No provider found for FIRM_NAME: #{firm_name}"
+    end
 
     # Step 2: Separate AGFS and LGFS supplier numbers
     agfs_numbers, lgfs_numbers = separate_agfs_and_lgfs_supplier_numbers(raw)
@@ -416,7 +419,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     mapped = map_laa_external_roles(raw)
     return mapped if mapped.any?
 
-    roles = Array(raw['LAA_ROLES']).map { |role| role.to_s.strip.downcase }
+    roles = normalized_laa_roles(raw)
     raise ArgumentError, 'Missing LAA_ROLES in auth payload' if roles.empty?
 
     roles = roles & ExternalUser::ROLES
@@ -431,30 +434,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     raise ArgumentError, 'Missing FIRM_NAME in auth payload' if name.empty?
 
     name
-  end
-
-  # TODO
-  def extract_provider_type(raw)
-    'firm'
-  end
-
-  # TODO
-  def extract_provider_roles(raw, provider_type)
-    roles = ['lgfs']
-
-    normalize_provider_roles(roles, provider_type)
-  end
-
-  def normalize_provider_roles(roles, provider_type)
-    roles = roles & Provider::ROLES
-    return roles unless provider_type == 'firm'
-
-    roles.include?('lgfs') ? roles : (roles + ['lgfs'])
-  end
-
-  # TODO
-  def extract_provider_vat_registered(raw)
-    true
   end
 
   def extract_firm_agfs_supplier_number(raw, provider_type, roles)
@@ -475,5 +454,33 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       []
     end
+  end
+
+  # TODO: cannot determine provider_type from auth payload, so default to 'firm' for now. In future, if we have a way to determine provider_type from auth payload, we can implement that logic here.
+  def extract_provider_type(raw)
+    'firm'
+  end
+
+  # TODO: cannot determine provider roles from auth payload, so default to ['lgfs'] for now. In future, if we have a way to determine provider roles from auth payload, we can implement that logic here.
+  def extract_provider_roles(raw, provider_type)
+    roles = ['lgfs']
+
+    normalize_provider_roles(roles, provider_type)
+  end
+
+  def normalize_provider_roles(roles, provider_type)
+    roles = roles & Provider::ROLES
+    return roles unless provider_type == 'firm'
+
+    roles.include?('lgfs') ? roles : (roles + ['lgfs'])
+  end
+
+  def normalized_laa_roles(raw)
+    Array(raw['LAA_ROLES']).map { |role| role.to_s.strip.downcase }.reject(&:empty?)
+  end
+
+  # TODO: cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.
+  def extract_provider_vat_registered(raw)
+    true
   end
 end

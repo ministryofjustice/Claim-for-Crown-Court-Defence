@@ -134,24 +134,14 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def create_case_worker_from_auth(info, raw)
     email = info.email.to_s.downcase
-    return [nil, missing_user_message(email)] unless auto_provision_case_workers?
 
     user = nil
     User.transaction do
-      password = Devise.friendly_token.first(32)
-      first_name = required_name(info, raw, 'first_name')
-      last_name = required_name(info, raw, 'last_name')
-      user = User.create!(
-        first_name: first_name,
-        last_name: last_name,
-        email: email.downcase,
-        password: password,
-        password_confirmation: password
-      )
+      user = create_user_from_auth!(info, raw, email)
 
       case_worker = CaseWorker.new(roles: extract_case_worker_roles(raw))
       case_worker.user = user
-      case_worker.location = Location.find_or_create_by!(name: extract_location(raw))
+      case_worker.location = Location.find_or_create_by!(name: default_case_worker_location)
       case_worker.save!
     end
 
@@ -160,27 +150,18 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [nil, provision_failed_message(email, e)]
   end
 
-  def auto_provision_case_workers?
-    Rails.env.development? || Rails.env.test?
-  end
-
   def extract_case_worker_roles(raw)
+    laa_roles = laa_roles_from_payload(raw)
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if laa_roles.empty?
+
     mapped = map_laa_internal_roles(raw)
-    return mapped if mapped.any?
+    raise ArgumentError, 'No valid case worker roles found in LAA_ROLES' if mapped.empty?
 
-    roles = normalized_laa_roles(raw)
-    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if roles.empty?
-
-    roles = roles & CaseWorker::ROLES
-    raise ArgumentError, 'No valid case worker roles found in LAA_ROLES' if roles.empty?
-
-    roles
+    mapped
   end
 
-  def extract_location(raw)
-    location = 'Nottingham'
-
-    location
+  def default_case_worker_location
+    'Nottingham'
   end
 
   def update_case_worker_roles(user, raw)
@@ -199,7 +180,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 
   def map_laa_internal_roles(raw)
-    laa_roles = normalized_laa_roles(raw)
+    laa_roles = laa_roles_from_payload(raw)
     return [] if laa_roles.empty?
 
     mapped = laa_roles.filter_map { |role| LAA_INTERNAL_ROLE_MAPPINGS[role] }
@@ -208,7 +189,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def map_laa_external_roles(raw)
-    laa_roles = normalized_laa_roles(raw)
+    laa_roles = laa_roles_from_payload(raw)
     return [] if laa_roles.empty?
 
     mapped = laa_roles.filter_map { |role| LAA_EXTERNAL_ROLE_MAPPINGS[role] }
@@ -232,7 +213,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 
   def persona_from_laa_roles(raw)
-    laa_roles = normalized_laa_roles(raw)
+    laa_roles = laa_roles_from_payload(raw)
     return nil if laa_roles.empty?
     return PERSONA_SUPER_ADMIN if laa_roles.include?(LAA_SUPER_ADMIN_ROLE)
 
@@ -283,20 +264,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def create_super_admin_from_auth(info)
     email = info.email.to_s.downcase
-    return [nil, missing_user_message(email)] unless auto_provision_super_admins?
 
     user = nil
     User.transaction do
-      password = Devise.friendly_token.first(32)
-      first_name = required_name(info, {}, 'first_name')
-      last_name = required_name(info, {}, 'last_name')
-      user = User.create!(
-        first_name: first_name,
-        last_name: last_name,
-        email: email.downcase,
-        password: password,
-        password_confirmation: password
-      )
+      user = create_user_from_auth!(info, {}, email)
 
       super_admin = SuperAdmin.new
       super_admin.user = user
@@ -306,10 +277,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   rescue StandardError => e
     [nil, provision_failed_message(email, e)]
-  end
-
-  def auto_provision_super_admins?
-    Rails.env.development? || Rails.env.test?
   end
 
   def auto_create_providers_from_silas?
@@ -322,6 +289,20 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     raise ArgumentError, "Missing #{key} in auth payload" if value.blank?
 
     value
+  end
+
+  def create_user_from_auth!(info, raw, email)
+    password = Devise.friendly_token.first(32)
+    first_name = required_name(info, raw, 'first_name')
+    last_name = required_name(info, raw, 'last_name')
+
+    User.create!(
+      first_name: first_name,
+      last_name: last_name,
+      email: email.downcase,
+      password: password,
+      password_confirmation: password
+    )
   end
 
   def separate_agfs_and_lgfs_supplier_numbers(raw)
@@ -416,14 +397,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def extract_external_user_roles(raw, provider)
+    laa_roles = laa_roles_from_payload(raw)
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if laa_roles.empty?
+
     mapped = map_laa_external_roles(raw)
-    return mapped if mapped.any?
+    raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if mapped.empty?
 
-    roles = normalized_laa_roles(raw)
-    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if roles.empty?
-
-    roles = roles & ExternalUser::ROLES
-    roles = available_external_user_roles(provider) & roles
+    roles = available_external_user_roles(provider) & mapped
     raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if roles.empty?
 
     roles
@@ -475,8 +455,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     roles.include?('lgfs') ? roles : (roles + ['lgfs'])
   end
 
-  def normalized_laa_roles(raw)
-    Array(raw['LAA_ROLES']).map { |role| role.to_s.strip.downcase }.reject(&:empty?)
+  def laa_roles_from_payload(raw)
+    Array(raw['LAA_ROLES']).map { |role| role.to_s.strip }.reject(&:empty?)
   end
 
   # TODO: cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.

@@ -81,7 +81,7 @@ tr {
 
     tbody tr:nth-child(odd),
     tbody tr:nth-child(even) {
-      background-color: none;
+      background-color: transparent;
     }
 
     th::before,

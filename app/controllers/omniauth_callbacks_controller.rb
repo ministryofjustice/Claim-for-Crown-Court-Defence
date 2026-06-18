@@ -248,7 +248,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = nil
     User.transaction do
       provider = find_or_create_provider_for_external_user(raw)
-      supplier_number = extract_supplier_number_from_laa_accounts(raw)
+      roles = extract_external_user_roles(raw, provider)
+      supplier_number = if provider.chamber? && roles.include?('advocate')
+                          extract_agfs_supplier_number_from_laa_accounts(raw)
+                        end
 
       password = Devise.friendly_token.first(32)
       first_name = required_name(info, raw, 'first_name')
@@ -262,7 +265,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       )
 
       external_user = ExternalUser.new(
-        roles: extract_external_user_roles(raw, provider),
+        roles: roles,
         supplier_number: supplier_number,
         provider: provider
       )
@@ -337,14 +340,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [agfs_numbers, lgfs_numbers]
   end
 
-  def extract_supplier_number_from_laa_accounts(raw)
-    agfs_numbers, lgfs_numbers = separate_agfs_and_lgfs_supplier_numbers(raw)
+  def extract_agfs_supplier_number_from_laa_accounts(raw)
+    agfs_numbers, = separate_agfs_and_lgfs_supplier_numbers(raw)
 
-    # For external_user, use the first LGFS number if available, otherwise first AGFS
-    return lgfs_numbers.first if lgfs_numbers.any?
-    return agfs_numbers.first if agfs_numbers.any?
-
-    raise ArgumentError, 'No valid supplier numbers found in LAA_ACCOUNTS'
+    # For external_user.supplier_number, only use AGFS numbers
+    # LGFS supplier numbers are managed via the supplier_numbers table, not on external_user
+    agfs_numbers.first
   end
 
   def find_or_create_provider_for_external_user(raw)
@@ -407,16 +408,18 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         .strip
   end
 
-
-
   def extract_external_user_roles(raw, provider)
     mapped = map_laa_external_roles(raw)
     return mapped if mapped.any?
 
-    roles = Array(raw['roles']).map(&:to_s)
+    roles = Array(raw['LAA_APP_ROLES']).map { |role| role.to_s.strip.downcase }
+    raise ArgumentError, 'Missing LAA_APP_ROLES in auth payload' if roles.empty?
+
     roles = roles & ExternalUser::ROLES
     roles = available_external_user_roles(provider) & roles
-    roles.empty? ? ['admin'] : roles
+    raise ArgumentError, 'No valid external user roles found in LAA_APP_ROLES' if roles.empty?
+
+    roles
   end
 
   def extract_provider_name(raw)

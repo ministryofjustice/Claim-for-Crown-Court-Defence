@@ -292,10 +292,10 @@ GEM
       raabro (~> 1.4)
     globalid (1.3.0)
       activesupport (>= 6.1)
-    govuk-components (6.2.0)
+    govuk-components (6.3.1)
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
-      view_component (>= 4.9, < 4.10)
+      view_component (>= 4.9, < 4.13)
     govuk_design_system_formbuilder (6.2.0)
       actionview (>= 7.2)
       activemodel (>= 7.2)
@@ -340,7 +340,7 @@ GEM
       reline
     html-attributes-utils (1.0.2)
       activesupport (>= 6.1.4.4)
-    i18n (1.14.8)
+    i18n (1.15.0)
       concurrent-ruby (~> 1.0)
     i18n-tasks (1.1.2)
       activesupport (>= 4.0.2)
@@ -734,7 +734,7 @@ GEM
       rack (~> 3.0)
     vcr (6.4.0)
     version_gem (1.1.11)
-    view_component (4.9.0)
+    view_component (4.12.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
@@ -800,7 +800,7 @@ DEPENDENCIES
   faker (~> 3.8.0)
   faraday (~> 2.14)
   faraday-follow_redirects (~> 0.5)
-  govuk-components (~> 6.2.0)
+  govuk-components (~> 6.3.1)
   govuk_design_system_formbuilder (~> 6.2)
   govuk_notify_rails (~> 3.0.0)
   grape (~> 3.2.1)
@@ -970,7 +970,7 @@ CHECKSUMS
   ffi (1.17.4-x86_64-linux-gnu) sha256=9d3db14c2eae074b382fa9c083fe95aec6e0a1451da249eab096c34002bc752d
   fugit (1.12.2) sha256=643f2bf28db263bd400cbf8e0dd8b76b2c9b94bdb130e12d2394de04d9c20e5e
   globalid (1.3.0) sha256=05c639ad6eb4594522a0b07983022f04aa7254626ab69445a0e493aa3786ff11
-  govuk-components (6.2.0) sha256=85ec75f93b425e62cbedf83e04a749d7cdd35eeed6208071974dd24775013207
+  govuk-components (6.3.1) sha256=141715c9e65e65b1dad0a0476c7d81dac14dad220f5435496713c63e80df87f0
   govuk_design_system_formbuilder (6.2.0) sha256=d8cd1543776b7b15ba3d1774f16e3b8458c59446b0cad56ccbbc1e517a575e93
   govuk_notify_rails (3.0.0) sha256=e0e1b8b0a7c47f90963034f290fb2982652aa8051a733c25c178680d44f2d7aa
   grape (3.2.1) sha256=448072f55904e5a4dca2e3781f0a373942514be65402cafb6177f5bc73db1b94
@@ -985,7 +985,7 @@ CHECKSUMS
   hashie-forbidden_attributes (0.1.1) sha256=3a6ed37f3a314e4fb1dd1e2df6eb7721bcadd023a30bc0b951b2b5285a790fb2
   highline (3.1.2) sha256=67cbd34d19f6ef11a7ee1d82ffab5d36dfd5b3be861f450fc1716c7125f4bb4a
   html-attributes-utils (1.0.2) sha256=594e0b37b3dd4e554abe893bee9719896f876675fd08fe534fc2e6e1b4e2538c
-  i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
+  i18n (1.15.0) sha256=ed20037ed7ca75dd36ec486b5fb9696e8e0cfe48f4f80980017932d93e70527f
   i18n-tasks (1.1.2) sha256=4dcfba49e52a623f30661cb316cb80d84fbba5cb8c6d88ef5e02545fffa3637a
   ice_nine (0.11.2) sha256=5d506a7d2723d5592dc121b9928e4931742730131f22a1a37649df1c1e2e63db
   inflection (1.0.0) sha256=ceba9b26fc28b9af82e33e822d28f78a4312af75687efec81d5ef1062498d355
@@ -1148,7 +1148,7 @@ CHECKSUMS
   utf8-cleaner (2.0.1) sha256=2bcf72978a5799f4d37631268932bcd82f65909fe638663b0777bc328144d51d
   vcr (6.4.0) sha256=077ac92cc16efc5904eb90492a18153b5e6ca5398046d8a249a7c96a9ea24ae6
   version_gem (1.1.11) sha256=695df6464862b3dc976b4f6e0e089062517c8137ecd31078d8c378347f959c97
-  view_component (4.9.0) sha256=f599f0831ed0148bb19625f914c43cc982746a2252b6ebe8492bd4eea0d7dbaf
+  view_component (4.12.0) sha256=b9a5979d1c43eba2aa21a06a86f661aab3990104855f2909ef7c3779acdcdcb4
   virtus (2.0.0) sha256=8841dae4eb7fcc097320ba5ea516bf1839e5d056c61ee27138aa4bddd6e3d1c2
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0
   webmock (3.26.2) sha256=774556f2ea6371846cca68c01769b2eac0d134492d21f6d0ab5dd643965a4c90

@@ -16,7 +16,10 @@ When(/^I select the court '(.*?)'$/) do |court_name|
 end
 
 When(/^I select a case type of '(.*?)'$/) do |case_type|
-  @claim_form_page.auto_case_type.choose_autocomplete_option(case_type)
+  patiently do
+    @claim_form_page.auto_case_type.choose_autocomplete_option(case_type)
+  end
+  wait_for_ajax
 end
 
 When(/^I select a case stage of '(.*?)'$/) do |case_stage|

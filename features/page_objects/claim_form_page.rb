@@ -122,13 +122,25 @@ class ClaimFormPage < BasePage
   end
 
   def attach_evidence(count: 1, document: '*')
-    count ||= 1
-    available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"
-    available_docs[0...count].each do |path|
-      # element needs to be visible in order to attach_file
-      page.execute_script("$('.moj-multi-file-upload__input').css('position','unset')")
-      input_field = page.find("input[name='attachments']")
-      input_field.attach_file(path)
+    pattern = document.to_s.gsub('.pdf', '')
+    paths = Dir.glob(Rails.root.join("spec/fixtures/files/#{pattern}.pdf"))
+
+    raise ArgumentError, "No files found for pattern: #{document}" if paths.empty?
+
+    paths.first(count).each do |path|
+      filename = File.basename(path)
+
+      # Use Capybara-supported visibility handling
+      input_field = find("input[name='attachments']", visible: :all)
+      input_field.attach_file(path, visible: :all)
+
+      unless page.has_selector?(
+        '.moj-multi-file-upload__success',
+        text: filename,
+        wait: Capybara.default_max_wait_time
+      )
+        raise ArgumentError, "Upload failed: #{filename} not displayed on #{page.current_path}"
+      end
     end
   end
 

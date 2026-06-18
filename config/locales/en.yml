@@ -2759,7 +2759,7 @@ en:
           clear_filters: Clear filter
           allocate: Allocate
           allocation_queue: Allocation queue
-          defendents: Defendants
+          defendants: Defendants
           error_summary: 'This claim allocation has '
           filter_claims: Filter claims
           page_heading: Allocation

@@ -694,7 +694,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    state_machines (0.101.0)
+    state_machines (0.201.0)
     state_machines-activemodel (0.102.0)
       activemodel (>= 7.2)
       state_machines (>= 0.101.0)
@@ -1122,7 +1122,7 @@ CHECKSUMS
   snaky_hash (2.0.6) sha256=3663cae48cdef582b517025cf8a39d8789996eaf0b4ed89e2f0624836505654a
   sprockets (4.2.2) sha256=761e5a49f1c288704763f73139763564c845a8f856d52fba013458f8af1b59b1
   sprockets-rails (3.5.2) sha256=a9e88e6ce9f8c912d349aa5401509165ec42326baf9e942a85de4b76dbc4119e
-  state_machines (0.101.0) sha256=cbcec89699a0388493226a4b18d790bd5d49c38ba782d2099342a3dd78bcbca3
+  state_machines (0.201.0) sha256=807bafdd5d7dbfb3e23d77897edfe38e505b6e0738a2b7259dab566f46b9d319
   state_machines-activemodel (0.102.0) sha256=871ac36194227c17f61053c3cfe61606f0a23e62e3ec8715f61fc6a3f94ba274
   state_machines-activerecord (0.103.0) sha256=7c774b5a47a0de8496130e7e69e6f959d3e2b1f1b7e682c24f95bfa670b5b3cc
   state_machines-audit_trail (3.0.0) sha256=69c33bbdb5a78d4d67f26e2c18677dbf2f89006cd0d6c07c7b9815c245d4a3c8

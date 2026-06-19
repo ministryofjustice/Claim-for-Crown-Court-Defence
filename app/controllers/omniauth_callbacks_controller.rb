@@ -104,7 +104,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   end
 
-  def find_super_admin(info, raw)
+  def find_super_admin(info)
     email = info.email.to_s.downcase
     user = User.find_by(email: email)
     return create_super_admin_from_auth(info) if user.nil?
@@ -244,8 +244,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
         first_name: first_name,
         last_name: last_name,
         email: email.downcase,
-        password: password,
-        password_confirmation: password
+        **generated_auth_credentials
       )
 
       external_user = ExternalUser.new(
@@ -292,7 +291,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def create_user_from_auth!(info, raw, email)
-    password = Devise.friendly_token.first(32)
     first_name = required_name(info, raw, 'first_name')
     last_name = required_name(info, raw, 'last_name')
 
@@ -300,9 +298,17 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       first_name: first_name,
       last_name: last_name,
       email: email.downcase,
-      password: password,
-      password_confirmation: password
+      **generated_auth_credentials
     )
+  end
+
+  def generated_auth_credentials
+    generated_secret = Devise.friendly_token.first(32)
+
+    {
+      password: generated_secret,
+      password_confirmation: generated_secret
+    }
   end
 
   def separate_agfs_and_lgfs_supplier_numbers(raw)
@@ -348,15 +354,19 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     agfs_numbers, lgfs_numbers = separate_agfs_and_lgfs_supplier_numbers(raw)
 
     # Step 3: If there are AGFS matches in external_users, reject and return error
-    agfs_numbers.each do |supplier_number|
-      external_user_match = ExternalUser.where('UPPER(supplier_number) = ?', supplier_number).first
-      raise ArgumentError, "AGFS supplier number #{supplier_number} already registered. User may have registered another account in CCCD" if external_user_match
+    duplicate_agfs_supplier_number = agfs_numbers.find do |supplier_number|
+      ExternalUser.where('UPPER(supplier_number) = ?', supplier_number).exists?
+    end
+    if duplicate_agfs_supplier_number
+      raise ArgumentError, "AGFS supplier number #{duplicate_agfs_supplier_number} already registered. User may have registered another account in CCCD"
     end
 
     # Step 4: Check if any LGFS supplier_number exists in supplier_numbers table (find matching provider)
-    lgfs_numbers.each do |supplier_number|
-      supplier_number_record = SupplierNumber.where('UPPER(supplier_number) = ?', supplier_number).first
-      return supplier_number_record.provider if supplier_number_record
+    matching_supplier_number = lgfs_numbers.find do |supplier_number|
+      SupplierNumber.where('UPPER(supplier_number) = ?', supplier_number).exists?
+    end
+    if matching_supplier_number
+      return SupplierNumber.where('UPPER(supplier_number) = ?', matching_supplier_number).first.provider
     end
 
     # Step 5-6: Create new provider with all LGFS supplier_numbers if no match found
@@ -436,13 +446,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
-  # TODO: cannot determine provider_type from auth payload, so default to 'firm' for now. In future, if we have a way to determine provider_type from auth payload, we can implement that logic here.
-  def extract_provider_type(raw)
+  # cannot determine provider_type from auth payload, so default to 'firm' for now. In future, if we have a way to determine provider_type from auth payload, we can implement that logic here.
+  def extract_provider_type()
     'firm'
   end
 
-  # TODO: cannot determine provider roles from auth payload, so default to ['lgfs'] for now. In future, if we have a way to determine provider roles from auth payload, we can implement that logic here.
-  def extract_provider_roles(raw, provider_type)
+  # cannot determine provider roles from auth payload, so default to ['lgfs'] for now. In future, if we have a way to determine provider roles from auth payload, we can implement that logic here.
+  def extract_provider_roles(provider_type)
     roles = ['lgfs']
 
     normalize_provider_roles(roles, provider_type)
@@ -459,8 +469,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     Array(raw['LAA_ROLES']).map { |role| role.to_s.strip }.reject(&:empty?)
   end
 
-  # TODO: cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.
-  def extract_provider_vat_registered(raw)
+  # cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.
+  def extract_provider_vat_registered()
     true
   end
 end

@@ -36,7 +36,7 @@ module OmniAuth
       private
 
       def mock_data
-        json = ENV['ENTRA_MOCK_JSON']
+        json = ENV.fetch('ENTRA_MOCK_JSON', nil)
         return default_data if json.nil? || json.strip.empty?
 
         JSON.parse(json)
@@ -57,7 +57,7 @@ module OmniAuth
       end
 
       def mock_http_success?
-        status = ENV['ENTRA_MOCK_HTTP_STATUS']
+        status = ENV.fetch('ENTRA_MOCK_HTTP_STATUS', nil)
         return true if status.nil? || status.strip.empty?
 
         status.to_i == 200

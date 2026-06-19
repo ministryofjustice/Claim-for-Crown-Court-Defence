@@ -20,8 +20,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 					 discovery: true,
 					 issuer: "https://login.microsoftonline.com/#{ENV.fetch('ENTRA_ID_TENANT_ID', 'common')}/v2.0",
 					 client_options: {
-						 identifier: ENV['ENTRA_ID_CLIENT_ID'],
-						 secret: ENV['ENTRA_ID_CLIENT_SECRET'],
+						 identifier: ENV.fetch('ENTRA_ID_CLIENT_ID'),
+						 secret: ENV.fetch('ENTRA_ID_CLIENT_SECRET'),
 						 redirect_uri: ENV.fetch('ENTRA_ID_REDIRECT_URI', 'http://localhost:3000/users/auth/entra_id/callback')
 					 }
 end

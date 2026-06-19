@@ -1,13 +1,36 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "41ec73dec7e548258f2359b69f8ce81b500e31a65d98e8a085363557d459b8ee",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/case_workers/claims_controller.rb",
+      "line": 34,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(S3ZipDownloader.new(Claim::BaseClaim.active.find(params.expect(:id))).generate!, :filename => (\"#{Claim::BaseClaim.active.find(params.expect(:id)).case_number}-documents.zip\"), :type => \"application/zip\", :disposition => \"attachment\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CaseWorkers::ClaimsController",
+        "method": "download_zip"
+      },
+      "user_input": "Claim::BaseClaim.active.find(params.expect(:id))",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": "False positive: case_number is used only in the Content-Disposition filename header, not in a file path. The actual file served is a locally-generated zip from S3ZipDownloader. The case_number value comes from the database (not from user input) and cannot influence which file is read from disk."
+    },
+    {
       "warning_type": "Redirect",
       "warning_code": 18,
       "fingerprint": "66dafbaaa2cbe7420e0b8ca4945e033589f76437a60ead3e42cd576f6caa50fa",
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/case_workers/admin/management_information_controller.rb",
-      "line": 39,
+      "line": 40,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(Stats::StatsReport.most_recent_by_type(report_params[:report_type]).document.blob.url(:disposition => \"attachment\"), :allow_other_host => true)",
       "render_path": null,
@@ -22,30 +45,7 @@
         601
       ],
       "note": "False positive: redirects to an Active Storage blob URL for a report looked up by a validated report_type param. The URL is generated internally by Rails (not from user input) and points to the app's own S3 bucket. The allow_other_host flag is required because S3 URLs are on a different domain."
-    },
-    {
-      "warning_type": "File Access",
-      "warning_code": 16,
-      "fingerprint": "8738e8b7994af508882a105d873642c98a284c6139f8c6bcf53ae7e25bf14bfa",
-      "check_name": "SendFile",
-      "message": "Model attribute used in file name",
-      "file": "app/controllers/case_workers/claims_controller.rb",
-      "line": 34,
-      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
-      "code": "send_file(S3ZipDownloader.new(Claim::BaseClaim.active.find(params[:id])).generate!, :filename => (\"#{Claim::BaseClaim.active.find(params[:id]).case_number}-documents.zip\"), :type => \"application/zip\", :disposition => \"attachment\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "CaseWorkers::ClaimsController",
-        "method": "download_zip"
-      },
-      "user_input": "Claim::BaseClaim.active.find(params[:id])",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ],
-      "note": "False positive: case_number is used only in the Content-Disposition filename header, not in a file path. The actual file served is a locally-generated zip from S3ZipDownloader. The case_number value comes from the database (not from user input) and cannot influence which file is read from disk."
     }
   ],
-  "brakeman_version": "8.0.4"
+  "brakeman_version": "8.0.5"
 }

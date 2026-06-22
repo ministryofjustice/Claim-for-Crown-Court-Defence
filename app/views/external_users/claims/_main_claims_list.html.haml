@@ -1,4 +1,4 @@
-= govuk_table(classes: 'app-table--responsive') do |table|
+= govuk_table(classes: 'app-table--responsive', html_attributes: { data: { module: 'moj-sortable-table' } }) do |table|
   = table.with_caption(size: 's') do
     .govuk-grid-row
       .govuk-grid-column-one-half

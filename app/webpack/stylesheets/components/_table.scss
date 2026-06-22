@@ -31,7 +31,7 @@ tr {
     tr {
       display: block;
       margin-bottom: $gutter-one-third;
-      border-bottom: 3px solid govuk-colour("black", $variant: "tint-95");
+      border-bottom: 3px solid $govuk-border-colour;
 
       .govuk-table__header:last-child,
       .govuk-table__cell:last-child,
@@ -39,7 +39,7 @@ tr {
       td {
         display: block;
         padding: $gutter-half;
-        border-bottom: 1px solid govuk-colour("black", $variant: "tint-95");
+        border-bottom: 1px solid $govuk-border-colour;
         text-align: right;
 
         br {
@@ -67,7 +67,7 @@ tr {
     }
 
     tbody tr td:first-child {
-      background-color: $govuk-border-colour;
+      background-color: govuk-colour("light-grey");
       font-weight: 700;
 
       a {
@@ -81,7 +81,7 @@ tr {
 
     tbody tr:nth-child(odd),
     tbody tr:nth-child(even) {
-      background-color: none;
+      background-color: transparent;
     }
 
     th::before,
@@ -89,7 +89,6 @@ tr {
       content: attr(data-label);
       float: left;
       font-weight: 700;
-      text-transform: uppercase;
     }
 
     .unique-id-small {
@@ -98,6 +97,36 @@ tr {
 
     .state {
       display: inline;
+    }
+
+    td .claim-state,
+    td .state-display {
+      display: block;
+    }
+
+    &.app-jq-datatable tbody tr td:first-child {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      &::before {
+        margin-right: govuk-spacing(2);
+        float: none;
+      }
+
+      .govuk-form-group {
+        margin: 0;
+        flex: 0 0 auto;
+      }
+
+      .govuk-checkboxes,
+      .govuk-checkboxes__item {
+        margin: 0;
+      }
+
+      .govuk-checkboxes__input {
+        top: 0;
+      }
     }
   }
 }
@@ -181,4 +210,95 @@ td.active {
   --dt-row-selected: 244,248,251;
   --dt-row-selected-text: 0,0,0;
   --dt-row-selected-link: 26, 101, 166;
+}
+
+// Style sortable table column headers using MOJ Sortable Table styling
+$sortable-indicator-size: 22px;
+$sortable-indicator-mask-unsorted: "data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.1875 9.5L10.9609 3.95703L13.7344 9.5H8.1875Z' fill='black'/%3E%3Cpath d='M13.7344 12.0781L10.9609 17.6211L8.1875 12.0781H13.7344Z' fill='black'/%3E%3C/svg%3E";
+$sortable-indicator-mask-asc: "data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.5625 15.5L11 6.63125L15.4375 15.5H6.5625Z' fill='black'/%3E%3C/svg%3E";
+$sortable-indicator-mask-desc: "data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15.4375 7L11 15.8687L6.5625 7L15.4375 7Z' fill='black'/%3E%3C/svg%3E";
+
+@mixin sortable-indicator-image($url) {
+  -webkit-mask-image: url($url);
+  mask-image: url($url);
+}
+
+table[data-module='moj-sortable-table'] {
+  thead th a,
+  thead th[aria-sort] > button,
+  .mobile-sort a {
+    display: inline-flex;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+    color: $govuk-link-colour;
+    background-color: transparent;
+    box-shadow: none;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: inherit;
+    text-align: inherit;
+    text-decoration: none;
+    align-items: flex-start;
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: $sortable-indicator-size;
+      height: $sortable-indicator-size;
+      margin-left: 4px;
+      background-color: currentcolor;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: $sortable-indicator-size $sortable-indicator-size;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: $sortable-indicator-size $sortable-indicator-size;
+      vertical-align: top;
+      @include sortable-indicator-image($sortable-indicator-mask-unsorted);
+    }
+  }
+
+  thead th a,
+  .mobile-sort a {
+    &:visited {
+      color: $govuk-link-colour;
+    }
+
+    &:hover {
+      color: $govuk-link-hover-colour;
+    }
+
+    &:active {
+      color: $govuk-link-active-colour;
+    }
+  }
+
+  thead th a:focus,
+  .mobile-sort a:focus,
+  thead th[aria-sort] > button:focus {
+    outline: none;
+    color: govuk-functional-colour(focus-text);
+    background-color: govuk-functional-colour(focus);
+    box-shadow:
+      0 -2px govuk-functional-colour(focus),
+      0 4px govuk-functional-colour(focus-text);
+  }
+
+  thead th a.current.asc::after,
+  thead th[aria-sort='ascending'] > button::after,
+  .mobile-sort a.current.asc::after {
+    @include sortable-indicator-image($sortable-indicator-mask-asc);
+  }
+
+  thead th a.current.desc::after,
+  thead th[aria-sort='descending'] > button::after,
+  .mobile-sort a.current.desc::after {
+    @include sortable-indicator-image($sortable-indicator-mask-desc);
+  }
+
+  thead th[aria-sort] > button svg {
+    display: none;
+  }
 }

@@ -85,7 +85,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.find_by(email: email)
     return create_case_worker_from_auth(info, raw) if user.nil?
 
-    return [nil, persona_mismatch_message(email, user.persona_type, PERSONA_CASE_WORKER)] if user.persona_type && user.persona_type != PERSONA_CASE_WORKER
+    if user.persona_type && user.persona_type != PERSONA_CASE_WORKER
+      return [nil,
+              persona_mismatch_message(email, user.persona_type,
+                                       PERSONA_CASE_WORKER)]
+    end
 
     update_case_worker_roles(user, raw)
 
@@ -97,7 +101,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.find_by(email: email)
     return create_external_user_from_auth(info, raw) if user.nil?
 
-    return [nil, persona_mismatch_message(email, user.persona_type, PERSONA_EXTERNAL_USER)] if user.persona_type && user.persona_type != PERSONA_EXTERNAL_USER
+    if user.persona_type && user.persona_type != PERSONA_EXTERNAL_USER
+      return [nil,
+              persona_mismatch_message(email, user.persona_type,
+                                       PERSONA_EXTERNAL_USER)]
+    end
 
     update_external_user_roles(user, raw)
 
@@ -109,7 +117,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.find_by(email: email)
     return create_super_admin_from_auth(info) if user.nil?
 
-    return [nil, persona_mismatch_message(email, user.persona_type, PERSONA_SUPER_ADMIN)] if user.persona_type && user.persona_type != PERSONA_SUPER_ADMIN
+    if user.persona_type && user.persona_type != PERSONA_SUPER_ADMIN
+      return [nil,
+              persona_mismatch_message(email, user.persona_type,
+                                       PERSONA_SUPER_ADMIN)]
+    end
 
     [user, nil]
   end
@@ -178,13 +190,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user.persona.update!(roles: mapped)
   end
 
-
   def map_laa_internal_roles(raw)
     laa_roles = laa_roles_from_payload(raw)
     return [] if laa_roles.empty?
 
     mapped = laa_roles.filter_map { |role| LAA_INTERNAL_ROLE_MAPPINGS[role] }
-    mapped = mapped & CaseWorker::ROLES
+    mapped &= CaseWorker::ROLES
     mapped.uniq
   end
 
@@ -193,7 +204,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return [] if laa_roles.empty?
 
     mapped = laa_roles.filter_map { |role| LAA_EXTERNAL_ROLE_MAPPINGS[role] }
-    mapped = mapped & ExternalUser::ROLES
+    mapped &= ExternalUser::ROLES
     mapped.uniq
   end
 
@@ -210,7 +221,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     user.persona.update!(roles: mapped)
   end
-
 
   def persona_from_laa_roles(raw)
     laa_roles = laa_roles_from_payload(raw)
@@ -237,7 +247,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
                           extract_agfs_supplier_number_from_laa_accounts(raw)
                         end
 
-      password = Devise.friendly_token.first(32)
+      Devise.friendly_token.first(32)
       first_name = required_name(info, raw, 'first_name')
       last_name = required_name(info, raw, 'last_name')
       user = User.create!(
@@ -346,9 +356,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     provider = matched_provider_from_firm_name(firm_name)
     return provider if provider
 
-    unless auto_create_providers_from_silas?
-      raise ArgumentError, "No provider found for FIRM_NAME: #{firm_name}"
-    end
+    raise ArgumentError, "No provider found for FIRM_NAME: #{firm_name}" unless auto_create_providers_from_silas?
 
     # Step 2: Separate AGFS and LGFS supplier numbers
     agfs_numbers, lgfs_numbers = separate_agfs_and_lgfs_supplier_numbers(raw)
@@ -394,13 +402,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       roles: roles,
       vat_registered: extract_provider_vat_registered(raw),
       firm_agfs_supplier_number: extract_firm_agfs_supplier_number(raw, provider_type, roles),
-      lgfs_supplier_numbers: lgfs_supplier_numbers.map { |supplier_number| SupplierNumber.new(supplier_number: supplier_number) }
+      lgfs_supplier_numbers: lgfs_supplier_numbers.map do |supplier_number|
+        SupplierNumber.new(supplier_number: supplier_number)
+      end
     )
   end
 
   def normalize_firm_name(name)
     name.to_s.upcase
-        .gsub(/&/, ' AND ')
+        .gsub('&', ' AND ')
         .gsub(/[^A-Z0-9]+/, ' ')
         .squeeze(' ')
         .strip
@@ -447,7 +457,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   # cannot determine provider_type from auth payload, so default to 'firm' for now. In future, if we have a way to determine provider_type from auth payload, we can implement that logic here.
-  def extract_provider_type()
+  def extract_provider_type
     'firm'
   end
 
@@ -459,7 +469,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def normalize_provider_roles(roles, provider_type)
-    roles = roles & Provider::ROLES
+    roles &= Provider::ROLES
     return roles unless provider_type == 'firm'
 
     roles.include?('lgfs') ? roles : (roles + ['lgfs'])
@@ -470,7 +480,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   # cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.
-  def extract_provider_vat_registered()
+  def extract_provider_vat_registered
     true
   end
 end

@@ -135,7 +135,6 @@ Then(/^I should see a page title "([^"]*)"$/) do |page_title|
   expect(page).to have_title(page_title)
 end
 
-
 And(/^I should be in the '(.*?)' form page$/) do |page_heading|
   within('#claim-form') do
     expect(page.first('h2')).to have_content(page_heading)

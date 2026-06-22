@@ -52,7 +52,7 @@ class DocumentsController < ApplicationController
   private
 
   def document
-    @document ||= Document.find(params[:id])
+    @document ||= Document.find(params.expect(:id))
   end
 
   def document_params

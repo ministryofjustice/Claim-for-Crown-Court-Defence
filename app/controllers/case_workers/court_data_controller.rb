@@ -19,7 +19,7 @@ module CaseWorkers
     end
 
     def set_claim
-      @claim = Claim::BaseClaim.find(params[:claim_id])
+      @claim = Claim::BaseClaim.find(params.expect(:claim_id))
     end
   end
 end

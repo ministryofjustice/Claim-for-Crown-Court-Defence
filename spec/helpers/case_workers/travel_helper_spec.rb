@@ -24,7 +24,7 @@ RSpec.describe CaseWorkers::TravelHelper do
       end
 
       it 'sets target of link' do
-        expect(link.attributes['target'].value).to match(/_blank/)
+        expect(link.attributes['target'].value).to include('_blank')
       end
 
       it 'passes other html options to govuk_link_to' do
@@ -45,7 +45,7 @@ RSpec.describe CaseWorkers::TravelHelper do
       end
 
       it 'sets target of link' do
-        expect(link.attributes['target'].value).to match(/_blank/)
+        expect(link.attributes['target'].value).to include('_blank')
       end
 
       it 'passes other html options to govuk_link_to' do

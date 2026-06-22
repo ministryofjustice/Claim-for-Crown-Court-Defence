@@ -51,7 +51,7 @@ module CaseWorkers
       private
 
       def set_case_worker
-        @case_worker = CaseWorker.active.find(params[:id])
+        @case_worker = CaseWorker.active.find(params.expect(:id))
       end
 
       def case_worker_params

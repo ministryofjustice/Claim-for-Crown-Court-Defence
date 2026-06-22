@@ -24,7 +24,7 @@ module SuperAdmins
       private
 
       def set_super_admin
-        @super_admin = SuperAdmin.find(params[:id])
+        @super_admin = SuperAdmin.find(params.expect(:id))
       end
 
       def super_admin_params

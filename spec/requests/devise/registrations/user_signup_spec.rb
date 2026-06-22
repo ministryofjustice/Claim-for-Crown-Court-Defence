@@ -95,7 +95,7 @@ RSpec.describe 'User sign up' do
 
         it 'sets flash to indicate success' do
           request
-          expect(flash[:notice]).to match(/You have signed up successfully/)
+          expect(flash[:notice]).to include('You have signed up successfully')
         end
       end
 

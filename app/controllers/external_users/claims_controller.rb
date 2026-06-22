@@ -266,12 +266,12 @@ module ExternalUsers
     end
 
     def scheme
-      %w[agfs lgfs].include?(params[:scheme]) ? params[:scheme].to_sym : :all
+      %w[agfs lgfs].include?(params[:scheme]) ? params.expect(:scheme).to_sym : :all
     end
 
     def set_and_authorize_claim
-      @claim = Claim::BaseClaim.active.find(params[:id])
-      authorize! params[:action].to_sym, @claim
+      @claim = Claim::BaseClaim.active.find(params.expect(:id))
+      authorize! params.expect(:action).to_sym, @claim
     end
 
     def set_supplier_postcode

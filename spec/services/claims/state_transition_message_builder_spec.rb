@@ -10,13 +10,13 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
       let(:reason_text) { 'refused because...' }
 
       it 'contains message header' do
-        is_expected.to match(/Your claim has been refused:/)
+        is_expected.to include('Your claim has been refused:')
       end
 
       it 'contains short description of reason' do
-        is_expected.to match(/Incorrect trial advocate:/)
-        is_expected.to match(/Duplicate claim:/)
-        is_expected.to match(/Other:/)
+        is_expected.to include('Incorrect trial advocate:')
+        is_expected.to include('Duplicate claim:')
+        is_expected.to include('Other:')
       end
 
       it 'contains long description of reason' do
@@ -25,7 +25,7 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
       end
 
       it 'contains case worker specified other refusal message' do
-        is_expected.to match(/refused because\.\.\./)
+        is_expected.to include('refused because...')
       end
     end
 
@@ -35,13 +35,13 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
       let(:reason_text) { 'rejected because...' }
 
       it 'contains message header' do
-        is_expected.to match(/Your claim has been rejected:/)
+        is_expected.to include('Your claim has been rejected:')
       end
 
       it 'contains short description of reason' do
-        is_expected.to match(/Wrong MAAT reference:/)
-        is_expected.to match(/No indictment attached:/)
-        is_expected.to match(/Other:/)
+        is_expected.to include('Wrong MAAT reference:')
+        is_expected.to include('No indictment attached:')
+        is_expected.to include('Other:')
       end
 
       it 'contains long description of reason' do
@@ -50,7 +50,7 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
       end
 
       it 'contains case worker specified other rejection message' do
-        is_expected.to match(/rejected because\.\.\./)
+        is_expected.to include('rejected because...')
       end
     end
   end

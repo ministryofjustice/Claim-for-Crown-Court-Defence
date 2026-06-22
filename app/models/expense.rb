@@ -84,7 +84,7 @@ class Expense < ApplicationRecord
   end
 
   def schema_version_2?
-    self.schema_version == 2
+    schema_version == 2
   end
 
   def expense_reason_other?

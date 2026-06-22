@@ -59,7 +59,7 @@ module ExternalUsers
       end
 
       def set_external_user
-        @external_user = ExternalUser.find(params[:id])
+        @external_user = ExternalUser.find(params.expect(:id))
       end
 
       def external_user_params

@@ -88,7 +88,7 @@ module ProviderManagement
     end
 
     def set_external_user
-      @external_user = ExternalUser.find(params[:id])
+      @external_user = ExternalUser.find(params.expect(:id))
     end
 
     def external_user_by_email
@@ -96,7 +96,7 @@ module ProviderManagement
     end
 
     def set_provider
-      @provider = Provider.find(params[:provider_id])
+      @provider = Provider.find(params.expect(:provider_id))
     end
 
     def redirect_to_show_page(**)

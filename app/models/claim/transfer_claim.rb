@@ -210,7 +210,7 @@ module Claim
 
     # called from state_machine before_submit
     def set_allocation_type
-      self.allocation_type = self.transfer_detail.allocation_type
+      self.allocation_type = transfer_detail.allocation_type
     end
 
     def provider_delegator

@@ -34,14 +34,14 @@ class MessagesController < ApplicationController
   def download_attachment
     raise 'No attachment present on this message' unless message.attachments.attached?
 
-    attachment = message.attachments.find(params[:attachment_id])
+    attachment = message.attachments.find(params.expect(:attachment_id))
     redirect_to attachment.blob.url(disposition: 'attachment'), allow_other_host: true
   end
 
   private
 
   def message
-    @message ||= Message.find(params[:id])
+    @message ||= Message.find(params.expect(:id))
   end
 
   def authorize_message_access!

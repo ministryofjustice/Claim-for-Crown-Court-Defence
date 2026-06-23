@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = t('.page_title', provider_name: @provider.name)
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider: @provider.name) }
+= render partial: 'layouts/page_heading', locals: { page_heading: t('.page_heading', provider: @provider.name) }
 
 .govuk-grid-row
   .govuk-grid-column-full
@@ -11,14 +11,14 @@
     = govuk_table(classes: 'govuk-!-margin-top-9 app-table--responsive') do |table|
       = table.with_caption(classes: 'govuk-visually-hidden', text: t('.caption', provider_name: @provider.name))
 
-      = table.with_head do |head| 
+      = table.with_head do |head|
         = head.with_row do |row|
           = row.with_cell(text:t('.name'))
           = row.with_cell(text:t('.supplier_number'))
           = row.with_cell(text:t('.email'))
           = row.with_cell(text:t('.state'))
 
-      = table.with_body do |body| 
+      = table.with_body do |body|
         - @external_users.each do |advocate|
           = body.with_row do |row|
             = row.with_cell(html_attributes: { 'data-label': t('.name') }) do

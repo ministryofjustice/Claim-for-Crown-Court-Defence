@@ -1418,7 +1418,7 @@ en:
             page_heading: Claim for litigator hardship fees
           litigator_claim:
             page_title: View claim summary for litigator final fees claim
-            page_heading: Claim for litigator final fees
+            page_heading: Litigator final fees
           interim_claim:
             page_title: View claim summary for litigator interim fees claim
             page_heading: Claim for litigator interim fees
@@ -1741,7 +1741,7 @@ en:
       claims:
         new:
           page_title: &agfs_final_claim_title Enter case details for advocate final fees claim
-          page_heading: &agfs_final_claim_heading Claim for advocate final fees
+          page_heading: &agfs_final_claim_heading Advocate final fee
 
         edit:
           page_title: *agfs_final_claim_title
@@ -1778,7 +1778,7 @@ en:
       hardship_claims:
         new:
           page_title: &agfs_hardship_claim_title Enter case details for advocate hardship fees claim
-          page_heading: &agfs_hardship_claim_heading Claim for advocate hardship fees
+          page_heading: &agfs_hardship_claim_heading Advocate hardship fee
 
         edit:
           page_title: *agfs_hardship_claim_title
@@ -1809,7 +1809,7 @@ en:
       interim_claims:
         new:
           page_title: &agfs_interim_claims_title Enter case details for advocate warrant fees claim
-          page_heading: &agfs_interim_claim_heading Claim for advocate warrant fees
+          page_heading: &agfs_interim_claim_heading Advocate warrant fee
 
         edit:
           page_title: *agfs_interim_claims_title
@@ -1837,7 +1837,7 @@ en:
       supplementary_claims:
         new:
           page_title: &agfs_supplementary_claim_title Enter case details for advocate supplementary fee claim
-          page_heading: &agfs_supplementary_claim_heading Claim for advocate supplementary fees
+          page_heading: &agfs_supplementary_claim_heading Advocate supplementary fee
 
         edit:
           page_title: *agfs_supplementary_claim_title
@@ -1864,7 +1864,7 @@ en:
       interim_claims:
         new:
           page_title: &lgfs_interim_claims_title Enter case details for litigator interim fees claim
-          page_heading: &lgfs_interim_claims_heading Claim for litigator interim fees
+          page_heading: &lgfs_interim_claims_heading Litigator interim fee
 
         edit:
           page_title: *lgfs_interim_claims_title
@@ -1892,7 +1892,7 @@ en:
       transfer_claims:
         new:
           page_title: &lgfs_transfer_claim_title Enter case details for litigator transfer fees claim
-          page_heading: &lgfs_transfer_claim_heading Claim for litigator transfer fees
+          page_heading: &lgfs_transfer_claim_heading Litigator transfer fee
 
         edit:
           page_title: *lgfs_transfer_claim_title
@@ -1910,7 +1910,7 @@ en:
 
         transfer_fee_details_form_step:
           page_title: Enter fees for litigator transfer fees claim
-          page_header: Transfer details
+          page_header: Transfer fees
 
         transfer_fees_form_step:
           page_title: Enter fees for litigator transfer fees claim
@@ -1930,7 +1930,7 @@ en:
       claims:
         new:
           page_title: &lgfs_claims_title Enter case details for litigator final fees claim
-          page_heading: &lgfs_claim_heading Claim for litigator final fees
+          page_heading: &lgfs_claim_heading Litigator final fee
 
         edit:
           page_title: *lgfs_claims_title
@@ -1971,7 +1971,7 @@ en:
       hardship_claims:
         new:
           page_title: &lgfs_hardship_claims_title Enter case details for litigator hardship fees claim
-          page_heading: &lgfs_hardship_claim_heading Claim for litigator hardship fees
+          page_heading: &lgfs_hardship_claim_heading Litigator hardship fee
 
         edit:
           page_title: *lgfs_hardship_claims_title

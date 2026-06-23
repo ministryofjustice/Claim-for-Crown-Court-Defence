@@ -11,16 +11,15 @@ module SelectHelper
   end
 
   # http://ruby-journal.com/how-to-do-jqueryui-autocomplete-with-capybara-2/
-  # It requires jQuery to parse XPath, making use of a plugin: https://github.com/ilinsky/jquery-xpath
   #
   def fill_autocomplete(field, options = {})
     dropdown = find(:select, field, visible: false)
-    container = dropdown.find(:xpath, '..')
+    container = dropdown.ancestor('.govuk-form-group')
     input_field = container.find('input.tt-input')
     input_field.set options[:with]
 
-    page.execute_script %Q{ $(document.body).xpath('#{input_field.path}').trigger('focus') }
-    page.execute_script %Q{ $(document.body).xpath('#{input_field.path}').trigger('keydown') }
+    page.execute_script %Q{ $('##{input_field[:id]}').trigger('focus') }
+    page.execute_script %Q{ $('##{input_field[:id]}').trigger('keydown') }
 
     selector = %Q{.tt-menu .tt-suggestion:contains("#{options[:with]}")}
     filter = %Q{function() { return $(this).text() === "#{options[:with]}" }} # needed to rule out multiple matches

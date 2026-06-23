@@ -103,7 +103,7 @@ group :test do
   # of our tests depend on and was fixed in version 3.13.3 of rspec-mocks (see
   # https://github.com/rspec/rspec-mocks/pull/1596)
   gem 'rspec-mocks', '<= 3.13.8'
-  gem 'shoulda-matchers', '~> 7.0'
+  gem 'shoulda-matchers', '~> 8.0'
   gem 'simplecov', require: false
   gem 'timecop'
   gem 'vcr'

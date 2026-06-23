@@ -5,7 +5,7 @@ module Fee
                                          MIDSE MIDSU MIPHC MISHR MISHU MIUMU MIUMO MISTE MIAPF MIFCM].freeze
     AGFS_SUPPLEMENTARY_TYPES = (AGFS_SUPPLEMENTARY_ONLY_TYPES + AGFS_SUPPLEMENTARY_SHARED_TYPES).freeze
     TRIAL_ONLY_TYPES = %w[MIUMU MIUMO MISTE MIAPF].freeze
-    GUILTY_ONLY_TYPES = %w[MIUAV1 MIUAV2].freeze
+    GUILTY_ONLY_TYPES = %w[GRGLT].freeze
 
     default_scope { order(Arel.sql("regexp_replace(\"fee_types\".\"description\", '[()]', '', 'g')")) }
 

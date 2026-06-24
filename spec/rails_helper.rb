@@ -84,7 +84,6 @@ RSpec.configure do |config|
   config.include ViewSpecHelper, type: :view
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
   config.include ActiveSupport::Testing::TimeHelpers
-  config.include JsonSpec::Helpers
   config.include CCLF::BillScenarioHelpers, type: :adapter
   config.include StrongParamHelpers
   config.include RequestSpecHelper, type: :request

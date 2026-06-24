@@ -86,7 +86,7 @@ RSpec.describe API::V1::DropdownData do
       results.each do |endpoint, json|
         response = get endpoint, params, format: :json
         expect(response.status).to eq 200
-        expect(response.body).to be_json_eql(json)
+        expect(JSON.parse(response.body)).to eq(JSON.parse(json))
       end
     end
 
@@ -469,14 +469,16 @@ RSpec.describe API::V1::DropdownData do
         response.body
       end
 
+      let(:parsed) { JSON.parse(subject) }
+
       before { create(:misc_fee_type, :midth) }
 
       context 'when unique_code exists' do
         let(:unique_code) { 'MIDTH' }
 
         it 'returns a specific fee type' do
-          is_expected.to have_json_size 1
-          is_expected.to be_json_eql('Confiscation hearings (half day)'.to_json).at_path('0/description')
+          expect(parsed.size).to eq(1)
+          expect(parsed.dig(0, 'description')).to eq('Confiscation hearings (half day)')
         end
       end
 
@@ -484,7 +486,7 @@ RSpec.describe API::V1::DropdownData do
         let(:unique_code) { 'MODTH' }
 
         it 'returns nil' do
-          is_expected.to have_json_size 0
+          expect(parsed.size).to eq(0)
         end
       end
 

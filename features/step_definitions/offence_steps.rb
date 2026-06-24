@@ -1,12 +1,12 @@
 
 # AGFS 9/LGFS only
 Then(/^the offence class list is set to '(.*?)'$/) do |text|
-  expect(page).to have_xpath("//option[text()='#{text}']")
+  expect(page).to have_css('option', text: text)
 end
 
 # AGFS 9/LGFS only
 Then(/^the offence class list has (.*?) options$/) do |count|
-  expect(page).to have_xpath('//select[@id="claim-offence-class-field"]/option', count: count)
+  expect(page).to have_css('#claim-offence-class-field option', count: count)
 end
 
 # AGFS 10 only
@@ -22,8 +22,10 @@ end
 # AGFS 10/11 only
 Then(/^I select the first search result$/) do
   sleep Capybara.default_max_wait_time
-  find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover
-  find(:xpath, '//*[@id="offence-list"]/div[3]/div/div[2]/a').click
+  within('#offence-list') do
+    first('.offence-item').hover
+    first('.offence-item-button').click
+  end
   wait_for_ajax
 end
 

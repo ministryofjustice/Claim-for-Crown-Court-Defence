@@ -10,7 +10,7 @@ end
 
 When('I choose govuk radio {string} for {string}') do |label, legend|
   find('.govuk-fieldset__legend', text: legend)
-    .find(:xpath, '..')
+    .sibling('.govuk-radios')
     .find('.govuk-radios__item label', text: label).click
 end
 

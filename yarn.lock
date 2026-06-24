@@ -3416,13 +3416,6 @@ jquery-throttle-debounce@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery-throttle-debounce/-/jquery-throttle-debounce-1.0.0.tgz#f27daba459b513b36d07d81cf744252e673cdf49"
   integrity sha512-pnyuJ6T1MX9VUhwCLZ0i21Ya8HSewM+A8xWsftLS6VjRUChXjtdfc/9YJ0qL8yRTWEVuizcI9n0sK8xmJucT9g==
 
-jquery-xpath@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/jquery-xpath/-/jquery-xpath-0.3.1.tgz#9c6e62e618d344364bade3bdb494f0c30df85351"
-  integrity sha512-KlzObKL9QNPuXsuHXvNTypIsWDQ7qIQqERq4CCUA7xcKa6jY53FaU9Q+nHeAOYbuB65vm22yG2wamOcJf27OdA==
-  dependencies:
-    jquery ">=1.0.0"
-
 "jquery@>= 1.0.0", jquery@>=1.0.0, jquery@>=1.7, jquery@^3.7.1:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"

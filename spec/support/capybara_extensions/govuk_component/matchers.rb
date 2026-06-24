@@ -46,11 +46,11 @@ module CapybaraExtensions
       end
 
       def has_govuk_error_fieldset?(locator, text: nil, id: nil)
-        fieldset = find('.govuk-fieldset__legend', text: locator).find(:xpath, '..')
+        legend = find('.govuk-fieldset__legend', text: locator)
 
         [
-          fieldset.find('.govuk-error-message').has_text?(text),
-          fieldset.first('label')[:for].eql?(id || fieldset.first('label')[:for])
+          legend.sibling('.govuk-error-message').has_text?(text),
+          id.nil? || legend.sibling('.govuk-radios, .govuk-checkboxes').first('label')[:for].eql?(id)
         ].all?
       end
 

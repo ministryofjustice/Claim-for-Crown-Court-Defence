@@ -67,6 +67,9 @@ en:
       hint_text: "For any queries about your claim, contact the following:"
       advocate_hint: "Advocates’ graduated fee scheme"
       litigator_hint: "Litigators’ graduated fee scheme"
+
+  omniauth_callbacks:
+    authentication_failed: Authentication failed.
   errors:
     internal_server_error:
       page_heading: 500 - internal server error

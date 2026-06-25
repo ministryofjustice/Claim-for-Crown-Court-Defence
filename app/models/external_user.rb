@@ -74,11 +74,23 @@ class ExternalUser < ApplicationRecord
   end
 
   def advocate_claim_types
-    [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim]
+    [
+      Claim::AdvocateClaim,
+      Claim::AdvocateInterimClaim,
+      Claim::AdvocateSupplementaryClaim,
+      Claim::AdvocateHardshipClaim,
+      Claim::AdvocatePermissionClaim
+    ]
   end
 
   def litigator_claim_types
-    [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]
+    [
+      Claim::LitigatorClaim,
+      Claim::InterimClaim,
+      Claim::TransferClaim,
+      Claim::LitigatorHardshipClaim,
+      Claim::LitigatorPermissionClaim
+    ]
   end
 
   def available_claim_types

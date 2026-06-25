@@ -52,10 +52,12 @@ module ExternalUsers
         'agfs_interim' => new_advocates_interim_claim_url,
         'agfs_supplementary' => new_advocates_supplementary_claim_url,
         'agfs_hardship' => new_advocates_hardship_claim_url,
+        'agfs_permission' => new_advocates_permission_claim_url,
         'lgfs_final' => new_litigators_claim_url,
         'lgfs_interim' => new_litigators_interim_claim_url,
         'lgfs_transfer' => new_litigators_transfer_claim_url,
-        'lgfs_hardship' => new_litigators_hardship_claim_url
+        'lgfs_hardship' => new_litigators_hardship_claim_url,
+        'lgfs_permission' => new_litigators_permission_claim_url
       }[claim_type.to_s]
     end
   end

@@ -15,25 +15,37 @@ module OmniAuth
       def callback_phase
         return fail!('entra_mock_http_error') unless mock_http_success?
 
-        data = mock_data
-        env['omniauth.auth'] = OmniAuth::AuthHash.new(
-          provider: name,
-          uid: data['uid'] || data['oid'] || SecureRandom.uuid,
-          info: {
-            email: data['email'],
-            first_name: data['first_name'],
-            last_name: data['last_name']
-          },
-          extra: {
-            raw_info: data
-          }
-        )
+        assign_mock_auth_hash!
         call_app!
       rescue StandardError => e
         fail!('entra_mock_error', e)
       end
 
       private
+
+      def assign_mock_auth_hash!
+        data = mock_data
+        env['omniauth.auth'] = build_auth_hash(data)
+      end
+
+      def build_auth_hash(data)
+        OmniAuth::AuthHash.new(
+          provider: name,
+          uid: data['uid'] || data['oid'] || SecureRandom.uuid,
+          info: auth_info(data),
+          extra: {
+            raw_info: data
+          }
+        )
+      end
+
+      def auth_info(data)
+        {
+          email: data['email'],
+          first_name: data['first_name'],
+          last_name: data['last_name']
+        }
+      end
 
       def mock_data
         json = ENV.fetch('ENTRA_MOCK_JSON', nil)

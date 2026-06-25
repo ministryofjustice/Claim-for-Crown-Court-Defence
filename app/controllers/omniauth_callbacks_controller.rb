@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
 
@@ -14,7 +15,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     'Litigator Admin' => 'admin'
   }.freeze
 
-  LAA_SUPER_ADMIN_ROLE = 'Super Administrator'
+  LAA_SUPER_ADMIN_ROLE = 'Super Administrator'.freeze
 
   PERSONA_CASE_WORKER = CaseWorker.name
   PERSONA_EXTERNAL_USER = ExternalUser.name
@@ -33,34 +34,44 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def find_existing_user_from_auth(auth)
     info = auth.info
     raw = auth.extra&.raw_info || {}
-    email = info.email.to_s.downcase
-    existing_user = User.find_by(email: email)
-    persona = existing_user&.persona_type || persona_from_laa_roles(raw) || raw['persona'] || PERSONA_CASE_WORKER
+    persona = resolved_persona(info, raw)
 
-    if persona == PERSONA_SUPER_ADMIN
-      find_super_admin(info, raw)
-    elsif persona == PERSONA_EXTERNAL_USER
-      find_external_user(info, raw)
-    else
-      find_case_worker(info, raw)
-    end
+    find_user_by_persona(persona, info, raw)
   end
 
   def handle_omniauth
     auth = request.env['omniauth.auth']
-    unless auth
-      redirect_to new_user_session_path, alert: 'Authentication failed.'
-      return
-    end
+    return redirect_to_authentication_failure unless auth
 
     log_omniauth_payload(auth)
 
     user, error_message = find_existing_user_from_auth(auth)
-    if user
-      sign_in_and_redirect user, event: :authentication
+    return sign_in_and_redirect(user, event: :authentication) if user
+
+    redirect_to new_user_session_path, alert: error_message || authentication_failed_message
+  end
+
+  def redirect_to_authentication_failure
+    redirect_to new_user_session_path, alert: authentication_failed_message
+  end
+
+  def authentication_failed_message
+    I18n.t('omniauth_callbacks.authentication_failed')
+  end
+
+  def resolved_persona(info, raw)
+    existing_user = User.find_by(email: info.email.to_s.downcase)
+    existing_user&.persona_type || persona_from_laa_roles(raw) || raw['persona'] || PERSONA_CASE_WORKER
+  end
+
+  def find_user_by_persona(persona, info, raw)
+    case persona
+    when PERSONA_SUPER_ADMIN
+      find_super_admin(info)
+    when PERSONA_EXTERNAL_USER
+      find_external_user(info, raw)
     else
-      message = error_message || 'Authentication failed.'
-      redirect_to new_user_session_path, alert: message
+      find_case_worker(info, raw)
     end
   end
 
@@ -147,19 +158,18 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def create_case_worker_from_auth(info, raw)
     email = info.email.to_s.downcase
 
-    user = nil
-    User.transaction do
+    provision_user(email) do
       user = create_user_from_auth!(info, raw, email)
-
-      case_worker = CaseWorker.new(roles: extract_case_worker_roles(raw))
-      case_worker.user = user
-      case_worker.location = Location.find_or_create_by!(name: default_case_worker_location)
-      case_worker.save!
+      create_case_worker_persona!(user, raw)
+      user
     end
+  end
 
-    [user, nil]
-  rescue StandardError => e
-    [nil, provision_failed_message(email, e)]
+  def create_case_worker_persona!(user, raw)
+    case_worker = CaseWorker.new(roles: extract_case_worker_roles(raw))
+    case_worker.user = user
+    case_worker.location = Location.find_or_create_by!(name: default_case_worker_location)
+    case_worker.save!
   end
 
   def extract_case_worker_roles(raw)
@@ -239,49 +249,51 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def create_external_user_from_auth(info, raw)
     email = info.email.to_s.downcase
 
-    user = nil
-    User.transaction do
+    provision_user(email) do
       provider = find_or_create_provider_for_external_user(raw)
       roles = extract_external_user_roles(raw, provider)
-      supplier_number = if provider.chamber? && roles.include?('advocate')
-                          extract_agfs_supplier_number_from_laa_accounts(raw)
-                        end
-
-      Devise.friendly_token.first(32)
-      first_name = required_name(info, raw, 'first_name')
-      last_name = required_name(info, raw, 'last_name')
-      user = User.create!(
-        first_name: first_name,
-        last_name: last_name,
-        email: email.downcase,
-        **generated_auth_credentials
-      )
-
-      external_user = ExternalUser.new(
-        roles: roles,
-        supplier_number: supplier_number,
-        provider: provider
-      )
-      external_user.user = user
-      external_user.save!
+      supplier_number = chamber_advocate_supplier_number(provider, roles, raw)
+      user = create_user_from_auth!(info, raw, email)
+      create_external_user_persona!(user, roles, supplier_number, provider)
+      user
     end
+  end
 
-    [user, nil]
-  rescue StandardError => e
-    [nil, provision_failed_message(email, e)]
+  def chamber_advocate_supplier_number(provider, roles, raw)
+    return unless provider.chamber? && roles.include?('advocate')
+
+    extract_agfs_supplier_number_from_laa_accounts(raw)
+  end
+
+  def create_external_user_persona!(user, roles, supplier_number, provider)
+    external_user = ExternalUser.new(
+      roles: roles,
+      supplier_number: supplier_number,
+      provider: provider
+    )
+    external_user.user = user
+    external_user.save!
   end
 
   def create_super_admin_from_auth(info)
     email = info.email.to_s.downcase
 
-    user = nil
-    User.transaction do
+    provision_user(email) do
       user = create_user_from_auth!(info, {}, email)
-
-      super_admin = SuperAdmin.new
-      super_admin.user = user
-      super_admin.save!
+      create_super_admin_persona!(user)
+      user
     end
+  end
+
+  def create_super_admin_persona!(user)
+    super_admin = SuperAdmin.new
+    super_admin.user = user
+    super_admin.save!
+  end
+
+  def provision_user(email)
+    user = nil
+    User.transaction { user = yield }
 
     [user, nil]
   rescue StandardError => e
@@ -322,22 +334,33 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def separate_agfs_and_lgfs_supplier_numbers(raw)
-    accounts = Array(raw['LAA_ACCOUNTS']).map { |value| value.to_s.strip.upcase }.reject(&:empty?)
+    accounts = normalized_supplier_numbers(raw)
     raise ArgumentError, 'Missing LAA_ACCOUNTS in auth payload' if accounts.empty?
 
-    agfs_numbers = []
-    lgfs_numbers = []
-
-    accounts.each do |supplier_number|
-      valid_agfs = ExternalUser::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
-      valid_lgfs = SupplierNumber::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
-      raise ArgumentError, "Invalid LAA_ACCOUNTS supplier number format: #{supplier_number}" unless valid_agfs || valid_lgfs
+    accounts.each_with_object([[], []]) do |supplier_number, (agfs_numbers, lgfs_numbers)|
+      valid_agfs, valid_lgfs = supplier_number_types(supplier_number)
+      ensure_valid_supplier_number!(supplier_number, valid_agfs, valid_lgfs)
 
       agfs_numbers << supplier_number if valid_agfs
       lgfs_numbers << supplier_number if valid_lgfs
     end
+  end
 
-    [agfs_numbers, lgfs_numbers]
+  def normalized_supplier_numbers(raw)
+    Array(raw['LAA_ACCOUNTS']).map { |value| value.to_s.strip.upcase }.reject(&:empty?)
+  end
+
+  def supplier_number_types(supplier_number)
+    [
+      ExternalUser::SUPPLIER_NUMBER_REGEX.match?(supplier_number),
+      SupplierNumber::SUPPLIER_NUMBER_REGEX.match?(supplier_number)
+    ]
+  end
+
+  def ensure_valid_supplier_number!(supplier_number, valid_agfs, valid_lgfs)
+    return if valid_agfs || valid_lgfs
+
+    raise ArgumentError, "Invalid LAA_ACCOUNTS supplier number format: #{supplier_number}"
   end
 
   def extract_agfs_supplier_number_from_laa_accounts(raw)
@@ -349,36 +372,39 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def find_or_create_provider_for_external_user(raw)
-    firm_name = raw['FIRM_NAME'].to_s.strip
-    raise ArgumentError, 'Missing FIRM_NAME in auth payload' if firm_name.blank?
-
-    # Step 1: Try to find by FIRM_NAME
+    firm_name = extract_provider_name(raw)
     provider = matched_provider_from_firm_name(firm_name)
     return provider if provider
 
+    find_or_create_provider_from_supplier_numbers(raw, firm_name)
+  end
+
+  def find_or_create_provider_from_supplier_numbers(raw, firm_name)
     raise ArgumentError, "No provider found for FIRM_NAME: #{firm_name}" unless auto_create_providers_from_silas?
 
-    # Step 2: Separate AGFS and LGFS supplier numbers
     agfs_numbers, lgfs_numbers = separate_agfs_and_lgfs_supplier_numbers(raw)
+    ensure_no_duplicate_agfs_supplier_numbers!(agfs_numbers)
 
-    # Step 3: If there are AGFS matches in external_users, reject and return error
+    find_provider_by_lgfs_supplier_numbers(lgfs_numbers) || create_provider_with_supplier_numbers(raw, lgfs_numbers)
+  end
+
+  def ensure_no_duplicate_agfs_supplier_numbers!(agfs_numbers)
     duplicate_agfs_supplier_number = agfs_numbers.find do |supplier_number|
-      ExternalUser.where('UPPER(supplier_number) = ?', supplier_number).exists?
+      ExternalUser.exists?(['UPPER(supplier_number) = ?', supplier_number])
     end
-    if duplicate_agfs_supplier_number
-      raise ArgumentError, "AGFS supplier number #{duplicate_agfs_supplier_number} already registered. User may have registered another account in CCCD"
-    end
+    return unless duplicate_agfs_supplier_number
 
-    # Step 4: Check if any LGFS supplier_number exists in supplier_numbers table (find matching provider)
+    raise ArgumentError,
+          "AGFS supplier number #{duplicate_agfs_supplier_number} already registered. User may have registered another account in CCCD"
+  end
+
+  def find_provider_by_lgfs_supplier_numbers(lgfs_numbers)
     matching_supplier_number = lgfs_numbers.find do |supplier_number|
-      SupplierNumber.where('UPPER(supplier_number) = ?', supplier_number).exists?
+      SupplierNumber.exists?(['UPPER(supplier_number) = ?', supplier_number])
     end
-    if matching_supplier_number
-      return SupplierNumber.where('UPPER(supplier_number) = ?', matching_supplier_number).first.provider
-    end
+    return unless matching_supplier_number
 
-    # Step 5-6: Create new provider with all LGFS supplier_numbers if no match found
-    create_provider_with_supplier_numbers(raw, lgfs_numbers)
+    SupplierNumber.find_by!(['UPPER(supplier_number) = ?', matching_supplier_number]).provider
   end
 
   def matched_provider_from_firm_name(firm_name)
@@ -393,19 +419,23 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def create_provider_with_supplier_numbers(raw, lgfs_supplier_numbers)
     name = extract_provider_name(raw)
-    provider_type = extract_provider_type(raw)
-    roles = extract_provider_roles(raw, provider_type)
+    provider_type = extract_provider_type
+    roles = extract_provider_roles(provider_type)
 
-    Provider.create!(
+    Provider.create!(provider_attributes(raw, name, provider_type, roles, lgfs_supplier_numbers))
+  end
+
+  def provider_attributes(raw, name, provider_type, roles, lgfs_supplier_numbers)
+    {
       name: name,
       provider_type: provider_type,
       roles: roles,
-      vat_registered: extract_provider_vat_registered(raw),
+      vat_registered: provider_vat_registered?,
       firm_agfs_supplier_number: extract_firm_agfs_supplier_number(raw, provider_type, roles),
       lgfs_supplier_numbers: lgfs_supplier_numbers.map do |supplier_number|
         SupplierNumber.new(supplier_number: supplier_number)
       end
-    )
+    }
   end
 
   def normalize_firm_name(name)
@@ -480,7 +510,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   # cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.
-  def extract_provider_vat_registered
+  def provider_vat_registered?
     true
   end
 end
+# rubocop:enable Metrics/ClassLength

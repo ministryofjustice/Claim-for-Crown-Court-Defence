@@ -16,6 +16,10 @@ module.exports = function (api) {
   }
 
   return {
+    assumptions: {
+      setPublicClassFields: true,
+      privateFieldsAsProperties: true
+    },
     presets: [
       isTestEnv && [
         '@babel/preset-env',
@@ -28,12 +32,8 @@ module.exports = function (api) {
       (isProductionEnv || isDevelopmentEnv) && [
         '@babel/preset-env',
         {
-          forceAllTransforms: true,
-          useBuiltIns: 'entry',
-          corejs: 3,
           modules: false,
-          exclude: ['transform-typeof-symbol'],
-          loose: true
+          exclude: ['transform-typeof-symbol']
         }
       ]
     ].filter(Boolean),
@@ -41,44 +41,15 @@ module.exports = function (api) {
       'babel-plugin-macros',
       isTestEnv && 'babel-plugin-dynamic-import-node',
       '@babel/plugin-transform-destructuring',
-      [
-        '@babel/plugin-transform-class-properties',
-        {
-          loose: true
-        }
-      ],
+      '@babel/plugin-transform-class-properties',
       [
         '@babel/plugin-transform-object-rest-spread',
         {
           useBuiltIns: true
         }
       ],
-      [
-        '@babel/plugin-transform-runtime',
-        {
-          helpers: false,
-          regenerator: true,
-          corejs: false
-        }
-      ],
-      [
-        '@babel/plugin-transform-regenerator',
-        {
-          async: false
-        }
-      ],
-      [
-        '@babel/plugin-transform-private-methods',
-        {
-          loose: true
-        }
-      ],
-      [
-        '@babel/plugin-transform-private-property-in-object',
-        {
-          loose: true
-        }
-      ]
+      '@babel/plugin-transform-private-methods',
+      '@babel/plugin-transform-private-property-in-object'
     ].filter(Boolean)
   }
 }

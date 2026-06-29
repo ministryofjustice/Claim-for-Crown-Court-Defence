@@ -293,13 +293,13 @@ GEM
     govuk_notify_rails (3.0.0)
       notifications-ruby-client (~> 6.2)
       rails (>= 4.1.0)
-    grape (3.2.1)
+    grape (3.3.0)
       activesupport (>= 7.2)
-      dry-configurable
+      dry-configurable (>= 1.0)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.1.0)
-      rack (>= 2)
-      zeitwerk
+      mustermann (>= 4.0)
+      rack (>= 2.2.4)
+      zeitwerk (>= 2.6)
     grape-entity (1.1.0)
       activesupport (>= 3.0.0)
     grape-papertrail (0.2.0)
@@ -416,8 +416,6 @@ GEM
       bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
     mustermann (4.0.0)
-    mustermann-grape (1.1.0)
-      mustermann (>= 1.0.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
     net-imap (0.6.4.1)
@@ -788,7 +786,7 @@ DEPENDENCIES
   govuk-components (~> 6.3.1)
   govuk_design_system_formbuilder (~> 6.2)
   govuk_notify_rails (~> 3.0.0)
-  grape (~> 3.2.1)
+  grape (~> 3.3.0)
   grape-entity (~> 1.1.0)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 2.1.4)
@@ -956,7 +954,7 @@ CHECKSUMS
   govuk-components (6.3.1) sha256=141715c9e65e65b1dad0a0476c7d81dac14dad220f5435496713c63e80df87f0
   govuk_design_system_formbuilder (6.2.1) sha256=bab0fe460f02f8b4df07097fbfe5441c9b9bf6606dea44a09597a3ef3dc0ac83
   govuk_notify_rails (3.0.0) sha256=e0e1b8b0a7c47f90963034f290fb2982652aa8051a733c25c178680d44f2d7aa
-  grape (3.2.1) sha256=448072f55904e5a4dca2e3781f0a373942514be65402cafb6177f5bc73db1b94
+  grape (3.3.0) sha256=65e48ad2e396d25304cde91f0ec307e6cafc76bb78adcdb070fbbcc2ec3d4361
   grape-entity (1.1.0) sha256=ab6a1004e57791834e8497d5e85a3c101b72144d8ca31462a26e6d0a380c3d89
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
   grape-swagger (2.1.4) sha256=3279351bebafbca24e0331b9f7c6dbfefb262042a1f3d224ed41cf2be4aee35b
@@ -1007,7 +1005,6 @@ CHECKSUMS
   multi_xml (0.9.1) sha256=7ce766b59c17241ed62976caeae1fae9b2431b263398c35396239a68c4a64e57
   multipart-post (2.4.1) sha256=9872d03a8e552020ca096adadbf5e3cb1cd1cdd6acd3c161136b8a5737cdb4a8
   mustermann (4.0.0) sha256=91f67411bb208d1d93c41e6128cb3b0f8ddd9ec7c45966f1007e1c43c08040d7
-  mustermann-grape (1.1.0) sha256=8d258a986004c8f01ce4c023c0b037c168a9ed889cf5778068ad54398fa458c5
   net-http (0.9.1) sha256=25ba0b67c63e89df626ed8fac771d0ad24ad151a858af2cc8e6a716ca4336996
   net-imap (0.6.4.1) sha256=29f0360d75a7efd3539f16ac1957dea5c0a51ddeceb348db4553c3120914ea0d
   net-pop (0.1.2) sha256=848b4e982013c15b2f0382792268763b748cce91c9e91e36b0f27ed26420dff3

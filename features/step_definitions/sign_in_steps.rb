@@ -147,6 +147,7 @@ Given(/^I am a signed in super admin$/) do
   make_accounts('super admin')
   visit new_user_session_path
   sign_in(@super_admin.user, 'PasswordForTest')
+  expect(page).to have_current_path('/super_admins')
 end
 
 Then(/^I should see an Manage advocates link and it should work$/) do

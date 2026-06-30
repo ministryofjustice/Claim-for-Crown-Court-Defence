@@ -13,7 +13,8 @@ module FeeSchemeFactory
         { scheme: 13, range: scheme_thirteen_range },
         { scheme: 14, range: scheme_fourteen_range },
         { scheme: 15, range: scheme_fifteen_range },
-        { scheme: 16, range: scheme_sixteen_range }
+        { scheme: 16, range: scheme_sixteen_range },
+        { scheme: 17, range: scheme_seventeen_range }
       ]
     end
 
@@ -38,7 +39,11 @@ module FeeSchemeFactory
     end
 
     def scheme_sixteen_range
-      Settings.agfs_scheme_16_section_twenty_eight_increase..Time.zone.today
+      Settings.agfs_scheme_16_section_twenty_eight_increase..(Settings.agfs_scheme_17 - 1.day)
+    end
+
+    def scheme_seventeen_range
+      Settings.agfs_scheme_17..Time.zone.today
     end
   end
 end

@@ -26,7 +26,7 @@ module Tasks
             title: 'Archive',
             format: "%a [%e] %b\u{15E7}%i %c/%C %t",
             progress_mark: '#'.green,
-            remainder_mark: "\u{FF65}".yellow,
+            remainder_mark: Rainbow( "\u{FF65}").yellow,
             starting_at: 0,
             total: rows.count
           )

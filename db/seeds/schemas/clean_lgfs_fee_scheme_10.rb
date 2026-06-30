@@ -84,7 +84,7 @@ module Seeds
 
       def create_scheme_ten_offence_for(offence)
         if offence.unique_code.match(/~10/)
-          puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
+          puts Rainbow("    [NOT-DUPLICATING] Offence #{offence.unique_code}").yellow
           return
         end
         begin
@@ -95,14 +95,14 @@ module Seeds
           # claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_ten }
           raise SchemeTenOffenceExists unless new_offence.valid?
           if pretending?
-            puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-REMOVE] Fee scheme 10 from offence #{offence.unique_code}".yellow unless @quiet
+            puts Rainbow("    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}").yellow unless @quiet
+            puts Rainbow("    [WOULD-REMOVE] Fee scheme 10 from offence #{offence.unique_code}").yellow unless @quiet
             # puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".yellow unless @quiet
           else
-            puts "    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".green unless @quiet
+            puts Rainbow("    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}").green unless @quiet
             new_offence.save!
-            puts "      [SUCCESS]".green unless @quiet
-            puts "    [REMOVE] Fee scheme 10 from offence #{offence.unique_code}".green unless @quiet
+            puts Rainbow("      [SUCCESS]").green unless @quiet
+            puts Rainbow("    [REMOVE] Fee scheme 10 from offence #{offence.unique_code}").green unless @quiet
             offence.fee_schemes.delete(fee_scheme_ten)
             # puts "    [UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".green unless @quiet
             # # It should be possible to do update_claims(claims, new_offence) but claims is an array instead of an ActiveRecord collection
@@ -116,7 +116,7 @@ module Seeds
             # end
           end
         rescue SchemeTenOffenceExists, ActiveRecord::RecordNotUnique
-          puts "      [FAILED]".red unless @quiet
+          puts Rainbow("      [FAILED]").red unless @quiet
         end
       end
 
@@ -128,22 +128,22 @@ module Seeds
 
       def update_claims(claims, new_offence)
         if pretending?
-          puts "    [WOULD-UPDATE] #{claims.count} claims".yellow unless @quiet
+          puts Rainbow("    [WOULD-UPDATE] #{claims.count} claims").yellow unless @quiet
         else
-          puts "    [UPDATE] #{claims.count} claims".green unless @quiet
+          puts Rainbow("    [UPDATE] #{claims.count} claims").green unless @quiet
           claims.update_all(offence_id: new_offence.id)
         end
       end
 
       def add_scheme_ten_to(offence)
         if pretending?
-          puts "    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}".yellow unless @quiet
+          puts Rainbow("    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}").yellow unless @quiet
         else
-          puts "    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}".green unless @quiet
-          puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}").green unless @quiet
+          puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
           offence.fee_schemes << fee_scheme_ten
           offence.reload
-          puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
         end
       end
 
@@ -153,9 +153,9 @@ module Seeds
 
       def remove_redundant(offence)
         if pretending?
-          puts "    [WOULD-REMOVE] Offence #{offence.unique_code}".yellow unless @quiet
+          puts Rainbow("    [WOULD-REMOVE] Offence #{offence.unique_code}").yellow unless @quiet
         else
-          puts "    [REMOVE] Offence #{offence.unique_code}".green unless @quiet
+          puts Rainbow("    [REMOVE] Offence #{offence.unique_code}").green unless @quiet
           offence.destroy
         end
       end

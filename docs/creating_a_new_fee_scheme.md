@@ -63,7 +63,7 @@ Add the new role to `app/models/fee/base_fee_type.rb`:
 # app/models/fee/base_fee_type.rb
 ROLES = %w[
   lgfs lgfs_scheme_9 lgfs_scheme_10 lgfs_scheme_11
-  agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 agfs_scheme_13 
+  agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 agfs_scheme_13
   agfs_scheme_14 agfs_scheme_15 agfs_scheme_16 agfs_scheme_17
 ].freeze
 ```
@@ -157,7 +157,7 @@ Add a scope and query method in `app/models/offence.rb`:
 class Offence < ApplicationRecord
   # Add scope to find offences in the new scheme
   scope :in_scheme_17, -> { joins(:fee_schemes).merge(FeeScheme.agfs.where(version: 17)) }
-  
+
   # Method to determine if offence is valid for the new fee scheme
   def scheme_seventeen?
     fee_schemes.map(&:version).any?(17)
@@ -186,9 +186,9 @@ Update `app/services/claims/fetch_eligible_misc_fee_types.rb`:
 class Claims::FetchEligibleMiscFeeTypes
   # Add delegation
   delegate :agfs_scheme_17?, to: :claim
-  
+
   private
-  
+
   # Update scheme scope determination
   def agfs_scheme_scope
       return Fee::MiscFeeType.agfs_scheme_17s if agfs_scheme_17?
@@ -207,12 +207,12 @@ end
 ### Step 8: Update Claim::TransferBrain::DataItem model
 
 > [!NOTE]
-> This is only necessary for LGFS fee schemes. An update may only be required if the new fee scheme includes a change to the 
+> This is only necessary for LGFS fee schemes. An update may only be required if the new fee scheme includes a change to the
 > logic governing transfer cases
 
-The Claim::TransferBrain::DataItem model contains logic used for LGFS transfer claims. The rules for transfer claims changed 
+The Claim::TransferBrain::DataItem model contains logic used for LGFS transfer claims. The rules for transfer claims changed
 after LGFS fee scheme 9. This class contains two methods used to override the `==` operater depending on fee scheme in effect.
-The `equal_for_scheme_nine?` and `equal_for_scheme_ten_or_later?` methods are used to do this. If the rules around transfer 
+The `equal_for_scheme_nine?` and `equal_for_scheme_ten_or_later?` methods are used to do this. If the rules around transfer
 claims change again in a future fee scheme, it may be necessary to update this class.
 
 For example by renaming `equal_for_scheme_ten_or_later?` to `equal_for_scheme_ten_or_eleven` and creating `equal_for_scheme_twelve?`
@@ -347,7 +347,7 @@ namespace :agfs do
       pretend = !not_pretend
 
       continue?('This will seed data for AGFS Fee Scheme 17. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
@@ -364,7 +364,7 @@ namespace :agfs do
       pretend = !not_pretend
 
       continue?('This will rollback data for AGFS Fee Scheme 17. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
@@ -410,7 +410,7 @@ Update `spec/factories/offences.rb`:
 FactoryBot.define do
   factory :offence do
     # ... existing code ...
-    
+
     trait :with_fee_scheme_seventeen do
       offence_class { nil }
       offence_band
@@ -431,7 +431,7 @@ Update `spec/factories/fee_scheme.rb`:
 FactoryBot.define do
   factory :fee_scheme do
     # ... existing code ...
-    
+
     # Update previous scheme trait with end date
     trait :agfs_sixteen do
       name { 'AGFS' }
@@ -439,7 +439,7 @@ FactoryBot.define do
       start_date { Settings.agfs_scheme_16_start_date }
       end_date { Settings.agfs_scheme_17_start_date - 1.day }
     end
-    
+
     # Add new scheme trait
     trait :agfs_seventeen do
       name { 'AGFS' }
@@ -510,14 +510,14 @@ Update `spec/support/scheme_date_helpers.rb`:
 # spec/support/scheme_date_helpers.rb
 module SchemeDateHelpers
   # ... existing code ...
-  
+
   def scheme_date_mappings
     {
       'scheme 17' => Settings.agfs_scheme_17_start_date.strftime,
       # Existing dates
     }
   end
-  
+
   def main_hearing_date_mappings
     {
       'scheme 17' => Settings.agfs_scheme_17_start_date.strftime,
@@ -536,13 +536,13 @@ Update `spec/support/seed_helpers.rb`:
 module SeedHelpers
   def self.seed_fee_schemes
     # ... existing schemes ...
-    
+
     # Update previous scheme with end date
     FeeScheme.find_or_create_by!(name: 'AGFS', version: 16) do |fs|
       fs.start_date = Settings.agfs_scheme_16_start_date
       fs.end_date = Settings.agfs_scheme_17_start_date - 1.day
     end
-    
+
     # Create new scheme
     FeeScheme.find_or_create_by!(name: 'AGFS', version: 17) do |fs|
       fs.start_date = Settings.agfs_scheme_17_start_date
@@ -566,13 +566,13 @@ The fee scheme factory finds the correct fee scheme based on the representation
 order and main hearing date. The main hearing date was introduced specifically
 for AGFS fee scheme 13 and LGFS fee scheme 10 which applied to earlier
 representation order dates depending on this main hearing date. It was not used
-again in subsequent fee schemes and this is reflected in the spec files. 
+again in subsequent fee schemes and this is reflected in the spec files.
 
-In the AGFS tests there are shared examples for fee schemes 9 to 11 and a separate 
+In the AGFS tests there are shared examples for fee schemes 9 to 11 and a separate
 set of shared examples for fee schemes 12 onwards. This is to accommodate the
 special case of fee schemes 12 and 13. In the LGFS tests there are shared examples
 for fee schemes 9 and 10 which accommodate this special case, and a separate set
-of shared examples for fee schemes 11 onwards for fee schemes where the main 
+of shared examples for fee schemes 11 onwards for fee schemes where the main
 hearing date is not relevant.
 
 #### Base fee type spec
@@ -593,10 +593,10 @@ Update `spec/services/claims/fetch_eligible_advocate_categories_spec.rb`:
 # spec/services/claims/fetch_eligible_advocate_categories_spec.rb
 RSpec.describe Claims::FetchEligibleAdvocateCategories do
   # ... existing code ...
-  
+
   context 'with AGFS scheme 17 claim' do
     let(:claim) { create(:advocate_claim, :agfs_scheme_17) }
-    
+
     it 'returns correct categories' do
       # Test appropriate categories for scheme 17
     end
@@ -642,14 +642,14 @@ Update `spec/models/claim/transfer_brain/data_item_spec.rb` if changes have been
 Update `spec/services/stats/fee_scheme_usage_generator_spec.rb` and `spec/services/stats/graphs/six_month_period_spec.rb`
 to include the new fee scheme in specs that test the visualisation of fee scheme usage.
 
-A test in `spec/requests/super_admins/stats_request_spec.rb` will fail if the number of fee schemes is greater than or equal 
+A test in `spec/requests/super_admins/stats_request_spec.rb` will fail if the number of fee schemes is greater than or equal
 to the number of colours defined for use by the ChartKick library. If this occurs, it can fixed by adding additional colours
 to the `@chart_colours` variable in `app/controllers/super_admins/stats_controller.rb`.
 
 ### Step 15: Create Feature Tests
 
 Create new feature tests in `features/claims/advocate/` (or `features/claims/litigator/`).
-These can be copied from the previous fee scheme and modified. 
+These can be copied from the previous fee scheme and modified.
 
 These tests assert that the fee values returned from Fee Calculator are correct. To test
 this. It will be necessary to initially run these tests using the `FEE_CALC_VCR_MODE=new_episodes`
@@ -661,13 +661,13 @@ changes implemented.
 ### Step 16: Update API release notes
 
 Update `app/views/pages/api_release_notes.html.haml` to provide details of the new fee scheme to
-software vendors who maintain case management systems that integrate with the CCCD API and may need 
+software vendors who maintain case management systems that integrate with the CCCD API and may need
 to make changes to their software.
 
 ### Step 17: Enable manual testing
 
-Manual testing will need to be carried out before the start date of the new fee scheme. CCCD does 
-not allow the creation of claims with dates in the future. To facilitate this testing, the 
+Manual testing will need to be carried out before the start date of the new fee scheme. CCCD does
+not allow the creation of claims with dates in the future. To facilitate this testing, the
 `ALLOW_FUTURE_DATES` flag can be set to `true` in the `app-config.yaml` file for the appropriate
 environment.
 

@@ -1,4 +1,5 @@
 require_relative 'offence_code_generator'
+require 'rainbow'
 
 module DataMigrator
   class OffenceUniqueCodeMigrator
@@ -39,8 +40,8 @@ module DataMigrator
         sql = "UPDATE offences SET unique_code = '#{code}' WHERE id = #{offence[:id]}"
         @offences.connection.execute sql
       end
-      out "codes generated: #{offence_set.count}".green
-      out "unique codes generated: #{offence_set.keys.uniq.count}".green
+      out Rainbow("codes generated: #{offence_set.count}").green
+      out Rainbow("unique codes generated: #{offence_set.keys.uniq.count}").green
     end
 
     def pretend(format: :text)
@@ -75,15 +76,15 @@ module DataMigrator
     def output(code, offence, format)
       case format.downcase.to_sym
       when :sql
-        puts "UPDATE offences SET unique_code = #{code} WHERE id = #{offence[:id]}".yellow
+        puts Rainbow("UPDATE offences SET unique_code = #{code} WHERE id = #{offence[:id]}").yellow
       when :diff
         unless offence[:unique_code].eql?(code)
-          puts offence[:description].concat("\n -#{offence[:unique_code]}".red).concat("\n +#{code} ".green)
+          puts Rainbow(offence[:description].concat(Rainbow("\n -#{offence[:unique_code]}").red).concat(Rainbow("\n +#{code} ")).green)
         end
       when :csv
         puts [offence[:description], offence[:band] || offence[:class_letter], code].to_csv
       when :text
-        puts "-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}".white.concat(" unique_code: #{offence[:unique_code]} --> #{code}".green)
+        puts Rainbow("-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}").white.concat(Rainbow(" unique_code: #{offence[:unique_code]} --> #{code}").green))
       end
     end
   end

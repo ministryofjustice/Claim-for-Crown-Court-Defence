@@ -105,7 +105,6 @@ GEM
       version_gem (~> 1.1, >= 1.1.10)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
-    awesome_print (1.9.2)
     aws-eventstream (1.4.0)
     aws-partitions (1.1262.0)
     aws-sdk-core (3.252.0)
@@ -754,6 +753,7 @@ PLATFORMS
   arm64-darwin-24
   arm64-darwin-25
   x86_64-darwin-24
+  x86_64-darwin-25
   x86_64-linux-gnu
 
 DEPENDENCIES
@@ -761,7 +761,6 @@ DEPENDENCIES
   active_storage_validations
   amoeba (~> 3.3.0)
   auto_strip_attributes (~> 2.6.0)
-  awesome_print
   aws-sdk-s3 (~> 1)
   aws-sdk-sns (~> 1)
   aws-sdk-sqs (~> 1)
@@ -878,7 +877,6 @@ CHECKSUMS
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   auth-sanitizer (0.2.2) sha256=300112debb67fe5e7a4f67a697790cea09744970e816745afb1f4235d6f27bae
   auto_strip_attributes (2.6.0) sha256=a7e2e0cf744de2bcd947fd68014220702bcc88c81274c1cd9ce6f7316aae39b0
-  awesome_print (1.9.2) sha256=e99b32b704acff16d768b3468680793ced40bfdc4537eb07e06a4be11133786e
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
   aws-partitions (1.1262.0) sha256=77e9b1dd3e8f616673f2959d2fc4e762065f83a43140e2cb82274525afbaccf7
   aws-sdk-core (3.252.0) sha256=09c042cbfc2acf2239441cc9b982ebab2a999bed2ef6bdc51849e7b3d6e48a1c

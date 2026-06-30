@@ -86,7 +86,7 @@ params :scheme_role_filter do
 end
 ```
 
-This will make the new scheme available in the API via the Swagger docs.
+This will make the new scheme available in the API via the [Swagger docs](http://localhost:3000/api/documentation).
 
 ![Screenshot of Swagger docs for the API showing the `api/fee_types` endpoint with the `roles` field open and displaying all available roles, representting fee schemes.](swagger-fee_types-roles.png)
 
@@ -155,13 +155,9 @@ Add a scope and query method in `app/models/offence.rb`:
 ```ruby
 # app/models/offence.rb
 class Offence < ApplicationRecord
-  # Add scope to find offences in the new scheme
-  scope :in_scheme_17, -> { joins(:fee_schemes).merge(FeeScheme.agfs.where(version: 17)) }
-  
-  # Method to determine if offence is valid for the new fee scheme
-  def scheme_seventeen?
-    fee_schemes.map(&:version).any?(17)
-  end
+  # Add scope and aliasto find offences in the new scheme
+  scope :in_scheme_seventeen, -> { joins(:fee_schemes).merge(FeeScheme.version(17)).distinct }
+  singleton_class.send(:alias_method, :in_scheme_17, :in_scheme_seventeen)
 end
 ```
 
@@ -401,6 +397,11 @@ end
 
 ### Step 12: Update factories and helpers
 
+Note: most factories do not require updating every time a fee scheme is added. It generally is only necessary to create a new factory if the new fee scheme requires specific 
+testing. For example, AGFS Fee Scheme 15, which introduced the KC advocate category, required new tests in `spec/services/claims/fetch_eligible_advocate_categories_spec.rb`
+to prove that the change was working correctly, and so new factories were added. New fee Schemes which do not affect the functionality of CCCD, only the values of fees, may
+not require changes to factories.
+
 #### Offence factory
 
 Update `spec/factories/offences.rb`:
@@ -581,13 +582,15 @@ Update `spec/models/fee/base_fee_type_spec.rb`.
 
 Tests included in this spec:
 
-* An instace of a fee type class should respond to `agfs_scheme_17?` for the new fee scheme
+* An instance of a fee type class should respond to `agfs_scheme_17?` for the new fee scheme
 * The fee type classes should respond to `agfs_scheme_17s`
 * The new method `agfs_scheme_17s` should return all fee types related to the new fee scheme
 
 #### Fetch eligible advocate categories spec
 
 Update `spec/services/claims/fetch_eligible_advocate_categories_spec.rb`:
+
+This spec only needs updating if changes to advocate categories are made as part of the new fee scheme.
 
 ```ruby
 # spec/services/claims/fetch_eligible_advocate_categories_spec.rb
@@ -622,17 +625,6 @@ Add details of the new fee scheme to the `'can be queried by fee scheme types'` 
     )
 ```
 
-Add a new set of tests for the new fee scheme, replicating what exists for the previous scheme:
-
-```ruby
-# spec/models/offence_spec.rb
-  describe '#scheme_seventeen?' do
-    subject { offence.scheme_seventeen? }
-
-    # Appropriate contexts for scheme 17
-  end
-```
-
 #### TransferBrain::DataItem spec
 
 Update `spec/models/claim/transfer_brain/data_item_spec.rb` if changes have been made to the `TransferBrain::DataItem` class for LGFS transfer claims.
@@ -663,6 +655,7 @@ changes implemented.
 Update `app/views/pages/api_release_notes.html.haml` to provide details of the new fee scheme to
 software vendors who maintain case management systems that integrate with the CCCD API and may need 
 to make changes to their software.
+
 
 ### Step 17: Enable manual testing
 

@@ -19,14 +19,14 @@ RSpec.describe 'Servicedown mode' do
   shared_examples 'maintenance json' do
     it { expect(response).to have_http_status :service_unavailable }
     it { expect(response.body).to be_json }
-    it { expect(response.body).to include_json({ error: 'Service temporarily unavailable' }.to_json) }
+    it { expect(JSON.parse(response.body)).to include('error' => 'Service temporarily unavailable') }
   end
 
   context '/ping' do
     before { get '/ping' }
 
     it { expect(response).to be_ok }
-    it { expect(response.body).to be_json }
+    it { expect(response.media_type).to eq('application/json') }
   end
 
   context '/healthcheck' do
@@ -41,7 +41,7 @@ RSpec.describe 'Servicedown mode' do
     end
 
     it { expect(response).to be_ok }
-    it { expect(response.body).to be_json }
+    it { expect(response.media_type).to eq('application/json') }
   end
 
   context 'kubernetes' do

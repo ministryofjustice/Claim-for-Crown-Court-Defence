@@ -95,7 +95,6 @@ group :test do
   gem 'cucumber-rails', '~> 4.0.1', require: false
   gem 'database_cleaner'
   gem 'i18n-tasks'
-  gem 'json_spec'
   gem 'launchy', '~> 3.1.1'
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers', '~> 0.10.0'

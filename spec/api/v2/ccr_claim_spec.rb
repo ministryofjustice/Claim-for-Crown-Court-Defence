@@ -169,6 +169,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     context 'advocate hardship claims' do
       subject(:response) { do_request.body }
 
+      let(:parsed) { JSON.parse(subject) }
       let(:claim) { create(:advocate_hardship_claim, case_stage: build(:case_stage, :trial_not_concluded)) }
 
       include_examples 'base CCR exposed attributes'
@@ -182,7 +183,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to expose :case_type }
       it { is_expected.to expose :offence }
       it { is_expected.to expose :retrial_reduction }
-      it { is_expected.to have_json_size(1).at_path('bills') }
+      it { expect(parsed['bills'].size).to eq(1) }
     end
 
     it_behaves_like 'injection data with defendants' do
@@ -201,12 +202,13 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     context 'bills' do
       subject(:response) { do_request.body }
 
+      let(:parsed) { JSON.parse(subject) }
       let(:bills) { JSON.parse(response)['bills'] }
 
       let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:) }
 
       it 'returns empty array if no bills found' do
-        is_expected.to have_json_size(0).at_path('bills')
+        expect(parsed['bills'].size).to eq(0)
         expect(bills).to be_an Array
         expect(bills).to be_empty
       end
@@ -233,7 +235,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         it 'not added to bills array when no basic fees are being claimed' do
           claim.reload # test failure without this on individual run???
           allow_any_instance_of(Fee::BasicFee).to receive_messages(rate: 0, quantity: 0, amount: 0)
-          is_expected.to have_json_size(0).at_path('bills')
+          expect(parsed['bills'].size).to eq(0)
         end
 
         context 'when only inapplicable basic fees claimed' do
@@ -248,15 +250,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, rate: 25) }
 
           it 'property included' do
-            is_expected.to have_json_path('bills/0/bill_type')
+            expect(parsed.dig('bills', 0, 'bill_type')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/bill_type'
+            expect(parsed.dig('bills', 0, 'bill_type')).to be_a(String)
           end
 
           it 'valid value included' do
-            is_expected.to be_json_eql('AGFS_FEE'.to_json).at_path 'bills/0/bill_type'
+            expect(parsed.dig('bills', 0, 'bill_type')).to eq('AGFS_FEE')
           end
         end
 
@@ -264,15 +266,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:basic_fee) { build(:basic_fee, :baf_fee, quantity: 1, rate: 25) }
 
           it 'property included' do
-            is_expected.to have_json_path('bills/0/bill_subtype')
+            expect(parsed.dig('bills', 0, 'bill_subtype')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/bill_subtype'
+            expect(parsed.dig('bills', 0, 'bill_subtype')).to be_a(String)
           end
 
           it 'valid value included' do
-            is_expected.to be_json_eql('AGFS_FEE'.to_json).at_path 'bills/0/bill_subtype'
+            expect(parsed.dig('bills', 0, 'bill_subtype')).to eq('AGFS_FEE')
           end
         end
 
@@ -280,15 +282,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:basic_fee) { build(:basic_fee, :ppe_fee, quantity: 1024, rate: 25) }
 
           it 'property included' do
-            is_expected.to have_json_path('bills/0/ppe')
+            expect(parsed.dig('bills', 0, 'ppe')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/ppe'
+            expect(parsed.dig('bills', 0, 'ppe')).to be_a(String)
           end
 
           it 'value taken from the Pages of prosecution evidence Fee quantity' do
-            is_expected.to be_json_eql('1024'.to_json).at_path 'bills/0/ppe'
+            expect(parsed.dig('bills', 0, 'ppe')).to eq('1024')
           end
         end
 
@@ -296,15 +298,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:basic_fee) { build(:basic_fee, :noc_fee, quantity: 2, case_numbers: 'T20170001,T20170002') }
 
           it 'property included' do
-            is_expected.to have_json_path('bills/0/number_of_cases')
+            expect(parsed.dig('bills', 0, 'number_of_cases')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/number_of_cases'
+            expect(parsed.dig('bills', 0, 'number_of_cases')).to be_a(String)
           end
 
           it 'calculated from Number of Cases uplift Fee quantity plus 1, for the "main" case' do
-            is_expected.to be_json_eql('3'.to_json).at_path 'bills/0/number_of_cases'
+            expect(parsed.dig('bills', 0, 'number_of_cases')).to eq('3')
           end
         end
 
@@ -312,15 +314,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:basic_fee) { build(:basic_fee, :noc_fee, quantity: 2, case_numbers: 'T20172765, T20172766') }
 
           it 'property included' do
-            is_expected.to have_json_path('bills/0/case_numbers')
+            expect(parsed.dig('bills', 0, 'case_numbers')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/case_numbers'
+            expect(parsed.dig('bills', 0, 'case_numbers')).to be_a(String)
           end
 
           it 'value taken from the basic fee - number of case uplifts\' case_numbers attribute' do
-            is_expected.to be_json_eql('T20172765, T20172766'.to_json).at_path 'bills/0/case_numbers'
+            expect(parsed.dig('bills', 0, 'case_numbers')).to eq('T20172765, T20172766')
           end
         end
 
@@ -329,15 +331,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, basic_fees:, misc_fees: [misc_fee]) }
 
           it 'property included' do
-            is_expected.to have_json_path('bills/0/number_of_defendants')
+            expect(parsed.dig('bills', 0, 'number_of_defendants')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/number_of_defendants'
+            expect(parsed.dig('bills', 0, 'number_of_defendants')).to be_a(String)
           end
 
           it 'defaults to 1 if no defendant uplifts claimed' do
-            is_expected.to be_json_eql('1'.to_json).at_path 'bills/0/number_of_defendants'
+            expect(parsed.dig('bills', 0, 'number_of_defendants')).to eq('1')
           end
 
           context 'when there is some defendant uplifts' do
@@ -349,7 +351,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             end
 
             it 'calculated from sum of Number of defendant uplift fee quantities plus one for main defendant' do
-              expect(response).to be_json_eql('3'.to_json).at_path 'bills/0/number_of_defendants'
+              expect(parsed.dig('bills', 0, 'number_of_defendants')).to eq('3')
             end
           end
         end
@@ -358,15 +360,15 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:basic_fee) { build(:basic_fee, :npw_fee, quantity: 3) }
 
           it 'property included' do
-            is_expected.to have_json_path('bills/0/number_of_witnesses')
+            expect(parsed.dig('bills', 0, 'number_of_witnesses')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/number_of_witnesses'
+            expect(parsed.dig('bills', 0, 'number_of_witnesses')).to be_a(String)
           end
 
           it 'property value determined from Number of Prosecution Witnesses Fee quantity' do
-            is_expected.to be_json_eql('3'.to_json).at_path 'bills/0/number_of_witnesses'
+            expect(parsed.dig('bills', 0, 'number_of_witnesses')).to eq('3')
           end
         end
 
@@ -375,8 +377,8 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, basic_fees:, misc_fees: [misc_fee]) }
 
           it 'includes property' do
-            is_expected.to have_json_path('bills/0/daily_attendances')
-            is_expected.to have_json_type(String).at_path 'bills/0/daily_attendances'
+            expect(parsed.dig('bills', 0, 'daily_attendances')).not_to be_nil
+            expect(parsed.dig('bills', 0, 'daily_attendances')).to be_a(String)
           end
 
           context 'upper bound value' do
@@ -391,7 +393,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, basic_fees:, misc_fees: [misc_fee], actual_trial_length: 53) }
 
             it 'calculated from Daily Attendanance Fee quantities if they exist' do
-              is_expected.to be_json_eql('51'.to_json).at_path 'bills/0/daily_attendances'
+              expect(parsed.dig('bills', 0, 'daily_attendances')).to eq('51')
             end
           end
 
@@ -406,7 +408,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
                 let(:actual_trial_length) { 1 }
 
                 it 'calculated as actual trial length' do
-                  expect(response).to be_json_eql('1'.to_json).at_path 'bills/0/daily_attendances'
+                  expect(parsed.dig('bills', 0, 'daily_attendances')).to eq('1')
                 end
               end
 
@@ -415,7 +417,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
                 let(:trial_concluded_at) { 6.days.ago }
 
                 it 'calculated as 2 for trial lengths over 2' do
-                  expect(response).to be_json_eql('2'.to_json).at_path 'bills/0/daily_attendances'
+                  expect(parsed.dig('bills', 0, 'daily_attendances')).to eq('2')
                 end
               end
             end
@@ -425,7 +427,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
               let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, basic_fees:, misc_fees: [misc_fee], first_day_of_trial: 10.days.ago, trial_concluded_at: 8.days.ago, estimated_trial_length: 2, actual_trial_length: 2, retrial_started_at: 5.days.ago, retrial_estimated_length: 1, retrial_actual_length: 1, retrial_concluded_at: 0.days.ago) }
 
               it 'calculated from actual retrial length if no daily attendance fees and retrial length is less than 2' do
-                is_expected.to be_json_eql('1'.to_json).at_path 'bills/0/daily_attendances'
+                expect(parsed.dig('bills', 0, 'daily_attendances')).to eq('1')
               end
             end
           end
@@ -452,7 +454,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           it { is_expected.to be_valid_ccr_claim_json }
 
           it 'added to bills' do
-            is_expected.to have_json_size(1).at_path('bills')
+            expect(parsed['bills'].size).to eq(1)
           end
         end
 
@@ -461,8 +463,8 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, fixed_fees: [fixed_fee]) }
 
           it 'fee does not impact the bill' do
-            is_expected.to have_json_size(1).at_path('bills')
-            is_expected.not_to be_json_eql('13'.to_json).at_path 'bills/0/daily_attendances'
+            expect(parsed['bills'].size).to eq(1)
+            expect(parsed.dig('bills', 0, 'daily_attendances')).not_to eq('13')
           end
         end
 
@@ -470,11 +472,11 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:) }
 
           it 'fixed fee matching the case type, with defaults, is added to bills' do
-            is_expected.to have_json_size(1).at_path('bills')
-            is_expected.to be_json_eql('AGFS_ORDER_BRCH'.to_json).at_path 'bills/0/bill_subtype'
-            is_expected.to be_json_eql('1'.to_json).at_path 'bills/0/daily_attendances'
-            is_expected.to be_json_eql('1'.to_json).at_path 'bills/0/number_of_cases'
-            is_expected.to be_json_eql('1'.to_json).at_path 'bills/0/number_of_defendants'
+            expect(parsed['bills'].size).to eq(1)
+            expect(parsed.dig('bills', 0, 'bill_subtype')).to eq('AGFS_ORDER_BRCH')
+            expect(parsed.dig('bills', 0, 'daily_attendances')).to eq('1')
+            expect(parsed.dig('bills', 0, 'number_of_cases')).to eq('1')
+            expect(parsed.dig('bills', 0, 'number_of_defendants')).to eq('1')
           end
         end
 
@@ -488,12 +490,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, fixed_fees:) }
 
           it 'includes property' do
-            is_expected.to have_json_path('bills/0/daily_attendances')
-            is_expected.to have_json_type(String).at_path 'bills/0/daily_attendances'
+            expect(parsed.dig('bills', 0, 'daily_attendances')).not_to be_nil
+            expect(parsed.dig('bills', 0, 'daily_attendances')).to be_a(String)
           end
 
           it 'calculated from sum of all applicable fixed fee quantities' do
-            is_expected.to be_json_eql('5'.to_json).at_path 'bills/0/daily_attendances'
+            expect(parsed.dig('bills', 0, 'daily_attendances')).to eq('5')
           end
         end
 
@@ -508,24 +510,24 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
           context 'number_of_cases' do
             it 'includes property' do
-              is_expected.to have_json_path('bills/0/number_of_cases')
-              is_expected.to have_json_type(String).at_path 'bills/0/number_of_cases'
+              expect(parsed.dig('bills', 0, 'number_of_cases')).not_to be_nil
+              expect(parsed.dig('bills', 0, 'number_of_cases')).to be_a(String)
             end
 
             it 'calculated from the count of UNIQUE additional case numbers for all uplift fees of the applicable variety (+1 for "main" case number)' do
-              is_expected.to be_json_eql('4'.to_json).at_path 'bills/0/number_of_cases'
+              expect(parsed.dig('bills', 0, 'number_of_cases')).to eq('4')
             end
           end
 
           context 'case_numbers' do
             it 'includes property' do
-              is_expected.to have_json_path('bills/0/case_numbers')
-              is_expected.to have_json_type(String).at_path 'bills/0/case_numbers'
+              expect(parsed.dig('bills', 0, 'case_numbers')).not_to be_nil
+              expect(parsed.dig('bills', 0, 'case_numbers')).to be_a(String)
             end
 
             it 'consolidated list of UNIQUE additional case numbers for all uplift fees of the applicable variety' do
               %w[S20170001 S20170002 S20170003].each do |case_number|
-                is_expected.to include_json(case_number.to_json).at_path 'bills/0/case_numbers'
+                expect(parsed.dig('bills', 0, 'case_numbers')).to include(case_number)
               end
             end
           end
@@ -544,13 +546,13 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             let(:fixed_fees) { [build(:fixed_fee, :fxcbr_fee, quantity: 1)] }
 
             it 'includes property' do
-              expect(response).to have_json_path('bills/0/number_of_defendants')
-              expect(response).to have_json_type(String).at_path 'bills/0/number_of_defendants'
+              expect(parsed.dig('bills', 0, 'number_of_defendants')).not_to be_nil
+              expect(parsed.dig('bills', 0, 'number_of_defendants')).to be_a(String)
             end
           end
 
           it 'calculated from sum of "number of defendants uplift" fee quanitities on claim plus one' do
-            is_expected.to be_json_eql('2'.to_json).at_path 'bills/0/number_of_defendants'
+            expect(parsed.dig('bills', 0, 'number_of_defendants')).to eq('2')
           end
         end
       end
@@ -563,7 +565,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           it { is_expected.to be_valid_ccr_claim_json }
 
           it 'added to bills' do
-            is_expected.to have_json_size(1).at_path('bills')
+            expect(parsed['bills'].size).to eq(1)
           end
         end
 
@@ -571,7 +573,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:) }
 
           it 'not added to bills if it is not a miscellaneous fee' do
-            is_expected.to have_json_size(0).at_path('bills')
+            expect(parsed['bills'].size).to eq(0)
           end
         end
 
@@ -586,7 +588,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             end
 
             it 'not added to bills if it is of an excluded fee type' do
-              is_expected.to have_json_size(0).at_path('bills')
+              expect(parsed['bills'].size).to eq(0)
             end
           end
 
@@ -595,7 +597,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, misc_fees:) }
 
             it 'not added to bills if it is of an excluded fee type' do
-              is_expected.to have_json_size(0).at_path('bills')
+              expect(parsed['bills'].size).to eq(0)
             end
           end
         end
@@ -615,13 +617,13 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             let(:rate) { 1 }
 
             it 'added to bills' do
-              expect(response).to have_json_size(1).at_path('bills')
-              expect(response).to be_json_eql('AGFS_MISC_FEES'.to_json).at_path 'bills/0/bill_type'
+              expect(parsed['bills'].size).to eq(1)
+              expect(parsed.dig('bills', 0, 'bill_type')).to eq('AGFS_MISC_FEES')
             end
           end
 
           it 'not added to bills if it has no value' do
-            is_expected.to have_json_size(0).at_path('bills')
+            expect(parsed['bills'].size).to eq(0)
           end
         end
 
@@ -637,17 +639,17 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             end
 
             it 'uplift not added to bill' do
-              is_expected.to have_json_size(1).at_path('bills')
+              expect(parsed['bills'].size).to eq(1)
             end
 
             it 'uplift\'s parent fee type added to bill' do
-              is_expected.to be_json_eql('AGFS_MISC_FEES'.to_json).at_path 'bills/0/bill_type'
-              is_expected.to be_json_eql('AGFS_STD_APPRNC'.to_json).at_path 'bills/0/bill_subtype'
-              is_expected.to be_json_eql('2.0'.to_json).at_path 'bills/0/quantity'
+              expect(parsed.dig('bills', 0, 'bill_type')).to eq('AGFS_MISC_FEES')
+              expect(parsed.dig('bills', 0, 'bill_subtype')).to eq('AGFS_STD_APPRNC')
+              expect(parsed.dig('bills', 0, 'quantity')).to eq('2.0')
             end
 
             it 'uplift\'s quantity added to number of defendants on the parent' do
-              is_expected.to be_json_eql('2'.to_json).at_path 'bills/0/number_of_defendants'
+              expect(parsed.dig('bills', 0, 'number_of_defendants')).to eq('2')
             end
           end
 
@@ -660,43 +662,43 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             end
 
             it 'uplift not added to bill' do
-              is_expected.to have_json_size(1).at_path('bills')
+              expect(parsed['bills'].size).to eq(1)
             end
 
             it 'uplift\'s parent fee type added to bill' do
-              is_expected.to be_json_eql('AGFS_MISC_FEES'.to_json).at_path 'bills/0/bill_type'
-              is_expected.to be_json_eql('AGFS_STD_APPRNC'.to_json).at_path 'bills/0/bill_subtype'
-              is_expected.to be_json_eql('2.0'.to_json).at_path 'bills/0/quantity'
+              expect(parsed.dig('bills', 0, 'bill_type')).to eq('AGFS_MISC_FEES')
+              expect(parsed.dig('bills', 0, 'bill_subtype')).to eq('AGFS_STD_APPRNC')
+              expect(parsed.dig('bills', 0, 'quantity')).to eq('2.0')
             end
 
             it 'uplift\'s quantity added to number of defendants on the parent' do
-              is_expected.to be_json_eql('2'.to_json).at_path 'bills/0/number_of_defendants'
+              expect(parsed.dig('bills', 0, 'number_of_defendants')).to eq('2')
             end
           end
         end
 
         context 'bill type' do
           it 'property included' do
-            is_expected.to have_json_path('bills/0/bill_type')
+            expect(parsed.dig('bills', 0, 'bill_type')).not_to be_nil
           end
 
           it 'property type valid' do
-            is_expected.to have_json_type(String).at_path 'bills/0/bill_type'
+            expect(parsed.dig('bills', 0, 'bill_type')).to be_a(String)
           end
 
           it 'property value valid' do
-            is_expected.to be_json_eql('AGFS_MISC_FEES'.to_json).at_path 'bills/0/bill_type'
+            expect(parsed.dig('bills', 0, 'bill_type')).to eq('AGFS_MISC_FEES')
           end
         end
 
         context 'bill sub type' do
           it 'property included' do
-            is_expected.to have_json_path('bills/0/bill_subtype')
-            is_expected.to have_json_type(String).at_path 'bills/0/bill_subtype'
+            expect(parsed.dig('bills', 0, 'bill_subtype')).not_to be_nil
+            expect(parsed.dig('bills', 0, 'bill_subtype')).to be_a(String)
           end
 
           it 'valid value included' do
-            is_expected.to be_json_eql('AGFS_ABS_PRC_HF'.to_json).at_path 'bills/0/bill_subtype'
+            expect(parsed.dig('bills', 0, 'bill_subtype')).to eq('AGFS_ABS_PRC_HF')
           end
         end
       end
@@ -715,12 +717,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         it { is_expected.to be_valid_ccr_claim_json }
 
         it 'returns array containing the bill' do
-          is_expected.to have_json_size(1).at_path('bills')
+          expect(parsed['bills'].size).to eq(1)
         end
 
         it 'returns a warrant fee bill' do
-          is_expected.to be_json_eql('AGFS_ADVANCE'.to_json).at_path('bills/0/bill_type')
-          is_expected.to be_json_eql('AGFS_WARRANT'.to_json).at_path('bills/0/bill_subtype')
+          expect(parsed.dig('bills', 0, 'bill_type')).to eq('AGFS_ADVANCE')
+          expect(parsed.dig('bills', 0, 'bill_subtype')).to eq('AGFS_WARRANT')
         end
       end
 
@@ -728,9 +730,9 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_9, case_stage: build(:case_stage, :trial_not_concluded)) }
 
         it { is_expected.to be_valid_ccr_claim_json }
-        it { is_expected.to be_json_eql('AGFS_ADVANCE'.to_json).at_path 'bills/0/bill_type' }
-        it { is_expected.to be_json_eql('AGFS_HARDSHIP'.to_json).at_path 'bills/0/bill_subtype' }
-        it { is_expected.to have_json_path('bills/0/amount') }
+        it { expect(parsed.dig('bills', 0, 'bill_type')).to eq('AGFS_ADVANCE') }
+        it { expect(parsed.dig('bills', 0, 'bill_subtype')).to eq('AGFS_HARDSHIP') }
+        it { expect(parsed.dig('bills', 0, 'amount')).not_to be_nil }
 
         context 'with basic fees that map to misc fees exist' do
           before do
@@ -771,7 +773,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           it { is_expected.to be_valid_ccr_claim_json }
 
           it 'added to bills' do
-            is_expected.to have_json_size(1).at_path('bills')
+            expect(parsed['bills'].size).to eq(1)
           end
         end
       end

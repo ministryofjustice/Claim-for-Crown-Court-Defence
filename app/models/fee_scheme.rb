@@ -59,6 +59,10 @@ class FeeScheme < ApplicationRecord
     agfs? && version.eql?(16)
   end
 
+  def agfs_scheme_17?
+    agfs? && version.eql?(17)
+  end
+
   def claims
     date_range = agfs_scheme_13? ? (Settings.clar_release_date..end_date) : (start_date..end_date)
 

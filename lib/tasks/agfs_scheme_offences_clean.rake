@@ -17,8 +17,8 @@ namespace :db do
       pretend = !not_pretend
 
       continue?('This will merge AGFS fee scheme 12 and 13 offences into AGFS fee scheme 11. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
-      
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
+
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
       cleaner = Seeds::Schemas::CleanAgfsOffences.new(pretend: pretend)
@@ -37,7 +37,7 @@ namespace :db do
       pretend = !not_pretend
 
       continue?('This will recreate spearate offences for AGFS fee scheme 12 and 13. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
@@ -55,7 +55,7 @@ namespace :db do
       pretend = !not_pretend
 
       continue?('This will all offences that are not linked to a fee scheme. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1

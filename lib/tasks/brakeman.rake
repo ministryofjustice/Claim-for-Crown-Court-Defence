@@ -15,9 +15,9 @@ namespace :brakeman do
     time_taken = (report.scan_info.end_time.to_datetime.to_f - report.scan_info.start_time.to_datetime.to_f).to_i
 
     if report.warnings.size > 0
-      puts "New warnings: #{report.warnings.size} - see #{report_output.first} for details".red
+      puts Rainbow("New warnings: #{report.warnings.size} - see #{report_output.first} for details").red
     else
-      puts "No new warnings".green
+      puts Rainbow("No new warnings").green
     end
     puts "Finished in #{time_taken} seconds"
     puts "warnings: #{report.ignored_warnings.size}, new warnings: #{report.warnings.size}, errors: #{report.errors.size}"

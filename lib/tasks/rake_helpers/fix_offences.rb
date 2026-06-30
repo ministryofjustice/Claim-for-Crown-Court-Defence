@@ -3,7 +3,7 @@ include Tasks::RakeHelpers::RakeUtils
 
 module Tasks
   module RakeHelpers
-    class FixOffences      
+    class FixOffences
       def initialize(dir, dry_run: true)
         @dir = dir
         @data_sets = [
@@ -27,13 +27,13 @@ module Tasks
       end
 
       def fix_ids
-        puts "[DRY RUN]".blue if @dry_run
+        puts Rainbow("[DRY RUN]").blue if @dry_run
 
-        puts "Offences count before: #{Offence.count}".green
+        puts Rainbow("Offences count before: #{Offence.count}").green
         csv_data = CSV.read(File.expand_path('offences.csv', @dir), headers: true)
         offset = Offence.maximum(:id) + 10000
         Offence.transaction do
-          puts 'FIRST PASS - Move records with incorrect ids out of range'.yellow
+          puts Rainbow('FIRST PASS - Move records with incorrect ids out of range').yellow
           db_records = []
           new_records = []
           ids = []
@@ -46,7 +46,7 @@ module Tasks
               if db_record.id.to_s != csv_record['id']
                 claims = db_record.claims
 
-                print "Setting id #{db_record.id} to #{csv_record['id'].to_i + offset}\r".red
+                print Rainbow("Setting id #{db_record.id} to #{csv_record['id'].to_i + offset}\r").red
                 db_record.id = csv_record['id'].to_i + offset
                 db_record.save
 
@@ -59,11 +59,11 @@ module Tasks
           end
           print "                              \r"
 
-          puts 'SECOND PASS - Remove extra records'.yellow
+          puts Rainbow('SECOND PASS - Remove extra records').yellow
           extras = Offence.where.not(id: ids)
           extras.delete_all
 
-          puts 'THIRD PASS - Add missing records'.yellow
+          puts Rainbow('THIRD PASS - Add missing records').yellow
           new_records.each do |record|
             offence = Offence.new(record.to_h.except('id'))
             offence.save
@@ -71,11 +71,11 @@ module Tasks
             offence.save
           end
 
-          puts 'FOURTH PASS - Move records that had incorrect ids into their correct range'.yellow
+          puts Rainbow('FOURTH PASS - Move records that had incorrect ids into their correct range').yellow
           db_records.each do |db_record|
             claims = db_record.claims
 
-            print "Setting id #{db_record.id} to #{db_record.id - offset}\r".red
+            print Rainbow("Setting id #{db_record.id} to #{db_record.id - offset}\r").red
             db_record.id = db_record.id - offset
             db_record.save
 
@@ -83,10 +83,10 @@ module Tasks
           end
           print "                              \r"
 
-          puts "Offences count after: #{Offence.count}".green
+          puts Rainbow("Offences count after: #{Offence.count}").green
 
           if @dry_run
-            puts "[ROLLING BACK]".blue
+            puts Rainbow("[ROLLING BACK]").blue
             raise ActiveRecord::Rollback
           end
         end
@@ -96,13 +96,13 @@ module Tasks
 
       def check_counts(set)
         csv_data = CSV.read(File.expand_path("#{set[:name]}.csv", @dir), headers: true)
-        puts "Number of #{set[:name]} in CSV file: #{csv_data.count}".yellow
-        puts "Number of #{set[:name]} in database: #{set[:class].count}".yellow
-        puts csv_data.count == set[:class].count ? '  [OK]'.green : '  [MISMATCH]'.red
+        puts Rainbow("Number of #{set[:name]} in CSV file: #{csv_data.count}").yellow
+        puts Rainbow("Number of #{set[:name]} in database: #{set[:class].count}").yellow
+        puts csv_data.count == set[:class].count ? '  [OK]'.green : Rainbow('  [MISMATCH]').red
       end
 
       def check_records(set)
-        puts "Matches:".yellow
+        puts Rainbow("Matches:").yellow
         csv_data = CSV.read(File.expand_path("#{set[:name]}.csv", @dir), headers: true)
 
         missing = []
@@ -119,10 +119,10 @@ module Tasks
             missing << csv_record
           end
         end
-        puts "#{missing.count} records in production not found in this environment".yellow
-        puts "#{incorrect.count} records in production found in this environment with an incorrect id".yellow
+        puts Rainbow("#{missing.count} records in production not found in this environment").yellow
+        puts Rainbow("#{incorrect.count} records in production found in this environment with an incorrect id").yellow
         extras = set[:class].where.not(id: extras)
-        puts "#{extras.count} records in this environment and not in production".yellow
+        puts Rainbow("#{extras.count} records in this environment and not in production").yellow
         output('Missing records:') if missing.count.positive?
         missing.each do |record|
           output("#{record['id']}")

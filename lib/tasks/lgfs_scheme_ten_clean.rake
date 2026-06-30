@@ -17,7 +17,7 @@ namespace :db do
       pretend = !not_pretend
 
       continue?('This will merge LGFS fee scheme 10 offences into LGFS fee scheme 9. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
@@ -36,7 +36,7 @@ namespace :db do
       pretend = !not_pretend
 
       continue?('This will recreate spearate offences for LGFS fee scheme 10. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1

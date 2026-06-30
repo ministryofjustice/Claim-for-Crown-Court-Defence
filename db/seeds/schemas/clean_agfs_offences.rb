@@ -58,13 +58,13 @@ module Seeds
               unlink_redundant(offence)
             else
               if pretending?
-                puts "    [WOULD-UPDATE] Unique code of #{offence.unique_code}".yellow unless @quiet
+                puts Rainbow("    [WOULD-UPDATE] Unique code of #{offence.unique_code}").yellow unless @quiet
               else
-                puts "    [UPDATE] Unique code of #{offence.unique_code}".green unless @quiet
-                puts "      [BEFORE] #{offence.unique_code}".green unless @quiet
+                puts Rainbow("    [UPDATE] Unique code of #{offence.unique_code}").green unless @quiet
+                puts Rainbow("      [BEFORE] #{offence.unique_code}").green unless @quiet
                 offence.unique_code.gsub!('~11', '')
                 offence.save!
-                puts "      [AFTER] #{offence.unique_code}".green unless @quiet
+                puts Rainbow("      [AFTER] #{offence.unique_code}").green unless @quiet
               end
             end
           end
@@ -132,20 +132,20 @@ module Seeds
         offences.each do |offence|
           if pretending?
             if offence.fee_schemes.empty?
-              puts "    [WOULD-REMOVE] #{offence.unique_code}".yellow unless @quiet
+              puts Rainbow("    [WOULD-REMOVE] #{offence.unique_code}").yellow unless @quiet
             else
-              puts "    [WOULD-NOT-REMOVE] #{offence.unique_code}".yellow unless @quiet
+              puts Rainbow("    [WOULD-NOT-REMOVE] #{offence.unique_code}").yellow unless @quiet
             end
             puts "      Fee schemes: #{offence.description}" unless @quiet
             puts "      Fee schemes: #{display_fee_schemes(*offence.fee_schemes)}" unless @quiet
           else
             if offence.fee_schemes.empty?
-              puts "    [REMOVE] #{offence.unique_code}".green unless @quiet
+              puts Rainbow("    [REMOVE] #{offence.unique_code}").green unless @quiet
               puts "      Fee schemes: #{offence.description}" unless @quiet
               puts "      Fee schemes: #{display_fee_schemes(*offence.fee_schemes)}" unless @quiet
               offence.destroy
             else
-              puts "    [NOT-REMOVING] #{offence.unique_code}".yellow unless @quiet
+              puts Rainbow("    [NOT-REMOVING] #{offence.unique_code}").yellow unless @quiet
               puts "      Fee schemes: #{offence.description}" unless @quiet
               puts "      Fee schemes: #{display_fee_schemes(*offence.fee_schemes)}" unless @quiet
             end
@@ -186,61 +186,61 @@ module Seeds
 
       def update_claims(claims, new_offence)
         if pretending?
-          puts "    [WOULD-UPDATE] #{claims.count} claims".yellow unless @quiet
+          puts Rainbow("    [WOULD-UPDATE] #{claims.count} claims").yellow unless @quiet
         else
-          puts "    [UPDATE] #{claims.count} claims".green unless @quiet
+          puts Rainbow("    [UPDATE] #{claims.count} claims").green unless @quiet
           claims.update_all(offence_id: new_offence.id)
         end
       end
 
       def update_claims_with_ids(claims, new_offence)
         if pretending?
-          puts "    [WOULD-UPDATE] #{claims.count} claims".yellow unless @quiet
+          puts Rainbow("    [WOULD-UPDATE] #{claims.count} claims").yellow unless @quiet
         else
-          puts "    [UPDATE] #{claims.count} claims".green unless @quiet
+          puts Rainbow("    [UPDATE] #{claims.count} claims").green unless @quiet
           Claim::BaseClaim.where(id: claims.map(&:id)).update_all(offence_id: new_offence.id)
         end
       end
 
       def copy_schemes(from:, to:)
         if pretending?
-          puts "    [WOULD-COPY] Fee schemes #{display_fee_schemes(*from.fee_schemes)} from offence #{from.unique_code} to offence #{to.unique_code}".yellow unless @quiet
+          puts Rainbow("    [WOULD-COPY] Fee schemes #{display_fee_schemes(*from.fee_schemes)} from offence #{from.unique_code} to offence #{to.unique_code}").yellow unless @quiet
         else
-          puts "    [COPY] Fee schemes #{display_fee_schemes(*from.fee_schemes)} from offence #{from.unique_code} to offence #{to.unique_code}".green unless @quiet
-          puts "      [UPDATE] Before: #{display_fee_schemes(*to.fee_schemes)}".green unless @quiet
+          puts Rainbow("    [COPY] Fee schemes #{display_fee_schemes(*from.fee_schemes)} from offence #{from.unique_code} to offence #{to.unique_code}").green unless @quiet
+          puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*to.fee_schemes)}").green unless @quiet
           to.fee_schemes.append(*from.fee_schemes)
           to.reload
-          puts "      [UPDATE] After: #{display_fee_schemes(*to.fee_schemes)}".green unless @quiet
+          puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*to.fee_schemes)}").green unless @quiet
         end
       end
 
       def add_scheme_twelve_to(offence)
         if pretending?
-          puts "    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_twelve)}' to offence #{offence.unique_code}".yellow unless @quiet
+          puts Rainbow("    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_twelve)}' to offence #{offence.unique_code}").yellow unless @quiet
         else
-          puts "    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_twelve)}' to offence #{offence.unique_code}".green unless @quiet
-          puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_twelve)}' to offence #{offence.unique_code}").green unless @quiet
+          puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
           offence.fee_schemes << fee_scheme_twelve
           offence.reload
-          puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
         end
       end
 
       def add_scheme_thirteen_to(offence)
         if pretending?
-          puts "    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_thirteen)}' to offence #{offence.unique_code}".yellow unless @quiet
+          puts Rainbow("    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_thirteen)}' to offence #{offence.unique_code}").yellow unless @quiet
         else
-          puts "    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_thirteen)}' to offence #{offence.unique_code}".green unless @quiet
-          puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_thirteen)}' to offence #{offence.unique_code}").green unless @quiet
+          puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
           offence.fee_schemes << fee_scheme_thirteen
           offence.reload
-          puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
         end
       end
 
       def restore_scheme_eleven_offence_for(offence, claims)
         if offence.unique_code.match(/~/)
-          puts "    [NOT-UPDATING] Offence #{offence.unique_code}".yellow
+          puts Rainbow("    [NOT-UPDATING] Offence #{offence.unique_code}").yellow
           return
         end
 
@@ -248,92 +248,92 @@ module Seeds
         if new_offence
           # Scheme 11 has exact copy of scheme 10 offence
           if pretending?
-            puts "    [WOULD-REMOVE] Fee schemes 11, 14 and 15 from offence #{offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-ADD] Fee schemes 11, 14 and 15 to offence #{new_offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 11, 14 and 15 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}".yellow unless @quiet
+            puts Rainbow("    [WOULD-REMOVE] Fee schemes 11, 14 and 15 from offence #{offence.unique_code}").yellow unless @quiet
+            puts Rainbow("    [WOULD-ADD] Fee schemes 11, 14 and 15 to offence #{new_offence.unique_code}").yellow unless @quiet
+            puts Rainbow("    [WOULD-UPDATE] Move #{claims.count} fee scheme 11, 14 and 15 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}").yellow unless @quiet
           else
-            puts "    [REMOVE] Fee schemes 11, 14 and 15 from offence #{offence.unique_code}".green unless @quiet
-            puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+            puts Rainbow("    [REMOVE] Fee schemes 11, 14 and 15 from offence #{offence.unique_code}").green unless @quiet
+            puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
             offence.fee_schemes.delete(fee_scheme_eleven)
             offence.fee_schemes.delete(fee_scheme_fourteen)
             offence.fee_schemes.delete(fee_scheme_fifteen)
-            puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet    
-            puts "    [ADD] Fee schemes 11, 14 and 15 to offence #{new_offence.unique_code}".green unless @quiet
-            puts "      [UPDATE] Before: #{display_fee_schemes(*new_offence.fee_schemes)}".green unless @quiet
+            puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
+            puts Rainbow("    [ADD] Fee schemes 11, 14 and 15 to offence #{new_offence.unique_code}").green unless @quiet
+            puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*new_offence.fee_schemes)}").green unless @quiet
             new_offence.fee_schemes = [fee_scheme_eleven, fee_scheme_fourteen, fee_scheme_fifteen]
-            puts "      [UPDATE] After: #{display_fee_schemes(*new_offence.fee_schemes)}".green unless @quiet    
-            puts "    [UPDATE] Move #{claims.count} fee scheme 11, 14 and 15 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}".green unless @quiet
+            puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*new_offence.fee_schemes)}").green unless @quiet
+            puts Rainbow("    [UPDATE] Move #{claims.count} fee scheme 11, 14 and 15 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}").green unless @quiet
             update_claims_with_ids(claims, new_offence)
           end
         elsif !offence.fee_schemes.include?(fee_scheme_ten)
           # Offence in scheme 11 is in a different band from offence in scheme 10 so new offence record exists
           if pretending?
-            puts "    [WOULD-UPDATE] Offence code #{offence.unique_code} to #{offence.unique_code}~11".yellow unless @quiet
+            puts Rainbow("    [WOULD-UPDATE] Offence code #{offence.unique_code} to #{offence.unique_code}~11").yellow unless @quiet
           else
-            puts "    [UPDATE] Offence code #{offence.unique_code} to #{offence.unique_code}~11".green unless @quiet
+            puts Rainbow("    [UPDATE] Offence code #{offence.unique_code} to #{offence.unique_code}~11").green unless @quiet
             offence.unique_code = "#{offence.unique_code}~11"
             offence.save!
           end
         else
-          puts "    [FAILURE] Offence code #{offence.unique_code} linked to fee scheme 10 but with no separate fee scheme 11 offence".red unless @quiet
+          puts Rainbow("    [FAILURE] Offence code #{offence.unique_code} linked to fee scheme 10 but with no separate fee scheme 11 offence").red unless @quiet
         end
       end
 
       def restore_scheme_twelve_offence_for(offence, claims)
         if offence.unique_code.match(/~/) && !offence.unique_code.match(/~11/)
-          puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
+          puts Rainbow("    [NOT-DUPLICATING] Offence #{offence.unique_code}").yellow
           return
         end
 
         new_offence = Offence.find_by(unique_code: "#{offence.unique_code.gsub('~11', '')}~12")
         if new_offence
           if pretending?
-            puts "    [WOULD-REMOVE] Fee schemes 12 from offence #{offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-ADD] Fee schemes 12 to offence #{new_offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}".yellow unless @quiet
+            puts Rainbow("    [WOULD-REMOVE] Fee schemes 12 from offence #{offence.unique_code}").yellow unless @quiet
+            puts Rainbow("    [WOULD-ADD] Fee schemes 12 to offence #{new_offence.unique_code}").yellow unless @quiet
+            puts Rainbow("    [WOULD-UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}").yellow unless @quiet
           else
-            puts "    [REMOVE] Fee schemes 12 from offence #{offence.unique_code}".green unless @quiet
-            puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+            puts Rainbow("    [REMOVE] Fee schemes 12 from offence #{offence.unique_code}").green unless @quiet
+            puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
             offence.fee_schemes.delete(fee_scheme_twelve)
-            puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet    
-            puts "    [ADD] Fee schemes 12 to offence #{new_offence.unique_code}".green unless @quiet
-            puts "      [UPDATE] Before: #{display_fee_schemes(*new_offence.fee_schemes)}".green unless @quiet
+            puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
+            puts Rainbow("    [ADD] Fee schemes 12 to offence #{new_offence.unique_code}").green unless @quiet
+            puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*new_offence.fee_schemes)}").green unless @quiet
             new_offence.fee_schemes = [fee_scheme_twelve]
-            puts "      [UPDATE] After: #{display_fee_schemes(*new_offence.fee_schemes)}".green unless @quiet    
-            puts "    [UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}".green unless @quiet
+            puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*new_offence.fee_schemes)}").green unless @quiet
+            puts Rainbow("    [UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}").green unless @quiet
             update_claims_with_ids(claims, new_offence)
           end
         else
-          puts "    [FAILURE] Unable to find offence for fee scheme twelve for #{offence.unique_code}".red unless @quiet
+          puts Rainbow("    [FAILURE] Unable to find offence for fee scheme twelve for #{offence.unique_code}").red unless @quiet
         end
       end
 
       def restore_scheme_thirteen_offence_for(offence, claims)
         if offence.unique_code.match(/~/) && !offence.unique_code.match(/~11/)
-          puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
+          puts Rainbow("    [NOT-DUPLICATING] Offence #{offence.unique_code}").yellow
           return
         end
 
         new_offence = Offence.find_by(unique_code: "#{offence.unique_code.gsub('~11', '')}~13")
         if new_offence
           if pretending?
-            puts "    [WOULD-REMOVE] Fee schemes 13 from offence #{offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-ADD] Fee schemes 13 to offence #{new_offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 13 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}".yellow unless @quiet
+            puts Rainbow("    [WOULD-REMOVE] Fee schemes 13 from offence #{offence.unique_code}").yellow unless @quiet
+            puts Rainbow("    [WOULD-ADD] Fee schemes 13 to offence #{new_offence.unique_code}").yellow unless @quiet
+            puts Rainbow("    [WOULD-UPDATE] Move #{claims.count} fee scheme 13 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}").yellow unless @quiet
           else
-            puts "    [REMOVE] Fee schemes 13 from offence #{offence.unique_code}".green unless @quiet
-            puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+            puts Rainbow("    [REMOVE] Fee schemes 13 from offence #{offence.unique_code}").green unless @quiet
+            puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
             offence.fee_schemes.delete(fee_scheme_thirteen)
-            puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet    
-            puts "    [ADD] Fee schemes 13 to offence #{new_offence.unique_code}".green unless @quiet
-            puts "      [UPDATE] Before: #{display_fee_schemes(*new_offence.fee_schemes)}".green unless @quiet
+            puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
+            puts Rainbow("    [ADD] Fee schemes 13 to offence #{new_offence.unique_code}").green unless @quiet
+            puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*new_offence.fee_schemes)}").green unless @quiet
             new_offence.fee_schemes = [fee_scheme_thirteen]
-            puts "      [UPDATE] After: #{display_fee_schemes(*new_offence.fee_schemes)}".green unless @quiet    
-            puts "    [UPDATE] Move #{claims.count} fee scheme 13 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}".green unless @quiet
+            puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*new_offence.fee_schemes)}").green unless @quiet
+            puts Rainbow("    [UPDATE] Move #{claims.count} fee scheme 13 claims (out of #{offence.claims.count}) to #{new_offence.unique_code}").green unless @quiet
             update_claims_with_ids(claims, new_offence)
           end
         else
-          puts "    [FAILURE] Unable to find offence for fee scheme thirteen for #{offence.unique_code}".red unless @quiet
+          puts Rainbow("    [FAILURE] Unable to find offence for fee scheme thirteen for #{offence.unique_code}").red unless @quiet
         end
       end
 
@@ -343,13 +343,13 @@ module Seeds
 
       def unlink_redundant(offence)
         if pretending?
-          puts "    [WOULD-DETATCH] Fee schemes #{display_fee_schemes(*offence.fee_schemes)} (all) from offence #{offence.unique_code}".yellow unless @quiet
+          puts Rainbow("    [WOULD-DETATCH] Fee schemes #{display_fee_schemes(*offence.fee_schemes)} (all) from offence #{offence.unique_code}").yellow unless @quiet
         else
-          puts "    [DETATCH] Fee schemes #{display_fee_schemes(*offence.fee_schemes)} (all) from offence #{offence.unique_code}".green unless @quiet
-          puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("    [DETATCH] Fee schemes #{display_fee_schemes(*offence.fee_schemes)} (all) from offence #{offence.unique_code}").green unless @quiet
+          puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
           offence.fee_schemes = []
           offence.reload
-          puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
+          puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
         end
       end
 
@@ -360,7 +360,7 @@ module Seeds
           other_unique_code = unique_code.gsub(fee_scheme_marker, other_fee_scheme_marker)
           other_offence = Offence.find_by(unique_code: other_unique_code)
           if !other_offence
-            puts "    #{unique_code}: No equivalent offence".red
+            puts Rainbow("    #{unique_code}: No equivalent offence").red
             generic_unique_code = unique_code.gsub(/_.*/, '')
             generic_offences = Offence.where('unique_code LIKE ?', "#{generic_unique_code}%")
             puts "      #{offence.description}"
@@ -369,7 +369,7 @@ module Seeds
               puts "      #{o.unique_code}: #{offence.description == o.description ? 'Description matches'.green : 'Description does not match'.red }"
             end
           elsif !offences_match?(offence, other_offence)
-            puts "    #{unique_code}: Equivalent offence does not match".red
+            puts Rainbow("    #{unique_code}: Equivalent offence does not match").red
           end
           claim_count += offence.claims.count
         end

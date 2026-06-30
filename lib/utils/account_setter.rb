@@ -56,9 +56,9 @@ module Utils
 
         if user
           user.persona.soft_delete
-          puts "Softly deleted #{user.email}!".green
+          puts Rainbow("Softly deleted #{user.email}!").green
         else
-          puts "User with email #{email} not found!".red
+          puts Rainbow("User with email #{email} not found!").red
         end
       end
     end
@@ -77,9 +77,9 @@ module Utils
           user.persona.update(deleted_at: nil)
           user.update!(deleted_at: nil)
           user.update!(email:)
-          puts "Undid soft delete for #{user.email}!".green
+          puts Rainbow("Undid soft delete for #{user.email}!").green
         else
-          puts "User email \"#{email}.delete.%\" not found!".red
+          puts Rainbow("User email \"#{email}.delete.%\" not found!").red
         end
       end
     end
@@ -98,9 +98,9 @@ module Utils
 
         if user&.enabled?
           user.disable
-          puts "User with email \"#{user.email}\" disabled!".green
+          puts Rainbow("User with email \"#{user.email}\" disabled!").green
         else
-          puts "Enabled user with email \"#{email}\" not found!".red
+          puts Rainbow("Enabled user with email \"#{email}\" not found!").red
         end
       end
     end
@@ -116,9 +116,9 @@ module Utils
 
         if user&.disabled?
           user.enable
-          puts "User with email \"#{user.email}\" enabled!".green
+          puts Rainbow("User with email \"#{user.email}\" enabled!").green
         else
-          puts "Disabled user with email \"#{email}\" not found!".red
+          puts Rainbow("Disabled user with email \"#{email}\" not found!").red
         end
       end
     end
@@ -138,9 +138,9 @@ module Utils
         if user
           pwd = SecureRandom.base64(15)
           user.update!(password: pwd, password_confirmation: pwd)
-          puts "Updated password for #{user.email} with id #{user.id}! They will need to reest it to login!".green
+          puts Rainbow("Updated password for #{user.email} with id #{user.id}! They will need to reest it to login!").green
         else
-          puts "User with email #{email} not found!".red
+          puts Rainbow("User with email #{email} not found!").red
         end
       end
     end

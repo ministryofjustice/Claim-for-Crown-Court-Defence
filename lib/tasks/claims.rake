@@ -70,7 +70,7 @@ namespace :claims do
     desc 'CCCD Task: Load demo data Advocate Claims [num_claims_per_state=1, num_claims_per_user=1]'
     task :advocates, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts "#{task.name} with #{args}".green
+      puts Rainbow("#{task.name} with #{args}").green
       require 'fileutils'
       doc_store = File.join(Rails.root, 'public', 'assets', 'dev', 'images', 'docs')
       FileUtils.rm_r(doc_store, secure: true) if Dir.exist?(doc_store)
@@ -81,7 +81,7 @@ namespace :claims do
     desc "Load demo data Litigator Claims [num_claims_per_state=1, num_claims_per_user=1]"
     task :litigators, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts "#{task.name} with #{args}".green
+      puts Rainbow("#{task.name} with #{args}").green
       require File.join(Rails.root, 'lib', 'demo_data', 'litigator_claim_generator')
       DemoData::LitigatorClaimGenerator.new(num_external_users: 1).run
     end
@@ -89,7 +89,7 @@ namespace :claims do
     desc "Load demo data Interim Claims [num_claims_per_state=1, num_claims_per_user=1]"
     task :interims, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts "#{task.name} with #{args}".green
+      puts Rainbow("#{task.name} with #{args}").green
       require File.join(Rails.root, 'lib', 'demo_data', 'interim_claim_generator')
       DemoData::InterimClaimGenerator.new(num_external_users: 1).run
     end
@@ -97,7 +97,7 @@ namespace :claims do
     desc 'Load demo data Transfer Claims [num_claims_per_state=1, num_claims_per_user=1]'
     task :transfers, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
-      puts "#{task.name} with #{args}".green
+      puts Rainbow("#{task.name} with #{args}").green
       require File.join(Rails.root, 'lib', 'demo_data', 'transfer_claim_generator')
       DemoData::TransferClaimGenerator.new(num_external_users: 1).run
     end
@@ -137,8 +137,8 @@ namespace :claims do
   task :archive_report, [:filename] => :environment do |_task, args|
     require_relative 'rake_helpers/archived_claims'
 
-    puts "Writing archived claims to #{args[:filename]}".green
+    puts Rainbow("Writing archived claims to #{args[:filename]}").green
     RakeHelpers::ArchivedClaims.write args[:filename]
-    puts 'Done'.green
+    puts Rainbow('Done').green
   end
 end

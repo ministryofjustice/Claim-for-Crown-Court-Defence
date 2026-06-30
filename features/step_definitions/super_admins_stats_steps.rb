@@ -16,7 +16,7 @@ end
 
 And("I enter the From date {string}") do |date|
   split_date = date.split("/")
-  find('#stats_date_from_3i').set(split_date[0])
+  find('#stats_date_from_3i', wait: 10).set(split_date[0])
   find('#stats_date_from_2i').set(split_date[1])
   find('#stats_date_from_1i').set(split_date[2])
 end

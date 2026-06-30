@@ -14,7 +14,8 @@ module SeedHelpers
     FeeScheme.find_or_create_by(name: 'AGFS', version: 13, start_date: Settings.agfs_scheme_13_clair_release_date.beginning_of_day, end_date: Settings.agfs_scheme_14_section_twenty_eight.end_of_day - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 14, start_date: Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day, end_date: Settings.agfs_scheme_15_additional_prep_fee_and_kc.end_of_day - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 15, start_date: Settings.agfs_scheme_15_additional_prep_fee_and_kc.beginning_of_day, end_date: Settings.agfs_scheme_16_section_twenty_eight_increase.end_of_day - 1.day)
-    FeeScheme.find_or_create_by(name: 'AGFS', version: 16, start_date: Settings.agfs_scheme_16_section_twenty_eight_increase.beginning_of_day, end_date: nil)
+    FeeScheme.find_or_create_by(name: 'AGFS', version: 16, start_date: Settings.agfs_scheme_16_section_twenty_eight_increase.beginning_of_day, end_date: Settings.agfs_scheme_17.end_of_day - 1.day)
+    FeeScheme.find_or_create_by(name: 'AGFS', version: 17, start_date: Settings.agfs_scheme_17.beginning_of_day, end_date: nil)
   end
   # rubocop:enable Metrics/MethodLength
 

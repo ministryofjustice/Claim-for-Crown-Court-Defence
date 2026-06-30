@@ -15,6 +15,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
       output.reverse
     end
 
+    # TODO: Refactor to reduce number of schemes
     let(:agfs_example) do
       [
         { name: 'AGFS 9', data: { mon_name[0] => 2, mon_name[1] => 0, mon_name[2] => 0,
@@ -42,6 +43,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
       ]
     end
 
+    # TODO: Refactor to reduce number of schemes
     let(:lgfs_example) do
       [
         { name: 'AGFS 9', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
@@ -69,6 +71,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
       ]
     end
 
+    # TODO: Refactor to reduce number of schemes
     let(:mixed_example) do
       [
         { name: 'AGFS 9', data: { mon_name[0] => 1, mon_name[1] => 0, mon_name[2] => 0,

@@ -47,12 +47,6 @@ FactoryBot.define do
       version { 15 }
     end
 
-    trait :agfs_sixteen do
-      start_date { Settings.agfs_scheme_16_section_twenty_eight_increase.beginning_of_day }
-      end_date { nil }
-      version { 16 }
-    end
-
     trait :lgfs_nine do
       name { 'LGFS' }
       start_date { Date.new(2014, 03, 20).beginning_of_day }

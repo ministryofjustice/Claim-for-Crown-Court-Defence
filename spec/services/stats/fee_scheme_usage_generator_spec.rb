@@ -56,6 +56,7 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
         'AGFS 14',
         'AGFS 15',
         'AGFS 16',
+        'AGFS 17',
         'LGFS 9',
         'LGFS 10',
         'LGFS 11'

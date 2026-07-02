@@ -54,13 +54,13 @@ module Seeds
 
       def destroy_lgfs_scheme_ten_offences
         if pretending?
-          puts "Would delete #{scheme_10_offence_count} LGFS fee scheme 10 offences".yellow
-          puts "Would reset offence PK sequence to max id value: #{Offence.ids.max}".yellow
+          puts Rainbow("Would delete #{scheme_10_offence_count} LGFS fee scheme 10 offences").yellow
+          puts Rainbow("Would reset offence PK sequence to max id value: #{Offence.ids.max}").yellow
         else
           scheme_10_offences = Offence.joins(:fee_schemes).merge(FeeScheme.ten).merge(FeeScheme.lgfs).distinct
           before_count = scheme_10_offences.count
-          puts "Deleted #{before_count} LGFS fee scheme 10 offences".green if scheme_10_offences.destroy_all
-          puts "Reset offence pk sequence to #{Offence.ids.max}".green if set_offence_pk_sequence(Offence.ids.max)
+          puts Rainbow("Deleted #{before_count} LGFS fee scheme 10 offences").green if scheme_10_offences.destroy_all
+          puts Rainbow("Reset offence pk sequence to #{Offence.ids.max}").green if set_offence_pk_sequence(Offence.ids.max)
         end
       end
 
@@ -68,7 +68,7 @@ module Seeds
         scheme_9_fee_types_with_scheme_10_role = Fee::BaseFeeType.lgfs_scheme_9s.select { |ft| ft.roles.include?('lgfs_scheme_10') }
 
         if pretending?
-          puts "Would remove lgfs_scheme_10 role from #{scheme_9_fee_types_with_scheme_10_role.count} fee_types".yellow
+          puts Rainbow("Would remove lgfs_scheme_10 role from #{scheme_9_fee_types_with_scheme_10_role.count} fee_types").yellow
         else
           ActiveRecord::Base.transaction do
             scheme_9_fee_types_with_scheme_10_role.each do |ft|
@@ -76,67 +76,67 @@ module Seeds
               ft.save!
             end
           end
-          puts "Removed lgfs scheme 10 role from #{scheme_9_fee_types_with_scheme_10_role.count} fee_types".green
+          puts Rainbow("Removed lgfs scheme 10 role from #{scheme_9_fee_types_with_scheme_10_role.count} fee_types").green
         end
       end
 
       def destroy_lgfs_scheme_ten
         if pretending?
-          puts "Would delete LGFS fee scheme 10: #{lgfs_fee_scheme_10&.attributes || 'does not exist'}".yellow
-          puts "Would reset fee_schemes PK sequence to max id value".yellow
+          puts Rainbow("Would delete LGFS fee scheme 10: #{lgfs_fee_scheme_10&.attributes || 'does not exist'}").yellow
+          puts Rainbow("Would reset fee_schemes PK sequence to max id value").yellow
         else
-          puts 'Deleted LGFS fee scheme 10'.green if lgfs_fee_scheme_10&.destroy
-          puts "Reset fee_schemes pk sequence to #{FeeScheme.ids.max}".green \
+          puts Rainbow('Deleted LGFS fee scheme 10').green if lgfs_fee_scheme_10&.destroy
+          puts Rainbow("Reset fee_schemes pk sequence to #{FeeScheme.ids.max}").green \
             if ActiveRecord::Base.connection.set_pk_sequence!('fee_schemes', FeeScheme.ids.max)
         end
       end
 
       def rollback_scheme_nine
-        print "Finding LGFS fee scheme 9".yellow
+        print Rainbow("Finding LGFS fee scheme 9").yellow
         lgfs_fee_scheme_nine = FeeScheme.find_by(name: 'LGFS', version: 9)
-        lgfs_fee_scheme_nine ? print("...found\n".green) : print("...not found\n".red)
+        lgfs_fee_scheme_nine ? print(Rainbow("...found\n").green) : print(Rainbow("...not found\n").red)
 
-        print "Updating LGFS fee scheme 9 end date to nil".yellow
-        print "...not updated\n".green if pretending?
+        print Rainbow("Updating LGFS fee scheme 9 end date to nil").yellow
+        print Rainbow("...not updated\n").green if pretending?
         return if pretending?
 
         lgfs_fee_scheme_nine.update(end_date: nil)
-        print "...updated\n".green
+        print Rainbow("...updated\n").green
       end
 
       def create_or_update_lgfs_scheme_nine
-        print "Finding LGFS fee scheme 9".yellow
+        print Rainbow("Finding LGFS fee scheme 9").yellow
         lgfs_fee_scheme_nine = FeeScheme.find_by(name: 'LGFS', version: 9)
-        lgfs_fee_scheme_nine ? print("...found\n".green) : print("...not found\n".red)
+        lgfs_fee_scheme_nine ? print(Rainbow("...found\n").green) : print(Rainbow("...not found\n").red)
 
-        print "Updating LGFS fee scheme 9 end date to #{Settings.lgfs_scheme_10_clair_release_date.end_of_day-1.day}".yellow
-        print "...not updated\n".green if pretending?
+        print Rainbow("Updating LGFS fee scheme 9 end date to #{Settings.lgfs_scheme_10_clair_release_date.end_of_day-1.day}").yellow
+        print Rainbow("...not updated\n").green if pretending?
         return if pretending?
 
         lgfs_fee_scheme_nine.update(end_date: Settings.lgfs_scheme_10_clair_release_date.end_of_day-1.day)
-        print "...updated\n".green
+        print Rainbow("...updated\n").green
       end
 
       def create_lgfs_scheme_ten
-        print "Finding or creating LGFS fee scheme 10 with start date #{Settings.lgfs_scheme_10_clair_release_date.beginning_of_day}...".yellow
-        print "...not created\n".green if pretending?
+        print Rainbow("Finding or creating LGFS fee scheme 10 with start date #{Settings.lgfs_scheme_10_clair_release_date.beginning_of_day}...").yellow
+        print Rainbow("...not created\n").green if pretending?
         return if pretending?
 
         FeeScheme.find_or_create_by(name: 'LGFS', version: 10, start_date: Settings.lgfs_scheme_10_clair_release_date.beginning_of_day)
-        print "...created\n".green
+        print Rainbow("...created\n").green
       end
 
       def create_lgfs_scheme_ten_offences
-        puts "LGFS fee scheme 10 offence count before: #{scheme_10_offence_count}".yellow
+        puts Rainbow("LGFS fee scheme 10 offence count before: #{scheme_10_offence_count}").yellow
         copy_scheme_9_offences
-        puts "LGFS fee scheme 10 offence count after: #{scheme_10_offence_count}".yellow
+        puts Rainbow("LGFS fee scheme 10 offence count after: #{scheme_10_offence_count}").yellow
       end
 
       def create_lgfs_scheme_ten_fee_types
-        puts "LGFS fee scheme 10 fee type count before: #{scheme_10_fee_type_count}".yellow
+        puts Rainbow("LGFS fee scheme 10 fee type count before: #{scheme_10_fee_type_count}").yellow
         require Rails.root.join('db', 'seeds', 'fee_types', 'csv_seeder')
         Seeds::FeeTypes::CsvSeeder.new(dry_mode: pretending?, stdout: false).call
-        puts "LGFS fee scheme 10 fee type count after: #{scheme_10_fee_type_count}".yellow
+        puts Rainbow("LGFS fee scheme 10 fee type count after: #{scheme_10_fee_type_count}").yellow
       end
 
       def scheme_10_offence_count
@@ -149,18 +149,18 @@ module Seeds
 
       def copy_scheme_9_offences
         set_offence_pk_sequence(8000)
-        puts 'Adding LGFS fee scheme 10 offences'.yellow
+        puts Rainbow('Adding LGFS fee scheme 10 offences').yellow
 
         Offence.transaction do
           lgfs_scheme_nine_offences.each do |offence|
             if pretending?
-              puts "[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code}~10".yellow
+              puts Rainbow("[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code}~10").yellow
             else
               new_offence = offence.dup
               new_offence.unique_code += '~10'
               new_offence.fee_schemes << lgfs_fee_scheme_10
               new_offence.save!
-              print '.'.green
+              print Rainbow('.').green
             end
           end
         end
@@ -170,8 +170,8 @@ module Seeds
 
       def set_offence_pk_sequence(sequence_start)
         if pretending?
-          print "Resetting offences sequence to max offence id unless Offence.ids.max > sequence_start (#{Offence.ids.max} > #{sequence_start})...".yellow
-          puts 'not resetting'.green
+          print Rainbow("Resetting offences sequence to max offence id unless Offence.ids.max > sequence_start (#{Offence.ids.max} > #{sequence_start})...").yellow
+          puts Rainbow('not resetting').green
           return
         end
         raise StandardError, "Sequence cannot be set to value less than greatest id in use - #{Offence.ids.max} > #{sequence_start}" if Offence.ids.max > sequence_start

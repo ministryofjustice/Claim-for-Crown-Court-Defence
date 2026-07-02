@@ -1,3 +1,5 @@
+require 'rainbow'
+
 module SeedHelper
   class << self
     def update_or_create_case_stage!(options)

@@ -51,46 +51,46 @@ module Seeds
       end
 
       def create_agfs_scheme_fourteen
-        print "Finding AGFS scheme 13".yellow
+        print Rainbow("Finding AGFS scheme 13").yellow
         agfs_fee_scheme_thirteen = FeeScheme.find_by(name: 'AGFS', version: 13, start_date: Settings.agfs_scheme_13_clair_release_date.beginning_of_day)
-        agfs_fee_scheme_thirteen ? print("...found\n".green) : print("...not found\n".red)
+        agfs_fee_scheme_thirteen ? print(Rainbow("...found\n").green) : print(Rainbow("...not found\n").red)
 
-        print "Updating AGFS scheme 13 end date to #{Settings.agfs_scheme_14_section_twenty_eight.end_of_day-1.day}".yellow
+        print Rainbow("Updating AGFS scheme 13 end date to #{Settings.agfs_scheme_14_section_twenty_eight.end_of_day-1.day}").yellow
         if pretending?
-          print "...not updated\n".green if pretending?
+          print Rainbow("...not updated\n").green if pretending?
         else
           agfs_fee_scheme_thirteen.update(end_date: Settings.agfs_scheme_14_section_twenty_eight.end_of_day-1.day)
-          print "...updated\n".green
+          print Rainbow("...updated\n").green
         end
 
-        print "Finding or creating scheme 14 with start date #{Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day}...".yellow
+        print Rainbow("Finding or creating scheme 14 with start date #{Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day}...").yellow
         if pretending?
-          print "...not created\n".green if pretending?
+          print Rainbow("...not created\n").green if pretending?
         else
           FeeScheme.find_or_create_by(name: 'AGFS', version: 14, start_date: Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day)
-          print "...created\n".green
+          print Rainbow("...created\n").green
         end
       end
 
       def destroy_agfs_scheme_fourteen
         if pretending?
-          puts "Would delete fee scheme 14: #{agfs_fee_scheme_14&.attributes || 'does not exist'}".yellow
-          puts "Would update #{agfs_fee_scheme_13.attributes} end date to nil".yellow
+          puts Rainbow("Would delete fee scheme 14: #{agfs_fee_scheme_14&.attributes || 'does not exist'}").yellow
+          puts Rainbow("Would update #{agfs_fee_scheme_13.attributes} end date to nil").yellow
         else
-          puts 'Deleted fee scheme 14'.red if agfs_fee_scheme_14&.destroy
-          puts 'Updated fee scheme 13 end date to nil'.green if agfs_fee_scheme_13&.update(end_date: nil)
+          puts Rainbow('Deleted fee scheme 14').red if agfs_fee_scheme_14&.destroy
+          puts Rainbow('Updated fee scheme 13 end date to nil').green if agfs_fee_scheme_13&.update(end_date: nil)
         end
       end
 
       def set_agfs_scheme_fourteen_offences
-        puts 'Setting scheme 11 offences to include scheme 14'.yellow
+        puts Rainbow('Setting scheme 11 offences to include scheme 14').yellow
         Offence.transaction do
           agfs_scheme_eleven_offences.each do |offence|
             if pretending?
-              puts "[WOULD-ADD] Fee Scheme 14 to #{offence.unique_code}".yellow
+              puts Rainbow("[WOULD-ADD] Fee Scheme 14 to #{offence.unique_code}").yellow
             else
               offence.fee_schemes << agfs_fee_scheme_14
-              print '.'.green
+              print Rainbow('.').green
             end
           end
         end
@@ -101,10 +101,10 @@ module Seeds
         Offence.transaction do
           Offence.joins(:fee_schemes).merge(FeeScheme.version(14)).merge(FeeScheme.agfs).distinct.each do |offence|
             if pretending?
-              puts "[WOULD-REMOVE] Fee Scheme 14 from #{offence.unique_code}".yellow
+              puts Rainbow("[WOULD-REMOVE] Fee Scheme 14 from #{offence.unique_code}").yellow
             else
               offence.fee_schemes.delete(agfs_fee_scheme_14)
-              print '.'.green
+              print Rainbow('.').green
             end
           end
         end
@@ -121,31 +121,31 @@ module Seeds
       end
 
       def create_scheme_fourteen_fee_types
-        puts "Scheme 14 fee type count before: #{scheme_14_fee_type_count}".yellow
+        puts  Rainbow("Scheme 14 fee type count before: #{scheme_14_fee_type_count}").yellow
         require Rails.root.join('db', 'seeds', 'fee_types', 'csv_seeder')
         Seeds::FeeTypes::CsvSeeder.new(dry_mode: pretending?, stdout: false).call
-        puts "Scheme 14 fee type count after: #{scheme_14_fee_type_count}".yellow
+        puts Rainbow("Scheme 14 fee type count after: #{scheme_14_fee_type_count}").yellow
       end
 
       def remove_scheme_fourteen_fee_type_roles
         fee_types_with_scheme_14_role = Fee::BaseFeeType.agfs_scheme_14s
 
         if pretending?
-          puts "Would remove agfs_scheme_14 role from #{fee_types_with_scheme_14_role.count} fee_types".yellow
+          puts Rainbow("Would remove agfs_scheme_14 role from #{fee_types_with_scheme_14_role.count} fee_types").yellow
         else
           ActiveRecord::Base.transaction do
             fee_types_with_scheme_14_role.each do |ft|
               if ft.roles == ['agfs_scheme_14']
-                puts "Deleting fee type #{ft.description}".red
+                puts Rainbow("Deleting fee type #{ft.description}").red
                 ft.delete
               else
-                puts "Removing agfs_scheme_14 role from #{ft.description}".green
+                puts Rainbow("Removing agfs_scheme_14 role from #{ft.description}").green
                 ft.roles.delete('agfs_scheme_14')
                 ft.save!
               end
             end
           end
-          puts "Removed agfs scheme 14 role from #{fee_types_with_scheme_14_role.count} fee_types".green
+          puts Rainbow("Removed agfs scheme 14 role from #{fee_types_with_scheme_14_role.count} fee_types").green
         end
       end
     end

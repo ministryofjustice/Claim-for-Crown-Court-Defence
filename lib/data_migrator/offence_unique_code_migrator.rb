@@ -79,12 +79,14 @@ module DataMigrator
         puts Rainbow("UPDATE offences SET unique_code = #{code} WHERE id = #{offence[:id]}").yellow
       when :diff
         unless offence[:unique_code].eql?(code)
-          puts Rainbow(offence[:description].concat(Rainbow("\n -#{offence[:unique_code]}").red).concat(Rainbow("\n +#{code} ")).green)
+          puts Rainbow(offence[:description]
+                         .concat(Rainbow("\n -#{offence[:unique_code]}").red)
+                         .concat(Rainbow("\n +#{code} ")).green)
         end
       when :csv
         puts [offence[:description], offence[:band] || offence[:class_letter], code].to_csv
       when :text
-        puts Rainbow("-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}").white.concat(Rainbow(" unique_code: #{offence[:unique_code]} --> #{code}").green))
+        puts Rainbow("-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}").white.concat(Rainbow(" unique_code: #{offence[:unique_code]} --> #{code}").green)
       end
     end
   end

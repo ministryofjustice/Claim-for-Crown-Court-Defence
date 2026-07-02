@@ -117,7 +117,7 @@ Feature: Advocate submits an AGFS Fee Scheme 17 final graduated fee claims
     When I click on misc fees helper text
     Then I should see the following miscellaneous fees listed:
       | Abuse of process hearings                             |
-    # | Additional preparation fee                            |
+      | Additional preparation fee                            |
       | Application to dismiss a charge                       |
       | Confiscation hearings                                 |
       | Deferred sentence hearings                            |
@@ -142,12 +142,12 @@ Feature: Advocate submits an AGFS Fee Scheme 17 final graduated fee claims
       | Written / oral advice                                 |
 
 
-    # Then I add a govuk calculated miscellaneous fee 'Additional preparation fee'
+    Then I add a govuk calculated miscellaneous fee 'Additional preparation fee'
     And I add a govuk calculated miscellaneous fee 'Paper heavy case'
     And I add a govuk calculated miscellaneous fee 'Deferred sentence hearings'
     Then the following govuk fee details should exist:
       | section       | fee_description                  | rate   | hint            | help |
-      #| miscellaneous | Additional preparation fee       | 81.00  | Number of fees  | true |
+      | miscellaneous | Additional preparation fee       | 81.00  | Number of fees  | true |
       | miscellaneous | Paper heavy case                 | 45.30  | Number of hours | true |
       | miscellaneous | Deferred sentence hearings       | 201.00 | Number of days  | true |
 

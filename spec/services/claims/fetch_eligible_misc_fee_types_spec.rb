@@ -353,6 +353,37 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             end
           end
         end
+
+        context 'with a scheme 17 claim' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_17, case_type:) }
+
+          context 'with "trial" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.to include(*unused_materials_types) }
+            it { is_expected.to include(*section_twenty_eight_types) }
+            it { is_expected.to include(*additional_prep_fee_types) }
+          end
+
+          context 'with "guilty plea" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.to include(*additional_prep_fee_types) }
+          end
+
+          context 'with "discontinuance" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRDIS') }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
+          end
+        end
       end
 
       context 'with hardship claim' do

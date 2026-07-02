@@ -89,8 +89,16 @@ module Claims
       claim.transfer? && claim.transfer_detail&.case_conclusion == 'Guilty plea'
     end
 
+    def agfs_scheme_17_or_later_guilty_plea?
+      claim.fee_scheme&.agfs_scheme_17_or_later? && case_type&.fee_type_code == 'GRGLT'
+    end
+
     def filter_trial_only_types(relation, filter)
-      filter ? relation.without_trial_fee_only : relation
+      if agfs_scheme_17_or_later_guilty_plea?
+        filter ? relation.without_trial_fee_only_excluding_miapf : relation
+      else
+        filter ? relation.without_trial_fee_only : relation
+      end
     end
   end
 end

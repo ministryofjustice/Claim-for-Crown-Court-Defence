@@ -4,7 +4,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
   subject(:graph_data) { described_class.new }
 
   describe '#call' do
-    subject(:data_hash) { graph_data.call }
+    subject(:result) { graph_data.call }
 
     let(:mon_name) do
       output = []
@@ -15,165 +15,131 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
       output.reverse
     end
 
-    let(:agfs_example) do
-      [
-        { name: 'AGFS 9', data: { mon_name[0] => 2, mon_name[1] => 0, mon_name[2] => 0,
-                                  mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 10', data: { mon_name[0] => 0, mon_name[1] => 2, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 2,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 12', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 2, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 13', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 2, mon_name[5] => 0 } },
-        { name: 'AGFS 14', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 2 } },
-        { name: 'AGFS 15', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 1 } },
-        { name: 'AGFS 16', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 2 } },
-        { name: 'LGFS 9', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                  mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'LGFS 10', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'LGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } }
-      ]
+    let(:fee_schemes) { ['AGFS 1', 'AGFS 2', 'LGFS 1', 'LGFS 2'] }
+
+    before do
+      fee_scheme_records = fee_schemes.map do |name|
+        fs_name, fs_version = name.split
+        instance_double(FeeScheme, name: fs_name, version: fs_version.to_i)
+      end
+
+      fee_scheme_relation = instance_double(ActiveRecord::Relation)
+      allow(FeeScheme).to receive(:where).with(name: %w[AGFS LGFS]).and_return(fee_scheme_relation)
+      allow(fee_scheme_relation).to receive(:order).with(:name, :version).and_return(fee_scheme_records)
     end
 
-    let(:lgfs_example) do
-      [
-        { name: 'AGFS 9', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                  mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 10', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 12', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 13', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 14', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 15', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 16', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'LGFS 9', data: { mon_name[0] => 2, mon_name[1] => 1, mon_name[2] => 2,
-                                  mon_name[3] => 1, mon_name[4] => 2, mon_name[5] => 1 } },
-        { name: 'LGFS 10', data: { mon_name[0] => 1, mon_name[1] => 2, mon_name[2] => 1,
-                                   mon_name[3] => 2, mon_name[4] => 1, mon_name[5] => 2 } },
-        { name: 'LGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } }
-      ]
+    def build_claim_doubles(claims_data)
+      claims_data.map do |data|
+        fee_scheme = instance_double(FeeScheme, name: data[:scheme_name], version: data[:scheme_version])
+        instance_double(Claim::BaseClaim, fee_scheme:, last_submitted_at: data[:submitted_at])
+      end
     end
 
-    let(:mixed_example) do
-      [
-        { name: 'AGFS 9', data: { mon_name[0] => 1, mon_name[1] => 0, mon_name[2] => 0,
-                                  mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 10', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 11', data: { mon_name[0] => 0, mon_name[1] => 2, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 12', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 1,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 13', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 2, mon_name[4] => 0, mon_name[5] => 0 } },
-        { name: 'AGFS 14', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 1, mon_name[5] => 0 } },
-        { name: 'AGFS 15', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 3 } },
-        { name: 'AGFS 16', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 2 } },
-        { name: 'LGFS 9', data: { mon_name[0] => 2, mon_name[1] => 0, mon_name[2] => 2,
-                                  mon_name[3] => 0, mon_name[4] => 2, mon_name[5] => 0 } },
-        { name: 'LGFS 10', data: { mon_name[0] => 0, mon_name[1] => 2, mon_name[2] => 0,
-                                   mon_name[3] => 2, mon_name[4] => 0, mon_name[5] => 2 } },
-        { name: 'LGFS 11', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
-                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } }
-      ]
+    def stub_claims(claims_data)
+      stub_claim_query(build_claim_doubles(claims_data))
+    end
+
+    def stub_claim_query(claims)
+      relation = instance_double(ActiveRecord::Relation)
+      allow(Claim::BaseClaim).to receive_messages(active: Claim::BaseClaim, non_draft: relation)
+      allow(relation).to receive(:where) { |args| stub_find_each(claims, args.fetch(:last_submitted_at)) }
+    end
+
+    def stub_find_each(claims, range)
+      matched = claims.select { |claim| range.cover?(claim.last_submitted_at) }
+      instance_double(ActiveRecord::Relation).tap do |filtered|
+        allow(filtered).to receive(:find_each) { |&block| matched.each(&block) }
+      end
+    end
+
+    def month_counts(counts = {})
+      mon_name.each_with_index.to_h { |m, i| [m, counts.fetch(i, 0)] }
     end
 
     context 'when there are only agfs claims' do
-      before do
-        travel_to(5.months.ago) { create_list(:advocate_claim, 2, :agfs_scheme_9, :submitted) }
-        travel_to(4.months.ago) { create_list(:advocate_claim, 2, :agfs_scheme_10, :submitted) }
-        travel_to(3.months.ago) { create_list(:advocate_claim, 2, :agfs_scheme_11, :submitted) }
-        travel_to(2.months.ago) { create_list(:advocate_claim, 2, :agfs_scheme_12, :submitted) }
-        travel_to(1.month.ago) { create_list(:advocate_claim, 2, :agfs_scheme_13, :submitted) }
-        create_list(:advocate_claim, 2, :agfs_scheme_14, :submitted)
-        create_list(:advocate_claim, 1, :agfs_scheme_15, :submitted)
-        create_list(:advocate_claim, 2, :agfs_scheme_16, :submitted)
+      let(:expected) do
+        [
+          { name: 'AGFS 1', data: month_counts(0 => 2) },
+          { name: 'AGFS 2', data: month_counts(1 => 2) },
+          { name: 'LGFS 1', data: month_counts(0 => 0) },
+          { name: 'LGFS 2', data: month_counts(0 => 0) }
+        ]
       end
 
-      it 'returns the correct fee scheme keys and results, including zeroed entries for LGFS' do
-        is_expected.to eq(agfs_example)
+      before do
+        stub_claims([
+                      { scheme_name: 'AGFS', scheme_version: 1, submitted_at: 5.months.ago },
+                      { scheme_name: 'AGFS', scheme_version: 1, submitted_at: 5.months.ago },
+                      { scheme_name: 'AGFS', scheme_version: 2, submitted_at: 4.months.ago },
+                      { scheme_name: 'AGFS', scheme_version: 2, submitted_at: 4.months.ago }
+                    ])
       end
+
+      it { is_expected.to eq(expected) }
     end
 
     context 'when there are only lgfs claims' do
-      before do
-        travel_to(5.months.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_9, :submitted)
-          create_list(:litigator_claim, 1, :lgfs_scheme_10, :submitted)
-        end
-        travel_to(4.months.ago) do
-          create_list(:litigator_claim, 1, :lgfs_scheme_9, :submitted)
-          create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
-        end
-        travel_to(3.months.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_9, :submitted)
-          create_list(:litigator_claim, 1, :lgfs_scheme_10, :submitted)
-        end
-        travel_to(2.months.ago) do
-          create_list(:litigator_claim, 1, :lgfs_scheme_9, :submitted)
-          create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
-        end
-        travel_to(1.month.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_9, :submitted)
-          create_list(:litigator_claim, 1, :lgfs_scheme_10, :submitted)
-        end
-        create_list(:litigator_claim, 1, :lgfs_scheme_9, :submitted)
-        create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
+      let(:expected) do
+        [
+          { name: 'AGFS 1', data: month_counts(0 => 0) },
+          { name: 'AGFS 2', data: month_counts(0 => 0) },
+          { name: 'LGFS 1', data: month_counts(0 => 2) },
+          { name: 'LGFS 2', data: month_counts(1 => 2) }
+        ]
       end
 
-      it 'returns the correct fee scheme keys and results, including zeroed entries for AGFS' do
-        is_expected.to eq(lgfs_example)
+      before do
+        stub_claims([
+                      { scheme_name: 'LGFS', scheme_version: 1, submitted_at: 5.months.ago },
+                      { scheme_name: 'LGFS', scheme_version: 1, submitted_at: 5.months.ago },
+                      { scheme_name: 'LGFS', scheme_version: 2, submitted_at: 4.months.ago },
+                      { scheme_name: 'LGFS', scheme_version: 2, submitted_at: 4.months.ago }
+                    ])
       end
+
+      it { is_expected.to eq(expected) }
     end
 
     context 'when there are both agfs and lgfs claims' do
-      before do
-        travel_to(5.months.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_9, :submitted)
-          create_list(:advocate_claim, 1, :agfs_scheme_9, :submitted)
-        end
-        travel_to(4.months.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
-          create_list(:advocate_claim, 2, :agfs_scheme_11, :submitted)
-        end
-        travel_to(3.months.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_9, :submitted)
-          create_list(:advocate_claim, 1, :agfs_scheme_12, :submitted)
-        end
-        travel_to(2.months.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
-          create_list(:advocate_claim, 2, :agfs_scheme_13, :submitted)
-        end
-        travel_to(1.month.ago) do
-          create_list(:litigator_claim, 2, :lgfs_scheme_9, :submitted)
-          create_list(:advocate_claim, 1, :agfs_scheme_14, :submitted)
-        end
-        create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
-        create_list(:advocate_claim, 3, :agfs_scheme_15, :submitted)
-        create_list(:advocate_claim, 2, :agfs_scheme_16, :submitted)
+      let(:expected) do
+        [
+          { name: 'AGFS 1', data: month_counts(0 => 1) },
+          { name: 'AGFS 2', data: month_counts(2 => 1) },
+          { name: 'LGFS 1', data: month_counts(0 => 2) },
+          { name: 'LGFS 2', data: month_counts(5 => 1) }
+        ]
       end
 
-      it 'returns the correct fee scheme keys and results, including zeroed entries for AGFS' do
-        is_expected.to eq(mixed_example)
+      before do
+        stub_claims([
+                      { scheme_name: 'AGFS', scheme_version: 1, submitted_at: 5.months.ago },
+                      { scheme_name: 'LGFS', scheme_version: 1, submitted_at: 5.months.ago },
+                      { scheme_name: 'LGFS', scheme_version: 1, submitted_at: 5.months.ago },
+                      { scheme_name: 'AGFS', scheme_version: 2, submitted_at: 3.months.ago },
+                      { scheme_name: 'LGFS', scheme_version: 2, submitted_at: Time.current }
+                    ])
       end
+
+      it { is_expected.to eq(expected) }
+    end
+
+    context 'when a claim is submitted before the six month window' do
+      let(:expected) do
+        [
+          { name: 'AGFS 1', data: month_counts },
+          { name: 'AGFS 2', data: month_counts },
+          { name: 'LGFS 1', data: month_counts },
+          { name: 'LGFS 2', data: month_counts }
+        ]
+      end
+
+      before do
+        stub_claims([
+                      { scheme_name: 'AGFS', scheme_version: 1, submitted_at: 8.months.ago }
+                    ])
+      end
+
+      it { is_expected.to eq(expected) }
     end
   end
 

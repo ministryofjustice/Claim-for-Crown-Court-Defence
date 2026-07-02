@@ -1,14 +1,5 @@
 require 'rails_helper'
 
-def amend_claim(claim, case_type_id, case_type_name)
-  claim.update_attribute(:case_type_id, case_type_id)
-  claim.update_attribute(:case_type, CaseType.where(name: case_type_name).first)
-end
-
-def find_row(month, scheme)
-  csv.find { |row| row['Month'] == month && row['Fee scheme'] == scheme }
-end
-
 RSpec.describe Stats::FeeSchemeUsageGenerator do
   let(:expected_headers) do
     [
@@ -45,104 +36,171 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
     subject(:call) { described_class.new.call }
 
     let(:csv) { CSV.parse(call.content, headers: true) }
-
-    let(:fee_scheme_array) do
+    let(:fee_schemes) { ['AGFS 1', 'LGFS 1'] }
+    let(:case_type_names) do
       [
-        'AGFS 9',
-        'AGFS 10',
-        'AGFS 11',
-        'AGFS 12',
-        'AGFS 13',
-        'AGFS 14',
-        'AGFS 15',
-        'AGFS 16',
-        'LGFS 9',
-        'LGFS 10',
-        'LGFS 11'
+        'Appeal against conviction',
+        'Appeal against sentence',
+        'Breach of crown court order',
+        'Committal for sentence',
+        'Contempt',
+        'Cracked trial',
+        'Cracked before retrial',
+        'Discontinuance',
+        'Elected cases not proceeded',
+        'Guilty plea',
+        'Hearing subsequent to sentence',
+        'Retrial',
+        'Trial'
       ]
     end
 
+    def find_row(month, scheme)
+      csv.find { |row| row['Month'] == month && row['Fee scheme'] == scheme }
+    end
+
     before do
-      seed_case_types
-
-      # excluded from MI report
-      create(:advocate_final_claim, :draft, case_type: CaseType.where(name: 'Trial').first)
-      create(:advocate_final_claim, :authorised, case_type: CaseType.where(name: 'Trial').first).soft_delete
-      travel_to(6.months.ago.beginning_of_day - 1.second) do
-        create(:advocate_final_claim, :allocated, case_type: CaseType.where(name: 'Trial').first)
+      fee_scheme_records = fee_schemes.map do |name|
+        fs_name, fs_version = name.split
+        instance_double(FeeScheme, name: fs_name, version: fs_version.to_i)
       end
 
-      # included in MI report, advocate claims
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Appeal against conviction').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Appeal against sentence').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Breach of Crown Court order').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Committal for Sentence').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Contempt').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Discontinuance').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Elected cases not proceeded').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Guilty plea').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Hearing subsequent to sentence').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Retrial').first)
-      create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Trial').first)
-      # This is a brute-force way of generating the following two test claims, but required due to factory errors
-      cracked_trial = create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Trial').first)
-      cracked_before_retrial = create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Trial').first)
-      amend_claim(cracked_trial, 6, 'Cracked Trial')
-      amend_claim(cracked_before_retrial, 7, 'Cracked before retrial')
-      create(:advocate_hardship_claim, :authorised)
-      create(:advocate_supplementary_claim, :submitted, case_type: CaseType.where(name: 'Trial').first)
-      create(:advocate_interim_claim, :submitted,
-             create_defendant_and_rep_order_for_scheme_13: true,
-             case_type: CaseType.where(name: 'Trial').first)
+      fee_scheme_relation = instance_double(ActiveRecord::Relation)
+      allow(FeeScheme).to receive(:where).with(name: %w[AGFS LGFS]).and_return(fee_scheme_relation)
+      allow(fee_scheme_relation).to receive(:order).with(:name, :version).and_return(fee_scheme_records)
 
-      # Included in MI report, litigator claims
-      create(:litigator_hardship_claim, :submitted)
-      create(:litigator_claim, :submitted, case_type: CaseType.where(name: 'Trial').first)
-      create(:interim_claim, :interim_warrant_fee, :submitted, case_type: CaseType.where(name: 'Trial').first)
-      create(:transfer_claim, :with_transfer_detail, :submitted)
+      allow(CaseType).to receive(:all).and_return(
+        case_type_names.map { |name| instance_double(CaseType, name:) }
+      )
+    end
 
-      # Included in MI report, past claims
-      travel_to(4.months.ago.beginning_of_day) do
-        create(:transfer_claim, :with_transfer_detail, :submitted)
+    def build_claim_double(data)
+      fee_scheme = instance_double(FeeScheme, name: data[:scheme_name], version: data[:scheme_version])
+
+      instance_double(Claim::BaseClaim,
+                      fee_scheme:,
+                      type: data[:type],
+                      case_type_id: data[:case_type_id],
+                      total: data[:total] || 0,
+                      vat_amount: data[:vat_amount] || 0,
+                      last_submitted_at: data[:submitted_at])
+    end
+
+    def stub_case_type_lookup(claims_data)
+      names_by_id = claims_data.each_with_object({}) do |data, map|
+        map[data[:case_type_id]] = data[:case_type_name] if data[:case_type_id]
       end
-      travel_to(5.months.ago.beginning_of_day) do
-        create(:transfer_claim, :with_transfer_detail, :submitted)
+      allow(CaseType).to receive(:find) { |id| instance_double(CaseType, name: names_by_id.fetch(id)) }
+    end
+
+    def stub_claims(claims_data)
+      stub_case_type_lookup(claims_data)
+      stub_claim_query(claims_data.map { |data| build_claim_double(data) })
+    end
+
+    def stub_claim_query(claims)
+      relation = instance_double(ActiveRecord::Relation)
+      allow(Claim::BaseClaim).to receive_messages(active: Claim::BaseClaim, non_draft: relation)
+      allow(relation).to receive(:where) { |args| stub_find_each(claims, args.fetch(:last_submitted_at)) }
+    end
+
+    def stub_find_each(claims, range)
+      matched = claims.select { |claim| range.cover?(claim.last_submitted_at) }
+      instance_double(ActiveRecord::Relation).tap do |filtered|
+        allow(filtered).to receive(:find_each) { |&block| matched.each(&block) }
       end
     end
 
-    it 'has expected headers' do
-      expect(csv.headers).to eq(expected_headers)
-    end
+    context 'with claims in the current month' do
+      let(:submitted_at) { Time.current }
 
-    context 'when generating the section 5 months ago' do
-      subject(:call) { described_class.new.call }
-
-      it 'correctly populates the LGFS 9 row' do
-        expect(find_row(5.months.ago.strftime('%B'), 'LGFS 9')['Total number of claims']).to eq('1')
+      before do
+        stub_claims([
+                      { scheme_name: 'AGFS', scheme_version: 1, type: 'Claim::AdvocateClaim',
+                        case_type_id: 1, case_type_name: 'Trial', total: 100.0, vat_amount: 20.0,
+                        submitted_at: },
+                      { scheme_name: 'AGFS', scheme_version: 1, type: 'Claim::AdvocateClaim',
+                        case_type_id: 2, case_type_name: 'Guilty plea', total: 200.0, vat_amount: 40.0,
+                        submitted_at: },
+                      { scheme_name: 'LGFS', scheme_version: 1, type: 'Claim::LitigatorClaim',
+                        case_type_id: 1, case_type_name: 'Trial', total: 50.0, vat_amount: 10.0,
+                        submitted_at: }
+                    ])
       end
-    end
 
-    context 'when generating the most recent month' do
+      it 'has expected headers' do
+        expect(csv.headers).to eq(expected_headers)
+      end
+
       it 'returns rows containing the correct fee schemes' do
-        expect(csv['Fee scheme'].uniq.compact).to eq(fee_scheme_array)
+        expect(csv['Fee scheme'].uniq.compact).to eq(fee_schemes)
       end
 
-      it 'returns the correct data for AGFS 9' do
-        expect(find_row(Time.zone.today.strftime('%B'), 'AGFS 9')[2..])
-          .to contain_exactly('15', '380.0', anything, '13', '1', '0', '1', '0', '0', '0', '0', '1', '1',
-                              '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2')
+      it 'returns the correct total claims for AGFS 1' do
+        expect(find_row(Time.zone.today.strftime('%B'), 'AGFS 1')['Total number of claims']).to eq('2')
       end
 
-      it 'returns the correct data for LGFS 9' do
-        expect(find_row(Time.zone.today.strftime('%B'), 'LGFS 9')[2..])
-          .to contain_exactly('4', '75.02', anything, '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '0',
-                              '0', '0', '0', '0', '0', '0', '0', '0', '0', '2')
+      it 'returns the correct total value for AGFS 1' do
+        expect(find_row(Time.zone.today.strftime('%B'), 'AGFS 1')['Total value of claims']).to eq('360.0')
       end
 
-      it 'returns the correct data for AGFS 13' do
-        expect(find_row(Time.zone.today.strftime('%B'), 'AGFS 13')[2..])
-          .to contain_exactly('1', '0.0', anything, '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-                              '0', '0', '0', '0', '0', '0', '0', '0', '1')
+      it 'returns the correct claim type count for AGFS 1' do
+        expect(find_row(Time.zone.today.strftime('%B'), 'AGFS 1')['Advocate claim']).to eq('2')
+      end
+
+      it 'returns the correct case type count for AGFS 1 Trial' do
+        expect(find_row(Time.zone.today.strftime('%B'), 'AGFS 1')['Trial']).to eq('1')
+      end
+
+      it 'returns the correct case type count for AGFS 1 Guilty plea' do
+        expect(find_row(Time.zone.today.strftime('%B'), 'AGFS 1')['Guilty plea']).to eq('1')
+      end
+
+      it 'returns the correct total claims for LGFS 1' do
+        expect(find_row(Time.zone.today.strftime('%B'), 'LGFS 1')['Total number of claims']).to eq('1')
+      end
+
+      it 'returns zeroed claim types for LGFS 1 advocate claims' do
+        expect(find_row(Time.zone.today.strftime('%B'), 'LGFS 1')['Advocate claim']).to eq('0')
+      end
+    end
+
+    context 'with claims across multiple months' do
+      before do
+        stub_claims([
+                      { scheme_name: 'AGFS', scheme_version: 1, type: 'Claim::AdvocateClaim',
+                        case_type_id: 1, case_type_name: 'Trial', total: 100.0, vat_amount: 0.0,
+                        submitted_at: 4.months.ago },
+                      { scheme_name: 'LGFS', scheme_version: 1, type: 'Claim::TransferClaim',
+                        case_type_id: nil, case_type_name: nil, total: 75.0, vat_amount: 0.0,
+                        submitted_at: 5.months.ago }
+                    ])
+      end
+
+      it 'correctly populates the LGFS 1 row 5 months ago' do
+        expect(find_row(5.months.ago.strftime('%B'), 'LGFS 1')['Total number of claims']).to eq('1')
+      end
+
+      it 'correctly populates the AGFS 1 row 4 months ago' do
+        expect(find_row(4.months.ago.strftime('%B'), 'AGFS 1')['Total number of claims']).to eq('1')
+      end
+
+      it 'has zero for AGFS 1 in months with no claims' do
+        expect(find_row(5.months.ago.strftime('%B'), 'AGFS 1')['Total number of claims']).to eq('0')
+      end
+    end
+
+    context 'with a claim submitted before the reporting window' do
+      before do
+        stub_claims([
+                      { scheme_name: 'AGFS', scheme_version: 1, type: 'Claim::AdvocateClaim',
+                        case_type_id: 1, case_type_name: 'Trial', total: 100.0, vat_amount: 20.0,
+                        submitted_at: 7.months.ago }
+                    ])
+      end
+
+      it 'excludes the claim from every month in the report' do
+        expect(csv['Total number of claims'].compact.sum(&:to_i)).to eq(0)
       end
     end
   end
@@ -150,6 +208,12 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
   context 'when logging without errors' do
     before do
       allow(LogStuff).to receive(:info)
+      fee_scheme_relation = instance_double(ActiveRecord::Relation, order: [])
+      allow(FeeScheme).to receive(:where).and_return(fee_scheme_relation)
+      allow(CaseType).to receive(:all).and_return([])
+      relation = instance_double(ActiveRecord::Relation)
+      allow(Claim::BaseClaim).to receive_messages(active: Claim::BaseClaim, non_draft: relation)
+      allow(relation).to receive(:where).and_return(instance_double(ActiveRecord::Relation, find_each: nil))
     end
 
     it 'log start and end' do

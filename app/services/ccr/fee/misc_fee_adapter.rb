@@ -46,7 +46,13 @@ module CCR
         MIAPF: zip(%w[AGFS_MISC_FEES AGFS_PREP_FEE]) # Additional preparation fee - AGFS 15+ only
       }.freeze
 
-      MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO MIAPF].freeze
+      MISC_FEE_BILL_MAPPING_EXCLUSIONS_PRE_SCHEME_17 = %i[BACAV MIPHC MIUMU MIUMO MIAPF].freeze
+      MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO].freeze
+
+      def initialize(exclusions: true, agfs_scheme_17_or_later: false)
+        @agfs_scheme_17_or_later = agfs_scheme_17_or_later
+        super(exclusions:)
+      end
 
       def claimed?
         maps? && charges?
@@ -59,7 +65,13 @@ module CCR
       end
 
       def exclusions
-        exclusions? ? MISC_FEE_BILL_MAPPING_EXCLUSIONS : []
+        return [] unless exclusions?
+
+        if @agfs_scheme_17_or_later
+          MISC_FEE_BILL_MAPPING_EXCLUSIONS
+        else
+          MISC_FEE_BILL_MAPPING_EXCLUSIONS_PRE_SCHEME_17
+        end
       end
 
       def bill_key

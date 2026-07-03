@@ -600,6 +600,34 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
               expect(parsed['bills'].size).to eq(0)
             end
           end
+
+          context 'with Additional preparation fee' do
+            let(:miapf_fee_type) { create(:misc_fee_type, :miapf) }
+            let(:misc_fees) { [build(:misc_fee, fee_type: miapf_fee_type, quantity: 1, rate: 81)] }
+            let(:parsed) { JSON.parse(subject) }
+
+            context 'when claim is scheme 17 or later' do
+              let(:claim) do
+                claim = create_claim(:submitted_claim, :without_fees, case_type:, misc_fees:)
+                create(:defendant, scheme: 'scheme 17', claim:)
+                claim.reload
+              end
+
+              it 'added to bills' do
+                expect(parsed['bills'].size).to eq 1
+                expect(parsed.dig('bills', 0, 'bill_type')).to eq 'AGFS_MISC_FEES'
+                expect(parsed.dig('bills', 0, 'bill_subtype')).to eq 'AGFS_PREP_FEE'
+              end
+            end
+
+            context 'when claim is pre-scheme 17' do
+              let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, misc_fees:) }
+
+              it 'not added to bills' do
+                expect(parsed['bills']).to be_empty
+              end
+            end
+          end
         end
 
         context 'when CCCD fee maps to a CCR misc fee' do

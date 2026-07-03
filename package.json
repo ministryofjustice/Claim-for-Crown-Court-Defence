@@ -42,7 +42,7 @@
     "jquery-datatables-checkboxes": "^1.3.0",
     "jquery-highlight": "^3.5.0",
     "jquery-throttle-debounce": "^1.0.0",
-    "jsrender": "^1.0.16",
+    "jsrender": "^1.2.0",
     "mini-css-extract-plugin": "^2.10.2",
     "postcss": "^8.5.15",
     "sass": "^1.101.0",

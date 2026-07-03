@@ -81,5 +81,28 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
     it 'exposes bill_subtype as nil' do
       expect(response).to include(bill_subtype: nil)
     end
+
+    context 'when fee type is MIAPF with agfs_scheme_17_or_later' do
+      let(:miapf_fee_type) { create(:misc_fee_type, :miapf) }
+      let(:misc_fee) { build(:misc_fee, fee_type: miapf_fee_type, claim:, quantity: 1, rate: 81) }
+      let(:adapted_misc_fee) { CCR::Fee::MiscFeeAdapter.new(agfs_scheme_17_or_later: true).call(misc_fee) }
+
+      it 'exposes MIAPF bill mappings' do
+        expect(response).to include(
+          bill_type: 'AGFS_MISC_FEES',
+          bill_subtype: 'AGFS_PREP_FEE'
+        )
+      end
+    end
+
+    context 'when fee type is MIAPF without agfs_scheme_17_or_later' do
+      let(:miapf_fee_type) { create(:misc_fee_type, :miapf) }
+      let(:misc_fee) { build(:misc_fee, fee_type: miapf_fee_type, claim:, quantity: 1, rate: 81) }
+      let(:adapted_misc_fee) { CCR::Fee::MiscFeeAdapter.new.call(misc_fee) }
+
+      it 'excludes MIAPF (nil bill_type and bill_subtype)' do
+        expect(response).to include(bill_type: nil, bill_subtype: nil)
+      end
+    end
   end
 end

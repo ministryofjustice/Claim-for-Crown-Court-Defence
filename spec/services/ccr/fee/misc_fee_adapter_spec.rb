@@ -12,8 +12,6 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
 
   it_behaves_like 'a mapping fee adapter'
 
-  EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO MIAPF].freeze
-
   MAPPINGS = {
     BACAV: %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)
     BAPCM: %w[AGFS_MISC_FEES AGFS_PLEA], # Plea & Case management hearing
@@ -60,7 +58,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
   }.freeze
 
   def self.mappings(exclusions: true)
-    exclusions ? MAPPINGS.except(*EXCLUSIONS) : MAPPINGS
+    exclusions ? MAPPINGS.except(*CCR::Fee::MiscFeeAdapter::MISC_FEE_BILL_MAPPING_EXCLUSIONS_PRE_SCHEME_17) : MAPPINGS
   end
 
   describe '#bill_type' do
@@ -105,7 +103,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     end
 
     context 'mapping exclusions' do
-      EXCLUSIONS.each do |code|
+      described_class::MISC_FEE_BILL_MAPPING_EXCLUSIONS_PRE_SCHEME_17.each do |code|
         context "with unique_code #{code}" do
           before { allow(fee_type).to receive(:unique_code).and_return code }
 
@@ -128,6 +126,24 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
 
             it { is_expected.to eql bill_subtype }
           end
+        end
+      end
+    end
+
+    context 'with agfs_scheme_17_or_later' do
+      subject { described_class.new(agfs_scheme_17_or_later: true).call(fee).bill_subtype }
+
+      context 'MIAPF is no longer excluded' do
+        before { allow(fee_type).to receive(:unique_code).and_return 'MIAPF' }
+
+        it { is_expected.to eql 'AGFS_PREP_FEE' }
+      end
+
+      described_class::MISC_FEE_BILL_MAPPING_EXCLUSIONS.each do |code|
+        context "with unique_code #{code}" do
+          before { allow(fee_type).to receive(:unique_code).and_return code }
+
+          it { is_expected.to be_nil }
         end
       end
     end
@@ -160,6 +176,16 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
       allow(fee).to receive_messages(quantity: 1, rate: 1, amount: 1)
       allow(fee_type).to receive(:unique_code).and_return 'BACAV'
       is_expected.to be false
+    end
+
+    context 'with agfs_scheme_17_or_later' do
+      subject { described_class.new(agfs_scheme_17_or_later: true).call(fee).claimed? }
+
+      it 'returns true for MIAPF when it has charges' do
+        allow(fee).to receive_messages(quantity: 1, rate: 1, amount: 1)
+        allow(fee_type).to receive(:unique_code).and_return 'MIAPF'
+        is_expected.to be true
+      end
     end
   end
 end

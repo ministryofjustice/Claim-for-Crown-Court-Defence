@@ -117,6 +117,12 @@ module API
           ].all?
         end&.any?
       end
+
+      def agfs_scheme_17_or_later?
+        object.scheme == 'agfs' &&
+          object.earliest_representation_order_date.present? &&
+          Date.parse(object.earliest_representation_order_date) >= Settings.agfs_scheme_17
+      end
     end
   end
 end

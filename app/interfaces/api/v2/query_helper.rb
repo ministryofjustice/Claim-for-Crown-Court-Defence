@@ -52,7 +52,8 @@ module API::V2
           c.allocation_type,
           last_injection_attempt.error_messages AS injection_errors,
           last_injection_attempt.succeeded AS last_injection_succeeded,
-          dt.transfer_stage_id AS transfer_stage_id
+          dt.transfer_stage_id AS transfer_stage_id,
+          MIN(ro.representation_order_date) AS earliest_representation_order_date
         FROM claims AS c
           LEFT OUTER JOIN defendants AS d
             ON c.id = d.claim_id

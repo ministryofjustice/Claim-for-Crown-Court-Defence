@@ -16,7 +16,7 @@
       %span.form-hint.govuk-error-summary__body
         = t('shared.injection_errors.clar_fees_warning.message')
 
-- if claim&.last_injection_attempt&.succeeded && claim.has_additional_prep_fee?
+- if claim&.last_injection_attempt&.succeeded && claim.has_additional_prep_fee? && !claim.fee_scheme&.agfs_scheme_17_or_later?
   .js-callout-injection-warning
     .warning-summary.govuk-error-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
       %h2.govuk-heading-m.govuk-error-summary__title{ id: 'warning-summary-heading' }

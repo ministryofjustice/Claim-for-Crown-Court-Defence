@@ -392,12 +392,13 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   context 'with fee injection warnings' do
+    let(:warnings_claim) { trial_claim }
+
     before do
-      claim = trial_claim
-      assign(:claim, claim)
-      request.path_parameters[:id] = claim.id
-      create(:injection_attempt, claim:)
-      create(:misc_fee, fee_type:, claim:, quantity: 1, amount: 100.00)
+      assign(:claim, warnings_claim)
+      request.path_parameters[:id] = warnings_claim.id
+      create(:injection_attempt, claim: warnings_claim)
+      create(:misc_fee, fee_type:, claim: warnings_claim, quantity: 1, amount: 100.00)
       render
     end
 
@@ -420,6 +421,13 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
       it { is_expected.to have_css('div.js-callout-injection-warning') }
       it { is_expected.to have_text('Warning: Additional preparation fee was not injected') }
+    end
+
+    context 'with Additional Prep fee on a scheme 17 claim' do
+      let(:fee_type) { build(:misc_fee_type, :miapf) }
+      let(:warnings_claim) { trial_claim(nil, :agfs_scheme_17) }
+
+      it { is_expected.to have_no_text('Warning: Additional preparation fee was not injected') }
     end
   end
 
@@ -491,9 +499,9 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     claim
   end
 
-  def trial_claim(trial_prefix = nil)
-    claim = create(:submitted_claim, case_type: create(:case_type, :"#{trial_prefix}trial"),
-                                     evidence_checklist_ids: [1, 9])
+  def trial_claim(trial_prefix = nil, *traits)
+    claim = create(:submitted_claim, *traits, case_type: create(:case_type, :"#{trial_prefix}trial"),
+                                              evidence_checklist_ids: [1, 9])
     case_worker.claims << claim
     create(:document, claim_id: claim.id, form_id: claim.form_id)
     @message = claim.messages.build

@@ -33,7 +33,8 @@ describe API::Entities::SearchResult do
       'MockClaim', Struct.new(:id, :uuid, :scheme, :scheme_type, :case_number, :state, :court_name, :case_type, :total,
                               :disk_evidence, :external_user, :maat_references, :defendants, :fees, :last_submitted_at,
                               :class_letter, :is_fixed_fee, :fee_type_code, :graduated_fee_types, :injection_errors,
-                              :allocation_type, :last_injection_succeeded, :transfer_stage_id)
+                              :allocation_type, :last_injection_succeeded, :transfer_stage_id,
+                              :earliest_representation_order_date)
     )
   end
 
@@ -134,11 +135,23 @@ describe API::Entities::SearchResult do
         include_examples 'returns expected JSON filter values'
       end
 
-      context 'when passed an advocate claim with an Additional Prep fee and without an injection attempt error' do
+      context 'when passed a scheme 16 advocate claim with an Additional Prep fee and no injection attempt error' do
         before do
           claim.last_injection_succeeded = 'true'
           claim.fees = '1.0~Additional preparation fee~Fee::MiscFeeType'
+          claim.earliest_representation_order_date = (Settings.agfs_scheme_17 - 1.day).to_s
           result.merge!(graduated_fees: 1, additional_prep_fee_warning: 1)
+        end
+
+        include_examples 'returns expected JSON filter values'
+      end
+
+      context 'when passed a scheme 17 advocate claim with an Additional Prep fee and no injection attempt error' do
+        before do
+          claim.last_injection_succeeded = 'true'
+          claim.fees = '1.0~Additional preparation fee~Fee::MiscFeeType'
+          claim.earliest_representation_order_date = Settings.agfs_scheme_17.to_s
+          result.merge!(graduated_fees: 1, additional_prep_fee_warning: 0)
         end
 
         include_examples 'returns expected JSON filter values'

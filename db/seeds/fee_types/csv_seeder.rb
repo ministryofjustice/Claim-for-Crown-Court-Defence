@@ -23,7 +23,7 @@ module Seeds
 
         reset_pk_sequence!
 
-        log "Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Processed: #{total}".yellow
+        log Rainbow("Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Processed: #{total}").yellow
       end
 
       protected
@@ -65,8 +65,8 @@ module Seeds
           new_attributes = attributes.symbolize_keys
           return if current_attributes.eql?(new_attributes)
 
-          log "Updating: #{record.description}".yellow
-          log "Attribute Diff: #{Hashdiff.diff(current_attributes, new_attributes)}".yellow
+          log Rainbow("Updating: #{record.description}").yellow
+          log Rainbow("Attribute Diff: #{Hashdiff.diff(current_attributes, new_attributes)}").yellow
           record.update!(attributes) unless dry_mode
           self.total_updated += 1
         else

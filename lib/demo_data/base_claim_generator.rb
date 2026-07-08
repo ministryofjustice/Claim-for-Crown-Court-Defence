@@ -114,7 +114,7 @@ module DemoData
       begin
         ClaimStateAdvancer.new(claim).advance_to(state)
       rescue => err
-        puts "ERROR: #{err.class} :: #{err.message}".red
+        puts Rainbow("ERROR: #{err.class} :: #{err.message}").red
         raise err
       end
     end

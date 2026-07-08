@@ -8,7 +8,7 @@ namespace :ci do
     Rake::Task['jasmine:run'].invoke
     Rake::Task['spec'].invoke
     duration = 5
-    puts "Info: Sleeping for #{duration} seconds to give CPU time to cool down and perhaps not fail on the cuke tasks because drop down lists aren't populated fast enough.".green
+    puts Rainbow("Info: Sleeping for #{duration} seconds to give CPU time to cool down and perhaps not fail on the cuke tasks because drop down lists aren't populated fast enough.").green
     sleep duration
     Rake::Task['cucumber'].invoke
   end

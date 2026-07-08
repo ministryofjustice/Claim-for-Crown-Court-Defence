@@ -17,7 +17,7 @@ namespace :db do
       pretend = !not_pretend
 
       continue?('This will seed data for AGFS Fee Scheme 13 (CLAIR - September 2022). Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
@@ -35,7 +35,7 @@ namespace :db do
       pretend = !not_pretend
 
       continue?('This will destroy AGFS Fee Scheme 13 (CLAIR - September 2022), offences and fee types. Are you sure?') if not_pretend
-      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      puts Rainbow("#{pretend ? 'pretending' : 'working'}...").yellow
 
       adder = Seeds::Schemas::AddAGFSFeeScheme13.new(pretend: pretend)
       adder.down

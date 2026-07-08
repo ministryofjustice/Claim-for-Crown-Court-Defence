@@ -38,7 +38,7 @@ namespace :db do
     task :anonymised => :environment do
       cmd = 'pg_dump --version'
       puts '---------------------------'
-      print "Using: #{%x(#{cmd})}".yellow
+      print Rainbow("Using: #{%x(#{cmd})}").yellow
       host = Rails.host.env || 'localhost'
       puts "Host environment: #{host}"
       filename = File.join('tmp', "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql")
@@ -104,12 +104,12 @@ namespace :db do
       s3_bucket = Tasks::RakeHelpers::S3Bucket.new(host)
       dump_files = s3_bucket.list('tmp').select { |item| item.key.match?('dump') }
 
-      abort("#{dump_files.size} dump file(s) found!".yellow) if dump_files.empty?
+      abort(Rainbow("#{dump_files.size} dump file(s) found!").yellow) if dump_files.empty?
 
       dump_files.sort_by(&:last_modified).reverse[start..].map do |object|
         print "Deleting #{object.key}..."
         object.delete
-        puts 'done'.green
+        puts Rainbow('done').green
       end
     end
 

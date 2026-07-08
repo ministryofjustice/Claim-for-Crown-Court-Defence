@@ -5,7 +5,7 @@ module Tasks
     module RakeUtils
       def continue?(prompt = nil)
         prompt = prompt || 'Continue?'
-        printf prompt.yellow + ": [no/yes] "
+        printf Rainbow(prompt).yellow + ": [no/yes] "
         response = STDIN.gets.chomp
         exit unless response.match?(/^(y|yes)$/i)
         true

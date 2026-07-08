@@ -89,12 +89,16 @@ module Claims
       claim.transfer? && claim.transfer_detail&.case_conclusion == 'Guilty plea'
     end
 
-    def agfs_scheme_17_or_later_guilty_plea?
-      claim.fee_scheme&.agfs_scheme_17_or_later? && case_type&.fee_type_code == 'GRGLT'
+    def agfs_scheme_17_or_later?
+      claim.fee_scheme&.agfs_scheme_17_or_later?
+    end
+
+    def guilty_plea_or_discontinuance_case_type?
+      case_type&.fee_type_code == 'GRGLT' || (case_type&.fee_type_code == 'GRDIS' && claim.prosecution_evidence)
     end
 
     def filter_trial_only_types(misc_fees, filter)
-      if agfs_scheme_17_or_later_guilty_plea?
+      if agfs_scheme_17_or_later? && guilty_plea_or_discontinuance_case_type?
         filter ? misc_fees.without_trial_fee_only_excluding_miapf : misc_fees
       else
         filter ? misc_fees.without_trial_fee_only : misc_fees

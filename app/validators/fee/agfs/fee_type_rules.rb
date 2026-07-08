@@ -30,7 +30,7 @@ module Fee
 
         with_set_for_fee_type('MIAPF') do |set|
           set << add_rule(:quantity, :equal, 1, message: :miapf_numericality)
-          set << add_rule(*trial_and_guilty_plea_only_rule)
+          set << add_rule(*trial_guilty_plea_and_discontinuance_rule)
         end
       end
     end

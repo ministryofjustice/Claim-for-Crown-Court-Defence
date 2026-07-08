@@ -32,11 +32,11 @@ module Fee
                allow_nil: true }]
         end
 
-        def trial_and_guilty_plea_only_rule
-          @trial_and_guilty_plea_only_rule ||=
+        def trial_guilty_plea_and_discontinuance_rule
+          @trial_guilty_plea_and_discontinuance_rule ||=
             ['claim.case_type_id',
              :inclusion,
-             CaseType.trial_and_guilty_plea_fees.ids,
+             CaseType.trial_guilty_plea_and_discontinuance_fees.ids,
              { message: 'case_type_inclusion',
                attribute_for_error: :fee_type,
                allow_nil: true }]

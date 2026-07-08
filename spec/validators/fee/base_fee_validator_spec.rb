@@ -674,4 +674,70 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
     end
   end
+
+  describe '#validate_miapf_case_type_eligibility' do
+    let(:claim) { create(:advocate_claim, :agfs_scheme_17, case_type:) }
+
+    context 'with a fee type that is not an Additional preparation fee' do
+      let(:case_type) { create(:case_type, :trial) }
+      let(:fee) { build(:misc_fee, :miumu_fee, claim:, quantity: 1) }
+
+      it { expect(fee).to be_valid }
+    end
+
+    context 'with an Additional preparation fee' do
+      context 'when the case type is Guilty plea' do
+        let(:case_type) { create(:case_type, :guilty_plea) }
+        let(:fee) { build(:misc_fee, :miapf_fee, claim:, quantity: 1) }
+
+        it { expect(fee).to be_valid }
+
+        context 'when the fee scheme is before 17' do
+          let(:claim) { build(:advocate_claim, :agfs_scheme_16, case_type:) }
+
+          it { expect(fee).not_to be_valid }
+
+          it {
+            fee.valid?
+            expect(fee.errors[:fee_type]).to include('case_type_inclusion')
+          }
+        end
+      end
+
+      context 'when the case type is Discontinuance' do
+        let(:case_type) { create(:case_type, :discontinuance) }
+        let(:fee) { build(:misc_fee, :miapf_fee, claim:, quantity: 1) }
+
+        context 'when the fee scheme is 17' do
+          before { claim.prosecution_evidence = true }
+
+          context 'when prosecution evidence is present' do
+            it { expect(fee).to be_valid }
+          end
+
+          context 'when prosecution evidence is not present' do
+            before { claim.prosecution_evidence = false }
+
+            it { expect(fee).not_to be_valid }
+
+            it {
+              fee.valid?
+              expect(fee.errors[:fee_type]).to include('case_type_inclusion')
+            }
+          end
+        end
+
+        context 'when the fee scheme is before 17' do
+          let(:claim) { build(:advocate_claim, :agfs_scheme_16, case_type:) }
+
+          it { expect(fee).not_to be_valid }
+
+          it {
+            fee.valid?
+            expect(fee.errors[:fee_type]).to include('case_type_inclusion')
+          }
+        end
+      end
+    end
+  end
 end

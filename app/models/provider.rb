@@ -120,11 +120,23 @@ class Provider < ApplicationRecord
   end
 
   def agfs_claim_types
-    [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::AdvocateHardshipClaim]
+    [
+      Claim::AdvocateClaim,
+      Claim::AdvocateInterimClaim,
+      Claim::AdvocateSupplementaryClaim,
+      Claim::AdvocateHardshipClaim,
+      Claim::AdvocatePermissionClaim
+    ]
   end
 
   def lgfs_claim_types
-    [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]
+    [
+      Claim::LitigatorClaim,
+      Claim::InterimClaim,
+      Claim::TransferClaim,
+      Claim::LitigatorHardshipClaim,
+      Claim::LitigatorPermissionClaim
+    ]
   end
 
   def claim_types_for(role)

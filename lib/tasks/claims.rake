@@ -52,7 +52,7 @@ namespace :claims do
     print 'Seeding sample users...'
     DemoData::ExternalUserSeeder.run
     DemoData::CaseWorkerSeeder.run
-    puts 'done'.green
+    puts Rainbow('done').green
   end
 
   desc 'Loads dummy claims'

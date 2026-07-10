@@ -30,7 +30,7 @@ namespace :db do
         stdout_and_stderr.each_line do |line|
           puts line
         end
-        raise ['Failure'.red, ': ', cmd].join unless wait_thr.value.success?
+        raise [Rainbow('Failure').red, ': ', cmd].join unless wait_thr.value.success?
       end
     end
 

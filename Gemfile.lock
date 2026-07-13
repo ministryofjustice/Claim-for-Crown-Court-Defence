@@ -292,13 +292,13 @@ GEM
     govuk_notify_rails (3.0.0)
       notifications-ruby-client (~> 6.2)
       rails (>= 4.1.0)
-    grape (3.2.1)
+    grape (3.3.2)
       activesupport (>= 7.2)
-      dry-configurable
+      dry-configurable (>= 1.0)
       dry-types (>= 1.1)
-      mustermann-grape (~> 1.1.0)
-      rack (>= 2)
-      zeitwerk
+      mustermann (>= 4.0)
+      rack (>= 2.2.4)
+      zeitwerk (>= 2.6)
     grape-entity (1.1.0)
       activesupport (>= 3.0.0)
     grape-papertrail (0.2.0)
@@ -356,7 +356,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jsbundling-rails (1.3.1)
       railties (>= 6.0.0)
-    json (2.20.0)
+    json (2.21.0)
     json-schema (6.2.0)
       addressable (~> 2.8)
       bigdecimal (>= 3.1, < 5)
@@ -415,8 +415,6 @@ GEM
       bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
     mustermann (4.0.0)
-    mustermann-grape (1.1.0)
-      mustermann (>= 1.0.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
     net-imap (0.6.4.1)
@@ -788,7 +786,7 @@ DEPENDENCIES
   govuk-components (~> 6.4.0)
   govuk_design_system_formbuilder (~> 6.2)
   govuk_notify_rails (~> 3.0.0)
-  grape (~> 3.2.1)
+  grape (~> 3.3.2)
   grape-entity (~> 1.1.0)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 2.1.4)
@@ -956,7 +954,7 @@ CHECKSUMS
   govuk-components (6.4.0) sha256=3bb3cdc1b48f2124ceadb86b82c90e07eb12caa761d9bd8b022572a9d60c495f
   govuk_design_system_formbuilder (6.2.1) sha256=bab0fe460f02f8b4df07097fbfe5441c9b9bf6606dea44a09597a3ef3dc0ac83
   govuk_notify_rails (3.0.0) sha256=e0e1b8b0a7c47f90963034f290fb2982652aa8051a733c25c178680d44f2d7aa
-  grape (3.2.1) sha256=448072f55904e5a4dca2e3781f0a373942514be65402cafb6177f5bc73db1b94
+  grape (3.3.2) sha256=6ae9816e2fa5b51a60d0914a4d995b3c8fc8e352633403ecb7e0ce47dfed66a6
   grape-entity (1.1.0) sha256=ab6a1004e57791834e8497d5e85a3c101b72144d8ca31462a26e6d0a380c3d89
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
   grape-swagger (2.1.4) sha256=3279351bebafbca24e0331b9f7c6dbfefb262042a1f3d224ed41cf2be4aee35b
@@ -976,7 +974,7 @@ CHECKSUMS
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
   jquery-rails (4.6.1) sha256=619f3496cdcdeaae1fd6dafa52dbac3fc45b745d4e09712da4184a16b3a8d9c0
   jsbundling-rails (1.3.1) sha256=0fa03f6d051c694cbf55a022d8be53399879f2c4cf38b2968f86379c62b1c2ca
-  json (2.20.0) sha256=9362bc6e55a952b056abf9167cf053358181c904cb70cd6eee0808ea830fc32b
+  json (2.21.0) sha256=8de199e53f93450414b9fd49811012a73f3e3265b60468c7274d1cacebde1969
   json-schema (6.2.0) sha256=e8bff46ed845a22c1ab2bd0d7eccf831c01fe23bb3920caa4c74db4306813666
   json_spec (1.1.5) sha256=7a77b97a92c787e2aa3fbc4a1239afc3342c781151dc98cfb81461b3b7cad10f
   jsonapi-renderer (0.2.2) sha256=b5c44b033d61b4abdb6500fa4ab84807ca0b36ea0e59e47a2c3ca7095a6e447b
@@ -1007,7 +1005,6 @@ CHECKSUMS
   multi_xml (0.9.1) sha256=7ce766b59c17241ed62976caeae1fae9b2431b263398c35396239a68c4a64e57
   multipart-post (2.4.1) sha256=9872d03a8e552020ca096adadbf5e3cb1cd1cdd6acd3c161136b8a5737cdb4a8
   mustermann (4.0.0) sha256=91f67411bb208d1d93c41e6128cb3b0f8ddd9ec7c45966f1007e1c43c08040d7
-  mustermann-grape (1.1.0) sha256=8d258a986004c8f01ce4c023c0b037c168a9ed889cf5778068ad54398fa458c5
   net-http (0.9.1) sha256=25ba0b67c63e89df626ed8fac771d0ad24ad151a858af2cc8e6a716ca4336996
   net-imap (0.6.4.1) sha256=29f0360d75a7efd3539f16ac1957dea5c0a51ddeceb348db4553c3120914ea0d
   net-pop (0.1.2) sha256=848b4e982013c15b2f0382792268763b748cce91c9e91e36b0f27ed26420dff3

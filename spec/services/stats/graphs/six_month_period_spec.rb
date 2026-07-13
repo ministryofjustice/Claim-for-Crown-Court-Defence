@@ -15,6 +15,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
       output.reverse
     end
 
+    # TODO: Refactor to reduce number of schemes
     let(:agfs_example) do
       [
         { name: 'AGFS 9', data: { mon_name[0] => 2, mon_name[1] => 0, mon_name[2] => 0,
@@ -33,6 +34,8 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
                                    mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 1 } },
         { name: 'AGFS 16', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
                                    mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 2 } },
+        { name: 'AGFS 17', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
+                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 2 } },
         { name: 'LGFS 9', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
         { name: 'LGFS 10', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
@@ -42,6 +45,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
       ]
     end
 
+    # TODO: Refactor to reduce number of schemes
     let(:lgfs_example) do
       [
         { name: 'AGFS 9', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
@@ -60,6 +64,8 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
                                    mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
         { name: 'AGFS 16', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
                                    mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
+        { name: 'AGFS 17', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
+                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 0 } },
         { name: 'LGFS 9', data: { mon_name[0] => 2, mon_name[1] => 1, mon_name[2] => 2,
                                   mon_name[3] => 1, mon_name[4] => 2, mon_name[5] => 1 } },
         { name: 'LGFS 10', data: { mon_name[0] => 1, mon_name[1] => 2, mon_name[2] => 1,
@@ -69,6 +75,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
       ]
     end
 
+    # TODO: Refactor to reduce number of schemes
     let(:mixed_example) do
       [
         { name: 'AGFS 9', data: { mon_name[0] => 1, mon_name[1] => 0, mon_name[2] => 0,
@@ -86,6 +93,8 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
         { name: 'AGFS 15', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
                                    mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 3 } },
         { name: 'AGFS 16', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
+                                   mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 2 } },
+        { name: 'AGFS 17', data: { mon_name[0] => 0, mon_name[1] => 0, mon_name[2] => 0,
                                    mon_name[3] => 0, mon_name[4] => 0, mon_name[5] => 2 } },
         { name: 'LGFS 9', data: { mon_name[0] => 2, mon_name[1] => 0, mon_name[2] => 2,
                                   mon_name[3] => 0, mon_name[4] => 2, mon_name[5] => 0 } },
@@ -106,6 +115,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
         create_list(:advocate_claim, 2, :agfs_scheme_14, :submitted)
         create_list(:advocate_claim, 1, :agfs_scheme_15, :submitted)
         create_list(:advocate_claim, 2, :agfs_scheme_16, :submitted)
+        create_list(:advocate_claim, 2, :agfs_scheme_17, :submitted)
       end
 
       it 'returns the correct fee scheme keys and results, including zeroed entries for LGFS' do
@@ -169,6 +179,7 @@ RSpec.describe Stats::Graphs::SixMonthPeriod do
         create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
         create_list(:advocate_claim, 3, :agfs_scheme_15, :submitted)
         create_list(:advocate_claim, 2, :agfs_scheme_16, :submitted)
+        create_list(:advocate_claim, 2, :agfs_scheme_17, :submitted)
       end
 
       it 'returns the correct fee scheme keys and results, including zeroed entries for AGFS' do

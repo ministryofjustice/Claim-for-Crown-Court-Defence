@@ -284,7 +284,7 @@ GEM
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 4.9, < 4.13)
-    govuk_design_system_formbuilder (6.2.1)
+    govuk_design_system_formbuilder (6.3.0)
       actionview (>= 7.2)
       activemodel (>= 7.2)
       activesupport (>= 7.2)
@@ -780,7 +780,7 @@ DEPENDENCIES
   faraday (~> 2.14)
   faraday-follow_redirects (~> 0.5)
   govuk-components (~> 6.4.0)
-  govuk_design_system_formbuilder (~> 6.2)
+  govuk_design_system_formbuilder (~> 6.3)
   govuk_notify_rails (~> 3.0.0)
   grape (~> 3.3.2)
   grape-entity (~> 1.1.0)
@@ -947,7 +947,7 @@ CHECKSUMS
   fugit (1.12.3) sha256=826d77739086482a6ac2805bc32693845395da688f637890cb4ca457dede2ec2
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   govuk-components (6.4.0) sha256=3bb3cdc1b48f2124ceadb86b82c90e07eb12caa761d9bd8b022572a9d60c495f
-  govuk_design_system_formbuilder (6.2.1) sha256=bab0fe460f02f8b4df07097fbfe5441c9b9bf6606dea44a09597a3ef3dc0ac83
+  govuk_design_system_formbuilder (6.3.0) sha256=6389f3d13f4ee5cd59bce3aa4889e279a7c3fb7003096d408cf7dc9b330fbe72
   govuk_notify_rails (3.0.0) sha256=e0e1b8b0a7c47f90963034f290fb2982652aa8051a733c25c178680d44f2d7aa
   grape (3.3.2) sha256=6ae9816e2fa5b51a60d0914a4d995b3c8fc8e352633403ecb7e0ce47dfed66a6
   grape-entity (1.1.0) sha256=ab6a1004e57791834e8497d5e85a3c101b72144d8ca31462a26e6d0a380c3d89

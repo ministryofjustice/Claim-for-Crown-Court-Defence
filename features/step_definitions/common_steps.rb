@@ -1,5 +1,6 @@
 Given(/^I visit "(.*?)"$/) do |path|
   visit path
+  expect(page).to have_current_path(path)
 end
 
 When(/^I save and open page$/) do

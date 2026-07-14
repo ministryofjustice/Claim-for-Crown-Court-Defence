@@ -93,11 +93,11 @@ module Claims
       claim.fee_scheme&.agfs_scheme_17_or_later? && case_type&.fee_type_code == 'GRGLT'
     end
 
-    def filter_trial_only_types(relation, filter)
+    def filter_trial_only_types(misc_fees, filter)
       if agfs_scheme_17_or_later_guilty_plea?
-        filter ? relation.without_trial_fee_only_excluding_miapf : relation
+        filter ? misc_fees.without_trial_fee_only_excluding_miapf : misc_fees
       else
-        filter ? relation.without_trial_fee_only : relation
+        filter ? misc_fees.without_trial_fee_only : misc_fees
       end
     end
   end

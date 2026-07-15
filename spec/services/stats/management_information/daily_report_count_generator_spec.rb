@@ -118,7 +118,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
 
       before do
         travel_to(start_date.beginning_of_day) do
-          create_list(:advocate_final_claim, 3, :refused, case_type: build(:case_type, :trial))
+          create_list(:advocate_final_claim, 3, :refused, case_type: create(:case_type, :trial))
         end
       end
 

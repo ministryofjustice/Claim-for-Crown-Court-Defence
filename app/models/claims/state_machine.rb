@@ -246,7 +246,7 @@ module Claims
     end
 
     def previously_authorised?
-      claim_state_transitions.map(&:to).any? { |state| PREVIOUSLY_AUTHORISED_STATES.include?(state) }
+      claim_state_transitions.map(&:to).intersect?(PREVIOUSLY_AUTHORISED_STATES)
     end
 
     def remove_case_workers!

@@ -1,5 +1,6 @@
 Given(/^I visit "(.*?)"$/) do |path|
   visit path
+  expect(page).to have_current_path(path)
 end
 
 When(/^I save and open page$/) do
@@ -58,6 +59,9 @@ end
 
 Given(/^I am later on the Your claims page$/) do
   @external_user_home_page.load
+  patiently do
+    expect(@external_user_home_page).to be_displayed
+  end
 end
 
 When(/I click the claim '(.*?)'$/) do |case_number|

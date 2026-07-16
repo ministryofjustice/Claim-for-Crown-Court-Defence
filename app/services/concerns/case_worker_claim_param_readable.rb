@@ -53,7 +53,7 @@ module CaseWorkerClaimParamReadable
     end
 
     def transition_reason_text_missing?
-      transition_reasons&.any? { |reason| %w[other other_refuse].include?(reason) } &&
+      transition_reasons&.intersect?(%w[other other_refuse]) &&
         transition_reason_text.blank?
     end
 

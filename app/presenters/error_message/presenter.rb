@@ -32,7 +32,7 @@ module ErrorMessage
     end
 
     def error_is_for_govuk_has_one_association?(attribute)
-      govuk_has_one_associations.any? { |association| attribute.to_s.include?(association) }
+      govuk_has_one_associations.any? { |association| attribute.to_s.start_with?(association) }
     end
 
     def govuk_has_one_associations

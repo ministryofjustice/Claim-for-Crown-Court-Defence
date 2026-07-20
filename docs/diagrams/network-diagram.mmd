@@ -1,0 +1,77 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart LR
+    users["👤 users"]
+    internet1(("internet"))
+    internet2(("internet"))
+
+subgraph MCP["MOJ Cloud Platform"]
+direction LR
+    Route53["Route 53"]
+    NLB["Network load balancer"]
+    NginxIngress["Nginx ingress<br/>(modsec)"]
+
+subgraph VPC["VPC"]
+direction TB
+
+subgraph EKS["EKS cluster"]
+direction TB
+    EKSControlPlane["EKS control plane"]
+
+subgraph CCCD["Claim crown court defence (CCCD)"]
+direction TB
+    CCCDNamespace["Namespace: laa-cccd-[env]"]
+    CCCDPods["Pods<br/>ec2 instances"]
+    CCCDRDS[("Postgres<br/>Amazon RDS")]
+    CCCDS3[("S3 Bucket")]
+    CCCDCache[("Elasticache")]
+end
+
+subgraph FeeCalc["Fee Calculator"]
+direction TB
+    FeeCalcNamespace["Namespace: laa-fee-calculator-[env]"]
+    FeeCalcPods["Pods<br/>ec2 instances"]
+end
+
+subgraph CCRBox["Crown Court Remuneration (CCR)"]
+direction TB
+    CCRNote["namespace: laa-crown-court-remuneration-[env]"]
+end
+
+subgraph CCLFBox["Crown Court Litigator Fees (CCLF)"]
+direction TB
+    CCLFNote["namespace: laa-crown-court-litigator-fees-[env]"]
+end
+end
+
+subgraph PublicSubnet["Public subnet"]
+    NAT["NAT Gateway"]
+end
+end
+
+    SNS(["SNS"])
+    SQS[["SQS<br/>Topic: cccd-claims-submitted"]]
+
+end
+
+%% Entry traffic
+    users -->|Protocol: https| internet1
+    internet1 --> Route53
+    Route53 --> NLB
+    NLB --> NginxIngress
+    NginxIngress --> CCCDPods
+    NginxIngress --> FeeCalcPods
+
+%% Messaging flow
+    CCCDPods -->|claim created| SNS
+    SNS -->|sent to queue| SQS
+    SQS <-->|CCR consumes<br/>+ responds| CCRBox
+    SQS <-->|CCLF consumes<br/>+ responds| CCLFBox
+    SQS -->|response injected| CCCDPods
+
+%% Egress
+    VPC --> NAT
+    NAT --> internet2
+
+
+    classDef note fill:#fdf6e3,stroke:#c9a227,color:#555,stroke-dasharray: 3 3;
+    class CCRNote,CCLFNote note;

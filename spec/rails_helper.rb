@@ -16,16 +16,13 @@ SimpleCov.configure do
 
   # exclude individual files from test coverage stats
   skip 'app/interfaces/api/helpers/xml_formatter.rb'    # only used for XML export proof of concept (LAA integration)
-  skip 'app/validators/expense_v1_validator.rb'         # no longer used - can be removed when all claims with v1 expenses deleted (see PT https://www.pivotaltracker.com/story/show/119351871 )
   skip 'lib/caching/redis_store.rb'                     # unable to mock a local instance of Redis
-  skip 'lib/messaging'                                  # all the files used in the proof of concept to export claims to LAA systems
   skip 'db/seed_helper.rb'
 
   # exclude patterns from test coverage results
   skip %r{^/lib/rack/} # only used to prevent feature test flickering
   skip %r{^/lib/demo_data/} # only used for generation of demo data
   skip %r{^/lib/tasks/} # not currently specing tasks or their helpers but probably should be
-  skip %r{^/factories/}
 
   # group functionality for test coverage report
   group 'Models', 'app/models'

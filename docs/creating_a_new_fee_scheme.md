@@ -637,15 +637,6 @@ Add a new set of tests for the new fee scheme, replicating what exists for the p
 
 Update `spec/models/claim/transfer_brain/data_item_spec.rb` if changes have been made to the `TransferBrain::DataItem` class for LGFS transfer claims.
 
-#### Fee scheme usage specs
-
-Update `spec/services/stats/fee_scheme_usage_generator_spec.rb` and `spec/services/stats/graphs/six_month_period_spec.rb`
-to include the new fee scheme in specs that test the visualisation of fee scheme usage.
-
-A test in `spec/requests/super_admins/stats_request_spec.rb` will fail if the number of fee schemes is greater than or equal
-to the number of colours defined for use by the ChartKick library. If this occurs, it can fixed by adding additional colours
-to the `@chart_colours` variable in `app/controllers/super_admins/stats_controller.rb`.
-
 ### Step 15: Create Feature Tests
 
 Create new feature tests in `features/claims/advocate/` (or `features/claims/litigator/`).

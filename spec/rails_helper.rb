@@ -9,33 +9,30 @@ require 'simplecov'
 #
 
 SimpleCov.configure do
-  add_filter '_spec.rb'
-  add_filter 'spec/'
-  add_filter 'config/'
-  add_filter 'db/seeds'
+  skip '_spec.rb'
+  skip 'spec/'
+  skip 'config/'
+  skip 'db/seeds'
 
   # exclude individual files from test coverage stats
-  add_filter 'app/interfaces/api/helpers/xml_formatter.rb'    # only used for XML export proof of concept (LAA integration)
-  add_filter 'app/validators/expense_v1_validator.rb'         # no longer used - can be removed when all claims with v1 expenses deleted (see PT https://www.pivotaltracker.com/story/show/119351871 )
-  add_filter 'lib/caching/redis_store.rb'                     # unable to mock a local instance of Redis
-  add_filter 'lib/messaging'                                  # all the files used in the proof of concept to export claims to LAA systems
-  add_filter 'db/seed_helper.rb'
+  skip 'app/interfaces/api/helpers/xml_formatter.rb'    # only used for XML export proof of concept (LAA integration)
+  skip 'lib/caching/redis_store.rb'                     # unable to mock a local instance of Redis
+  skip 'db/seed_helper.rb'
 
   # exclude patterns from test coverage results
-  add_filter %r{^/lib/rack/} # only used to prevent feature test flickering
-  add_filter %r{^/lib/demo_data/} # only used for generation of demo data
-  add_filter %r{^/lib/tasks/} # not currently specing tasks or their helpers but probably should be
-  add_filter %r{^/factories/}
+  skip %r{^/lib/rack/} # only used to prevent feature test flickering
+  skip %r{^/lib/demo_data/} # only used for generation of demo data
+  skip %r{^/lib/tasks/} # not currently specing tasks or their helpers but probably should be
 
   # group functionality for test coverage report
-  add_group 'Models', 'app/models'
-  add_group 'Controllers', 'app/controllers'
-  add_group 'Mailers', '/app/mailers'
-  add_group 'Validators', 'app/validators'
-  add_group 'Helpers', 'app/helpers'
-  add_group 'API', 'app/interfaces/api'
-  add_group 'Presenters', '/app/presenters'
-  add_group 'Services', '/app/services'
+  group 'Models', 'app/models'
+  group 'Controllers', 'app/controllers'
+  group 'Mailers', '/app/mailers'
+  group 'Validators', 'app/validators'
+  group 'Helpers', 'app/helpers'
+  group 'API', 'app/interfaces/api'
+  group 'Presenters', '/app/presenters'
+  group 'Services', '/app/services'
 end
 
 SimpleCov.start

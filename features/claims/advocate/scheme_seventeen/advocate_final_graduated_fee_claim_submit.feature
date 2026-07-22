@@ -3,7 +3,7 @@ Feature: Advocate submits an AGFS Fee Scheme 17 final graduated fee claims
 
   @fee_calc_vcr
   Scenario: I create and submit a trial claim with a graduated fee and miscellaneous fees
-    Given the current date is '2026-06-24'
+    Given the current date is '2026-07-28'
     And I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -82,7 +82,7 @@ Feature: Advocate submits an AGFS Fee Scheme 17 final graduated fee claims
   @fee_calc_vcr
   Scenario: I create and submit a guilty plea claim with a fixed fee and miscellaneous fees
 
-    Given the current date is '2026-06-24'
+    Given the current date is '2026-07-28'
     And I am a signed in advocate
     And I am on the 'Your claims' page
 

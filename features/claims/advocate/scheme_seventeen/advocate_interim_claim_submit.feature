@@ -3,7 +3,7 @@ Feature: Advocate submits an AGFS scheme 17 interim claim for a warrant fee
 
   Scenario: I create an AGFS interim claim and submit it
 
-    Given the current date is '2026-09-24'
+    Given the current date is '2026-10-28'
     And I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -25,7 +25,7 @@ Feature: Advocate submits an AGFS scheme 17 interim claim for a warrant fee
     When I select the first search result
     Then I should see a page title "Enter fees for advocate warrant fees claim"
     And I select an advocate category of 'Junior'
-    And I fill in '2026-06-24' as the warrant issued date
+    And I fill in '2026-07-28' as the warrant issued date
     And I enter a Warrant net amount of '100'
 
     When I click "Continue" in the claim form

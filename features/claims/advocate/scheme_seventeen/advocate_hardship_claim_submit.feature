@@ -4,7 +4,7 @@ Feature: Advocate submits an AGFS Fee Scheme 17 hardship claim for a trial with 
   @fee_calc_vcr
   Scenario: I create a hardship claim for a trial
 
-    Given the current date is '2026-06-24'
+    Given the current date is '2026-07-28'
     And I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -150,4 +150,3 @@ Feature: Advocate submits an AGFS Fee Scheme 17 hardship claim for a trial with 
     Then I should be on the your claims page
 
     And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£2,914.27'
-

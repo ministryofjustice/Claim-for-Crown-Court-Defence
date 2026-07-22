@@ -4,7 +4,7 @@ Feature: Advocate submits a fee scheme 17 supplementary claim for miscellaneous 
   @fee_calc_vcr
   Scenario: I create a supplementary claim and add applicable misc fees
 
-    Given the current date is '2026-06-24'
+    Given the current date is '2026-07-28'
     And I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'

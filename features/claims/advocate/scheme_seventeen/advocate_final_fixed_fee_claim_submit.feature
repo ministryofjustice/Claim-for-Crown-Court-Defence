@@ -4,7 +4,7 @@ Feature: Advocate submits an LGFS Fee Scheme 17 claim for a Fixed fee (Appeal ag
   @fee_calc_vcr
   Scenario: I create and submit an Appeal against conviction claim
 
-    Given the current date is '2026-06-24'
+    Given the current date is '2026-07-28'
     And I am a signed in advocate
     And I am on the 'Your claims' page
 

@@ -83,7 +83,7 @@ RSpec.shared_examples 'find AGFS fee schemes 12+' do
   end
 
   context 'with a rep order on 28 July 2026' do
-    let(:representation_order_date) { Date.parse('24 June 2026') }
+    let(:representation_order_date) { Date.parse('28 July 2026') }
 
     it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 17) }
   end

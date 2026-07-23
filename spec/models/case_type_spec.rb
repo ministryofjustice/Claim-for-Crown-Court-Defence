@@ -144,5 +144,15 @@ RSpec.describe CaseType do
       it { is_expected.not_to be_empty }
       it { expect(trial_fees.map(&:fee_type_code)).to all(be_one_of(%w[GRCBR GRRAK GRRTR GRTRL])) }
     end
+
+    describe '.trial_guilty_plea_and_discontinuance_fees' do
+      subject(:scope) { described_class.trial_guilty_plea_and_discontinuance_fees }
+
+      it { is_expected.not_to be_empty }
+
+      it {
+        expect(scope.map(&:fee_type_code)).to all(be_one_of(%w[GRCBR GRRAK GRRTR GRTRL GRGLT GRDIS]))
+      }
+    end
   end
 end

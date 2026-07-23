@@ -248,7 +248,7 @@ Metrics/ClassLength:
     - 'app/validators/claim/interim_claim_validator.rb'
     - 'app/validators/fee/base_fee_validator.rb'
 
-# Offense count: 11
+# Offense count: 12
 # Configuration parameters: AllowedMethods, AllowedPatterns, Max.
 Metrics/CyclomaticComplexity:
   Exclude:
@@ -259,12 +259,13 @@ Metrics/CyclomaticComplexity:
     - 'app/models/claims/state_machine.rb'
     - 'app/services/ccr/fee/basic_fee_adaptable.rb'
     - 'app/services/claims/fee_calculator/calculate_price.rb'
+    - 'app/services/claims/fetch_eligible_misc_fee_types.rb'
     - 'app/services/transform/claim.rb'
     - 'app/validators/base_sub_model_validator.rb'
     - 'lib/data_migrator/offence_unique_code_migrator.rb'
     - 'spec/api/v2/claim_spec.rb'
 
-# Offense count: 56
+# Offense count: 57
 # Configuration parameters: CountComments, Max, CountAsOne, AllowedMethods, AllowedPatterns.
 Metrics/MethodLength:
   Exclude:
@@ -278,6 +279,7 @@ Metrics/MethodLength:
     - 'app/models/allocation.rb'
     - 'app/models/claims/search.rb'
     - 'app/models/claims/state_machine.rb'
+    - 'app/models/fee_scheme_factory/agfs.rb'
     - 'app/models/timed_transitions/batch_transitioner.rb'
     - 'app/presenters/claim_state_transition_presenter.rb'
     - 'app/presenters/expense_type_presenter.rb'

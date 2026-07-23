@@ -154,6 +154,30 @@ RSpec.describe FeeScheme do
     end
   end
 
+  describe '#agfs_scheme_17_or_later?' do
+    subject { fee_scheme.agfs_scheme_17_or_later? }
+
+    context 'with an agfs scheme 17 claim' do
+      before { travel_to(Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date) }
+
+      let(:claim) { create(:advocate_claim, :agfs_scheme_17) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with an agfs scheme 16 claim' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_16) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an lgfs claim' do
+      let(:claim) { create(:litigator_claim) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
   describe '#claims' do
     subject { fee_scheme.claims }
 

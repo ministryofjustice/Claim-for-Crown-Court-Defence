@@ -34,6 +34,33 @@ module Fee
     def validate_agfs_fee_type_rules
       rule_sets = Fee::AGFS::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
       Rule::Validator.new(@record, rule_sets).validate if rule_sets.present?
+      validate_miapf_case_type_eligibility
+    end
+
+    def validate_miapf_case_type_eligibility
+      return unless miapf_fee?
+      return unless miapf_requires_scheme_check?
+
+      @record.errors.add(:fee_type, 'case_type_inclusion')
+    end
+
+    def miapf_fee?
+      @record.fee_type&.unique_code == 'MIAPF'
+    end
+
+    def miapf_requires_scheme_check?
+      case @record.claim&.case_type&.fee_type_code
+      when 'GRGLT'
+        !agfs_scheme_17_or_later?
+      when 'GRDIS'
+        !(agfs_scheme_17_or_later? && @record.claim&.prosecution_evidence)
+      else
+        false
+      end
+    end
+
+    def agfs_scheme_17_or_later?
+      @record.claim&.fee_scheme&.agfs_scheme_17_or_later?
     end
 
     def validate_date

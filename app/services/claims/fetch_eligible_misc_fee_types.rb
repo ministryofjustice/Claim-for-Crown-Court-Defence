@@ -22,7 +22,7 @@ module Claims
 
     attr_reader :claim
     delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :agfs_scheme_13?, :agfs_scheme_14?,
-             :agfs_scheme_15?, :agfs_scheme_16?, :hardship?,
+             :agfs_scheme_15?, :agfs_scheme_16?, :agfs_scheme_17?, :hardship?,
              to: :claim, allow_nil: true
 
     def eligible_fee_types
@@ -40,6 +40,7 @@ module Claims
     end
 
     def agfs_scheme_scope
+      return Fee::MiscFeeType.agfs_scheme_17s if agfs_scheme_17?
       return Fee::MiscFeeType.agfs_scheme_16s if agfs_scheme_16?
       return Fee::MiscFeeType.agfs_scheme_15s if agfs_scheme_15?
       return Fee::MiscFeeType.agfs_scheme_14s if agfs_scheme_14?
@@ -88,8 +89,20 @@ module Claims
       claim.transfer? && claim.transfer_detail&.case_conclusion == 'Guilty plea'
     end
 
-    def filter_trial_only_types(relation, filter)
-      filter ? relation.without_trial_fee_only : relation
+    def agfs_scheme_17_or_later?
+      claim.fee_scheme&.agfs_scheme_17_or_later?
+    end
+
+    def guilty_plea_or_discontinuance_case_type?
+      case_type&.fee_type_code == 'GRGLT' || (case_type&.fee_type_code == 'GRDIS' && claim.prosecution_evidence)
+    end
+
+    def filter_trial_only_types(misc_fees, filter)
+      if agfs_scheme_17_or_later? && guilty_plea_or_discontinuance_case_type?
+        filter ? misc_fees.without_trial_fee_only_excluding_miapf : misc_fees
+      else
+        filter ? misc_fees.without_trial_fee_only : misc_fees
+      end
     end
   end
 end

@@ -81,6 +81,14 @@ RSpec.shared_examples 'find AGFS fee schemes 12+' do
 
     it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 16) }
   end
+
+  context 'with a rep order on 28 July 2026' do
+    before { travel_to(Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date) }
+
+    let(:representation_order_date) { Date.parse('28 July 2026') }
+
+    it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 17) }
+  end
 end
 
 RSpec.describe FeeSchemeFactory::AGFS do

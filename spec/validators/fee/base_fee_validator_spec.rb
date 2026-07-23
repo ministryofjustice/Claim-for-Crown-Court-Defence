@@ -676,6 +676,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   end
 
   describe '#validate_miapf_case_type_eligibility' do
+    before { travel_to(Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date) }
+
     let(:claim) { create(:advocate_claim, :agfs_scheme_17, case_type:) }
 
     context 'with a fee type that is not an Additional preparation fee' do

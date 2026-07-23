@@ -158,6 +158,8 @@ RSpec.describe FeeScheme do
     subject { fee_scheme.agfs_scheme_17_or_later? }
 
     context 'with an agfs scheme 17 claim' do
+      before { travel_to(Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date) }
+
       let(:claim) { create(:advocate_claim, :agfs_scheme_17) }
 
       it { is_expected.to be_truthy }

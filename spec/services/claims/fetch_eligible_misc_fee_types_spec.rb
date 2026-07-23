@@ -355,6 +355,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         context 'with a scheme 17 claim' do
+          before { travel_to(Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date) }
+
           let(:claim) { create(:advocate_claim, :agfs_scheme_17, case_type:) }
 
           context 'with "trial" case type' do

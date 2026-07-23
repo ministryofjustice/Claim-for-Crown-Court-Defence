@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:8000/api/v1/fee-schemes/?case_date=2026-06-24&main_hearing_date=2026-06-24&type=AGFS
+    uri: http://localhost:8000/api/v1/fee-schemes/?case_date=2026-07-28&main_hearing_date=2026-07-28&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Jul 2026 10:32:31 GMT
+      - Thu, 23 Jul 2026 08:04:55 GMT
       Server:
       - WSGIServer/0.2 CPython/3.14.6
       Content-Type:
@@ -44,7 +44,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":14,"start_date":"2026-06-24","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 17"}]}'
-  recorded_at: Tue, 23 Jun 2026 23:00:00 GMT
+  recorded_at: Mon, 27 Jul 2026 23:00:00 GMT
 - request:
     method: get
     uri: http://localhost:8000/api/v1/fee-schemes/14/scenarios/
@@ -64,7 +64,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Jul 2026 10:32:31 GMT
+      - Thu, 23 Jul 2026 08:04:55 GMT
       Server:
       - WSGIServer/0.2 CPython/3.14.6
       Content-Type:
@@ -96,7 +96,7 @@ http_interactions:
         conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
         sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
         issued - breach of crown court order","code":null}]}'
-  recorded_at: Tue, 23 Jun 2026 23:00:00 GMT
+  recorded_at: Mon, 27 Jul 2026 23:00:00 GMT
 - request:
     method: get
     uri: http://localhost:8000/api/v1/fee-schemes/14/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
@@ -116,7 +116,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Jul 2026 10:32:31 GMT
+      - Thu, 23 Jul 2026 08:04:55 GMT
       Server:
       - WSGIServer/0.2 CPython/3.14.6
       Content-Type:
@@ -142,10 +142,10 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":448498,"scenario":5,"advocate_type":"JUNIOR","fee_type":8,"offence_class":null,"scheme":14,"unit":"DAY","fee_per_unit":"380.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-  recorded_at: Tue, 23 Jun 2026 23:00:00 GMT
+  recorded_at: Mon, 27 Jul 2026 23:00:00 GMT
 - request:
     method: get
-    uri: http://localhost:8000/api/v1/fee-schemes/?case_date=2026-06-24&main_hearing_date=2026-06-24&type=AGFS
+    uri: http://localhost:8000/api/v1/fee-schemes/?case_date=2026-07-28&main_hearing_date=2026-07-28&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -162,7 +162,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Jul 2026 10:32:32 GMT
+      - Thu, 23 Jul 2026 08:04:56 GMT
       Server:
       - WSGIServer/0.2 CPython/3.14.6
       Content-Type:
@@ -187,7 +187,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":14,"start_date":"2026-06-24","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 17"}]}'
-  recorded_at: Tue, 23 Jun 2026 23:00:00 GMT
+  recorded_at: Mon, 27 Jul 2026 23:00:00 GMT
 - request:
     method: get
     uri: http://localhost:8000/api/v1/fee-schemes/14/scenarios/
@@ -207,7 +207,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Jul 2026 10:32:32 GMT
+      - Thu, 23 Jul 2026 08:04:56 GMT
       Server:
       - WSGIServer/0.2 CPython/3.14.6
       Content-Type:
@@ -239,7 +239,7 @@ http_interactions:
         conviction","code":null},{"id":52,"name":"Warrant issued - appeal against
         sentence","code":null},{"id":53,"name":"Warrant issued - committal for sentence","code":null},{"id":54,"name":"Warrant
         issued - breach of crown court order","code":null}]}'
-  recorded_at: Tue, 23 Jun 2026 23:00:00 GMT
+  recorded_at: Mon, 27 Jul 2026 23:00:00 GMT
 - request:
     method: get
     uri: http://localhost:8000/api/v1/fee-schemes/14/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
@@ -259,7 +259,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Jul 2026 10:32:32 GMT
+      - Thu, 23 Jul 2026 08:04:56 GMT
       Server:
       - WSGIServer/0.2 CPython/3.14.6
       Content-Type:
@@ -285,5 +285,5 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":448498,"scenario":5,"advocate_type":"JUNIOR","fee_type":8,"offence_class":null,"scheme":14,"unit":"DAY","fee_per_unit":"380.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-  recorded_at: Tue, 23 Jun 2026 23:00:00 GMT
+  recorded_at: Mon, 27 Jul 2026 23:00:00 GMT
 recorded_with: VCR 6.4.0

@@ -20,7 +20,7 @@ Feature: Advocate submits an LGFS Fee Scheme 17 claim for a Fixed fee (Appeal ag
     And I enter defendant, scheme 17 representation order and MAAT reference
     Then I click "Continue" in the claim form
 
-    Given I insert the VCR cassette 'features/claims/advocate/scheme/seventeen/fixed_fee_calculations'
+    Given I insert the VCR cassette 'features/claims/advocate/scheme_seventeen/fixed_fee_calculations'
 
     And I should see the advocate categories 'Junior,Leading junior,KC'
     And I select an advocate category of 'Junior'

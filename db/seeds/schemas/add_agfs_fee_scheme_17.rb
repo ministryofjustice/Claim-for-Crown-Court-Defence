@@ -55,19 +55,19 @@ module Seeds
         agfs_fee_scheme_sixteen = FeeScheme.find_by(name: 'AGFS', version: 16, start_date: Settings.agfs_scheme_16_section_twenty_eight_increase.beginning_of_day)
         agfs_fee_scheme_sixteen ? print(Rainbow("...found\n").green) : print(Rainbow("...not found\n").red)
 
-        print Rainbow("Updating AGFS scheme 16 end date to #{Settings.agfs_scheme_17.end_of_day-1.day}").yellow
+        print Rainbow("Updating AGFS scheme 16 end date to #{Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.end_of_day-1.day}").yellow
         if pretending?
           print Rainbow("...not updated\n").green if pretending?
         else
-          agfs_fee_scheme_sixteen.update(end_date: Settings.agfs_scheme_17.end_of_day-1.day)
+          agfs_fee_scheme_sixteen.update(end_date: Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.end_of_day-1.day)
           print Rainbow("...updated\n").green
         end
 
-        print Rainbow("Finding or creating scheme 17 with start date #{Settings.agfs_scheme_17.beginning_of_day}...").yellow
+        print Rainbow("Finding or creating scheme 17 with start date #{Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.beginning_of_day}...").yellow
         if pretending?
           print Rainbow("...not created\n").green if pretending?
         else
-          FeeScheme.find_or_create_by(name: 'AGFS', version: 17, start_date: Settings.agfs_scheme_17.beginning_of_day)
+          FeeScheme.find_or_create_by(name: 'AGFS', version: 17, start_date: Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.beginning_of_day)
           print Rainbow("...created\n").green
         end
       end

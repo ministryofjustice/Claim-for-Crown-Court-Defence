@@ -39,11 +39,11 @@ module FeeSchemeFactory
     end
 
     def scheme_sixteen_range
-      Settings.agfs_scheme_16_section_twenty_eight_increase..(Settings.agfs_scheme_17 - 1.day)
+      Settings.agfs_scheme_16_section_twenty_eight_increase..(Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date - 1.day)
     end
 
     def scheme_seventeen_range
-      Settings.agfs_scheme_17..Time.zone.today
+      Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date..Time.zone.today
     end
   end
 end

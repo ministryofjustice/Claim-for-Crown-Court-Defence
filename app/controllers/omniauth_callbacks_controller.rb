@@ -20,6 +20,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   PERSONA_CASE_WORKER = CaseWorker.name
   PERSONA_EXTERNAL_USER = ExternalUser.name
   PERSONA_SUPER_ADMIN = SuperAdmin.name
+  SUPPLIER_NUMBER_CASE_INSENSITIVE_WHERE = 'UPPER(supplier_number) = ?'.freeze
 
   def entra_mock
     handle_omniauth
@@ -390,7 +391,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def ensure_no_duplicate_agfs_supplier_numbers!(agfs_numbers)
     duplicate_agfs_supplier_number = agfs_numbers.find do |supplier_number|
-      ExternalUser.exists?(['UPPER(supplier_number) = ?', supplier_number])
+      ExternalUser.exists?([SUPPLIER_NUMBER_CASE_INSENSITIVE_WHERE, supplier_number])
     end
     return unless duplicate_agfs_supplier_number
 
@@ -400,11 +401,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def find_provider_by_lgfs_supplier_numbers(lgfs_numbers)
     matching_supplier_number = lgfs_numbers.find do |supplier_number|
-      SupplierNumber.exists?(['UPPER(supplier_number) = ?', supplier_number])
+      SupplierNumber.exists?([SUPPLIER_NUMBER_CASE_INSENSITIVE_WHERE, supplier_number])
     end
     return unless matching_supplier_number
 
-    SupplierNumber.find_by!(['UPPER(supplier_number) = ?', matching_supplier_number]).provider
+    SupplierNumber.find_by!([SUPPLIER_NUMBER_CASE_INSENSITIVE_WHERE, matching_supplier_number]).provider
   end
 
   def matched_provider_from_firm_name(firm_name)

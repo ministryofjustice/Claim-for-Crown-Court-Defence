@@ -618,6 +618,14 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
                 expect(parsed.dig('bills', 0, 'bill_type')).to eq 'AGFS_MISC_FEES'
                 expect(parsed.dig('bills', 0, 'bill_subtype')).to eq 'AGFS_PREP_FEE'
               end
+
+              context 'when case type is discontinuance' do
+                let(:case_type) { create(:case_type, :discontinuance) }
+
+                it 'not added to bills' do
+                  expect(parsed['bills']).to be_empty
+                end
+              end
             end
 
             context 'when claim is pre-scheme 17' do

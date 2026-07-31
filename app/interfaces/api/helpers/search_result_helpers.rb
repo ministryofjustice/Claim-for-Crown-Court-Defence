@@ -123,6 +123,10 @@ module API
 
         object.scheme == 'agfs' && Date.parse(object.earliest_representation_order_date) >= Settings.agfs_scheme_17
       end
+
+      def discontinuance?
+        object.case_type == 'Discontinuance'
+      end
     end
   end
 end

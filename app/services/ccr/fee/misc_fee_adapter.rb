@@ -49,8 +49,9 @@ module CCR
       MISC_FEE_BILL_MAPPING_EXCLUSIONS_PRE_SCHEME_17 = %i[BACAV MIPHC MIUMU MIUMO MIAPF].freeze
       MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO].freeze
 
-      def initialize(exclusions: true, agfs_scheme_17_or_later: false)
+      def initialize(exclusions: true, agfs_scheme_17_or_later: false, discontinuance: false)
         @agfs_scheme_17_or_later = agfs_scheme_17_or_later
+        @discontinuance = discontinuance
         super(exclusions:)
       end
 
@@ -67,7 +68,7 @@ module CCR
       def exclusions
         return [] unless exclusions?
 
-        if @agfs_scheme_17_or_later
+        if @agfs_scheme_17_or_later && !@discontinuance
           MISC_FEE_BILL_MAPPING_EXCLUSIONS
         else
           MISC_FEE_BILL_MAPPING_EXCLUSIONS_PRE_SCHEME_17

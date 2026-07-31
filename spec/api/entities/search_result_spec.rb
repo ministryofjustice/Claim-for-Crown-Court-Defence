@@ -157,6 +157,18 @@ describe API::Entities::SearchResult do
         include_examples 'returns expected JSON filter values'
       end
 
+      context 'when passed a scheme 17 discontinuance claim with an Additional Prep fee and no injection attempt error' do
+        before do
+          claim.last_injection_succeeded = 'true'
+          claim.fees = '1.0~Additional preparation fee~Fee::MiscFeeType'
+          claim.earliest_representation_order_date = Settings.agfs_scheme_17.to_s
+          claim.case_type = 'Discontinuance'
+          result.merge!(graduated_fees: 1, additional_prep_fee_warning: 1)
+        end
+
+        include_examples 'returns expected JSON filter values'
+      end
+
       context 'when passed an advocate interim/warrant claim' do
         before do
           claim.case_type = 'Warrant'

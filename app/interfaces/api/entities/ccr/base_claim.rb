@@ -56,7 +56,10 @@ module API
         end
 
         def misc_fee_adapter
-          ::CCR::Fee::MiscFeeAdapter.new(agfs_scheme_17_or_later: object.fee_scheme&.agfs_scheme_17_or_later?)
+          ::CCR::Fee::MiscFeeAdapter.new(
+            agfs_scheme_17_or_later: object.fee_scheme&.agfs_scheme_17_or_later?,
+            discontinuance: object.discontinuance?
+          )
         end
 
         # CCR miscellaneous fees cover CCCD basic, fixed and miscellaneous fees

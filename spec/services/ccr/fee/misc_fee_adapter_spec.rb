@@ -149,6 +149,16 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
           it { is_expected.to be_nil }
         end
       end
+
+      context 'when discontinuance' do
+        subject { described_class.new(agfs_scheme_17_or_later: true, discontinuance: true).call(fee).bill_subtype }
+
+        context 'MIAPF is excluded' do
+          before { allow(fee_type).to receive(:unique_code).and_return 'MIAPF' }
+
+          it { is_expected.to be_nil }
+        end
+      end
     end
   end
 
@@ -188,6 +198,16 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
         allow(fee).to receive_messages(quantity: 1, rate: 1, amount: 1)
         allow(fee_type).to receive(:unique_code).and_return 'MIAPF'
         is_expected.to be true
+      end
+
+      context 'when discontinuance' do
+        subject { described_class.new(agfs_scheme_17_or_later: true, discontinuance: true).call(fee).claimed? }
+
+        it 'returns false for MIAPF even when it has charges' do
+          allow(fee).to receive_messages(quantity: 1, rate: 1, amount: 1)
+          allow(fee_type).to receive(:unique_code).and_return 'MIAPF'
+          is_expected.to be false
+        end
       end
     end
   end

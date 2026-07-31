@@ -429,6 +429,13 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
       it { is_expected.to have_no_text('Warning: Additional preparation fee was not injected') }
     end
+
+    context 'with Additional Prep fee on a scheme 17 discontinuance claim' do
+      let(:fee_type) { build(:misc_fee_type, :miapf) }
+      let(:warnings_claim) { discontinuance_claim(:agfs_scheme_17) }
+
+      it { is_expected.to have_text('Warning: Additional preparation fee was not injected') }
+    end
   end
 
   describe 'offence details information' do
@@ -501,6 +508,15 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
   def trial_claim(trial_prefix = nil, *traits)
     claim = create(:submitted_claim, *traits, case_type: create(:case_type, :"#{trial_prefix}trial"),
+                                              evidence_checklist_ids: [1, 9])
+    case_worker.claims << claim
+    create(:document, claim_id: claim.id, form_id: claim.form_id)
+    @message = claim.messages.build
+    claim
+  end
+
+  def discontinuance_claim(*traits)
+    claim = create(:submitted_claim, *traits, case_type: create(:case_type, :discontinuance),
                                               evidence_checklist_ids: [1, 9])
     case_worker.claims << claim
     create(:document, claim_id: claim.id, form_id: claim.form_id)

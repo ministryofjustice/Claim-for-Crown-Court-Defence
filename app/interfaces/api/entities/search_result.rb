@@ -138,7 +138,7 @@ module API
       end
 
       def additional_prep_fee_warning
-        (last_injection_attempt_succeeded? && contains_additional_prep_fee? && !agfs_scheme_17_or_later?).to_i
+        (last_injection_attempt_succeeded? && contains_additional_prep_fee? && !(agfs_scheme_17_or_later? && !discontinuance?)).to_i
       end
 
       def supplementary

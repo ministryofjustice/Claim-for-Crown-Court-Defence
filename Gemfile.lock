@@ -309,7 +309,8 @@ GEM
       haml-rails (>= 2.0, < 4.0)
       ostruct (>= 0.6, < 1.0)
       railties (>= 7.2.2.2, < 8.2)
-    haml (7.2.0)
+    haml (7.3.0)
+      prism (>= 1.1.0)
       temple (>= 0.8.2)
       thor
       tilt
@@ -686,7 +687,7 @@ GEM
     sys-uname (1.5.1)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
-    temple (0.10.4)
+    temple (0.10.6)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.5.0)
@@ -948,7 +949,7 @@ CHECKSUMS
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
   grape-swagger (2.1.4) sha256=3279351bebafbca24e0331b9f7c6dbfefb262042a1f3d224ed41cf2be4aee35b
   grape-swagger-rails (1.0.5) sha256=e8c090b9a063bb0a50dedcc6e955fc3c0bcdc330c8ace275ccff2f0db21611e5
-  haml (7.2.0) sha256=87fd2b71f7feab1724337b090a7d767f5ab2d42f08c974f3ead673f18cfcd55a
+  haml (7.3.0) sha256=4383cb90bb0b525d4025dcb9721fec085edda1c43525043fc327c80127f6cf37
   haml-rails (3.1.0) sha256=4366474d973e4b9d5326cb216f2073150cfeff4c2a3c07fadb49a490ffdf610b
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashie (5.1.0) sha256=c266471896f323c446ea8207f8ffac985d2718df0a0ba98651a3057096ca3870
@@ -1092,7 +1093,7 @@ CHECKSUMS
   state_machines-audit_trail (3.0.0) sha256=69c33bbdb5a78d4d67f26e2c18677dbf2f89006cd0d6c07c7b9815c245d4a3c8
   strscan (3.1.8) sha256=aae2db611a225559f21ffbb71765c9a4e60fd262534a9ea84f4f11c7f32f679e
   sys-uname (1.5.1) sha256=784d7e6491b0393c25cbbe5ac38324ac7be9fda083a6094832648af669386d7b
-  temple (0.10.4) sha256=b7a1e94b6f09038ab0b6e4fe0126996055da2c38bec53a8a336f075748fff72c
+  temple (0.10.6) sha256=0f2ed8a885a81ef5b13b1d99a02948e36da34f2212390f0a0228bfd0412c400a
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
   tilt (2.8.0) sha256=ba472eb2716fe1e04112d6d219a9dae938ec09a6a1e2ad3ecc7922e79bde3721

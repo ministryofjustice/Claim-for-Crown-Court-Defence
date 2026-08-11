@@ -291,7 +291,7 @@ GEM
     govuk_notify_rails (3.0.0)
       notifications-ruby-client (~> 6.2)
       rails (>= 4.1.0)
-    grape (3.3.3)
+    grape (3.3.5)
       activesupport (>= 7.2)
       dry-configurable (>= 1.0)
       dry-types (>= 1.1)
@@ -777,7 +777,7 @@ DEPENDENCIES
   govuk-components (~> 6.4.1)
   govuk_design_system_formbuilder (~> 6.4.0)
   govuk_notify_rails (~> 3.0.0)
-  grape (~> 3.3.3)
+  grape (~> 3.3.5)
   grape-entity (~> 1.1.0)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 2.1.4)
@@ -943,7 +943,7 @@ CHECKSUMS
   govuk-components (6.4.1) sha256=71c19f80849992dfffac7968ce674c961ab9e1f7b64b94d6bf9e95f5d1f896a6
   govuk_design_system_formbuilder (6.4.0) sha256=28f85f8277d0fe941d04eff20b081e321ac9e84a501152f56c6933ffed1201a6
   govuk_notify_rails (3.0.0) sha256=e0e1b8b0a7c47f90963034f290fb2982652aa8051a733c25c178680d44f2d7aa
-  grape (3.3.3) sha256=97764f18cd294f79594add00564c325c48314d02afcf3f935146f7e82760c3d3
+  grape (3.3.5) sha256=2fa9f67fa019ea71a194e6c42f78ee6c1925294a275f460c11a5b7c6dbec3a30
   grape-entity (1.1.0) sha256=ab6a1004e57791834e8497d5e85a3c101b72144d8ca31462a26e6d0a380c3d89
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
   grape-swagger (2.1.4) sha256=3279351bebafbca24e0331b9f7c6dbfefb262042a1f3d224ed41cf2be4aee35b

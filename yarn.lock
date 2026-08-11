@@ -4797,9 +4797,9 @@ terser@^5.31.1:
     source-map-support "~0.5.20"
 
 through2@^5.0.1:
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/through2/-/through2-5.0.10.tgz#6f053e96acd04ddb4a3f037f2a571d423493c5eb"
-  integrity sha512-zMv0MhnSH++V+tOvM9RRgfUNM7HONx530v9WhIuk7Ro+d6Xjv/wTYFbzMp7LpbNG8HYjjZ7mBf/8jz2W1j0dBQ==
+  version "5.0.11"
+  resolved "https://registry.yarnpkg.com/through2/-/through2-5.0.11.tgz#e2c9249f312429993b8f8ca03a9b11d4edda11b9"
+  integrity sha512-g3ACuADXGxvApYBg83YNLCSGeQUkKnXjH0FEBLmtap5vDN6pFfLr8uhVUqynb704X6Q3KpgLW2enSZ7WE+Vp5A==
   dependencies:
     readable-stream "^4.7.0"
 

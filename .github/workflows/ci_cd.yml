@@ -63,13 +63,18 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
 
       - name: Install JS dependencies
         run: yarn install --frozen-lockfile
 
   rspec-tests:
+    env:
+        AWS_REGION: eu-west-2
+        AWS_ACCESS_KEY_ID: test
+        AWS_SECRET_ACCESS_KEY: test
+        AWS_EC2_METADATA_DISABLED: "true"
     if: github.event_name == 'push'
     needs: build-test-container
     runs-on: ubuntu-latest
@@ -104,7 +109,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
 
       - name: Install JS dependencies
@@ -163,105 +168,105 @@ jobs:
           path: tmp/coverage
           if-no-files-found: ignore
 
-#   cucumber-tests:
-#     if: github.event_name == 'push'
-#     needs: build-test-container
-#     runs-on: ubuntu-latest
-#     strategy:
-#       fail-fast: false
-#       matrix:
-#         shard: [1, 2, 3, 4, 5, 6]
-#     services:
-#       postgres:
-#         image: postgres:13
-#         env:
-#           POSTGRES_USER: postgres
-#           POSTGRES_PASSWORD: postgres
-#           POSTGRES_DB: cccd_test
-#         ports:
-#           - 5432:5432
-#         options: >-
-#           --health-cmd "pg_isready -U postgres"
-#           --health-interval 10s
-#           --health-timeout 5s
-#           --health-retries 5
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+  cucumber-tests:
+    if: github.event_name == 'push'
+    needs: build-test-container
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6]
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
 
-#       - name: Set up Ruby
-#         uses: ruby/setup-ruby@v1
-#         with:
-#           ruby-version: .ruby-version
-#           bundler-cache: true
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
 
-#       - name: Set up Node
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: 20
-#           cache: yarn
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: yarn
 
-#       - name: Install JS dependencies
-#         run: yarn install --frozen-lockfile
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
 
-#       - name: Halt if no cucumber tests to run
-#         shell: bash
-#         run: |
-#           mapfile -t FEATURES < <(find features -name '*.feature' | sort)
-#           if [ ${#FEATURES[@]} -eq 0 ]; then
-#             echo "No cucumber feature files found"
-#             exit 0
-#           fi
+      - name: Halt if no cucumber tests to run
+        shell: bash
+        run: |
+          mapfile -t FEATURES < <(find features -name '*.feature' | sort)
+          if [ ${#FEATURES[@]} -eq 0 ]; then
+            echo "No cucumber feature files found"
+            exit 0
+          fi
 
-#       - name: Wait for DB
-#         run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
+      - name: Wait for DB
+        run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
 
-#       - name: Database setup
-#         run: bin/rails db:schema:load --trace
+      - name: Database setup
+        run: bin/rails db:schema:load --trace
 
-#       - name: Precompile assets
-#         run: bundle exec rails assets:precompile
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
 
-#       - name: Run cucumber shard
-#         shell: bash
-#         run: |
-#           mapfile -t FEATURES < <(find features -name '*.feature' | sort)
-#           SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
-#           TOTAL_SHARDS=6
-#           SELECTED=()
-#           for i in "${!FEATURES[@]}"; do
-#             if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
-#               SELECTED+=("${FEATURES[$i]}")
-#             fi
-#           done
+      - name: Run cucumber shard
+        shell: bash
+        run: |
+          mapfile -t FEATURES < <(find features -name '*.feature' | sort)
+          SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
+          TOTAL_SHARDS=6
+          SELECTED=()
+          for i in "${!FEATURES[@]}"; do
+            if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
+              SELECTED+=("${FEATURES[$i]}")
+            fi
+          done
 
-#           if [ ${#SELECTED[@]} -eq 0 ]; then
-#             echo "No features selected for shard ${{ matrix.shard }}"
-#             exit 0
-#           fi
+          if [ ${#SELECTED[@]} -eq 0 ]; then
+            echo "No features selected for shard ${{ matrix.shard }}"
+            exit 0
+          fi
 
-#           mkdir -p /tmp/test-results/cucumber
-#           bundle exec cucumber \
-#             --format pretty \
-#             --format junit,fileattribute=true \
-#             --out /tmp/test-results/cucumber \
-#             "${SELECTED[@]}"
+          mkdir -p /tmp/test-results/cucumber
+          bundle exec cucumber \
+            --format pretty \
+            --format junit,fileattribute=true \
+            --out /tmp/test-results/cucumber \
+            "${SELECTED[@]}"
 
-#       - name: Upload cucumber results
-#         if: always()
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: cucumber-results-${{ matrix.shard }}
-#           path: /tmp/test-results/cucumber
-#           if-no-files-found: ignore
+      - name: Upload cucumber results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-results-${{ matrix.shard }}
+          path: /tmp/test-results/cucumber
+          if-no-files-found: ignore
 
-#       - name: Upload capybara artifacts
-#         if: always()
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: capybara-${{ matrix.shard }}
-#           path: tmp/capybara
-#           if-no-files-found: ignore
+      - name: Upload capybara artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capybara-${{ matrix.shard }}
+          path: tmp/capybara
+          if-no-files-found: ignore
 
 #   other-tests:
 #     if: github.event_name == 'push'

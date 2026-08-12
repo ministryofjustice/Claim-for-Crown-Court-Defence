@@ -38,7 +38,7 @@ gem 'paper_trail', '~> 17.0.0'
 gem 'pg',                     '~> 1.6.3'
 gem 'rails', '~> 8.1.3', '>= 8.1.3.1'
 gem 'rainbow', '>= 3.1.1'
-gem 'redis',                  '~> 5.4.1'
+gem 'redis',                  '~> 6.0.0'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism
 gem 'sentry-rails', '~> 6.6'

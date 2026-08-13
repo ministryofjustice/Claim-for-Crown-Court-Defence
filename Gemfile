@@ -41,8 +41,8 @@ gem 'rainbow', '>= 3.1.1'
 gem 'redis',                  '~> 5.4.1'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism
-gem 'sentry-rails', '~> 6.6'
-gem 'sentry-sidekiq', '~> 6.4'
+gem 'sentry-rails', '~> 6.7'
+gem 'sentry-sidekiq', '~> 6.7'
 gem 'sprockets-rails', '~> 3.5.2'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
@@ -89,7 +89,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'axe-core-cucumber', '~> 4.12'
+  gem 'axe-core-cucumber', '~> 4.13'
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.40'
   gem 'cucumber-rails', '~> 4.1.0', require: false

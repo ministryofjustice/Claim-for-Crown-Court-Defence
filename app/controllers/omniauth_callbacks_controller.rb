@@ -11,8 +11,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   LAA_EXTERNAL_ROLE_MAPPINGS = {
     'Advocate' => 'advocate',
     'Litigator' => 'litigator',
-    'Advocate Admin' => 'admin',
-    'Litigator Admin' => 'admin'
+    'Advocate Admin' => 'admin', # old role name, may remove later
+    'Litigator Admin' => 'admin', # old role name, may remove later
+    'Administrator' => 'admin'
   }.freeze
 
   LAA_SUPER_ADMIN_ROLE = 'Super Administrator'.freeze

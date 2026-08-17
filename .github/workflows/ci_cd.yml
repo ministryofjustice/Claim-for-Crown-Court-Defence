@@ -2,8 +2,8 @@ name: CI CD
 
 on:
   push:
-    branches:
-      - "**"
+  workflow_dispatch:
+
 #   schedule:
 #     - cron: "5 8 * * *"
 #   workflow_dispatch:
@@ -38,9 +38,10 @@ env:
   DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_test
   GITHUB_TEAM_NAME_SLUG: laa-get-paid
   REPO_NAME: cccd
-  CIRCLE_BRANCH: ${{ github.ref_name }}
-  CIRCLE_SHA1: ${{ github.sha }}
-  CIRCLE_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  # CIRCLE_BRANCH: ${{ github.ref_name }}
+  # CIRCLE_SHA1: ${{ github.sha }}
+  # CIRCLE_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  IMAGE_NAME: app
 
 concurrency:
   group: ci-cd-${{ github.workflow }}-${{ github.ref }}
@@ -332,6 +333,90 @@ jobs:
       - name: Run stylelint
         run: yarn run validate:scss
 
+    # ----------------------------
+# BUILD & PUSH DOCKER IMAGE
+# ----------------------------
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: [rspec-tests, cucumber-tests]
+    permissions:
+      id-token: write   # required for AWS OIDC
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
+        with:
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.ECR_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64
+
+      - name: Build image
+        run: |
+          BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          docker build \
+            --build-arg DJANGO_SECRET_KEY=docker-build-secret \
+            --build-arg VERSION_NUMBER=${{ github.run_number }} \
+            --build-arg COMMIT_ID=${{ github.sha }} \
+            --build-arg BUILD_DATE=${BUILD_DATE} \
+            --build-arg BUILD_TAG=${{ github.ref_name }} \
+            -t $IMAGE_NAME .
+
+      - name: Tag + Push
+        run: |
+          docker tag $IMAGE_NAME $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo "Image pushed: $REGISTRY/$REPOSITORY:$IMAGE_TAG"
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            docker tag $IMAGE_NAME $REGISTRY/$REPOSITORY:app-latest
+            docker push $REGISTRY/$REPOSITORY:app-latest
+            echo "Image pushed: $REGISTRY/$REPOSITORY:app-latest"
+          fi
+        env:
+          REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
+          REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          IMAGE_TAG: app-${{ github.sha }}
+       
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: dev
+    env:
+      REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
+      REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      IMAGE_TAG: app-${{ github.sha }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configure kubectl
+        env:
+          KUBE_CERT_DEV: ${{ secrets.KUBE_CERT_DEV }}
+          KUBE_CLUSTER_DEV: ${{ secrets.KUBE_CLUSTER_DEV }}
+          KUBE_TOKEN_DEV: ${{ secrets.KUBE_TOKEN_DEV }}
+          KUBE_NAMESPACE_DEV: ${{ secrets.KUBE_NAMESPACE_DEV }}
+        run: |
+          echo "$KUBE_CERT_DEV" > ca.crt
+          kubectl config set-cluster cluster --certificate-authority=ca.crt --server=https://$KUBE_CLUSTER_DEV
+          kubectl config set-credentials gha --token=$KUBE_TOKEN_DEV
+          kubectl config set-context ctx --cluster=cluster --user=gha --namespace=$KUBE_NAMESPACE_DEV
+          kubectl config use-context ctx
+
+      - name: Deploy
+        # deploy given image
+        run: |
+          IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+          kubectl set image -f kubernetes_deploy/live/dev/deployment.yaml app=$IMAGE --local -o yaml | kubectl apply -f -
+          kubectl apply \
+            -f kubernetes_deploy/live/dev/service.yaml \
+            -f kubernetes_deploy/live/dev/ingress.yaml
+          kubectl annotate deployment/laa-fee-calculator kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
+          kubectl rollout status deployment/laa-fee-calculator
+       
 #   build-app-container-main:
 #     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 #     needs:

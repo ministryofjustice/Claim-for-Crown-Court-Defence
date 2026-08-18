@@ -340,7 +340,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [rspec-tests, cucumber-tests]
     permissions:
-      id-token: write   # required for AWS OIDC
+      id-token: write   # required for AWS OIDC stuff
       contents: read
 
     steps:

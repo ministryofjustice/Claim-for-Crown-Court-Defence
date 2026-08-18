@@ -50,12 +50,13 @@
   border: 1px solid $govuk-border-colour;
 
   .messages-list {
+    height: 400px;
     min-height: 200px;
-    max-height: 400px;
     margin-bottom: $gutter-two-thirds;
     padding: $gutter-one-sixth;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
+    resize: vertical;
 
     .history {
       .event {

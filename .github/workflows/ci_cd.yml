@@ -410,13 +410,14 @@ jobs:
         # deploy given image
         run: |
           IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo $IMAGE
 
-          kubectl set image -f kubernetes_deploy/live/dev/deployment.yaml app=$IMAGE --local -o yaml | kubectl apply -f -
+          kubectl set image -f .k8s/live/dev/deployment.yaml app=$IMAGE --local -o yaml | kubectl apply -f -
           kubectl apply \
-            -f kubernetes_deploy/live/dev/service.yaml \
-            -f kubernetes_deploy/live/dev/ingress.yaml
-          kubectl annotate deployment/laa-fee-calculator kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
-          kubectl rollout status deployment/laa-fee-calculator
+            -f .k8s/live/dev/service.yaml \
+            -f .k8s/live/dev/ingress.yaml
+          kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
+          kubectl rollout status deployment/claim-for-crown-court-defence
        
 #   build-app-container-main:
 #     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

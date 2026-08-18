@@ -412,7 +412,7 @@ jobs:
           IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           echo $IMAGE
 
-          kubectl set image -f .k8s/live/dev/deployment.yaml app=$IMAGE --local -o yaml | kubectl apply -f -
+          kubectl set image -f .k8s/live/dev/deployment.yaml cccd-app=$IMAGE --local -o yaml | kubectl apply -f -
           kubectl apply \
             -f .k8s/live/dev/service.yaml \
             -f .k8s/live/dev/ingress.yaml

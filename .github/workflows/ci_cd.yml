@@ -2,10 +2,9 @@ name: CI CD
 
 on:
   push:
-  workflow_dispatch:
 
-#   schedule:
-#     - cron: "5 8 * * *"
+  # schedule:
+  #   - cron: "5 8 * * *"
 #   workflow_dispatch:
 #     inputs:
 #       deploy_environment:
@@ -418,6 +417,44 @@ jobs:
             -f .k8s/live/dev/ingress.yaml
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
+
+  deploy-apisandbox:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: api-sandbox
+    env:
+      REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
+      REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      IMAGE_TAG: app-${{ github.sha }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configure kubectl
+        env:
+          KUBE_CERT_API_SANDBOX: ${{ secrets.KUBE_CERT_API_SANDBOX }}
+          KUBE_CLUSTER_API_SANDBOX: ${{ secrets.KUBE_CLUSTER_API_SANDBOX }}
+          KUBE_TOKEN_API_SANDBOX: ${{ secrets.KUBE_TOKEN_API_SANDBOX }}
+          KUBE_NAMESPACE_API_SANDBOX: ${{ secrets.KUBE_NAMESPACE_API_SANDBOX }}
+        run: |
+          echo "$KUBE_CERT_API_SANDBOX" > ca.crt
+          kubectl config set-cluster cluster --certificate-authority=ca.crt --server=https://$KUBE_CLUSTER_API_SANDBOX
+          kubectl config set-credentials gha --token=$KUBE_TOKEN_API_SANDBOX
+          kubectl config set-context ctx --cluster=cluster --user=gha --namespace=$KUBE_NAMESPACE_API_SANDBOX
+          kubectl config use-context ctx
+
+      - name: Deploy
+        # deploy given image
+        run: |
+          IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo $IMAGE
+
+          kubectl set image -f .k8s/live/api-sandbox/deployment.yaml cccd-app=$IMAGE --local -o yaml | kubectl apply -f -
+          kubectl apply \
+            -f .k8s/live/api-sandbox/service.yaml \
+            -f .k8s/live/api-sandbox/ingress.yaml
+          kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
+          kubectl rollout status deployment/claim-for-crown-court-defence
        
 #   build-app-container-main:
 #     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -458,7 +495,7 @@ jobs:
 #         run: .circleci/build.sh
 
 #   smoke-test-main:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+#     if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions'
 #     needs: build-app-container-main
 #     runs-on: ubuntu-latest
 #     services:

@@ -6,7 +6,7 @@ OmniAuth.config.allowed_request_methods = %i[get post]
 OmniAuth.config.silence_get_warning = true
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-	if Rails.env.development? || Rails.env.test?
+	if Rails.env.local?
 		provider :entra_mock, {}
 	end
 
@@ -20,8 +20,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 					 discovery: true,
 					 issuer: "https://login.microsoftonline.com/#{ENV.fetch('ENTRA_ID_TENANT_ID', 'common')}/v2.0",
 					 client_options: {
-						 identifier: ENV.fetch('ENTRA_ID_CLIENT_ID', nil),
-						 secret: ENV.fetch('ENTRA_ID_CLIENT_SECRET', nil),
+						 identifier: ENV['ENTRA_ID_CLIENT_ID'],
+						 secret: ENV['ENTRA_ID_CLIENT_SECRET'],
 						 redirect_uri: ENV.fetch('ENTRA_ID_REDIRECT_URI', 'http://localhost:3000/users/auth/entra_id/callback')
 					 }
 end

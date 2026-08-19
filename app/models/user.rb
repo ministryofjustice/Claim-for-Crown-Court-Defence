@@ -35,6 +35,9 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  omniauth_providers = [:entra_id]
+  omniauth_providers << :entra_mock if Rails.env.local?
+
   devise :database_authenticatable,
          :registerable,
          :recoverable,
@@ -43,7 +46,7 @@ class User < ApplicationRecord
          :timeoutable,
          :validatable,
          :lockable,
-         :omniauthable, omniauth_providers: %i[entra_mock entra_id]
+         :omniauthable, omniauth_providers: omniauth_providers
 
   attribute :terms_and_conditions_required, :boolean, default: false
   attribute :terms_and_conditions, :boolean

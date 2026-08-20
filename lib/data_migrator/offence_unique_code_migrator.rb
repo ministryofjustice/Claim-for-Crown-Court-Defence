@@ -8,9 +8,7 @@ module DataMigrator
     class InappropriateRelation < StandardError; end
 
     def initialize(relation: nil, stdout: false)
-      unless relation.nil? || relation.klass.eql?(Offence)
-        raise InappropriateRelation, "Inappropriate relation given: expected #{Offence}, got #{relation.klass}"
-      end
+      raise InappropriateRelation, "Inappropriate relation given: expected #{Offence}, got #{relation.klass}" unless relation.nil? || relation.klass.eql?(Offence)
 
       @stdout = stdout
       @offences = relation || Offence.unscoped.order(description: :asc)

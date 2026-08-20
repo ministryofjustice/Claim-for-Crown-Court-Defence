@@ -47,9 +47,7 @@ module Stats
         Claim::BaseClaim.active.non_draft.where(last_submitted_at:
                                                   from..to).find_each do |claim|
           output.each do |hash|
-            if hash[:name] == "#{claim.fee_scheme.name} #{claim.fee_scheme.version}"
-              hash[:data][claim.last_submitted_at.strftime('%b')] += 1
-            end
+            hash[:data][claim.last_submitted_at.strftime('%b')] += 1 if hash[:name] == "#{claim.fee_scheme.name} #{claim.fee_scheme.version}"
           end
         end
         output

@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
 
-  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations' }
+  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations', omniauth_callbacks: 'omniauth_callbacks' }
 
   resources :users, only: :index
 

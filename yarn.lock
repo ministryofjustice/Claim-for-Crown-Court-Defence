@@ -2752,9 +2752,9 @@ get-symbol-description@^1.1.0:
     get-intrinsic "^1.2.6"
 
 get-tsconfig@^4.8.1:
-  version "4.14.1"
-  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.14.1.tgz#18173aee7c81897dd4b9eb98bdde499c8649e512"
-  integrity sha512-Dz/6HxkrxgNehhxLVeyv8sad9UzF2xBVeaKBQNDfJ5XiSXmp2gTR0eO0RWiT2NCKS5aGP9jjkOMggTN90qU50A==
+  version "4.14.3"
+  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.14.3.tgz#7bcc9f3ab5fb6d30ad0a301898c859d34164dcd9"
+  integrity sha512-++QEw4DIY7WGoukz+/+A/8dGYPT9l9yIadnmSgZ8Rjr3YVSVDipQSO9CdnJo9ePqFqUUqh+wk9uIaoiAwsiPkA==
   dependencies:
     resolve-pkg-maps "^1.0.0"
 

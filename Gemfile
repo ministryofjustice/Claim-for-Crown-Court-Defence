@@ -41,7 +41,7 @@ gem 'rainbow', '>= 3.1.1'
 gem 'redis',                  '~> 6.0.0'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism
-gem 'sentry-rails', '~> 6.6'
+gem 'sentry-rails', '~> 6.7'
 gem 'sentry-sidekiq', '~> 6.4'
 gem 'sprockets-rails', '~> 3.5.2'
 gem 'state_machines-activerecord'

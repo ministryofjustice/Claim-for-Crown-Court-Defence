@@ -55,7 +55,8 @@
     margin-bottom: $gutter-two-thirds;
     padding: $gutter-one-sixth;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
+    resize: vertical;
 
     .history {
       .event {

@@ -25,7 +25,7 @@ jobs:
             (.name | startswith("rspec-tests")) or
             (.name | startswith("cucumber-tests")) or
             .name == "other-tests"
-            ) | .id'
+            ) | .id')
 
           if [ -z "$FAILED_JOB_IDS" ]; then
             echo "No failed RSpec or Cucumber jobs to retry"

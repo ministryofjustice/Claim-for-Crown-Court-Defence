@@ -3,8 +3,8 @@ name: CI CD
 on:
   push:
 
-  # schedule:
-  #   - cron: "5 8 * * *"
+  schedule:
+    - cron: "30 11 * * *"
 #   workflow_dispatch:
 #     inputs:
 #       deploy_environment:
@@ -574,10 +574,10 @@ jobs:
 #     runs-on: ubuntu-latest
 #     steps:
 #       - name: Checkout
-#         uses: actions/checkout@v4
+#         uses: actions/checkout@v7
 
 #       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
+#         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
 #         with:
 #           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
 #           aws-region: ${{ vars.ECR_REGION }}
@@ -603,58 +603,59 @@ jobs:
 #       - name: Build and push cccd docker image
 #         run: .circleci/build.sh
 
-#   smoke-test-main:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions'
-#     needs: build-app-container-main
-#     runs-on: ubuntu-latest
-#     services:
-#       postgres:
-#         image: postgres:13
-#         env:
-#           POSTGRES_USER: postgres
-#           POSTGRES_PASSWORD: ""
-#           POSTGRES_DB: cccd_smoke_test
-#         ports:
-#           - 5432:5432
-#         options: >-
-#           --health-cmd "pg_isready -U postgres"
-#           --health-interval 10s
-#           --health-timeout 5s
-#           --health-retries 5
-#     env:
-#       RAILS_ENV: test
-#       DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
-#       ADVOCATE_PASSWORD: just-be-present
-#       CASE_WORKER_PASSWORD: just-be-present
-#       ADMIN_PASSWORD: just-be-present
-#       SECRET_KEY_BASE: just-be-present
-#       SUPERADMIN_USERNAME: superadmin@circleci.com
-#       SUPERADMIN_PASSWORD: just-be-present
-#       LIVE1_DB_TASK: none
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+  smoke-test-main:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
+    # needs: build-app-container-main
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ""
+          POSTGRES_DB: cccd_smoke_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
+      ADVOCATE_PASSWORD: just-be-present
+      CASE_WORKER_PASSWORD: just-be-present
+      ADMIN_PASSWORD: just-be-present
+      SECRET_KEY_BASE: just-be-present
+      SUPERADMIN_USERNAME: superadmin@circleci.com
+      SUPERADMIN_PASSWORD: just-be-present
+      LIVE1_DB_TASK: none
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
 
-#       - name: Set up Ruby
-#         uses: ruby/setup-ruby@v1
-#         with:
-#           ruby-version: .ruby-version
-#           bundler-cache: true
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
 
-#       - name: Set up Node
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: 20
-#           cache: yarn
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: yarn
 
-#       - name: Install JS dependencies
-#         run: yarn install --frozen-lockfile
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
 
-#       - name: Run db schema load
-#         run: bundle exec rails db:schema:load
+      - name: Run db schema load
+        run: bundle exec rails db:schema:load
 
-#       - name: Run smoke tests
-#         run: ./runtests.sh
+      - name: Run smoke tests
+        run: ./runtests.sh
 
 #   smoke-test-manual:
 #     if: github.event_name == 'workflow_dispatch'

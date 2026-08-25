@@ -3,8 +3,8 @@ name: CI CD
 on:
   push:
 
-  schedule:
-    - cron: "30 11 * * *"
+  # schedule:
+    # - cron: "30 11 * * *"
 #   workflow_dispatch:
 #     inputs:
 #       deploy_environment:
@@ -334,6 +334,8 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     needs: [rspec-tests, cucumber-tests, other-tests]
+    outputs:
+      image: ${{ steps.build-image.outputs.image }}
     permissions:
       id-token: write   # required for AWS OIDC stuff
       contents: read
@@ -350,31 +352,14 @@ jobs:
         uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64
 
       - name: Build image
-        run: |
-          BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          docker build \
-            --file docker/Dockerfile \
-            --build-arg DJANGO_SECRET_KEY=docker-build-secret \
-            --build-arg VERSION_NUMBER=${{ github.run_number }} \
-            --build-arg COMMIT_ID=${{ github.sha }} \
-            --build-arg BUILD_DATE=${BUILD_DATE} \
-            --build-arg BUILD_TAG=${{ github.ref_name }} \
-            -t $IMAGE_NAME .
+        id: build-image
+        run: .github/build.sh
+            echo "image=${ECR_REGISTRY_URL}/${ECR_REPOSITORY}:app-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
 
-      - name: Tag + Push
-        run: |
-          docker tag $IMAGE_NAME $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          echo "Image pushed: $REGISTRY/$REPOSITORY:$IMAGE_TAG"
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            docker tag $IMAGE_NAME $REGISTRY/$REPOSITORY:app-latest
-            docker push $REGISTRY/$REPOSITORY:app-latest
-            echo "Image pushed: $REGISTRY/$REPOSITORY:app-latest"
-          fi
         env:
-          REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
-          REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-          IMAGE_TAG: app-${{ github.sha }}
+          ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
+          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REGION: ${{ vars.ECR_REGION }}
        
   deploy-dev:
     runs-on: ubuntu-latest
@@ -602,12 +587,13 @@ jobs:
 
 #       - name: Build and push cccd docker image
 #         run: .circleci/build.sh
-
   smoke-test-main:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
-    # needs: build-app-container-main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions'
     needs: build-and-push
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     services:
       postgres:
         image: postgres:13
@@ -617,45 +603,105 @@ jobs:
           POSTGRES_DB: cccd_smoke_test
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+
     env:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
-      ADVOCATE_PASSWORD: just-be-present
-      CASE_WORKER_PASSWORD: just-be-present
-      ADMIN_PASSWORD: just-be-present
       SECRET_KEY_BASE: just-be-present
-      SUPERADMIN_USERNAME: superadmin@circleci.com
-      SUPERADMIN_PASSWORD: just-be-present
-      LIVE1_DB_TASK: none
+      IMAGE: ${{ needs.build-and-push.outputs.image }}
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.ECR_REGION }}
 
-      - name: Set up Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: yarn
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64
 
-      - name: Install JS dependencies
-        run: yarn install --frozen-lockfile
+      - name: Pull application image
+        run: docker pull "$IMAGE"
 
-      - name: Run db schema load
-        run: bundle exec rails db:schema:load
+      - name: Start application
+        run: |
+          docker run --detach \
+            --name cccd-app \
+            --network host \
+            --env RAILS_ENV="$RAILS_ENV" \
+            --env DATABASE_URL="$DATABASE_URL" \
+            --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
+            --env LIVE1_DB_TASK=none \
+            "$IMAGE"
 
-      - name: Run smoke tests
-        run: ./runtests.sh
+      - name: Wait for application
+        run: |
+          for attempt in {1..60}; do
+            if curl --silent --fail http://127.0.0.1:3000 > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs cccd-app
+          exit 1
+
+      - name: Run smoke test
+        run: docker exec cccd-app ./runtests.sh
+  # smoke-test-main-roni-to-remove:
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
+  #   # needs: build-app-container-main
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+  #   services:
+  #     postgres:
+  #       image: postgres:13
+  #       env:
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_PASSWORD: ""
+  #         POSTGRES_DB: cccd_smoke_test
+  #       ports:
+  #         - 5432:5432
+  #       options: >-
+  #         --health-cmd "pg_isready -U postgres"
+  #         --health-interval 10s
+  #         --health-timeout 5s
+  #         --health-retries 5
+  #   env:
+  #     RAILS_ENV: test
+  #     DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
+  #     ADVOCATE_PASSWORD: just-be-present
+  #     CASE_WORKER_PASSWORD: just-be-present
+  #     ADMIN_PASSWORD: just-be-present
+  #     SECRET_KEY_BASE: just-be-present
+  #     SUPERADMIN_USERNAME: superadmin@circleci.com
+  #     SUPERADMIN_PASSWORD: just-be-present
+  #     LIVE1_DB_TASK: none
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v7
+
+  #     - name: Set up Ruby
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: .ruby-version
+  #         bundler-cache: true
+
+  #     - name: Set up Node
+  #       uses: actions/setup-node@v7
+  #       with:
+  #         node-version: 24
+  #         cache: yarn
+
+  #     - name: Install JS dependencies
+  #       run: yarn install --frozen-lockfile
+
+  #     - name: Run db schema load
+  #       run: bundle exec rails db:schema:load
+
+  #     - name: Run smoke tests
+  #       run: ./runtests.sh
 
 #   smoke-test-manual:
 #     if: github.event_name == 'workflow_dispatch'

@@ -15,10 +15,10 @@ fi
 docker_registry="${ECR_REGISTRY_URL}/${ECR_REPOSITORY}"
 docker_registry_tag="${docker_registry}:app-${GITHUB_SHA}"
 
-printf '\033[33m------------------------------------------------------------------------\033[0m\n'
-printf '\033[33mBranch: %s\033[0m\n' "${GITHUB_REF_NAME}"
-printf '\033[33mRegistry tag: %s\033[0m\n' "${docker_registry_tag}"
-printf '\033[33m------------------------------------------------------------------------\033[0m\n'
+printf '%s\n' '------------------------------------------------------------------------'
+printf 'Branch: %s\n' "${GITHUB_REF_NAME}"
+printf 'Registry tag: %s\n' "${docker_registry_tag}"
+printf '%s\n' '------------------------------------------------------------------------'
 
 docker build \
   --build-arg VERSION_NUMBER="NOT USED ANYMORE" \

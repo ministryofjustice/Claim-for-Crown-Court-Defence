@@ -611,6 +611,9 @@ jobs:
       DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
       SECRET_KEY_BASE: just-be-present
       IMAGE: ${{ needs.build-and-push.outputs.image }}
+      REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
+      REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      IMAGE_TAG: app-${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v7

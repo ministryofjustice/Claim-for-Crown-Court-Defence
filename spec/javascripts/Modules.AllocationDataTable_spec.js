@@ -146,7 +146,8 @@ describe('Modules.AllocationDataTable.js', function () {
 
     it('...should have `select`', function () {
       expect(options.select).toEqual({
-        style: 'multi'
+        style: 'multi',
+        selector: 'td:first-child input.dt-checkboxes'
       })
     })
 

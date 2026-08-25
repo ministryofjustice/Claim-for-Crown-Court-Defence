@@ -10,16 +10,9 @@ updates:
   cooldown:
     default-days: 7
   groups:
-    babel:
-      patterns:
-        - "*babel*"
     datatables:
       patterns:
         - "*datatables*"
-    postcss:
-      patterns:
-        - "postcss"
-        - "postcss-*"
   open-pull-requests-limit: 10
   allow:
     - dependency-type: "all"

@@ -351,6 +351,11 @@ jobs:
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64
 
+      - name: Debug environment variables
+        run: |
+          echo "ECR_REGISTRY_URL: ${ECR_REGISTRY_URL}"
+          echo "ECR_REPOSITORY: ${ECR_REPOSITORY}"
+          echo "GITHUB_SHA: ${GITHUB_SHA}"
       - name: Build image
         id: build-image
         run: |
@@ -361,6 +366,7 @@ jobs:
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
           ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
           ECR_REGION: ${{ vars.ECR_REGION }}
+
        
   deploy-dev:
     runs-on: ubuntu-latest

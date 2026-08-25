@@ -353,8 +353,9 @@ jobs:
 
       - name: Build image
         id: build-image
-        run: .github/build.sh
-            echo "image=${ECR_REGISTRY_URL}/${ECR_REPOSITORY}:app-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+        run: |
+          .github/build.sh
+          echo "image=${ECR_REGISTRY_URL}/${ECR_REPOSITORY}:app-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
 
         env:
           ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}

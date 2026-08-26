@@ -949,9 +949,9 @@
   integrity sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==
 
 "@jasminejs/reporters@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@jasminejs/reporters/-/reporters-1.0.0.tgz#1d06099c11ff9793544e6d84ad8fb45c37630a60"
-  integrity sha512-rM3GG4vx2H1Gp5kYCTr9aKlOEJFd43pzpiMAiy5b1+FUc2ub4e6bS6yCi/WQNDzAa5MVp9++dwcoEtcIfoEnhA==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@jasminejs/reporters/-/reporters-1.1.0.tgz#46e2e69950097c2475e95e84e85824d1cf83c9a3"
+  integrity sha512-JIrlfaf9c6m0+GtBAgZdcFB6RIRbFBbXxZDZ0WOewq4cLIEcVKEe0RgI1FA77M39FNzeSMTAm+LK/kcQVIkfGQ==
 
 "@jridgewell/gen-mapping@^0.3.12", "@jridgewell/gen-mapping@^0.3.5":
   version "0.3.13"

@@ -334,8 +334,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     needs: [rspec-tests, cucumber-tests, other-tests]
-    outputs:
-      image: ${{ steps.build-image.outputs.image }}
+
     permissions:
       id-token: write   # required for AWS OIDC stuff
       contents: read
@@ -364,8 +363,6 @@ jobs:
         id: build-image
         run: |
           .github/build.sh
-          echo "image=${ECR_REGISTRY_URL}/${ECR_REPOSITORY}:app-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
-
         
 
        
@@ -558,6 +555,7 @@ jobs:
             -f .k8s/live/production/ingress.yaml
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
+
 #   build-app-container-main:
 #     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 #     needs:
@@ -617,7 +615,7 @@ jobs:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
       SECRET_KEY_BASE: just-be-present
-      IMAGE: ${{ needs.build-and-push.outputs.image }}
+      IMAGE: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}:app-${{ github.sha }}
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
       IMAGE_TAG: app-${{ github.sha }}

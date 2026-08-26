@@ -649,11 +649,20 @@ jobs:
       - name: Wait for application
         run: |
           for attempt in {1..60}; do
-            if curl --silent --fail http://127.0.0.1:3000 > /dev/null; then
+            if curl --silent --show-error --fail \
+              -H "Accept: application/json" \
+              http://127.0.0.1:3000/ping.json > /dev/null; then
               exit 0
             fi
+
+            if ! docker inspect -f '{{.State.Running}}' cccd-app 2>/dev/null | grep -q true; then
+              docker logs cccd-app
+              exit 1
+            fi
+
             sleep 2
           done
+
           docker logs cccd-app
           exit 1
 

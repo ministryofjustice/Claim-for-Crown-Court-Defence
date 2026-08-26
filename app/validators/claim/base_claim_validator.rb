@@ -131,13 +131,9 @@ module Claim
     def validate_amount_assessed
       case @record.state
       when 'authorised', 'part_authorised'
-        if @record.assessment.blank?
-          add_error(:amount_assessed, "Amount assessed cannot be zero for claims in state #{@record.state.humanize}")
-        end
+        add_error(:amount_assessed, "Amount assessed cannot be zero for claims in state #{@record.state.humanize}") if @record.assessment.blank?
       when 'draft', 'refused', 'rejected', 'submitted'
-        if @record.assessment.present?
-          add_error(:amount_assessed, "Amount assessed must be zero for claims in state #{@record.state.humanize}")
-        end
+        add_error(:amount_assessed, "Amount assessed must be zero for claims in state #{@record.state.humanize}") if @record.assessment.present?
       end
     end
 

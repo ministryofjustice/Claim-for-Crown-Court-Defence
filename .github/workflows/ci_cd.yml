@@ -339,6 +339,10 @@ jobs:
     permissions:
       id-token: write   # required for AWS OIDC stuff
       contents: read
+    env:
+          ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
+          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          ECR_REGION: ${{ vars.ECR_REGION }}
 
     steps:
       - uses: actions/checkout@v7
@@ -362,10 +366,7 @@ jobs:
           .github/build.sh
           echo "image=${ECR_REGISTRY_URL}/${ECR_REPOSITORY}:app-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
 
-        env:
-          ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
-          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-          ECR_REGION: ${{ vars.ECR_REGION }}
+        
 
        
   deploy-dev:

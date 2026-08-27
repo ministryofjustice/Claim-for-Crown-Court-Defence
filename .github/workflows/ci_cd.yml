@@ -616,8 +616,8 @@ jobs:
           --health-retries 5
 
     env:
-      RAILS_ENV: test
-      DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
+      RAILS_ENV: production
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_smoke_test
       SECRET_KEY_BASE: just-be-present
       IMAGE: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}:app-${{ github.sha }}
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}

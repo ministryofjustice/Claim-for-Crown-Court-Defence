@@ -5,6 +5,7 @@ on:
   workflow_run:
     workflows: ["CI CD"]
     types: [completed]
+    branches: [CTSKF1158-add-github-actions] #temporary for testing - remove before merging
 
 jobs:
   retry-rspec-cucumber-tests:

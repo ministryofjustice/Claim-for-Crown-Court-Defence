@@ -1,4 +1,5 @@
-/* global MOJFrontend, FormData, XMLHttpRequest */
+/* global FormData, XMLHttpRequest */
+import { MultiFileUpload } from '@ministryofjustice/frontend'
 
 moj.Modules.MultiFileUpload = {
   init: function () {
@@ -49,7 +50,7 @@ moj.Modules.MultiFileUpload = {
       })
     }
 
-    const uploader = new MOJFrontend.MultiFileUpload(container, {
+    const uploader = new MultiFileUpload(container, {
       uploadUrl: '/documents/upload',
       deleteUrl: '/documents/delete',
       uploadFileParamsHook: function (_uploader, formData) {

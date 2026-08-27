@@ -125,18 +125,16 @@ moj.Modules.AllocationDataTable = {
 
     // Select multiple rows
     select: {
-      style: 'multi'
+      style: 'multi',
+      selector: 'td:first-child input.dt-checkboxes'
     },
 
     // A definition to discribe each column in the table
     // See: =>/option/columnDefs
     columnDefs: [{
       targets: 0,
+      orderable: false,
       data: 'id',
-      checkboxes: {
-        selectRow: true,
-        selectAllPages: false
-      },
       render: function (data, type, row) {
         return '<div class="govuk-form-group">' +
                 '<div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">' +
@@ -231,7 +229,7 @@ moj.Modules.AllocationDataTable = {
    * of rows selected.
    */
   itemsSelected: function () {
-    return this.dataTable.column(0).checkboxes.selected().length
+    return this.dataTable.rows({ selected: true }).count()
   },
 
   /**
@@ -290,6 +288,7 @@ moj.Modules.AllocationDataTable = {
 
     // Clear the table before an AJAX call
     this.$el.on('preXhr.dt', function () {
+      self.dataTable.rows({ selected: true }).deselect()
       self.dataTable.clear().draw('page')
     })
 
@@ -414,6 +413,52 @@ moj.Modules.AllocationDataTable = {
         self.clearCheckboxes()
       }
     })
+
+    this.$el.on('change', '#select-all-claim', function (e) {
+      e.stopPropagation()
+      const checked = e.currentTarget.checked
+
+      const pageRows = self.dataTable.rows({ page: 'current', search: 'applied' })
+      const $nodes = $(pageRows.nodes())
+
+      if (checked) {
+        pageRows.select()
+      } else {
+        pageRows.deselect()
+      }
+
+      $nodes.find('input.dt-checkboxes').prop('checked', checked)
+    })
+
+    self.dataTable
+      .on('select', function (e, dt, type, indexes) {
+        if (type !== 'row') return
+        $(dt.rows(indexes).nodes()).find('input.dt-checkboxes').prop('checked', true)
+        updateSelectAllState()
+      })
+      .on('deselect', function (e, dt, type, indexes) {
+        if (type !== 'row') return
+        $(dt.rows(indexes).nodes()).find('input.dt-checkboxes').prop('checked', false)
+        updateSelectAllState()
+      })
+      .on('draw', function () {
+        const $pageRows = $(self.dataTable.rows({ page: 'current' }).nodes())
+        $pageRows.find('input.dt-checkboxes').prop('checked', false)
+        const $selected = $(self.dataTable.rows({ page: 'current', selected: true }).nodes())
+        $selected.find('input.dt-checkboxes').prop('checked', true)
+        updateSelectAllState()
+      })
+
+    function updateSelectAllState () {
+      const $selectAll = $('#select-all-claim')
+      if (!$selectAll.length) return
+
+      const scope = { page: 'current', search: 'applied' }
+      const total = self.dataTable.rows(scope).count()
+      const selected = self.dataTable.rows({ ...scope, selected: true }).count()
+
+      $selectAll.prop('checked', total > 0 && selected === total)
+    }
   },
 
   // API: draw table
@@ -425,10 +470,12 @@ moj.Modules.AllocationDataTable = {
 
   // API: clear check boxes
   clearCheckboxes: function () {
-    this.dataTable
-      .column(0)
-      .checkboxes
-      .select(false)
+    if (!this.dataTable) return
+
+    this.dataTable.rows().deselect()
+
+    const selectAllCheckbox = document.querySelector('#select-all-claim')
+    if (selectAllCheckbox) selectAllCheckbox.checked = false
   },
 
   // API: clear search config state
@@ -446,11 +493,13 @@ moj.Modules.AllocationDataTable = {
   clearFilter: function (e, data) {
     this.clearCheckboxes()
     this.clearSearchConfig()
-    this.dataTable
-      .search('')
-      .columns()
-      .search('')
-      .draw()
+    if (this.dataTable) {
+      this.dataTable
+        .search('')
+        .columns()
+        .search('')
+        .draw()
+    }
   },
 
   /**

@@ -639,7 +639,7 @@ jobs:
       - name: Pull application image
         run: docker pull "$IMAGE"
 
-      - name: Start application
+      - name: Start application container
         run: |
           docker run --detach \
             --name cccd-app \
@@ -648,10 +648,9 @@ jobs:
             --env DATABASE_URL="$DATABASE_URL" \
             --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
             --env LIVE1_DB_TASK=none \
-            "$IMAGE"
-            
-      - name: Run database migrations
-        run: docker exec cccd-app bin/rails db:schema:load RAILS_ENV=production
+            --entrypoint /bin/sh \
+            "$IMAGE" \
+            -c 'bin/rails db:schema:load && exec puma'
 
       - name: Wait for application
         run: |

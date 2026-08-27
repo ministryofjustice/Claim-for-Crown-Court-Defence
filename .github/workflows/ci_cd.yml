@@ -151,14 +151,14 @@ jobs:
 
       - name: Upload rspec results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: rspec-results-${{ matrix.shard }}
           path: /tmp/rspec-${{ matrix.shard }}.xml
 
       - name: Upload coverage artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-${{ matrix.shard }}
           path: tmp/coverage
@@ -250,7 +250,7 @@ jobs:
 
       - name: Upload cucumber results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cucumber-results-${{ matrix.shard }}
           path: /tmp/test-results/cucumber
@@ -258,7 +258,7 @@ jobs:
 
       - name: Upload capybara artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: capybara-${{ matrix.shard }}
           path: tmp/capybara
@@ -640,6 +640,8 @@ jobs:
         run: docker pull "$IMAGE"
 
       - name: Start application container
+        env:
+          AWS_REGION: ${{ vars.ECR_REGION }}
         run: |
           docker run --detach \
             --name cccd-app \
@@ -648,32 +650,36 @@ jobs:
             --env DATABASE_URL="$DATABASE_URL" \
             --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
             --env LIVE1_DB_TASK=none \
+            --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+            --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+            --env AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
+            --env AWS_REGION="$AWS_REGION" \
             --entrypoint /bin/sh \
             "$IMAGE" \
             -c 'bin/rails db:schema:load && exec puma'
 
-      - name: Wait for application
-        run: |
-          for attempt in {1..60}; do
-            if curl --silent --show-error --fail \
-              -H "Accept: application/json" \
-              http://127.0.0.1:3000/ping.json > /dev/null; then
-              exit 0
-            fi
+            - name: Wait for application
+              run: |
+                for attempt in {1..60}; do
+                  if curl --silent --show-error --fail \
+                    -H "Accept: application/json" \
+                    http://127.0.0.1:3000/ping.json > /dev/null; then
+                    exit 0
+                  fi
 
-            if ! docker inspect -f '{{.State.Running}}' cccd-app 2>/dev/null | grep -q true; then
-              docker logs cccd-app
-              exit 1
-            fi
+                  if ! docker inspect -f '{{.State.Running}}' cccd-app 2>/dev/null | grep -q true; then
+                    docker logs cccd-app
+                    exit 1
+                  fi
 
-            sleep 2
-          done
+                  sleep 2
+                done
 
-          docker logs cccd-app
-          exit 1
+                docker logs cccd-app
+                exit 1
 
-      - name: Run smoke test
-        run: docker exec cccd-app ./runtests.sh
+            - name: Run smoke test
+              run: docker exec cccd-app ./runtests.sh
   # smoke-test-main-roni-to-remove:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
   #   # needs: build-app-container-main

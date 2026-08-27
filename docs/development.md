@@ -5,6 +5,7 @@
 - [Scheduled tasks](#scheduled-tasks)
 - [Mailer previewing](#mailer-previewing)
 - [Anonymised database dump and restore](#anonymised-database-dump-and-restore)
+- [Diagrams](#diagrams)
 - [A note on architecture](#a-note-on-architecture)
 
 ## Other links:
@@ -284,6 +285,12 @@ Databse dump files can also be restored on a remote host. To achieve this you wi
   # restore database
   /usr/src/app $ rails db:restore['tmp/production/dump_file_name.psql.gz']
   ```
+
+## Diagrams
+
+A high level design diagram for CCCD is located in https://github.com/ministryofjustice/laa-architectural-diagrams/tree/main/docs/artefacts/hld/cccd.
+
+A network diagram for CCCD is located in the `docs/diagrams` directory of this repository.
 
 ## A note on architecture
 

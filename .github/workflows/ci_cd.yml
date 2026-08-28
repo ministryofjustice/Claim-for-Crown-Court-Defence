@@ -654,6 +654,11 @@ jobs:
             --env RAILS_ENV="$RAILS_ENV" \
             --env DATABASE_URL="$DATABASE_URL" \
             --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
+            --env CASE_WORKER_PASSWORD="$CASE_WORKER_PASSWORD" \
+            --env ADMIN_PASSWORD="$ADMIN_PASSWORD" \
+            --env ADVOCATE_PASSWORD="$ADVOCATE_PASSWORD" \
+            --env SUPERADMIN_USERNAME="$SUPERADMIN_USERNAME" \
+            --env SUPERADMIN_PASSWORD="$SUPERADMIN_PASSWORD" \
             --env LIVE1_DB_TASK=none \
             --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
             --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \

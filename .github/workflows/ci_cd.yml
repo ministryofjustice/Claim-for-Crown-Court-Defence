@@ -667,7 +667,7 @@ jobs:
             "$IMAGE"
           
           # Give the container time to start and capture initial logs
-          sleep 5
+          sleep 15
           docker logs cccd-app
 
       - name: Wait for application

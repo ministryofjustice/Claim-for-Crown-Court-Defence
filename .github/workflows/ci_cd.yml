@@ -659,17 +659,11 @@ jobs:
             --env ADVOCATE_PASSWORD="$ADVOCATE_PASSWORD" \
             --env SUPERADMIN_USERNAME="$SUPERADMIN_USERNAME" \
             --env SUPERADMIN_PASSWORD="$SUPERADMIN_PASSWORD" \
-            --env LIVE1_DB_TASK=none \
+            --env LIVE1_DB_TASK=migrate \
             --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
             --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
             --env AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
-            --env AWS_REGION="$AWS_REGION" \
-            --entrypoint /bin/sh \
-            "$IMAGE" \
-            -c 'bin/rails db:schema:load && exec puma'
-            # Give the container time to start and capture initial logs
-            sleep 5
-            docker logs cccd-app
+            --env AWS_REGION="$AWS_REGION"
 
       - name: Wait for application
         run: |

@@ -662,6 +662,9 @@ jobs:
             --entrypoint /bin/sh \
             "$IMAGE" \
             -c 'bin/rails db:schema:load && exec puma'
+            # Give the container time to start and capture initial logs
+            sleep 5
+            docker logs cccd-app
 
       - name: Wait for application
         run: |

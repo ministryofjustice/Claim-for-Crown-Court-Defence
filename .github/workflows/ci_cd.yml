@@ -663,7 +663,12 @@ jobs:
             --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
             --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
             --env AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
-            --env AWS_REGION="$AWS_REGION"
+            --env AWS_REGION="$AWS_REGION" \
+            "$IMAGE"
+          
+          # Give the container time to start and capture initial logs
+          sleep 5
+          docker logs cccd-app
 
       - name: Wait for application
         run: |

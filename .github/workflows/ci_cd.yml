@@ -619,6 +619,11 @@ jobs:
       RAILS_ENV: production
       DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_smoke_test
       SECRET_KEY_BASE: just-be-present
+      ADVOCATE_PASSWORD: just-be-present
+      CASE_WORKER_PASSWORD: just-be-present
+      ADMIN_PASSWORD: just-be-present
+      SUPERADMIN_USERNAME: superadmin@circleci.com
+      SUPERADMIN_PASSWORD: just-be-present
       IMAGE: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}:app-${{ github.sha }}
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}

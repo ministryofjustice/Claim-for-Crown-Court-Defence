@@ -664,6 +664,7 @@ jobs:
             --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
             --env AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
             --env AWS_REGION="$AWS_REGION" \
+            --env GRAPE_SWAGGER_ROOT_URL="http://127.0.0.1:3000" \
             "$IMAGE"
           
           # Give the container time to start and capture initial logs

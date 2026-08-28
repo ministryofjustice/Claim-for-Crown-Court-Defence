@@ -628,6 +628,9 @@ jobs:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
       IMAGE_TAG: app-${{ github.sha }}
+      GRAPE_SWAGGER_ROOT_URL: http://127.0.0.1:3000
+      REDIS_URL: redis://127.0.0.1:6379
+
 
     steps:
       - uses: actions/checkout@v7
@@ -664,7 +667,8 @@ jobs:
             --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
             --env AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
             --env AWS_REGION="$AWS_REGION" \
-            --env GRAPE_SWAGGER_ROOT_URL="http://127.0.0.1:3000" \
+            --env GRAPE_SWAGGER_ROOT_URL="$GRAPE_SWAGGER_ROOT_URL" \
+            --env REDIS_URL="$REDIS_URL" \
             "$IMAGE"
           
           # Give the container time to start and capture initial logs

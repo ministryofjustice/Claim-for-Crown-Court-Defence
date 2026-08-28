@@ -658,28 +658,28 @@ jobs:
             "$IMAGE" \
             -c 'bin/rails db:schema:load && exec puma'
 
-            - name: Wait for application
-              run: |
-                for attempt in {1..60}; do
-                  if curl --silent --show-error --fail \
-                    -H "Accept: application/json" \
-                    http://127.0.0.1:3000/ping.json > /dev/null; then
-                    exit 0
-                  fi
+      - name: Wait for application
+        run: |
+          for attempt in {1..60}; do
+            if curl --silent --show-error --fail \
+              -H "Accept: application/json" \
+              http://127.0.0.1:3000/ping.json > /dev/null; then
+              exit 0
+            fi
 
-                  if ! docker inspect -f '{{.State.Running}}' cccd-app 2>/dev/null | grep -q true; then
-                    docker logs cccd-app
-                    exit 1
-                  fi
+            if ! docker inspect -f '{{.State.Running}}' cccd-app 2>/dev/null | grep -q true; then
+              docker logs cccd-app
+              exit 1
+            fi
 
-                  sleep 2
-                done
+            sleep 2
+          done
 
-                docker logs cccd-app
-                exit 1
+          docker logs cccd-app
+          exit 1
 
-            - name: Run smoke test
-              run: docker exec cccd-app ./runtests.sh
+      - name: Run smoke test
+        run: docker exec cccd-app ./runtests.sh
   # smoke-test-main-roni-to-remove:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
   #   # needs: build-app-container-main

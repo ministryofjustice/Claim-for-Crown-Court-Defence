@@ -303,8 +303,8 @@ GEM
     grape-papertrail (0.2.0)
       loofah (~> 2.2.x)
       nokogiri (~> 1.8, >= 1.8.2)
-    grape-swagger (2.1.4)
-      grape (>= 1.7, < 4.0)
+    grape-swagger (2.2.0)
+      grape (>= 2.1, < 5.0)
     grape-swagger-rails (1.0.8)
       haml-rails (>= 2.0, < 4.0)
       ostruct (>= 0.6, < 1.0)
@@ -781,7 +781,7 @@ DEPENDENCIES
   grape (~> 3.3.5)
   grape-entity (~> 1.1.0)
   grape-papertrail (~> 0.2.0)
-  grape-swagger (~> 2.1.4)
+  grape-swagger (~> 2.2.0)
   grape-swagger-rails (~> 1.0.8)
   haml-rails (~> 3.1.0)
   hashdiff (>= 1.0.0.beta1, < 2.0.0)
@@ -947,7 +947,7 @@ CHECKSUMS
   grape (3.3.5) sha256=2fa9f67fa019ea71a194e6c42f78ee6c1925294a275f460c11a5b7c6dbec3a30
   grape-entity (1.1.0) sha256=ab6a1004e57791834e8497d5e85a3c101b72144d8ca31462a26e6d0a380c3d89
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
-  grape-swagger (2.1.4) sha256=3279351bebafbca24e0331b9f7c6dbfefb262042a1f3d224ed41cf2be4aee35b
+  grape-swagger (2.2.0) sha256=e2b4a8a5d9848f4f43cc6c6f4862a4671a9767880795cff05e8dee963b3a331b
   grape-swagger-rails (1.0.8) sha256=13ee0169d78c4cd12e82cd9fcbd76e73a767dfe97238b234c0354208fd4c18ae
   haml (7.4.1) sha256=e5d09bfcf91c0c7e49e564385adb9aab0a91bc73767736eb1acbdb97eaf21754
   haml-rails (3.1.0) sha256=4366474d973e4b9d5326cb216f2073150cfeff4c2a3c07fadb49a490ffdf610b

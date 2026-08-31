@@ -1,12 +1,12 @@
 RSpec.shared_context 'claim-types helpers' do
-  let(:agfs_claim_types) { %w[agfs agfs_interim agfs_supplementary agfs_hardship] }
-  let(:lgfs_claim_types) { %w[lgfs_final lgfs_interim lgfs_transfer lgfs_hardship] }
+  let(:agfs_claim_types) { %w[agfs agfs_interim agfs_supplementary agfs_hardship agfs_permission] }
+  let(:lgfs_claim_types) { %w[lgfs_final lgfs_interim lgfs_transfer lgfs_hardship lgfs_permission] }
   let(:all_claim_types) { agfs_claim_types | lgfs_claim_types }
 end
 
 RSpec.shared_context 'claim-types object helpers' do
-  let(:agfs_claim_object_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim] }
-  let(:lgfs_claim_object_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim Claim::LitigatorHardshipClaim] }
+  let(:agfs_claim_object_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim Claim::AdvocateHardshipClaim Claim::AdvocatePermissionClaim] }
+  let(:lgfs_claim_object_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim Claim::LitigatorHardshipClaim Claim::LitigatorPermissionClaim] }
   let(:all_claim_object_types) { agfs_claim_object_types | lgfs_claim_object_types }
 
   # Usable outside examples

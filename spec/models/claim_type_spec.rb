@@ -8,10 +8,12 @@ RSpec.describe ClaimType do
        agfs_interim
        agfs_supplementary
        agfs_hardship
+       agfs_permission
        lgfs_final
        lgfs_interim
        lgfs_transfer
-       lgfs_hardship]
+       lgfs_hardship
+       lgfs_permission]
   end
 
   describe '.valid_ids' do

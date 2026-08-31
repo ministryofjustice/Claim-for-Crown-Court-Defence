@@ -10,6 +10,7 @@ module Claims
                 :transfer?,
                 :hardship?,
                 :supplementary?,
+                :permission?,
                 :transfer_detail,
                 :final?,
                 :case_type,
@@ -34,6 +35,7 @@ module Claims
         return find_by_code(fee_type.unique_code) if interim?
         return find_by_code('GRTRL') if supplementary?
         return find_by_code('HARDSHIP') if hardship? && lgfs?
+        return find_by_code('PERMISSION') if permission?
         find_by_code(case_type.fee_type_code)
       end
 

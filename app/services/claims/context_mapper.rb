@@ -39,10 +39,12 @@ module Claims
         'Claim::AdvocateInterimClaim' => 'agfs_interim',
         'Claim::AdvocateSupplementaryClaim' => 'agfs_supplementary',
         'Claim::AdvocateHardshipClaim' => 'agfs_hardship',
+        'Claim::AdvocatePermissionClaim' => 'agfs_permission',
         'Claim::LitigatorClaim' => 'lgfs_final',
         'Claim::InterimClaim' => 'lgfs_interim',
         'Claim::TransferClaim' => 'lgfs_transfer',
-        'Claim::LitigatorHardshipClaim' => 'lgfs_hardship'
+        'Claim::LitigatorHardshipClaim' => 'lgfs_hardship',
+        'Claim::LitigatorPermissionClaim' => 'lgfs_permission'
       }[claim_type.to_s]
     end
   end

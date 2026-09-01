@@ -5,15 +5,15 @@
 module Claims
   module FeeCalculator
     class BillScenario
-      delegate  :lgfs?,
-                :interim?,
-                :transfer?,
-                :hardship?,
-                :supplementary?,
-                :transfer_detail,
-                :final?,
-                :case_type,
-                to: :claim
+      delegate :lgfs?,
+               :interim?,
+               :transfer?,
+               :hardship?,
+               :supplementary?,
+               :transfer_detail,
+               :final?,
+               :case_type,
+               to: :claim
 
       attr_reader :claim, :fee_type, :namespace
 

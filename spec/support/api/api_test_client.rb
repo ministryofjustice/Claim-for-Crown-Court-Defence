@@ -91,11 +91,12 @@ class ApiTestClient
 
   private
 
-def connection
-  @connection ||= Faraday.new(api_root_url) do |conn|
-    conn.redirect  # Add this to follow redirects
+  def connection
+      @connection ||= Faraday.new(api_root_url) do |f|
+        # Follow redirects (301, 308, etc.)
+        f.use :follow_redirects
+      end
   end
-end
   def handle_response(response, resource)
     debug("Code: #{response.status}\n")
     return if response.success?

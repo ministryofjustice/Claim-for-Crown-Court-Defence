@@ -17,6 +17,8 @@ if [ -z ${REDIS_URL+x} ]; then
   redis-server --daemonize yes
   # export so it's available for the smoke tests
   export REDIS_URL="redis://127.0.0.1:6379"
+  export GRAPE_SWAGGER_ROOT_URL="http://127.0.0.1:3000"
+
 else
   printf '\e[33mINFO: Using remote redis-server specified in REDIS_URL\e[0m\n'
 fi

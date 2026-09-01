@@ -718,8 +718,8 @@ jobs:
           
           echo "Capturing full container logs..."
           docker logs cccd-app | tail -100
-      # - name: Run smoke test
-      #   run: docker exec cccd-app ./runtests.sh
+      - name: Run smoke test
+        run: docker exec cccd-app ./runtests.sh
   # smoke-test-main-roni-to-remove:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
   #   # needs: build-app-container-main

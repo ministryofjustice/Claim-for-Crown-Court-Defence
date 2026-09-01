@@ -285,7 +285,7 @@ module ExternalUsers
                          @claim.submission_stages.first
     end
 
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable-next Metrics/MethodLength
     def claim_params
       params.expect(
         claim: [:form_id,
@@ -443,7 +443,6 @@ module ExternalUsers
                 }]
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
     def params_with_external_user_and_creator
       form_params = claim_params

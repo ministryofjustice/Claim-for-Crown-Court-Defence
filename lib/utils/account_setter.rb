@@ -13,7 +13,7 @@
 #  accounts.change_password
 #
 
-# rubocop:disable Rails/Output
+# rubocop:disable-next Rails/Output
 module Utils
   class AccountSetter
     attr_reader :emails
@@ -25,7 +25,7 @@ module Utils
     # Find active or inactve accounts with matching email and
     # report basic information.
     #
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def report(format: nil)
       report = []
 
@@ -41,7 +41,6 @@ module Utils
 
       format.eql?('csv') ? csv(report) : report
     end
-    # rubocop:enable Metrics/AbcSize
 
     # Deactivate an active account!
     #
@@ -68,7 +67,7 @@ module Utils
     # This will allow the user to login
     # with existing password.
     #
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable-next Metrics/MethodLength
     def un_soft_delete
       emails.each do |email|
         user = User.find_by('email LIKE ?', "#{email}.deleted.%")
@@ -83,7 +82,6 @@ module Utils
         end
       end
     end
-    # rubocop:enable Metrics/MethodLength
 
     # Disable account(s)
     #
@@ -164,4 +162,3 @@ module Utils
     end
   end
 end
-# rubocop:enable Rails/Output

@@ -59,6 +59,8 @@ WORKDIR $APP_HOME
 
 RUN apk --update-cache upgrade \
  && apk --no-cache add \
+                   bash \
+                   curl \
                    file \
                    libreoffice \
                    linux-headers \

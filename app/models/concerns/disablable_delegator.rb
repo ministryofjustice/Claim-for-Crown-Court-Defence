@@ -18,7 +18,7 @@
 # end
 #
 module DisablableDelegator
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  # rubocop:disable-next Metrics/MethodLength, Metrics/AbcSize
   def delegate_disablable_to(class_name)
     Module.new do
       extend ActiveSupport::Concern
@@ -37,5 +37,4 @@ module DisablableDelegator
       end
     end
   end
-  # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 end

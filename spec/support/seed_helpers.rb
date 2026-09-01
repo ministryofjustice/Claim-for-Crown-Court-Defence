@@ -2,7 +2,7 @@ require 'rails_helper'
 require Rails.root.join('db', 'seeds', 'fee_types', 'csv_seeder').expand_path
 
 module SeedHelpers
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable-next Metrics/MethodLength
   def self.seed_fee_schemes
     FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.new(2014, 03, 20).beginning_of_day, end_date: Settings.lgfs_scheme_10_clair_release_date - 1.day)
     FeeScheme.find_or_create_by(name: 'LGFS', version: 10, start_date: Settings.lgfs_scheme_10_clair_release_date.beginning_of_day, end_date: Settings.lgfs_scheme_11_release_date.beginning_of_day - 1.day)
@@ -17,7 +17,6 @@ module SeedHelpers
     FeeScheme.find_or_create_by(name: 'AGFS', version: 16, start_date: Settings.agfs_scheme_16_section_twenty_eight_increase.beginning_of_day, end_date: Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.end_of_day - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 17, start_date: Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.beginning_of_day, end_date: nil)
   end
-  # rubocop:enable Metrics/MethodLength
 
   def seed_case_types
     load_seed 'case_types'

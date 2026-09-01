@@ -3,8 +3,8 @@ name: CI CD
 on:
   push:
 
-  # schedule:
-    # - cron: "30 11 * * *"
+  schedule:
+    - cron: "10 16 * * *"
 #   workflow_dispatch:
 #     inputs:
 #       deploy_environment:
@@ -44,7 +44,7 @@ env:
 
 jobs:
   build-test-container:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -164,7 +164,7 @@ jobs:
   #         path: tmp/coverage
   #         if-no-files-found: ignore
   rspec-tests:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'schedule'
     needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
@@ -176,7 +176,7 @@ jobs:
         run: echo "tests would run here (shard ${{ matrix.shard }})"
 
   cucumber-tests:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'schedule'
     needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
@@ -287,7 +287,7 @@ jobs:
   #         if-no-files-found: ignore
 
   other-tests:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'schedule'
     needs: build-test-container
     runs-on: ubuntu-latest
     steps:
@@ -586,45 +586,8 @@ jobs:
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
 
-#   build-app-container-main:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-#     needs:
-#       - rspec-tests
-#       - cucumber-tests
-#       - other-tests
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v7
-
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
-#         with:
-#           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-#           aws-region: ${{ vars.ECR_REGION }}
-
-#       - name: Build and push cccd docker image
-#         run: .circleci/build.sh
-
-#   build-app-container-manual:
-#     if: github.event_name == 'workflow_dispatch'
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#         with:
-#           ref: ${{ inputs.git_ref }}
-
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-#           aws-region: ${{ vars.ECR_REGION }}
-
-#       - name: Build and push cccd docker image
-#         run: .circleci/build.sh
   smoke-test-main:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions'
+    if: (github.event_name == 'push' || github.event_name == 'schedule' && github.ref == 'refs/heads/CTSKF1158-add-github-actions')
     needs: build-and-push
     runs-on: ubuntu-latest
     permissions:
@@ -743,7 +706,7 @@ jobs:
             docker logs cccd-app | tail -50
             exit 1
           fi
-      - name: Run smoke test with debug output
+      - name: Run smoke tests
         run: |
           # Verify connectivity first
           echo "Testing Redis connection..."
@@ -751,21 +714,15 @@ jobs:
           
           echo "Testing Puma connectivity..."
           docker exec cccd-app curl -s http://127.0.0.1:3000/ping.json || echo "Puma connection failed"
-          
-          echo "Running smoke test with full output..."
-          docker exec cccd-app bash -c 'bundle exec rake api:smoke_test 2>&1' || true
-          
-          echo "Capturing full container logs..."
-          docker logs cccd-app | tail -100
-      - name: Run smoke tests
-        run: |
           docker exec cccd-app bash -c "
             bundle exec rake db:migrate
             bundle exec rake db:seed
             bundle exec rake api:smoke_test
           "
+          echo "Capturing full container logs..."
+          docker logs cccd-app | tail -100
   # smoke-test-main-roni-to-remove:
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
+  #   if: github.event_name == 'push' || github.event_name == 'schedule' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
   #   # needs: build-app-container-main
   #   needs: build-and-push
   #   runs-on: ubuntu-latest

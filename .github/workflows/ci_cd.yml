@@ -655,7 +655,7 @@ jobs:
           --health-retries 5
 
     env:
-      RAILS_ENV: production
+      RAILS_ENV: test
       DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_smoke_test
       SECRET_KEY_BASE: just-be-present
       ADVOCATE_PASSWORD: just-be-present

@@ -62,6 +62,7 @@ namespace :api do
         io.puts "[-] errors"
         io.puts api_client.full_error_messages.join("\n")
         raise "API Error: ADP RESTful API smoke test failure!"
+      end
     rescue => e
       io.puts "[-] Exception occurred during smoke test:"
       io.puts e.class.name

@@ -10,7 +10,9 @@ WORKDIR $APP_HOME
 
 RUN apk --update-cache upgrade \
  && apk --no-cache add \
+                   bash \
                    build-base \
+                   curl \
                    git \
                    postgresql-dev \
                    yaml-dev \

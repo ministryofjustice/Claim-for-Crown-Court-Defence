@@ -1,0 +1,34 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'layouts/page_heading', locals: {page_heading: t('.page_heading')}
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    - if @error.present?
+      .govuk-error-summary{ data: { module: 'govuk-error-summary' } }
+        %div{ role: 'alert' }
+          %h2.govuk-error-summary__title= t('devise.shared.error_messages.error_summary_title')
+          .govuk-error-summary__body
+            %ul.govuk-list.govuk-error-summary__list
+              %li= govuk_link_to @error, '#email'
+
+    %p.govuk-body= t('.hint')
+
+    = form_with(url: user_identification_path, method: :post, html: { autocomplete: 'off' }, builder: ActionView::Helpers::FormBuilder) do |f|
+      .govuk-form-group{ class: ('govuk-form-group--error' if @error.present?) }
+        = f.label :email, t('.email'), class: 'govuk-label'
+        - if @error.present?
+          %p.govuk-error-message
+            %span.govuk-visually-hidden= t('.error_prefix')
+            = @error
+        = f.email_field :email, value: @email, id: 'email', class: "govuk-input #{'govuk-input--error' if @error.present?}", autofocus: true, spellcheck: 'false', autocomplete: 'username'
+
+      = f.submit t('.continue'), class: 'govuk-button', data: { module: 'govuk-button' }
+
+    %ul.govuk-list
+      %li= govuk_link_to t('devise.shared.links.forgot_your_password'), new_user_password_path
+      - if Rails.host.api_sandbox?
+        %li= t('devise.shared.links.api_sign_up_and_documentation_html', link: api_landing_page_path)
+        %li= t('devise.shared.links.vendor_terms_and_conditions.short_html', link: vendor_tandcs_page_path)
+      %li= t('devise.shared.links.terms_and_conditions_html', link: tandcs_page_path)

@@ -46,8 +46,11 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
+    get '/users/identify', to: 'session_routing#new', as: :new_user_identification
+    post '/users/identify', to: 'session_routing#create', as: :user_identification
+
     unauthenticated :user do
-      root 'sessions#new', as: :unauthenticated_root
+      root 'session_routing#new', as: :unauthenticated_root
     end
   end
 

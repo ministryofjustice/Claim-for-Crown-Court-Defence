@@ -6,8 +6,10 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
     = form_with(model: resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f|
-      = f.govuk_text_field :email, label: { text: t('.email') }, autofocus: true
-      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off'
+      = f.govuk_text_field :email, label: { text: t('.email') }, value: params[:email].presence || resource.email, autofocus: resource.email.blank? && params[:email].blank?
+      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off', autofocus: params[:email].present?
       = f.govuk_submit t('.sign_in')
+
+    %p.govuk-body= govuk_link_to t('.change_email'), new_user_identification_path
 
     = render "devise/shared/links"

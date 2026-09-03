@@ -70,6 +70,7 @@ en:
 
   omniauth_callbacks:
     authentication_failed: Authentication failed.
+    email_mismatch: The Microsoft account you selected does not match the email address you entered. Please sign in again and select the correct account.
   session_routing:
     new:
       page_title: Sign in to claim for Crown Court defence

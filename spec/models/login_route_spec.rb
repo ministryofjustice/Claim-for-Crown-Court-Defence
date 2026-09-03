@@ -11,18 +11,18 @@ RSpec.describe LoginRoute do
 
   it 'shares its primary key with the user' do
     user = create(:user)
-    expect(create(:login_route, user:).id).to eq user.id
+    expect(user.login_route.id).to eq user.id
   end
 
   it 'is destroyed with the user' do
-    route = create(:login_route)
+    route = create(:user).login_route
     expect { route.user.destroy }.to change(described_class, :count).by(-1)
   end
 
   describe '.method_for' do
     it 'returns the mapped method regardless of case or whitespace' do
       user = create(:user, email: 'a@example.com')
-      create(:login_route, :entra, user:)
+      user.login_route.update!(login_method: LoginRoute::ENTRA)
       expect(described_class.method_for(' A@Example.com ')).to eq LoginRoute::ENTRA
     end
 

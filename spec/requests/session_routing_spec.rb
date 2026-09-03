@@ -40,7 +40,8 @@ RSpec.describe 'Session routing' do
 
     context 'when the email maps to entra' do
       before do
-        create(:login_route, :entra, user: create(:user, email: 'entra@example.com'))
+        user = create(:user, email: 'entra@example.com')
+        user.login_route.update!(login_method: LoginRoute::ENTRA)
         post '/users/identify', params: { email: 'Entra@example.com ' }
       end
 
@@ -51,7 +52,7 @@ RSpec.describe 'Session routing' do
 
     context 'when the email maps to legacy' do
       before do
-        create(:login_route, user: create(:user, email: 'legacy@example.com'))
+        create(:user, email: 'legacy@example.com')
         post '/users/identify', params: { email: 'legacy@example.com' }
       end
 

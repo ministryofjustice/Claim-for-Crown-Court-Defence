@@ -3,6 +3,7 @@ class SessionRoutingController < ApplicationController
 
   def new
     session.delete(:legacy_sign_in_email)
+    session.delete(:entra_sign_in_email)
     @email = params[:email].to_s
   end
 
@@ -28,10 +29,16 @@ class SessionRoutingController < ApplicationController
     case LoginRoute.method_for(email)
     when LoginRoute::ENTRA
       session.delete(:legacy_sign_in_email)
+      session[:entra_sign_in_email] = normalise_email(email)
       user_entra_id_omniauth_authorize_path
     else
+      session.delete(:entra_sign_in_email)
       session[:legacy_sign_in_email] = email
       new_user_session_path
     end
+  end
+
+  def normalise_email(email)
+    email.downcase
   end
 end

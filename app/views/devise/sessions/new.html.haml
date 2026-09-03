@@ -10,6 +10,6 @@
       = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off', autofocus: params[:email].present?
       = f.govuk_submit t('.sign_in')
 
-    %p.govuk-body= govuk_link_to t('.change_email'), new_user_identification_path
+    %p.govuk-body= govuk_link_to t('.change_email'), sign_in_path
 
     = render "devise/shared/links"

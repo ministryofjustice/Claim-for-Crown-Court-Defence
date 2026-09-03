@@ -15,7 +15,7 @@
 
     %p.govuk-body= t('.hint')
 
-    = form_with(url: user_identification_path, method: :post, html: { autocomplete: 'off' }, builder: ActionView::Helpers::FormBuilder) do |f|
+    = form_with(url: sign_in_path, method: :post, html: { autocomplete: 'off' }, builder: ActionView::Helpers::FormBuilder) do |f|
       .govuk-form-group{ class: ('govuk-form-group--error' if @error.present?) }
         = f.label :email, t('.email'), class: 'govuk-label'
         - if @error.present?

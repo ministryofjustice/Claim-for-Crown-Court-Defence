@@ -50,11 +50,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user, error_message = find_existing_user_from_auth(auth)
     return sign_in_and_redirect(user, event: :authentication) if user
 
-    redirect_to new_user_session_path, alert: error_message || authentication_failed_message
+    redirect_to sign_in_path, alert: error_message || authentication_failed_message
   end
 
   def redirect_to_authentication_failure
-    redirect_to new_user_session_path, alert: authentication_failed_message
+    redirect_to sign_in_path, alert: authentication_failed_message
   end
 
   def authentication_failed_message

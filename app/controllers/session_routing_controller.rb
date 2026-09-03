@@ -2,6 +2,7 @@ class SessionRoutingController < ApplicationController
   skip_load_and_authorize_resource only: %i[new create]
 
   def new
+    session.delete(:legacy_sign_in_email)
     @email = params[:email].to_s
   end
 
@@ -26,9 +27,11 @@ class SessionRoutingController < ApplicationController
   def destination_for(email)
     case LoginRoute.method_for(email)
     when LoginRoute::ENTRA
+      session.delete(:legacy_sign_in_email)
       user_entra_id_omniauth_authorize_path
     else
-      new_user_session_path(email:)
+      session[:legacy_sign_in_email] = email
+      new_user_session_path
     end
   end
 end

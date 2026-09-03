@@ -1,8 +1,28 @@
 class SessionsController < Devise::SessionsController
   skip_load_and_authorize_resource only: %i[new create destroy]
   before_action :set_user_id, only: [:destroy]
+  before_action :require_email_identification, only: %i[new create]
+
+  def new
+    self.resource = resource_class.new(email: legacy_sign_in_email)
+  end
+
+  def create
+    params.expect(user: %i[email password remember_me])[:email] = legacy_sign_in_email
+    super
+  end
 
   private
+
+  def require_email_identification
+    return if legacy_sign_in_email.present?
+
+    redirect_to sign_in_path
+  end
+
+  def legacy_sign_in_email
+    session[:legacy_sign_in_email]
+  end
 
   def set_user_id
     @current_user_id = current_user.id

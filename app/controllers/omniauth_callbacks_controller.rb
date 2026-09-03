@@ -44,6 +44,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def handle_omniauth
     auth = request.env['omniauth.auth']
     return redirect_to_authentication_failure unless auth
+    return redirect_to_email_mismatch unless identified_email_matches?(auth.info.email)
 
     log_omniauth_payload(auth)
 
@@ -51,14 +52,25 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return sign_in_and_redirect(user, event: :authentication) if user
 
     redirect_to sign_in_path, alert: error_message || authentication_failed_message
+  ensure
+    session.delete(:entra_sign_in_email)
   end
 
   def redirect_to_authentication_failure
     redirect_to sign_in_path, alert: authentication_failed_message
   end
 
+  def redirect_to_email_mismatch
+    redirect_to sign_in_path, alert: I18n.t('omniauth_callbacks.email_mismatch')
+  end
+
   def authentication_failed_message
     I18n.t('omniauth_callbacks.authentication_failed')
+  end
+
+  def identified_email_matches?(email)
+    identified_email = session[:entra_sign_in_email]
+    identified_email.present? && identified_email == email.to_s.strip.downcase
   end
 
   def resolved_persona(info, raw)

@@ -55,6 +55,9 @@ class User < ApplicationRecord
   belongs_to :persona, polymorphic: true
   has_many :messages_sent, foreign_key: 'sender_id', class_name: 'Message'
   has_many :user_message_statuses
+  has_one :login_route, foreign_key: :id, inverse_of: :user, dependent: :destroy
+
+  after_create :create_default_login_route
 
   validates :first_name, :last_name, presence: true, length: { maximum: 40 }
   validates :email, confirmation: { case_sensitive: false }, length: { maximum: 80 }
@@ -151,5 +154,11 @@ class User < ApplicationRecord
   #
   def send_devise_notification(notification, *)
     devise_mailer.send(notification, self, *).deliver_later
+  end
+
+  private
+
+  def create_default_login_route
+    create_login_route!
   end
 end

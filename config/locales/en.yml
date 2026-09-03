@@ -70,6 +70,18 @@ en:
 
   omniauth_callbacks:
     authentication_failed: Authentication failed.
+    email_mismatch: The Microsoft account you selected does not match the email address you entered. Please sign in again and select the correct account.
+  session_routing:
+    new:
+      page_title: Sign in to claim for Crown Court defence
+      page_heading: Sign in
+      hint: Enter your email address and we will take you to the right sign in page.
+      email: Email address
+      continue: Continue
+      error_prefix: "Error:"
+      errors:
+        blank_email: Enter your email address
+        invalid_email: Enter an email address in the correct format, like name@example.com
   errors:
     internal_server_error:
       page_heading: 500 - internal server error

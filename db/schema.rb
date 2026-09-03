@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_03_10_152913) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_02_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -420,6 +420,12 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_10_152913) do
     t.index ["name"], name: "index_locations_on_name"
   end
 
+  create_table "login_routes", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "login_method", default: "legacy", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "messages", id: :serial, force: :cascade do |t|
     t.text "body"
     t.integer "claim_id"
@@ -654,6 +660,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_10_152913) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "claims", "case_stages", name: "fk_claims_case_stage_id"
   add_foreign_key "injection_attempts", "claims"
+  add_foreign_key "login_routes", "users", column: "id", on_delete: :cascade
   add_foreign_key "offence_bands", "offence_categories"
   add_foreign_key "offences", "offence_bands"
 end

@@ -94,6 +94,7 @@ en:
         page_heading: Sign in
         password: Password
         sign_in: Sign in
+        change_email: Change email address
       user:
         signed_in: Signed in successfully
         signed_out: You have signed out
@@ -109,7 +110,6 @@ en:
         api_sign_up_and_documentation_html:  View our <a class="govuk-link" href="%{link}">API Sign up and documentation</a>
         didnt_receive_confirmation_instructions: Didn't receive confirmation instructions?
         didnt_receive_unlock_instructions: Didn't receive unlock instructions?
-        sign_in_with: Sign in with
         vendor_terms_and_conditions:
           short_html: |
             Read our <a class="govuk-link" href="%{link}">software vendor terms and conditions</a>

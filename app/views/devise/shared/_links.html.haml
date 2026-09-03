@@ -1,6 +1,6 @@
 %ul.govuk-list
   - if controller_name != 'sessions'
-    %li= govuk_link_to t(".sign_in"), new_user_identification_path
+    %li= govuk_link_to t(".sign_in"), sign_in_path
 
   - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
     %li= govuk_link_to t(".forgot_your_password"), new_password_path(resource_name)

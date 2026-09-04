@@ -10,7 +10,9 @@ WORKDIR $APP_HOME
 
 RUN apk --update-cache upgrade \
  && apk --no-cache add \
+                   bash \
                    build-base \
+                   curl \
                    git \
                    postgresql-dev \
                    yaml-dev \
@@ -54,9 +56,13 @@ RUN set -ex
 ENV RAILS_ENV=production
 ENV APP_HOME=/usr/src/app
 WORKDIR $APP_HOME
+ENV REDIS_URL=redis://127.0.0.1:6379
+ENV GRAPE_SWAGGER_ROOT_URL=http://127.0.0.1:3000
 
 RUN apk --update-cache upgrade \
  && apk --no-cache add \
+                   bash \
+                   curl \
                    file \
                    libreoffice \
                    linux-headers \

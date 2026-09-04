@@ -12,6 +12,32 @@ namespace :api do
     end
   end
 
+  # desc "Smoke test for the REST API"
+  # task :smoke_test, [:io] => :environment do |task, args|
+  #   Rake::Task['claims:sample_users'].invoke
+
+  #   require "#{Rails.root.join('spec', 'support', 'api', 'api_test_client')}"
+
+  #   # optional argument to provide a different output stream
+  #   begin
+  #     io = (args[:io] && Object.const_get(args[:io])) || STDOUT
+  #   rescue NameError
+  #     raise ArgumentError, 'Invalid IO provided'
+  #   end
+
+  #   api_client = ApiTestClient.new()
+  #   api_client.run
+
+  #   if api_client.success
+  #     io.puts "[+] success"
+  #     io.puts api_client.messages.join("\n")
+  #   else
+  #     io.puts "[-] errors"
+  #     io.puts api_client.full_error_messages.join("\n")
+  #     raise "API Error: ADP RESTful API smoke test failure!"
+  #   end
+  # end
+
   desc "Smoke test for the REST API"
   task :smoke_test, [:io] => :environment do |task, args|
     Rake::Task['claims:sample_users'].invoke
@@ -25,16 +51,24 @@ namespace :api do
       raise ArgumentError, 'Invalid IO provided'
     end
 
-    api_client = ApiTestClient.new()
-    api_client.run
+    begin
+      api_client = ApiTestClient.new()
+      api_client.run
 
-    if api_client.success
-      io.puts "[+] success"
-      io.puts api_client.messages.join("\n")
-    else
-      io.puts "[-] errors"
-      io.puts api_client.full_error_messages.join("\n")
-      raise "API Error: ADP RESTful API smoke test failure!"
+      if api_client.success
+        io.puts "[+] success"
+        io.puts api_client.messages.join("\n")
+      else
+        io.puts "[-] errors"
+        io.puts api_client.full_error_messages.join("\n")
+        raise "API Error: ADP RESTful API smoke test failure!"
+      end
+    rescue => e
+      io.puts "[-] Exception occurred during smoke test:"
+      io.puts e.class.name
+      io.puts e.message
+      io.puts e.backtrace.join("\n")
+      raise
     end
   end
 

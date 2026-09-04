@@ -2463,9 +2463,9 @@ fastest-levenshtein@^1.0.16:
   integrity sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==
 
 fastq@^1.6.0:
-  version "1.20.1"
-  resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.20.1.tgz#ca750a10dc925bc8b18839fd203e3ef4b3ced675"
-  integrity sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==
+  version "1.20.3"
+  resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.20.3.tgz#7ab8731e647b56abcfeee997dae333ca3ee1d04d"
+  integrity sha512-XKv5nnLs6nLF71NgiKJLIZFLkPyIEuOselLG7ujZnGrRfQK8HpvY+WqKhAJUAdLomwVHErVS4LfxFlPq0/FTAw==
   dependencies:
     reusify "^1.0.4"
 
@@ -4550,17 +4550,7 @@ terser-webpack-plugin@^5.6.0:
     schema-utils "^4.3.0"
     terser "^5.31.1"
 
-terser@^5.31.1:
-  version "5.51.2"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.51.2.tgz#555912425a7f2ff7737425c3718fa76c7069f6ef"
-  integrity sha512-bWnjSNscmuI+GJze6ZupnHP8G/cTcsJF+bXCeQknk2SHQsgbNJnLrqiH9jZ2W4STPVXH2mDKKRX3iwPhc9Cn/Q==
-  dependencies:
-    "@jridgewell/source-map" "^0.3.3"
-    acorn "^8.15.0"
-    commander "^2.20.0"
-    source-map-support "~0.5.20"
-
-terser@^5.51.0:
+terser@^5.31.1, terser@^5.51.0:
   version "5.51.2"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.51.2.tgz#555912425a7f2ff7737425c3718fa76c7069f6ef"
   integrity sha512-bWnjSNscmuI+GJze6ZupnHP8G/cTcsJF+bXCeQknk2SHQsgbNJnLrqiH9jZ2W4STPVXH2mDKKRX3iwPhc9Cn/Q==

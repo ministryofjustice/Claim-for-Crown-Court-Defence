@@ -2722,10 +2722,10 @@ gopd@^1.0.1, gopd@^1.2.0:
   resolved "https://registry.yarnpkg.com/gopd/-/gopd-1.2.0.tgz#89f56b8217bdbc8802bd299df6d7f1081d7e51a1"
   integrity sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==
 
-govuk-frontend@^6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-6.4.0.tgz#bacd856aae0b27862b9636734eddcfa14b90b3ac"
-  integrity sha512-jU3oaVFXqK1yDVIdZs1YZ6JD7YDB4PFUHF3rFMWJye9ArImp42F9wCsFzzB1+udjuzGCryJGcHHbBQ5HY+8rqQ==
+govuk-frontend@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-6.5.0.tgz#f1dd6b145469f15133d9f0b0da0ea8fe15729aba"
+  integrity sha512-yWZZCvv99Q0WzPC3+YszHk65Op1yowXpvbGGPi2bsoZiHKfwQGRxOoCaYBWTIOAiphp4QRTFgbGI3fpiFTfZww==
 
 graceful-fs@^4.1.2, graceful-fs@^4.2.11, graceful-fs@^4.2.4:
   version "4.2.11"
@@ -4550,17 +4550,7 @@ terser-webpack-plugin@^5.6.0:
     schema-utils "^4.3.0"
     terser "^5.31.1"
 
-terser@^5.31.1:
-  version "5.51.2"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.51.2.tgz#555912425a7f2ff7737425c3718fa76c7069f6ef"
-  integrity sha512-bWnjSNscmuI+GJze6ZupnHP8G/cTcsJF+bXCeQknk2SHQsgbNJnLrqiH9jZ2W4STPVXH2mDKKRX3iwPhc9Cn/Q==
-  dependencies:
-    "@jridgewell/source-map" "^0.3.3"
-    acorn "^8.15.0"
-    commander "^2.20.0"
-    source-map-support "~0.5.20"
-
-terser@^5.51.0:
+terser@^5.31.1, terser@^5.51.0:
   version "5.51.2"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.51.2.tgz#555912425a7f2ff7737425c3718fa76c7069f6ef"
   integrity sha512-bWnjSNscmuI+GJze6ZupnHP8G/cTcsJF+bXCeQknk2SHQsgbNJnLrqiH9jZ2W4STPVXH2mDKKRX3iwPhc9Cn/Q==

@@ -290,6 +290,8 @@ Databse dump files can also be restored on a remote host. To achieve this you wi
 
 A high level design diagram for CCCD is located in https://github.com/ministryofjustice/laa-architectural-diagrams/tree/main/docs/artefacts/hld/cccd.
 
+A data flow diagram for CCCD is located in https://github.com/ministryofjustice/laa-architectural-diagrams/tree/main/docs/artefacts/dataflow/cccd.
+
 A network diagram for CCCD is located in the `docs/diagrams` directory of this repository.
 
 ## A note on architecture

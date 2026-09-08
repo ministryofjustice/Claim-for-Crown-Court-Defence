@@ -470,8 +470,10 @@ moj.Modules.AllocationDataTable = {
 
   // API: clear check boxes
   clearCheckboxes: function () {
-    if (!this.dataTable) return
-
+    if (!this.dataTable) {
+      console.warn('AllocationDataTable: cannot clear checkboxes because the DataTable is not initialised')
+      return
+    }
     this.dataTable.rows().deselect()
 
     const selectAllCheckbox = document.querySelector('#select-all-claim')
@@ -493,13 +495,17 @@ moj.Modules.AllocationDataTable = {
   clearFilter: function (e, data) {
     this.clearCheckboxes()
     this.clearSearchConfig()
-    if (this.dataTable) {
-      this.dataTable
-        .search('')
-        .columns()
-        .search('')
-        .draw()
+
+    if (!this.dataTable) {
+      console.warn('AllocationDataTable: cannot clear filters because the DataTable is not initialised')
+      return
     }
+
+    this.dataTable
+      .search('')
+      .columns()
+      .search('')
+      .draw()
   },
 
   /**

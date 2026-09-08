@@ -1,7 +1,8 @@
 // stylelint-disable scss/at-import-partial-extension
 // stylelint-disable scss/load-no-partial-leading-underscore
 
-$govuk-assets-path: '/assets/';
+$govuk-assets-path: '/';
+$moj-assets-path: '/';
 
 @import "govuk-frontend/dist/govuk/index";
 

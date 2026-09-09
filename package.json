@@ -34,7 +34,7 @@
     "datatables.net-select-dt": "^3.1.0",
     "esbuild": "^0.28.1",
     "govuk-frontend": "^6.5.0",
-    "jquery": "^3.7.1",
+    "jquery": "^4.0.0",
     "jquery-accessible-accordion-aria": "^2.6.1",
     "jquery-highlight": "^3.5.0",
     "jquery-throttle-debounce": "^1.0.0",

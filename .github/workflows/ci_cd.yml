@@ -4,28 +4,28 @@ on:
   push:
 
   schedule:
-    - cron: "10 16 * * *"
-#   workflow_dispatch:
-#     inputs:
-#       deploy_environment:
-#         description: "Environment to deploy to (manual branch deploy path)"
-#         required: true
-#         type: choice
-#         options:
-#           - dev
-#           - dev-lgfs
-#           - staging
-#           - api-sandbox
-#       git_ref:
-#         description: "Git ref to build and deploy"
-#         required: true
-#         default: "main"
-#         type: string
-#       run_smoke_test:
-#         description: "Run smoke tests before deploy"
-#         required: true
-#         default: true
-#         type: boolean
+    - cron: "05 08 * * *"
+  workflow_dispatch:
+    inputs:
+      deploy_environment:
+        description: "Environment to deploy to (manual branch deploy path)"
+        required: true
+        type: choice
+        options:
+          - dev
+          - dev-lgfs
+          - staging
+          - api-sandbox
+      git_ref:
+        description: "Git ref to build and deploy"
+        required: true
+        default: "main"
+        type: string
+      run_smoke_test:
+        description: "Run smoke tests before deploy"
+        required: true
+        default: true
+        type: boolean
 
 permissions:
   id-token: write

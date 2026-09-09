@@ -1,6 +1,7 @@
 name: Retry failed RSpec and Cucumber jobs
 # Runs only after the CI workflow has completed and retries flaky test shards.
 #  Long-term goal should always be to fix the tests
+#  NOT CURRENTLY BEING TRIGGERED, NEEDS MORE INVESTIGATION
 on:
   workflow_run:
     workflows: ["CI CD"]

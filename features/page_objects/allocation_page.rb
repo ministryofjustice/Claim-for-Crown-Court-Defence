@@ -16,7 +16,7 @@ class AllocationPage < BasePage
   def select_claims(case_numbers)
     wait_for_ajax
     list_to_array(case_numbers).each do |case_number|
-      find('label', text: "Select case #{case_number}").click
+      check("Select case #{case_number}", allow_label_click: true, visible: :all)
     end
   end
 

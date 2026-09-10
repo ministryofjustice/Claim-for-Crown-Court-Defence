@@ -804,19 +804,19 @@ jobs:
 #         run: ./runtests.sh
 
 
-#   ui-smoke-test-dev:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-#     needs: auto-deploy-dev
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: UI smoke test dev
-#         shell: bash
-#         run: |
-#           STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://dev.claim-crown-court-defence.service.justice.gov.uk)
-#           if [ "$STATUS" -ne 200 ]; then
-#             echo "UI smoke test failed with HTTP $STATUS"
-#             exit 1
-#           fi
+  ui-smoke-test-dev:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions'
+    needs: smoke-test-main
+    runs-on: ubuntu-latest
+    steps:
+      - name: UI smoke test dev
+        shell: bash
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://dev.claim-crown-court-defence.service.justice.gov.uk)
+          if [ "$STATUS" -ne 200 ]; then
+            echo "UI smoke test failed with HTTP $STATUS"
+            exit 1
+          fi
 
 
 #   deploy-branch-manual:

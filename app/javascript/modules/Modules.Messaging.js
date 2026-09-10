@@ -6,6 +6,8 @@ moj.Modules.Messaging = {
 
     if (self.messagesList.length) {
       self.messagesList.scrollTop(self.messagesList.prop('scrollHeight'))
+      self.messagesList.css('height', self.messagesList.height())
+      self.messagesList.css('max-height', 'none')
     }
 
     self.selectedFileUpload()

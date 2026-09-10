@@ -28,6 +28,10 @@ gem 'haml-rails', '~> 3.1.0'
 gem 'hashdiff',               '>= 1.0.0.beta1', '< 2.0.0'
 gem 'hashie-forbidden_attributes', '>= 0.1.1'
 gem 'jquery-rails', '~> 4.6.1'
+# json 3.x drops support for passing options as a positional hash to JSON.parse, which breaks ActiveSupport::JSON.decode on 
+# Rails 8.1.3.1 (ActiveStorage metadata, serialized columns, etc.). Pin json to < 3.0 until Rails 8.1.4 is released, which 
+# will fix this issue.
+gem 'json', '< 3.0'
 gem 'json-schema',            '~> 6.2.0'
 gem 'jsbundling-rails'
 gem 'nokogiri',               '~> 1.19'

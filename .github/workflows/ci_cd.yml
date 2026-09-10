@@ -5,27 +5,6 @@ on:
 
   schedule:
     - cron: "05 08 * * *"
-  workflow_dispatch:
-    inputs:
-      deploy_environment:
-        description: "Environment to deploy to (manual branch deploy path)"
-        required: true
-        type: choice
-        options:
-          - dev
-          - dev-lgfs
-          - staging
-          - api-sandbox
-      git_ref:
-        description: "Git ref to build and deploy"
-        required: true
-        default: "main"
-        type: string
-      run_smoke_test:
-        description: "Run smoke tests before deploy"
-        required: true
-        default: true
-        type: boolean
 
 permissions:
   id-token: write
@@ -41,7 +20,6 @@ env:
 
 jobs:
   build-test-container:
-    if: github.event_name == 'push' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -68,7 +46,6 @@ jobs:
         AWS_ACCESS_KEY_ID: test
         AWS_SECRET_ACCESS_KEY: test
         AWS_EC2_METADATA_DISABLED: "true"
-    if: github.event_name == 'push'
     needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
@@ -162,7 +139,6 @@ jobs:
           if-no-files-found: ignore
   
   cucumber-tests:
-    if: github.event_name == 'push'
     needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
@@ -262,7 +238,6 @@ jobs:
           if-no-files-found: ignore
         
   other-tests:
-    if: github.event_name == 'push'
     needs: build-test-container
     runs-on: ubuntu-latest
     services:
@@ -552,7 +527,7 @@ jobs:
           kubectl rollout status deployment/claim-for-crown-court-defence
 
   smoke-test-main:
-    if: (github.event_name == 'push' || github.event_name == 'schedule' && github.ref == 'refs/heads/CTSKF1158-add-github-actions')
+    if: (github.event_name == 'push' || (github.event_name == 'schedule' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch')
     needs: build-and-push
     runs-on: ubuntu-latest
     permissions:
@@ -805,7 +780,6 @@ jobs:
 
 
   ui-smoke-test-dev:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/CTSKF1158-add-github-actions'
     needs: smoke-test-main
     runs-on: ubuntu-latest
     steps:
@@ -818,28 +792,6 @@ jobs:
             exit 1
           fi
 
-
-#   deploy-branch-manual:
-#     if: github.event_name == 'workflow_dispatch'
-#     needs:
-#       - build-app-container-manual
-#       - smoke-test-manual
-#     runs-on: ubuntu-latest
-#     environment: ${{ inputs.deploy_environment }}
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-#         with:
-#           ref: ${{ inputs.git_ref }}
-
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
-#         with:
-#           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-#           aws-region: ${{ vars.ECR_REGION }}
-
-#       - name: Deploy to selected environment
-#         run: .circleci/deploy.sh ${{ inputs.deploy_environment }}
 
 #   scheduled-smoke-test-notification:
 #     if: github.event_name == 'schedule'

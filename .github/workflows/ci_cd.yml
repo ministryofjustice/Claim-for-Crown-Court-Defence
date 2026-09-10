@@ -37,9 +37,6 @@ env:
   DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_test
   GITHUB_TEAM_NAME_SLUG: laa-get-paid
   REPO_NAME: cccd
-  # CIRCLE_BRANCH: ${{ github.ref_name }}
-  # CIRCLE_SHA1: ${{ github.sha }}
-  # CIRCLE_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   IMAGE_NAME: app
 
 jobs:
@@ -48,16 +45,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
       - name: Set up Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
           cache: yarn
@@ -65,298 +62,268 @@ jobs:
       - name: Install JS dependencies
         run: yarn install --frozen-lockfile
 
-  # rspec-tests:
-  #   env:
-  #       AWS_REGION: eu-west-2
-  #       AWS_ACCESS_KEY_ID: test
-  #       AWS_SECRET_ACCESS_KEY: test
-  #       AWS_EC2_METADATA_DISABLED: "true"
-  #   if: github.event_name == 'push'
-  #   needs: build-test-container
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       shard: [1, 2, 3, 4, 5, 6]
-  #   services:
-  #     postgres:
-  #       image: postgres:13
-  #       env:
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_PASSWORD: postgres
-  #         POSTGRES_DB: cccd_test
-  #       ports:
-  #         - 5432:5432
-  #       options: >-
-  #         --health-cmd "pg_isready -U postgres"
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v7
-
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: .ruby-version
-  #         bundler-cache: true
-
-  #     - name: Set up Node
-  #       uses: actions/setup-node@v7
-  #       with:
-  #         node-version: 24
-  #         cache: yarn
-
-  #     - name: Install JS dependencies
-  #       run: yarn install --frozen-lockfile
-
-  #     - name: Wait for DB
-  #       run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
-
-  #     - name: Database setup
-  #       run: bin/rails db:schema:load --trace
-
-  #     - name: Precompile assets
-  #       run: bundle exec rails assets:precompile
-
-  #     - name: Run rspec shard
-  #       shell: bash
-  #       run: |
-  #         mapfile -t FILES < <(find spec -name '*_spec.rb' | sort)
-  #         if [ ${#FILES[@]} -eq 0 ]; then
-  #           echo "No rspec files found"
-  #           exit 0
-  #         fi
-
-  #         SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
-  #         TOTAL_SHARDS=6
-  #         SELECTED=()
-  #         for i in "${!FILES[@]}"; do
-  #           if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
-  #             SELECTED+=("${FILES[$i]}")
-  #           fi
-  #         done
-
-  #         if [ ${#SELECTED[@]} -eq 0 ]; then
-  #           echo "No tests selected for shard ${{ matrix.shard }}"
-  #           exit 0
-  #         fi
-
-  #         bundle exec rspec \
-  #           --format progress \
-  #           --format RspecJunitFormatter \
-  #           --out /tmp/rspec-${{ matrix.shard }}.xml \
-  #           "${SELECTED[@]}"
-
-  #     - name: Upload rspec results
-  #       if: always()
-  #       uses: actions/upload-artifact@v7
-  #       with:
-  #         name: rspec-results-${{ matrix.shard }}
-  #         path: /tmp/rspec-${{ matrix.shard }}.xml
-
-  #     - name: Upload coverage artifacts
-  #       if: always()
-  #       uses: actions/upload-artifact@v7
-  #       with:
-  #         name: coverage-${{ matrix.shard }}
-  #         path: tmp/coverage
-  #         if-no-files-found: ignore
   rspec-tests:
-    if: github.event_name == 'push' || github.event_name == 'schedule'
+    env:
+        AWS_REGION: eu-west-2
+        AWS_ACCESS_KEY_ID: test
+        AWS_SECRET_ACCESS_KEY: test
+        AWS_EC2_METADATA_DISABLED: "true"
+    if: github.event_name == 'push'
     needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4, 5, 6]
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Placeholder for rspec tests
-        run: echo "tests would run here (shard ${{ matrix.shard }})"
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Wait for DB
+        run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
+
+      - name: Database setup
+        run: bin/rails db:schema:load --trace
+
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
+
+      - name: Run rspec shard
+        shell: bash
+        run: |
+          mapfile -t FILES < <(find spec -name '*_spec.rb' | sort)
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "No rspec files found"
+            exit 0
+          fi
+
+          SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
+          TOTAL_SHARDS=6
+          SELECTED=()
+          for i in "${!FILES[@]}"; do
+            if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
+              SELECTED+=("${FILES[$i]}")
+            fi
+          done
+
+          if [ ${#SELECTED[@]} -eq 0 ]; then
+            echo "No tests selected for shard ${{ matrix.shard }}"
+            exit 0
+          fi
+
+          bundle exec rspec \
+            --format progress \
+            --format RspecJunitFormatter \
+            --out /tmp/rspec-${{ matrix.shard }}.xml \
+            "${SELECTED[@]}"
+
+      - name: Upload rspec results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: rspec-results-${{ matrix.shard }}
+          path: /tmp/rspec-${{ matrix.shard }}.xml
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: coverage-${{ matrix.shard }}
+          path: tmp/coverage
+          if-no-files-found: ignore
+  
   cucumber-tests:
-    if: github.event_name == 'push' || github.event_name == 'schedule'
+    if: github.event_name == 'push'
     needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         shard: [1, 2, 3, 4, 5, 6]
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Placeholder for cucumber tests
-        run: echo "tests would run here (shard ${{ matrix.shard }})"
-  # cucumber-tests:
-  #   if: github.event_name == 'push'
-  #   needs: build-test-container
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       shard: [1, 2, 3, 4, 5, 6]
-  #   services:
-  #     postgres:
-  #       image: postgres:13
-  #       env:
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_PASSWORD: postgres
-  #         POSTGRES_DB: cccd_test
-  #       ports:
-  #         - 5432:5432
-  #       options: >-
-  #         --health-cmd "pg_isready -U postgres"
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v7
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: .ruby-version
-  #         bundler-cache: true
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
 
-  #     - name: Set up Node
-  #       uses: actions/setup-node@v7
-  #       with:
-  #         node-version: 24
-  #         cache: yarn
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: yarn
 
-  #     - name: Install JS dependencies
-  #       run: yarn install --frozen-lockfile
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
 
-  #     - name: Halt if no cucumber tests to run
-  #       shell: bash
-  #       run: |
-  #         mapfile -t FEATURES < <(find features -name '*.feature' | sort)
-  #         if [ ${#FEATURES[@]} -eq 0 ]; then
-  #           echo "No cucumber feature files found"
-  #           exit 0
-  #         fi
+      - name: Halt if no cucumber tests to run
+        shell: bash
+        run: |
+          mapfile -t FEATURES < <(find features -name '*.feature' | sort)
+          if [ ${#FEATURES[@]} -eq 0 ]; then
+            echo "No cucumber feature files found"
+            exit 0
+          fi
 
-  #     - name: Wait for DB
-  #       run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
+      - name: Wait for DB
+        run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
 
-  #     - name: Database setup
-  #       run: bin/rails db:schema:load --trace
+      - name: Database setup
+        run: bin/rails db:schema:load --trace
 
-  #     - name: Precompile assets
-  #       run: bundle exec rails assets:precompile
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
 
-  #     - name: Run cucumber shard
-  #       shell: bash
-  #       run: |
-  #         mapfile -t FEATURES < <(find features -name '*.feature' | sort)
-  #         SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
-  #         TOTAL_SHARDS=6
-  #         SELECTED=()
-  #         for i in "${!FEATURES[@]}"; do
-  #           if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
-  #             SELECTED+=("${FEATURES[$i]}")
-  #           fi
-  #         done
+      - name: Run cucumber shard
+        shell: bash
+        run: |
+          mapfile -t FEATURES < <(find features -name '*.feature' | sort)
+          SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
+          TOTAL_SHARDS=6
+          SELECTED=()
+          for i in "${!FEATURES[@]}"; do
+            if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
+              SELECTED+=("${FEATURES[$i]}")
+            fi
+          done
 
-  #         if [ ${#SELECTED[@]} -eq 0 ]; then
-  #           echo "No features selected for shard ${{ matrix.shard }}"
-  #           exit 0
-  #         fi
+          if [ ${#SELECTED[@]} -eq 0 ]; then
+            echo "No features selected for shard ${{ matrix.shard }}"
+            exit 0
+          fi
 
-  #         mkdir -p /tmp/test-results/cucumber
-  #         bundle exec cucumber \
-  #           --format pretty \
-  #           --format junit,fileattribute=true \
-  #           --out /tmp/test-results/cucumber \
-  #           "${SELECTED[@]}"
+          mkdir -p /tmp/test-results/cucumber
+          bundle exec cucumber \
+            --format pretty \
+            --format junit,fileattribute=true \
+            --out /tmp/test-results/cucumber \
+            "${SELECTED[@]}"
 
-  #     - name: Upload cucumber results
-  #       if: always()
-  #       uses: actions/upload-artifact@v7
-  #       with:
-  #         name: cucumber-results-${{ matrix.shard }}
-  #         path: /tmp/test-results/cucumber
-  #         if-no-files-found: ignore
+      - name: Upload cucumber results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: cucumber-results-${{ matrix.shard }}
+          path: /tmp/test-results/cucumber
+          if-no-files-found: ignore
 
-  #     - name: Upload capybara artifacts
-  #       if: always()
-  #       uses: actions/upload-artifact@v7
-  #       with:
-  #         name: capybara-${{ matrix.shard }}
-  #         path: tmp/capybara
-  #         if-no-files-found: ignore
-
+      - name: Upload capybara artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: capybara-${{ matrix.shard }}
+          path: tmp/capybara
+          if-no-files-found: ignore
+        
   other-tests:
-    if: github.event_name == 'push' || github.event_name == 'schedule'
+    if: github.event_name == 'push'
     needs: build-test-container
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Placeholder for other tests
-        run: echo "tests would run here (shard ${{ matrix.shard }})"
-        
-  # other-tests:
-  #   if: github.event_name == 'push'
-  #   needs: build-test-container
-  #   runs-on: ubuntu-latest
-  #   services:
-  #     postgres:
-  #       image: postgres:13
-  #       env:
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_PASSWORD: postgres
-  #         POSTGRES_DB: cccd_test
-  #       ports:
-  #         - 5432:5432
-  #       options: >-
-  #         --health-cmd "pg_isready -U postgres"
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v7
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: .ruby-version
-  #         bundler-cache: true
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
 
-  #     - name: Set up Node
-  #       uses: actions/setup-node@v7
-  #       with:
-  #         node-version: 24
-  #         cache: yarn
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: yarn
 
-  #     - name: Install JS dependencies
-  #       run: yarn install --frozen-lockfile
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
 
-  #     - name: Install Chrome
-  #       uses: browser-actions/setup-chrome@v2
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v2
 
-  #     - name: Wait for DB
-  #       run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
+      - name: Wait for DB
+        run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
 
-  #     - name: Database setup
-  #       run: bin/rails db:schema:load --trace
+      - name: Database setup
+        run: bin/rails db:schema:load --trace
 
-  #     - name: Run rubocop
-  #       run: bundle exec rubocop
+      - name: Run rubocop
+        run: bundle exec rubocop
 
-  #     - name: Run brakeman
-  #       run: bundle exec brakeman
+      - name: Run brakeman
+        run: bundle exec brakeman
 
-  #     - name: Precompile assets
-  #       run: bundle exec rails assets:precompile
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
 
-  #     - name: Run jasmine
-  #       run: bundle exec rails jasmine:run
+      - name: Run jasmine
+        run: bundle exec rails jasmine:run
 
-  #     - name: Run standardJS
-  #       run: yarn run validate:js
+      - name: Run standardJS
+        run: yarn run validate:js
 
-  #     - name: Run stylelint
-  #       run: yarn run validate:scss
+      - name: Run stylelint
+        run: yarn run validate:scss
 
     # ----------------------------
 # BUILD & PUSH DOCKER IMAGE
@@ -374,7 +341,7 @@ jobs:
           ECR_REGION: ${{ vars.ECR_REGION }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
         with:
@@ -394,8 +361,6 @@ jobs:
         run: |
           .github/build.sh
         
-
-       
   deploy-dev:
     runs-on: ubuntu-latest
     needs: build-and-push
@@ -406,7 +371,7 @@ jobs:
       IMAGE_TAG: app-${{ github.sha }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Configure kubectl
         env:
@@ -444,7 +409,7 @@ jobs:
       IMAGE_TAG: app-${{ github.sha }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Configure kubectl
         env:
@@ -482,7 +447,7 @@ jobs:
       IMAGE_TAG: app-${{ github.sha }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Configure kubectl
         env:
@@ -520,7 +485,7 @@ jobs:
       IMAGE_TAG: app-${{ github.sha }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Configure kubectl
         env:
@@ -558,7 +523,7 @@ jobs:
       IMAGE_TAG: app-${{ github.sha }}
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Configure kubectl
         env:
@@ -635,7 +600,7 @@ jobs:
 
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
@@ -721,59 +686,6 @@ jobs:
           "
           echo "Capturing full container logs..."
           docker logs cccd-app | tail -100
-  # smoke-test-main-roni-to-remove:
-  #   if: github.event_name == 'push' || github.event_name == 'schedule' && github.ref == 'refs/heads/CTSKF1158-add-github-actions' # change back to main
-  #   # needs: build-app-container-main
-  #   needs: build-and-push
-  #   runs-on: ubuntu-latest
-  #   services:
-  #     postgres:
-  #       image: postgres:13
-  #       env:
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_PASSWORD: ""
-  #         POSTGRES_DB: cccd_smoke_test
-  #       ports:
-  #         - 5432:5432
-  #       options: >-
-  #         --health-cmd "pg_isready -U postgres"
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-  #   env:
-  #     RAILS_ENV: test
-  #     DATABASE_URL: postgres://postgres@127.0.0.1:5432/cccd_smoke_test
-  #     ADVOCATE_PASSWORD: just-be-present
-  #     CASE_WORKER_PASSWORD: just-be-present
-  #     ADMIN_PASSWORD: just-be-present
-  #     SECRET_KEY_BASE: just-be-present
-  #     SUPERADMIN_USERNAME: superadmin@circleci.com
-  #     SUPERADMIN_PASSWORD: just-be-present
-  #     LIVE1_DB_TASK: none
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v7
-
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: .ruby-version
-  #         bundler-cache: true
-
-  #     - name: Set up Node
-  #       uses: actions/setup-node@v7
-  #       with:
-  #         node-version: 24
-  #         cache: yarn
-
-  #     - name: Install JS dependencies
-  #       run: yarn install --frozen-lockfile
-
-  #     - name: Run db schema load
-  #       run: bundle exec rails db:schema:load
-
-  #     - name: Run smoke tests
-  #       run: ./runtests.sh
 
 #   smoke-test-manual:
 #     if: github.event_name == 'workflow_dispatch'
@@ -805,7 +717,7 @@ jobs:
 #       LIVE1_DB_TASK: none
 #     steps:
 #       - name: Checkout
-#         uses: actions/checkout@v4
+#         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 #         with:
 #           ref: ${{ inputs.git_ref }}
 
@@ -815,14 +727,14 @@ jobs:
 
 #       - name: Set up Ruby
 #         if: ${{ inputs.run_smoke_test }}
-#         uses: ruby/setup-ruby@v1
+#         uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
 #         with:
 #           ruby-version: .ruby-version
 #           bundler-cache: true
 
 #       - name: Set up Node
 #         if: ${{ inputs.run_smoke_test }}
-#         uses: actions/setup-node@v4
+#         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
 #         with:
 #           node-version: 20
 #           cache: yarn
@@ -868,16 +780,16 @@ jobs:
 #       LIVE1_DB_TASK: none
 #     steps:
 #       - name: Checkout
-#         uses: actions/checkout@v4
+#         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
 #       - name: Set up Ruby
-#         uses: ruby/setup-ruby@v1
+#         uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
 #         with:
 #           ruby-version: .ruby-version
 #           bundler-cache: true
 
 #       - name: Set up Node
-#         uses: actions/setup-node@v4
+#         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
 #         with:
 #           node-version: 20
 #           cache: yarn
@@ -891,23 +803,6 @@ jobs:
 #       - name: Run smoke tests
 #         run: ./runtests.sh
 
-#   auto-deploy-dev:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-#     needs: smoke-test-main
-#     runs-on: ubuntu-latest
-#     environment: dev
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-#           aws-region: ${{ vars.ECR_REGION }}
-
-#       - name: Deploy to dev
-#         run: .circleci/deploy.sh dev
 
 #   ui-smoke-test-dev:
 #     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -923,59 +818,6 @@ jobs:
 #             exit 1
 #           fi
 
-#   deploy-api-sandbox:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-#     needs: ui-smoke-test-dev
-#     runs-on: ubuntu-latest
-#     environment: api-sandbox
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-#           aws-region: ${{ vars.ECR_REGION }}
-
-#       - name: Deploy to api-sandbox
-#         run: .circleci/deploy.sh api-sandbox
-
-#   deploy-staging:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-#     needs: ui-smoke-test-dev
-#     runs-on: ubuntu-latest
-#     environment: staging
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-#           aws-region: ${{ vars.ECR_REGION }}
-
-#       - name: Deploy to staging
-#         run: .circleci/deploy.sh staging
-
-#   deploy-production:
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-#     needs: ui-smoke-test-dev
-#     runs-on: ubuntu-latest
-#     environment: production
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-#           aws-region: ${{ vars.ECR_REGION }}
-
-#       - name: Deploy to production
-#         run: .circleci/deploy.sh production
 
 #   deploy-branch-manual:
 #     if: github.event_name == 'workflow_dispatch'
@@ -986,12 +828,12 @@ jobs:
 #     environment: ${{ inputs.deploy_environment }}
 #     steps:
 #       - name: Checkout
-#         uses: actions/checkout@v4
+#         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 #         with:
 #           ref: ${{ inputs.git_ref }}
 
 #       - name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v4
+#         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c
 #         with:
 #           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
 #           aws-region: ${{ vars.ECR_REGION }}

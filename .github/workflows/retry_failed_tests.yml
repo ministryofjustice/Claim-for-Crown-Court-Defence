@@ -19,7 +19,7 @@ jobs:
           # Poll until test jobs are complete
           for attempt in {1..360}; do  # 30 minutes max
             TEST_JOBS=$(gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/jobs" --paginate \
-              --jq '[.jobs[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or . == "other-tests")]')
+              --jq '[.jobs[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or .name == "other-tests")]')
             
             # Check if all test jobs have conclusions (completed)
             COMPLETED=$(echo "$TEST_JOBS" | jq 'all(.conclusion != null)')

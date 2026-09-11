@@ -206,15 +206,20 @@ td.active {
 }
 
 // Override the default colour of a selected row, text and the link - to use the recommended GOVUK colour.
+// Row selection (tr.selected) renders via box-shadow driven by --dt_background-selected et al, so these
+// are the actual variables datatables.net-dt/select-dt read - not a custom name of our own.
+// stylelint-disable custom-property-pattern -- must match datatables' own (non-kebab-case) variable names
 :root {
-  --dt-row-selected: 244,248,251;
-  --dt-row-selected-text: 0,0,0;
-  --dt-row-selected-link: 26, 101, 166;
+  --dt_background-selected: 244,248,251;
+  --dt_color-selected: 0,0,0;
+  --dt_link_color-selected: 26, 101, 166;
 }
+// stylelint-enable custom-property-pattern
 
-// datatables.net-select-dt v4 hardcodes this cell background instead of using the --dt-row-selected variable.
+// datatables.net-select-dt v4 hardcodes this cell background instead of using the --dt_background-selected variable.
 table.dataTable > tbody > tr > .selected {
-  background-color: rgba(var(--dt-row-selected), 0.9);
+  // stylelint-disable-next-line custom-property-pattern
+  background-color: rgba(var(--dt_background-selected), 0.9);
 }
 
 // Style sortable table column headers using MOJ Sortable Table styling

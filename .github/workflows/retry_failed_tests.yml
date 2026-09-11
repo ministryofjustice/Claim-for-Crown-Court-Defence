@@ -1,21 +1,48 @@
 name: Retry failed RSpec and Cucumber jobs
 # Runs only after the CI workflow has completed and retries flaky test shards.
 #  Long-term goal should always be to fix the tests
-#  NOT CURRENTLY BEING TRIGGERED, NEEDS MORE INVESTIGATION
 on:
   workflow_run:
     workflows: ["CI CD"]
     types: [completed]
-    branches: [CTSKF1158-add-github-actions] #temporary for testing - remove before merging
 
 jobs:
+  check-test-jobs:
+    if: github.event.workflow_run.conclusion != 'skipped'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    outputs:
+      test-status: ${{ steps.check-tests.outputs.status }}
+      has-failures: ${{ steps.check-tests.outputs.has-failures }}
+    steps:
+      - name: Check if only test jobs have completed
+        id: check-tests
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          # Get all jobs and their statuses
+          JOBS=$(gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/jobs" --paginate \
+            --jq '.jobs[] | {name: .name, conclusion: .conclusion, status: .status}')
+          
+          # Check if all test jobs are completed (not in progress)
+          TEST_JOBS_COMPLETED=$(echo "$JOBS" | jq -s '[.[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or . == "other-tests")] | all(.conclusion != null)')
+          
+          # Check if there are any failed test jobs
+          HAS_FAILURES=$(echo "$JOBS" | jq -s '[.[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or . == "other-tests")] | any(.conclusion == "failure")')
+          
+          echo "status=$TEST_JOBS_COMPLETED" >> $GITHUB_OUTPUT
+          echo "has-failures=$HAS_FAILURES" >> $GITHUB_OUTPUT
+
   retry-rspec-cucumber-tests:
-    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt <= 2
+    needs: check-test-jobs
+    if: needs.check-test-jobs.outputs.test-status == 'true' && needs.check-test-jobs.outputs.has-failures == 'true'
     runs-on: ubuntu-latest
     permissions:
       actions: write
     steps:
-      - name: Re-run failed RSpec, Cucumber and Other jobs
+      - name: Re-run failed RSpec and Cucumber jobs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_ID: ${{ github.event.workflow_run.id }}

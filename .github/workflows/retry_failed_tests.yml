@@ -1,31 +1,58 @@
-name: Retry failed RSpec and Cucumber jobs
-# Runs only after the CI workflow has completed and retries flaky test shards.
-#  Long-term goal should always be to fix the tests
+name: Retry failed Testing jobs
 on:
   workflow_run:
     workflows: ["CI CD"]
-    types: [completed]
+    types: [requested]
+    branches: [CTSKF1158-add-github-actions]
 
 jobs:
+  wait-for-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    steps:
+      - name: Wait for test jobs to complete
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          # Poll until test jobs are complete
+          for attempt in {1..360}; do  # 30 minutes max
+            TEST_JOBS=$(gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/jobs" --paginate \
+              --jq '[.jobs[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or .name == "other-tests")]')
+            
+            # Check if all test jobs have conclusions (completed)
+            COMPLETED=$(echo "$TEST_JOBS" | jq 'all(.conclusion != null)')
+            
+            if [ "$COMPLETED" = "true" ]; then
+              echo "All test jobs completed"
+              exit 0
+            fi
+            
+            echo "Waiting for tests to complete... (attempt $attempt)"
+            sleep 5
+          done
+          
+          echo "Timeout waiting for test jobs"
+          exit 1
+
   retry-rspec-cucumber-tests:
-    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.run_attempt < 3
+    needs: wait-for-tests
     runs-on: ubuntu-latest
     permissions:
       actions: write
     steps:
-      # Only RSpec and Cucumber shards are retried; build and deploy jobs never are.
       - name: Re-run failed RSpec and Cucumber jobs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_ID: ${{ github.event.workflow_run.id }}
         run: |
           FAILED_JOB_IDS=$(gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/jobs" --paginate \
-
             --jq '.jobs[] | select(.conclusion == "failure") | select(
             (.name | startswith("rspec-tests")) or
             (.name | startswith("cucumber-tests")) or
             .name == "other-tests"
-            ) | .id'
+            ) | .id')
 
           if [ -z "$FAILED_JOB_IDS" ]; then
             echo "No failed RSpec or Cucumber jobs to retry"

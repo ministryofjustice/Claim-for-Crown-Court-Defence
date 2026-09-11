@@ -21,34 +21,13 @@ env:
   IMAGE_NAME: app
 
 jobs:
-  build-test-container:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
-      - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: 24
-          cache: yarn
-
-      - name: Install JS dependencies
-        run: yarn install --frozen-lockfile
-
+  
   rspec-tests:
     env:
         AWS_REGION: eu-west-2
         AWS_ACCESS_KEY_ID: test
         AWS_SECRET_ACCESS_KEY: test
         AWS_EC2_METADATA_DISABLED: "true"
-    needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -141,7 +120,6 @@ jobs:
           if-no-files-found: ignore
   
   cucumber-tests:
-    needs: build-test-container
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -240,7 +218,6 @@ jobs:
           if-no-files-found: ignore
         
   other-tests:
-    needs: build-test-container
     runs-on: ubuntu-latest
     services:
       postgres:

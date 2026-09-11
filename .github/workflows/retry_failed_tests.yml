@@ -1,4 +1,4 @@
-name: Retry failed RSpec and Cucumber jobs
+name: Retry failed Testing jobs
 on:
   workflow_run:
     workflows: ["CI CD"]

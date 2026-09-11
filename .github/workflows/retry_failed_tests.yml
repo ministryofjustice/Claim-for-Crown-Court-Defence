@@ -1,43 +1,43 @@
 name: Retry failed RSpec and Cucumber jobs
-# Runs after the tests complete and retries flaky test shards.
-#  Long-term goal should always be to fix the tests
 on:
   workflow_run:
     workflows: ["CI CD"]
-    types: [completed]
+    types: [requested]
+    branches: [CTSKF1158-add-github-actions]
 
 jobs:
-  check-test-jobs:
-    if: github.event.workflow_run.conclusion != 'skipped'
+  wait-for-tests:
     runs-on: ubuntu-latest
     permissions:
       actions: read
-    outputs:
-      test-status: ${{ steps.check-tests.outputs.status }}
-      has-failures: ${{ steps.check-tests.outputs.has-failures }}
     steps:
-      - name: Check if only test jobs have completed
-        id: check-tests
+      - name: Wait for test jobs to complete
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_ID: ${{ github.event.workflow_run.id }}
         run: |
-          # Get all jobs and their statuses
-          JOBS=$(gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/jobs" --paginate \
-            --jq '.jobs[] | {name: .name, conclusion: .conclusion, status: .status}')
+          # Poll until test jobs are complete
+          for attempt in {1..360}; do  # 30 minutes max
+            TEST_JOBS=$(gh api "repos/${{ github.repository }}/actions/runs/$RUN_ID/jobs" --paginate \
+              --jq '[.jobs[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or . == "other-tests")]')
+            
+            # Check if all test jobs have conclusions (completed)
+            COMPLETED=$(echo "$TEST_JOBS" | jq 'all(.conclusion != null)')
+            
+            if [ "$COMPLETED" = "true" ]; then
+              echo "All test jobs completed"
+              exit 0
+            fi
+            
+            echo "Waiting for tests to complete... (attempt $attempt)"
+            sleep 5
+          done
           
-          # Check if all test jobs are completed (not in progress)
-          TEST_JOBS_COMPLETED=$(echo "$JOBS" | jq -s '[.[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or . == "other-tests")] | all(.conclusion != null)')
-          
-          # Check if there are any failed test jobs
-          HAS_FAILURES=$(echo "$JOBS" | jq -s '[.[] | select(.name | startswith("rspec-tests") or startswith("cucumber-tests") or . == "other-tests")] | any(.conclusion == "failure")')
-          
-          echo "status=$TEST_JOBS_COMPLETED" >> $GITHUB_OUTPUT
-          echo "has-failures=$HAS_FAILURES" >> $GITHUB_OUTPUT
+          echo "Timeout waiting for test jobs"
+          exit 1
 
   retry-rspec-cucumber-tests:
-    needs: check-test-jobs
-    if: needs.check-test-jobs.outputs.test-status == 'true' && needs.check-test-jobs.outputs.has-failures == 'true'
+    needs: wait-for-tests
     runs-on: ubuntu-latest
     permissions:
       actions: write

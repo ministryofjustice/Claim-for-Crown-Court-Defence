@@ -638,15 +638,15 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
-    sentry-rails (6.7.0)
+    sentry-rails (7.0.0)
       railties (>= 5.2.0)
-      sentry-ruby (~> 6.7.0)
-    sentry-ruby (6.7.0)
+      sentry-ruby (~> 7.0.0)
+    sentry-ruby (7.0.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
       logger
-    sentry-sidekiq (6.7.0)
-      sentry-ruby (~> 6.7.0)
+    sentry-sidekiq (7.0.0)
+      sentry-ruby (~> 7.0.0)
       sidekiq (>= 5.0)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
@@ -788,6 +788,7 @@ DEPENDENCIES
   i18n-tasks
   jquery-rails (~> 4.6.1)
   jsbundling-rails
+  json (< 3.0)
   json-schema (~> 6.2.0)
   laa-cda!
   laa-fee-calculator-client (~> 2.0)
@@ -827,8 +828,8 @@ DEPENDENCIES
   rubocop-rspec_rails (~> 2.32)
   ruby-progressbar
   rubyzip
-  sentry-rails (~> 6.7)
-  sentry-sidekiq (~> 6.4)
+  sentry-rails (~> 7.0)
+  sentry-sidekiq (~> 7.0)
   shoulda-matchers (~> 8.0)
   sidekiq (~> 8.0)
   sidekiq-failures (~> 1.1)
@@ -1075,9 +1076,9 @@ CHECKSUMS
   rufus-scheduler (3.9.2) sha256=55fa9e4db0ff69d7f38c804f17baba0c9bce5cba39984ae3c5cf6c039d1323b9
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-webdriver (4.48.0) sha256=0c8376ebc8a0a4879343fe6fe6eccdcea76748611cd25de370b33eded2077a94
-  sentry-rails (6.7.0) sha256=d295dc5aa239eb91d4fb123c55d9ff2d3c40e7c29921539c5b4ae684b1490293
-  sentry-ruby (6.7.0) sha256=b4b915d79a0395ad02106d4012aa1914641456e042ce36393f15bd1630d8db42
-  sentry-sidekiq (6.7.0) sha256=ed8eafd218f9730059a4d0550402a02e7a2f62f3fde50d41ecfab3cb59e6fc24
+  sentry-rails (7.0.0) sha256=6ac6a010e088632e46710ce42db75aa5281a6b52a547efee10568cc2ed80605a
+  sentry-ruby (7.0.0) sha256=e9616ff521355a983fad404ca575d8bb1f1949a8cac42a7a893dd02156bcdb1a
+  sentry-sidekiq (7.0.0) sha256=ae875787e5d4ae8d19c3ec4a91897806e8495c14d622956b0a6abbf739fc04b1
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
   sidekiq (8.0.10) sha256=37ccd8da8d46f6779b8655cb30c1bfcb0decd57e890ff56d8b8252a5d9a84cd6
   sidekiq-failures (1.1.0) sha256=c874e10cee8be2db23d22c29887273e0f93d42f345075ed413ca2b2fac40a2f1

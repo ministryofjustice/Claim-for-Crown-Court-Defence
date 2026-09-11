@@ -39,7 +39,7 @@
     "jquery-highlight": "^3.5.0",
     "jquery-throttle-debounce": "^1.0.0",
     "jsrender": "^1.2.0",
-    "sass": "^1.103.1",
+    "sass": "^1.104.0",
     "stickyfilljs": "^2.1.0"
   },
   "devDependencies": {

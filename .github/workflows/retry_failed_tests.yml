@@ -15,7 +15,7 @@ jobs:
     permissions:
       actions: write
     steps:
-      - name: Re-run failed RSpec and Cucumber jobs
+      - name: Re-run failed RSpec, Cucumber and Other jobs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUN_ID: ${{ github.event.workflow_run.id }}

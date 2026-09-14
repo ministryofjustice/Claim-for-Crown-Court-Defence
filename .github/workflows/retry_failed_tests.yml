@@ -1,4 +1,6 @@
 name: Retry failed Testing jobs
+# need to try to fix this after merge to main as workflow jobs only work when the config is in the 
+# default branch
 on:
   workflow_run:
     workflows: ["CI CD"]

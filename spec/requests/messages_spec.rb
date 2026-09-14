@@ -7,11 +7,18 @@ RSpec.describe 'Messages' do
     let(:creator) { create(:external_user) }
     let(:sender) { creator }
     let(:message_params) { { claim_id: claim.id, body: 'lorem ipsum' } }
-    let(:claim) { create(:advocate_claim, creator: creator) }
+    let(:claim) { create(:advocate_claim, creator:, external_user: creator) }
 
     before { sign_in sender.user }
 
     context 'when the claim belongs to the currently logged in user' do
+      it { expect { submit }.to change(Message, :count).by(1) }
+    end
+
+    context 'when the claim belongs to the sender but was created by another user' do
+      let(:sender) { create(:external_user, provider: creator.provider) }
+      let(:claim) { create(:advocate_claim, creator:, external_user: sender) }
+
       it { expect { submit }.to change(Message, :count).by(1) }
     end
 
@@ -21,16 +28,20 @@ RSpec.describe 'Messages' do
       it { expect { submit }.to change(Message, :count).by(1) }
     end
 
-    context 'when the logged in user is an external user of the same provider as the creator' do
-      let(:sender) { create(:external_user, provider: creator.provider) }
+    context 'when the logged in user is an admin external user of the same provider as the creator' do
+      let(:sender) { create(:external_user, :admin, provider: creator.provider) }
 
       it { expect { submit }.to change(Message, :count).by(1) }
     end
 
+    context 'when the logged in user is a non-admin external user of the same provider as the creator' do
+      let(:sender) { create(:external_user, provider: creator.provider) }
+
+      it { expect { submit }.not_to change(Message, :count) }
+    end
+
     context 'when the logged in user is an external user from a different provider' do
       let(:sender) { create(:external_user) }
-
-      before { pending 'Messages not yet restricted to current user' }
 
       it { expect { submit }.not_to change(Message, :count) }
     end

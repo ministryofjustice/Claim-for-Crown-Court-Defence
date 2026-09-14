@@ -23,6 +23,12 @@ class Ability
 
     # applies to all external users and case workers
     can %i[create download_attachment], Message
+    can :create_message, Claim::BaseClaim do |claim|
+      persona.is_a?(CaseWorker) ||
+        (persona.is_a?(ExternalUser) &&
+          (claim.creator_id == persona.id || claim.external_user_id == persona.id ||
+            (persona.admin? && claim.provider_id == persona.provider_id)))
+    end
     can %i[index update], UserMessageStatus
     can [:update_settings], User, id: user.id
 

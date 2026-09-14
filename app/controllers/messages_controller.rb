@@ -22,6 +22,8 @@ class MessagesController < ApplicationController
   before_action :authorize_message_access!, only: [:download_attachment]
 
   def create
+    claim = Claim::BaseClaim.find(message_params[:claim_id])
+    authorize! :create_message, claim
     @message = Message.new(message_params.merge(sender_id: current_user.id))
     attach_documents(@message)
     save_message(@message)

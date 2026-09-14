@@ -80,6 +80,11 @@ moj.Modules.TransferDetailFieldsDisplay = {
 
   callCaseConclusionController: function () {
     const params = this.constructParams()
-    $.getScript('/case_conclusions?' + params)
+    $.ajax({
+      url: '/case_conclusions',
+      data: params,
+      dataType: 'script',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
   }
 }

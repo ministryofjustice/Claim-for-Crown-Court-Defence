@@ -54,7 +54,7 @@ moj.Modules.ManagementInformation = {
 
   disableDownloadButton: function () {
     this.$download.removeAttr('href')
-    this.$download.attr('disabled', true)
+    this.$download.attr('disabled', 'disabled')
     this.$download.attr('aria-disabled', true)
   },
 

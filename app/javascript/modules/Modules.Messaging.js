@@ -15,7 +15,11 @@ moj.Modules.Messaging = {
 
     self.messageControls.on('change', ':radio', function () {
       const data = $('.js-test-claim-action :radio:checked').val()
-      $.getScript(self.messageControls.data('auth-url') + '?claim_action=' + data)
+      $.ajax({
+        url: self.messageControls.data('auth-url') + '?claim_action=' + data,
+        dataType: 'script',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
     })
   },
   /******************************

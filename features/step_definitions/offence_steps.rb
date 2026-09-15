@@ -21,8 +21,8 @@ end
 
 # AGFS 10/11 only
 Then(/^I select the first search result$/) do
-  sleep Capybara.default_max_wait_time
   within('#offence-list') do
+    expect(page).to have_css('.offence-item', minimum: 1)
     first('.offence-item').hover
     first('.offence-item-button').click
   end

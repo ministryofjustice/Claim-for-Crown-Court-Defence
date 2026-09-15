@@ -78,12 +78,12 @@ end
 When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
   labels = labels.split(',')
   labels.each do |label|
-    patiently do
-      @claim_form_page.evidence_checklist.check(label)
+    @claim_form_page.evidence_checklist.check(label)
+    using_wait_time(Capybara.default_max_wait_time) do
+      expect(@claim_form_page.evidence_checklist.checked?(label)).to be(true)
     end
   end
   wait_for_ajax
-  sleep 1 # can't find a way around need for this when popups enabled.
 end
 
 When("I answer {string} to was prosecution evidence served on this case?") do |string|
@@ -110,7 +110,9 @@ When(/^I click Submit to LAA$/) do
 end
 
 Then(/^I should be on the check your claim page$/) do
-  expect(@claim_summary_page).to be_displayed
+  using_wait_time(20) do
+    expect(@claim_summary_page).to be_displayed
+  end
 end
 
 When(/^I save as draft$/) do
@@ -119,17 +121,27 @@ end
 
 When(/^I click "Continue"$/) do
   @claim_summary_page.wait_until_continue_visible
-  patiently do
-    @claim_summary_page.continue.click
-  end
+  @claim_summary_page.continue.click
 end
 
 When(/^I click "Continue" in the claim form$/) do
   @claim_form_page.wait_until_continue_button_visible
-  patiently do
+  if page.has_css?('.cc-evidence-checklist')
     @claim_form_page.continue_button.click
+    begin
+      using_wait_time(20) do
+        expect(@claim_summary_page).to be_displayed
+      end
+    rescue RSpec::Expectations::ExpectationNotMetError
+      @claim_form_page.continue_button.click
+      using_wait_time(20) do
+        expect(@claim_summary_page).to be_displayed
+      end
+    end
+  else
+    @claim_form_page.continue_button.click
+    wait_for_ajax
   end
-  wait_for_ajax
 end
 
 When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"]*)" error$/) do |error_message|
@@ -149,9 +161,9 @@ When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"
 end
 
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
-  patiently do
   @claim_form_page.continue_button.click
-  expect(page).to have_css('h1.govuk-heading-xl', text: page_title)
+  using_wait_time(20) do
+    expect(page).to have_css('h1.govuk-heading-xl', text: page_title)
   end
   wait_for_ajax
 end

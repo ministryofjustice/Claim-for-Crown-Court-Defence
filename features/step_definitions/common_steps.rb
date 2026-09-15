@@ -65,7 +65,13 @@ Given(/^I am later on the Your claims page$/) do
 end
 
 When(/I click the claim '(.*?)'$/) do |case_number|
-  @external_user_home_page.claim_for(case_number).case_number.click
+  patiently do
+    matching_claims = @external_user_home_page.claims.select do |claim|
+      claim.case_number.text == case_number
+    end
+    expect(matching_claims.length).to eql(1)
+    matching_claims.first.case_number.click
+  end
 end
 
 When(/I click the first '(.*?)' link$/) do |text|
@@ -111,10 +117,15 @@ Then(/^I should be on the your claims page$/) do
 end
 
 Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed amount of '(.*?)')?$/) do |case_number, status, claimed|
-  my_claim = @external_user_home_page.claim_for(case_number)
-  expect(my_claim).not_to be_nil
-  expect(my_claim.state.text).to eq(status)
-  expect(my_claim.claimed.text).to eq(claimed) if claimed
+  patiently do
+    matching_claims = @external_user_home_page.claims.select do |claim|
+      claim.case_number.text == case_number
+    end
+    expect(matching_claims.length).to eql(1)
+    my_claim = matching_claims.first
+    expect(my_claim.state.text).to eq(status)
+    expect(my_claim.claimed.text).to eq(claimed) if claimed
+  end
 end
 
 Then(/^I should see the error '(.*?)'$/) do |error_message|

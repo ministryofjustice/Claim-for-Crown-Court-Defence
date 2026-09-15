@@ -1,0 +1,89 @@
+name: Pull request tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+
+env:
+  RAILS_ENV: test
+  TZ: Europe/London
+  DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: eu-west-2
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_EC2_METADATA_DISABLED: "true"
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cccd_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install JavaScript dependencies
+        run: yarn install --ignore-scripts --frozen-lockfile
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@48ad923757ca74d66703209fe939badbdf80f2f4
+
+      - name: Wait for database
+        run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
+
+      - name: Database setup
+        run: bin/rails db:schema:load --trace
+
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
+
+      - name: Run RSpec
+        run: bundle exec rspec
+
+      - name: Run Cucumber
+        run: bundle exec cucumber
+
+      - name: Run RuboCop
+        run: bundle exec rubocop
+
+      - name: Run Brakeman
+        run: bundle exec brakeman
+
+      - name: Run Jasmine
+        run: bundle exec rails jasmine:run
+
+      - name: Run StandardJS
+        run: yarn run validate:js
+
+      - name: Run Stylelint
+        run: yarn run validate:scss

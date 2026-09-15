@@ -9,7 +9,6 @@ on:
     - cron: "05 08 * * *"
 
 permissions:
-  id-token: write
   contents: read
 
 env:

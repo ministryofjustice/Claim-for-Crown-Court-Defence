@@ -55,19 +55,15 @@ end
 # note this covers LGFS grad, interim and transfer quantity fields
 # whose quantity field represents PPE.
 Then("I enter {string} in the PPE total graduated fee field") do |total|
-  @litigator_claim_form_page.ppe_total.set nil
-  total.chars.each do |char|
-    @litigator_claim_form_page.ppe_total.send_keys(char)
-    wait_for_ajax
-  end
+  @litigator_claim_form_page.ppe_total.set total
+  wait_for_debounce
+  wait_for_ajax
 end
 
 Then("I fill {string} as the actual trial length") do |length|
-  @litigator_claim_form_page.actual_trial_length.set nil
-  length.chars.each do |char|
-    @litigator_claim_form_page.actual_trial_length.send_keys(char)
-    wait_for_ajax
-  end
+  @litigator_claim_form_page.actual_trial_length.set length
+  wait_for_debounce
+  wait_for_ajax
 end
 
 And(/^I enter the case concluded date\s*(.*?)$/) do |date|

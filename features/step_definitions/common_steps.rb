@@ -59,7 +59,7 @@ end
 
 Given(/^I am later on the Your claims page$/) do
   @external_user_home_page.load
-  patiently do
+  using_wait_time(6) do
     expect(@external_user_home_page).to be_displayed
   end
 end
@@ -94,7 +94,7 @@ When(/I edit this claim/) do
 end
 
 Then(/^I should be on the claim confirmation page$/) do
-  patiently do
+  using_wait_time(6) do
     expect(@confirmation_page).to be_displayed
   end
 end
@@ -111,7 +111,7 @@ Then(/^My new claim should be displayed$/) do
 end
 
 Then(/^I should be on the your claims page$/) do
-  patiently do
+  using_wait_time(6) do
     expect(@external_user_home_page).to be_displayed
   end
 end

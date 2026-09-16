@@ -130,7 +130,7 @@ When(/^I click "Continue" in the claim form$/) do
   @claim_form_page.wait_until_continue_button_visible
   # avoid the default wait-for-appearance behaviour of has_css?, which would otherwise
   # block for the full default_max_wait_time on every non-evidence page in the wizard
-  if page.has_css?('.cc-evidence-checklist')
+  if page.has_css?('.cc-evidence-checklist', wait: false)
     patiently do
       @claim_form_page.continue_button.click
     end

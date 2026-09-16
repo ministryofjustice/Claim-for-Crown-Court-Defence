@@ -80,10 +80,10 @@ When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
   labels.each do |label|
     patiently do
       @claim_form_page.evidence_checklist.check(label)
+      expect(@claim_form_page.evidence_checklist.checkbox_checked?(label)).to be(true)
     end
   end
   wait_for_ajax
-  sleep 1 # can't find a way around need for this when popups enabled.
 end
 
 When("I answer {string} to was prosecution evidence served on this case?") do |string|
@@ -110,7 +110,9 @@ When(/^I click Submit to LAA$/) do
 end
 
 Then(/^I should be on the check your claim page$/) do
-  expect(@claim_summary_page).to be_displayed
+  using_wait_time(Capybara.default_max_wait_time) do
+    expect(@claim_summary_page).to be_displayed
+  end
 end
 
 When(/^I save as draft$/) do
@@ -126,10 +128,34 @@ end
 
 When(/^I click "Continue" in the claim form$/) do
   @claim_form_page.wait_until_continue_button_visible
-  patiently do
-    @claim_form_page.continue_button.click
+  # avoid the default wait-for-appearance behaviour of has_css?, which would otherwise
+  # block for the full default_max_wait_time on every non-evidence page in the wizard
+  if page.has_css?('.cc-evidence-checklist')
+    patiently do
+      @claim_form_page.continue_button.click
+    end
+    begin
+      using_wait_time(Capybara.default_max_wait_time) do
+        expect(@claim_summary_page).to be_displayed
+      end
+    rescue RSpec::Expectations::ExpectationNotMetError
+      if page.has_css?('.cc-evidence-checklist', wait: false)
+        patiently do
+          @claim_form_page.continue_button.click
+        end
+        using_wait_time(Capybara.default_max_wait_time) do
+          expect(@claim_summary_page).to be_displayed
+        end
+      else
+        raise
+      end
+    end
+  else
+    patiently do
+      @claim_form_page.continue_button.click
+    end
+    wait_for_ajax
   end
-  wait_for_ajax
 end
 
 When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"]*)" error$/) do |error_message|
@@ -150,8 +176,10 @@ end
 
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
   patiently do
-  @claim_form_page.continue_button.click
-  expect(page).to have_css('h1.govuk-heading-xl', text: page_title)
+    @claim_form_page.continue_button.click
+  end
+  using_wait_time(Capybara.default_max_wait_time) do
+    expect(page).to have_css('h1.govuk-heading-xl', text: page_title)
   end
   wait_for_ajax
 end

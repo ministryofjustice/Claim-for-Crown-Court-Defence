@@ -134,33 +134,26 @@ RSpec.describe API::V2::MI::InjectionErrors do
         }
 
         context 'with no date provided' do
-          it 'returns success' do
-            expect(last_response).to be_ok
-          end
-
-          it 'returns JSON' do
-            expect(last_response.headers['content-type']).to eq 'application/json'
-          end
-
-          it 'retrieves injection errors data from the previous day' do
-            expect(JSON.parse(last_response.body).count).to eq(yesterday_injection_categories.count)
+          it 'returns success with the injection errors data from the previous day' do
+            aggregate_failures do
+              expect(last_response).to be_ok
+              expect(last_response.headers['content-type']).to eq 'application/json'
+              expect(JSON.parse(last_response.body).count).to eq(yesterday_injection_categories.count)
+            end
           end
 
           context 'and with CSV output format' do
             let(:params) { default_params.merge(format: 'csv') }
 
-            it 'returns success' do
-              expect(last_response).to be_ok
-            end
-
-            it 'returns JSON' do
-              expect(last_response.headers['content-type']).to eq 'text/csv; utf-8'
-            end
-
             it 'returns a file with the headers and the data retrieved' do
-              csv_content = CSV.parse(last_response.body)
-              expect(csv_content.count).to eq(yesterday_injection_categories.count + 1)
-              expect(csv_content[0]).to match_array(%w[error_category total])
+              aggregate_failures do
+                expect(last_response).to be_ok
+                expect(last_response.headers['content-type']).to eq 'text/csv; utf-8'
+
+                csv_content = CSV.parse(last_response.body)
+                expect(csv_content.count).to eq(yesterday_injection_categories.count + 1)
+                expect(csv_content[0]).to match_array(%w[error_category total])
+              end
             end
           end
         end
@@ -168,33 +161,26 @@ RSpec.describe API::V2::MI::InjectionErrors do
         context 'with a date provided' do
           let(:params) { default_params.merge(date: older_date.to_fs(:db)) }
 
-          it 'returns success' do
-            expect(last_response).to be_ok
-          end
-
-          it 'returns JSON' do
-            expect(last_response.headers['content-type']).to eq 'application/json'
-          end
-
-          it 'retrieves injection errors data from the provided date' do
-            expect(JSON.parse(last_response.body).count).to eq(older_date_injection_categories.count)
+          it 'returns success with the injection errors data from the provided date' do
+            aggregate_failures do
+              expect(last_response).to be_ok
+              expect(last_response.headers['content-type']).to eq 'application/json'
+              expect(JSON.parse(last_response.body).count).to eq(older_date_injection_categories.count)
+            end
           end
 
           context 'and with CSV output format' do
             let(:params) { default_params.merge(date: older_date.to_fs(:db), format: 'csv') }
 
-            it 'returns success' do
-              expect(last_response).to be_ok
-            end
-
-            it 'returns JSON' do
-              expect(last_response.headers['content-type']).to eq 'text/csv; utf-8'
-            end
-
             it 'returns a file with the headers and the data retrieved' do
-              csv_content = CSV.parse(last_response.body)
-              expect(csv_content.count).to eq(older_date_injection_categories.count + 1)
-              expect(csv_content[0]).to match_array(%w[error_category total])
+              aggregate_failures do
+                expect(last_response).to be_ok
+                expect(last_response.headers['content-type']).to eq 'text/csv; utf-8'
+
+                csv_content = CSV.parse(last_response.body)
+                expect(csv_content.count).to eq(older_date_injection_categories.count + 1)
+                expect(csv_content[0]).to match_array(%w[error_category total])
+              end
             end
           end
         end

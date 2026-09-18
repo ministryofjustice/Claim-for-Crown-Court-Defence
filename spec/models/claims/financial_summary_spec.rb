@@ -50,19 +50,12 @@ RSpec.describe Claims::FinancialSummary do
 
       let(:summary) { Claims::FinancialSummary.new(advocate_with_vat.claims) }
 
-      describe '#total_outstanding_claim_value' do
-        it 'calculates the value of outstanding claims' do
+      it 'calculates the value of outstanding and authorised claims' do
+        part_authorised_claim.external_user = advocate_with_vat
+        part_authorised_claim.save!
+
+        aggregate_failures do
           expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + submitted_claim.vat_amount + allocated_claim.total + allocated_claim.vat_amount)
-        end
-      end
-
-      describe '#total_authorised_claim_value' do
-        before do
-          part_authorised_claim.external_user = advocate_with_vat
-          part_authorised_claim.save!
-        end
-
-        it 'calculates the value of authorised claims since the beginning of the week' do
           expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
         end
       end
@@ -75,14 +68,9 @@ RSpec.describe Claims::FinancialSummary do
       let(:authorised_claim)          { create(:authorised_claim, external_user: advocate_without_vat) }
       let(:summary)                   { Claims::FinancialSummary.new(advocate_without_vat.claims) }
 
-      describe '#total_outstanding_claim_value' do
-        it 'calculates the value of outstanding claims' do
+      it 'calculates the value of outstanding and authorised claims' do
+        aggregate_failures do
           expect(summary.total_outstanding_claim_value).to eq(submitted_claim.total + allocated_claim.total)
-        end
-      end
-
-      describe '#total_authorised_claim_value' do
-        it 'calculates the value of authorised claims since the beginning of the week' do
           expect(summary.total_authorised_claim_value).to eq(authorised_claim.amount_assessed + part_authorised_claim.amount_assessed)
         end
       end
@@ -113,17 +101,13 @@ RSpec.describe Claims::FinancialSummary do
       let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat) }
       let(:summary)                                { Claims::FinancialSummary.new(agfs_provider.claims) }
 
-      describe '#total_outstanding_claim_value' do
-        it 'calculates the value of outstanding claims' do
+      it 'calculates the value of outstanding and authorised claims' do
+        aggregate_failures do
           expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +
                                                               submitted_claim_from_advocate1.vat_amount +
                                                               allocated_claim_from_advocate2.total +
                                                               allocated_claim_from_advocate2.vat_amount)
-        end
-      end
 
-      describe '#total_authorised_claim_value' do
-        it 'calculates the value of authorised claims' do
           expect(summary.total_authorised_claim_value).to eq(authorised_claim_from_advocate1.amount_assessed +
                                                              authorised_claim_from_advocate2.amount_assessed +
                                                              part_authorised_claim_from_advocate1.amount_assessed)
@@ -138,34 +122,24 @@ RSpec.describe Claims::FinancialSummary do
       let!(:authorised_claim_from_advocate2)       { create(:authorised_claim,       external_user: advocate2_without_vat) }
       let(:summary)                                { Claims::FinancialSummary.new(agfs_provider.claims) }
 
-      it 'calculates the value of outstanding claims' do
-        expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +
-                                                            allocated_claim_from_advocate2.total)
-      end
+      it 'calculates outstanding and authorised claim values, and filters claims into each bucket without duplicates' do
+        aggregate_failures do
+          expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +
+                                                              allocated_claim_from_advocate2.total)
 
-      it 'calculates the value of authorised claims' do
-        expect(summary.total_authorised_claim_value).to eq(authorised_claim_from_advocate2.amount_assessed +
-                                                           part_authorised_claim_from_advocate1.amount_assessed)
-      end
+          expect(summary.total_authorised_claim_value).to eq(authorised_claim_from_advocate2.amount_assessed +
+                                                             part_authorised_claim_from_advocate1.amount_assessed)
 
-      describe '#outstanding_claims' do
-        it 'returns outstanding claims only' do
           expect(summary.outstanding_claims).to     include(submitted_claim_from_advocate1, allocated_claim_from_advocate2)
           expect(summary.outstanding_claims).to_not include(authorised_claim_from_advocate2,
                                                             part_authorised_claim_from_advocate1,
                                                             other_provider_claim)
-        end
-      end
 
-      describe '#authorised_claims' do
-        it 'returns authorised claims only' do
           expect(summary.authorised_claims).to      include(authorised_claim_from_advocate2, part_authorised_claim_from_advocate1)
           expect(summary.authorised_claims).to_not  include(submitted_claim_from_advocate1,
                                                             allocated_claim_from_advocate2,
                                                             other_provider_claim)
-        end
 
-        it 'does not include duplicates' do
           create(:redetermination, claim: authorised_claim_from_advocate2)
           expect(summary.authorised_claims.count).to eq(2)
         end

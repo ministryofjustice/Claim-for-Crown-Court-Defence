@@ -129,16 +129,15 @@ RSpec.describe 'Stats' do
           end
         end
 
-        it 'generates correct AGFS data for a six month graph' do
-          expect(response.body).to match(
-            /"name":"AGFS \d+","data":\[\["Jan",2\],\["Feb",1\],\["Mar",2\],\["Apr",1\],\["May",2\],\["Jun",1\]\]/
-          )
-        end
-
-        it 'generates correct LGFS 9 data for a six month graph' do
-          expect(response.body).to match(
-            /"name":"LGFS \d+","data":\[\["Jan",1\],\["Feb",2\],\["Mar",1\],\["Apr",2\],\["May",1\],\["Jun",2\]\]/
-          )
+        it 'generates correct AGFS and LGFS 9 data for a six month graph' do
+          aggregate_failures do
+            expect(response.body).to match(
+              /"name":"AGFS \d+","data":\[\["Jan",2\],\["Feb",1\],\["Mar",2\],\["Apr",1\],\["May",2\],\["Jun",1\]\]/
+            )
+            expect(response.body).to match(
+              /"name":"LGFS \d+","data":\[\["Jan",1\],\["Feb",2\],\["Mar",1\],\["Apr",2\],\["May",1\],\["Jun",2\]\]/
+            )
+          end
         end
       end
     end

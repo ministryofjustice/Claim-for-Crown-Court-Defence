@@ -1,15 +1,27 @@
 RSpec.shared_examples 'clear cracked details' do
-  it { expect { call_cleaner }.to change(claim, :trial_fixed_notice_at).to nil }
-  it { expect { call_cleaner }.to change(claim, :trial_fixed_at).to nil }
-  it { expect { call_cleaner }.to change(claim, :trial_cracked_at).to nil }
-  it { expect { call_cleaner }.to change(claim, :trial_cracked_at_third).to nil }
+  it 'clears cracked detail fields' do
+    call_cleaner
+
+    aggregate_failures do
+      expect(claim.trial_fixed_notice_at).to be_nil
+      expect(claim.trial_fixed_at).to be_nil
+      expect(claim.trial_cracked_at).to be_nil
+      expect(claim.trial_cracked_at_third).to be_nil
+    end
+  end
 end
 
 RSpec.shared_examples 'does not clear cracked details' do
-  it { expect { call_cleaner }.not_to change(claim, :trial_fixed_notice_at).from(cracked[:trial_fixed_notice_at]) }
-  it { expect { call_cleaner }.not_to change(claim, :trial_fixed_at).from(cracked[:trial_fixed_at]) }
-  it { expect { call_cleaner }.not_to change(claim, :trial_cracked_at).from(cracked[:trial_cracked_at]) }
-  it { expect { call_cleaner }.not_to change(claim, :trial_cracked_at_third).from(cracked[:trial_cracked_at_third]) }
+  it 'keeps cracked detail fields unchanged' do
+    call_cleaner
+
+    aggregate_failures do
+      expect(claim.trial_fixed_notice_at).to eq(cracked[:trial_fixed_notice_at])
+      expect(claim.trial_fixed_at).to eq(cracked[:trial_fixed_at])
+      expect(claim.trial_cracked_at).to eq(cracked[:trial_cracked_at])
+      expect(claim.trial_cracked_at_third).to eq(cracked[:trial_cracked_at_third])
+    end
+  end
 end
 
 RSpec.shared_examples 'fix advocate category' do

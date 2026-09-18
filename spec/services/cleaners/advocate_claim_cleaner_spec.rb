@@ -14,14 +14,30 @@ RSpec.shared_examples 'does not delete misc fees' do
 end
 
 RSpec.shared_examples 'clear basic fees' do
-  it { expect { call_cleaner }.not_to change { claim.basic_fees.size } }
-  it { expect { call_cleaner }.to change { claim.basic_fees.flat_map(&:dates_attended).size }.to 0 }
-  it { expect { call_cleaner }.to change { claim.basic_fees.sum { |fee| fee.amount.to_i } }.to 0 }
+  it 'clears basic fee data while preserving basic fee count' do
+    initial_size = claim.basic_fees.size
+    call_cleaner
+
+    aggregate_failures do
+      expect(claim.basic_fees.size).to eq(initial_size)
+      expect(claim.basic_fees.flat_map(&:dates_attended).size).to eq(0)
+      expect(claim.basic_fees.sum { |fee| fee.amount.to_i }).to eq(0)
+    end
+  end
 end
 
 RSpec.shared_examples 'does not clear basic fees' do
-  it { expect { call_cleaner }.not_to change { claim.basic_fees.flat_map(&:dates_attended).size } }
-  it { expect { call_cleaner }.not_to change { claim.basic_fees.sum(&:amount) }.from(within(0.01).of(basic_fee_rate)) }
+  it 'leaves basic fee values unchanged' do
+    initial_dates = claim.basic_fees.flat_map(&:dates_attended).size
+    initial_amount = claim.basic_fees.sum(&:amount)
+    call_cleaner
+
+    aggregate_failures do
+      expect(claim.basic_fees.flat_map(&:dates_attended).size).to eq(initial_dates)
+      expect(claim.basic_fees.sum(&:amount)).to be_within(0.01).of(initial_amount)
+      expect(claim.basic_fees.sum(&:amount)).to be_within(0.01).of(basic_fee_rate)
+    end
+  end
 end
 
 RSpec.describe Cleaners::AdvocateClaimCleaner do

@@ -93,11 +93,9 @@ When(/^I select the '(.*?)' basic fee$/) do |label|
 end
 
 When("I enter {string} prosecution witnesses") do |quantity|
-  @claim_form_page.basic_fees.prosecution_witnesses.quantity.set nil
-  quantity.chars.each do |char|
-    @claim_form_page.basic_fees.prosecution_witnesses.quantity.send_keys(char)
-    wait_for_ajax
-  end
+  @claim_form_page.basic_fees.prosecution_witnesses.quantity.set quantity
+  wait_for_debounce
+  wait_for_ajax
 end
 
 Then("the prosecution witnesses net amount should be populated with {string}") do |amount|
@@ -107,11 +105,9 @@ Then("the prosecution witnesses net amount should be populated with {string}") d
 end
 
 When("I enter {string} pages of prosecution evidence") do |quantity|
-  @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.set nil
-  quantity.chars.each do |char|
-    @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.send_keys(char)
-    wait_for_ajax
-  end
+  @claim_form_page.basic_fees.pages_of_prosecution_evidence.quantity.set quantity
+  wait_for_debounce
+  wait_for_ajax
 end
 
 Then("the pages of prosecution evidence net amount should be populated with {string}") do |amount|
@@ -156,6 +152,9 @@ When(/^I add a govuk calculated miscellaneous fee '(.*?)'(?: with quantity of '(
     @claim_form_page.add_govuk_misc_fee_if_required
   end
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(name)
+  patiently do
+    expect(@claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.value).to eql(name)
+  end
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
   wait_for_debounce
   wait_for_ajax
@@ -177,9 +176,11 @@ Then("I add a govuk calculated miscellaneous fee {string} without a quantity") d
     @claim_form_page.add_govuk_misc_fee_if_required
   end
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(fee_name)
+  patiently do
+    expect(@claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.value).to eql(fee_name)
+  end
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
 
-  sleep(2)
   wait_for_debounce
   wait_for_ajax
 end

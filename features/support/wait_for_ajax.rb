@@ -32,8 +32,8 @@ module WaitForAjax
 
   # TODO: amend to be smarter in relation to $.debounce JQuery behaviour
   # but for now just using a sleep that exceeds $.debounce milliseconds
-  # in JS
-  def wait_for_debounce(wait_time: 0.5)
+  # in JS (front-end debounce is 290ms, see Modules.Debounce.js)
+  def wait_for_debounce(wait_time: 0.35)
     sleep wait_time
   end
 end

@@ -9,12 +9,27 @@ class EvidenceChecklistSection < SitePrism::Section
   end
 
   def check(label)
-    items_with_labels.each do |item|
-      item.label.click if item.label.text.match?(Regexp.new(label, true))
-    end
+    item = item_for(label)
+    item.label.click unless checkbox_for(item).checked?
+  end
+
+  def checkbox_checked?(label)
+    checkbox_for(item_for(label)).checked?
   end
 
   def items_with_labels
     items.select { |item| item.has_label? }.compact
+  end
+
+  private
+
+  def item_for(label)
+    items_with_labels.find do |item|
+      item.label.text.strip.casecmp?(label.strip)
+    end || raise(Capybara::ElementNotFound, "Could not find evidence checklist item #{label.inspect}")
+  end
+
+  def checkbox_for(item)
+    item.find("input[type='checkbox']", visible: :all)
   end
 end

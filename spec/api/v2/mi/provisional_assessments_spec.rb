@@ -100,33 +100,26 @@ RSpec.describe API::V2::MI::ProvisionalAssessments do
       context 'when data is available' do
         let(:create_data?) { true }
 
-        it 'returns success' do
-          expect(last_response).to be_ok
-        end
-
-        it 'returns JSON' do
-          expect(last_response.headers['content-type']).to eq 'application/json'
-        end
-
-        it 'retrieves injection errors data from the provided date' do
-          expect(JSON.parse(last_response.body).count).to eq(3)
+        it 'returns success with the provisional assessments data' do
+          aggregate_failures do
+            expect(last_response).to be_ok
+            expect(last_response.headers['content-type']).to eq 'application/json'
+            expect(JSON.parse(last_response.body).count).to eq(3)
+          end
         end
 
         context 'and with CSV output format' do
           let(:params) { default_params.merge(format: 'csv') }
 
-          it 'returns success' do
-            expect(last_response).to be_ok
-          end
-
-          it 'returns JSON' do
-            expect(last_response.headers['content-type']).to eq 'text/csv; utf-8'
-          end
-
           it 'returns a file with the headers and the data retrieved' do
-            csv_content = CSV.parse(last_response.body)
-            expect(csv_content.count).to eq(4)
-            expect(csv_content[0]).to match_array(Reports::ProvisionalAssessmentsByDates::COLUMNS)
+            aggregate_failures do
+              expect(last_response).to be_ok
+              expect(last_response.headers['content-type']).to eq 'text/csv; utf-8'
+
+              csv_content = CSV.parse(last_response.body)
+              expect(csv_content.count).to eq(4)
+              expect(csv_content[0]).to match_array(Reports::ProvisionalAssessmentsByDates::COLUMNS)
+            end
           end
         end
       end

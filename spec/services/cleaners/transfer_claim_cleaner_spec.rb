@@ -12,22 +12,26 @@ RSpec.describe Cleaners::TransferClaimCleaner do
     context 'when a graduated fee is added to the claim' do
       before { create(:graduated_fee, claim:) }
 
-      it { expect { call_cleaner }.to change(claim.fees, :count).from(2).to 1 }
-
-      it do
+      it 'removes the graduated fee and leaves only the transfer fee' do
         call_cleaner
-        expect(claim.fees.map(&:class)).to contain_exactly(Fee::TransferFee)
+
+        aggregate_failures do
+          expect(claim.fees.count).to eq(1)
+          expect(claim.fees.map(&:class)).to contain_exactly(Fee::TransferFee)
+        end
       end
     end
 
     context 'when a non-graduated fee is added to the claim' do
       before { create(:misc_fee, claim:) }
 
-      it { expect { call_cleaner }.not_to change(claim.fees, :count).from 2 }
-
-      it do
+      it 'keeps the transfer fee and misc fee when a non-graduated fee is added' do
         call_cleaner
-        expect(claim.fees.map(&:class)).to contain_exactly(Fee::TransferFee, Fee::MiscFee)
+
+        aggregate_failures do
+          expect(claim.fees.count).to eq(2)
+          expect(claim.fees.map(&:class)).to contain_exactly(Fee::TransferFee, Fee::MiscFee)
+        end
       end
     end
   end

@@ -47,15 +47,17 @@ end
 
 When(/^I add another defendant, (.*?)representation order and MAAT reference$/) do |scheme_text|
   date = scheme_date_for(scheme_text)
-  using_wait_time 6 do
-    @claim_form_page.add_another_defendant.click
-    wait_for_ajax
-    @claim_form_page.defendants.last.first_name.set "Ned"
-    @claim_form_page.defendants.last.last_name.set "Kelly"
-    @claim_form_page.defendants.last.dob.set_date "1912-12-12"
-    @claim_form_page.defendants.last.representation_orders.first.date.set_date date
-    @claim_form_page.defendants.last.representation_orders.first.maat_reference.set Random.rand(4000000...9999999)
-  end
+  defendant_count = @claim_form_page.defendants.count
+
+  @claim_form_page.wait_until_add_another_defendant_visible
+  @claim_form_page.add_another_defendant.click
+  expect(page).to have_css('.defendant-details', count: defendant_count + 1)
+
+  @claim_form_page.defendants.last.first_name.set "Ned"
+  @claim_form_page.defendants.last.last_name.set "Kelly"
+  @claim_form_page.defendants.last.dob.set_date "1912-12-12"
+  @claim_form_page.defendants.last.representation_orders.first.date.set_date date
+  @claim_form_page.defendants.last.representation_orders.first.maat_reference.set Random.rand(4000000...9999999)
 end
 
 Then(/^I should see (\d+)\s*representation orders$/) do |count|

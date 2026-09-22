@@ -24,10 +24,12 @@ Given(/^I click 'Your claims' link$/) do
 end
 
 Then(/^I should (see|not see) ['"](.*)['"]$/) do |visibility, text|
-  if (visibility == 'see')
-    expect(page).to have_content(text)
-  else
-    expect(page).not_to have_content(text)
+  patiently do
+    if visibility == 'see'
+      expect(page).to have_text(text)
+    else
+      expect(page).to have_no_text(text)
+    end
   end
 end
 

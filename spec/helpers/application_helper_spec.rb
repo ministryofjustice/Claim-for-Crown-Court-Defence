@@ -48,6 +48,43 @@ RSpec.describe ApplicationHelper do
     end
   end
 
+  describe '#active_allocation_navigation_tab?' do
+    subject(:active_allocation_navigation_tab?) { helper.active_allocation_navigation_tab?(tab) }
+
+    let(:tab) { 'unallocated' }
+    let(:params) { ActionController::Parameters.new(controller: controller_name, tab: tab_param) }
+    let(:controller_name) { 'case_workers/admin/allocations' }
+    let(:tab_param) { nil }
+
+    before do
+      allow(helper).to receive(:params).and_return(params)
+    end
+
+    context 'on the allocation page without a tab param' do
+      it { is_expected.to be true }
+    end
+
+    context 'on the allocation page with an unallocated tab param' do
+      let(:tab_param) { 'unallocated' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'on the allocation page with an allocated tab param' do
+      let(:tab) { 'allocated' }
+      let(:tab_param) { 'allocated' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'on another page with a matching tab param' do
+      let(:controller_name) { 'case_workers/admin/case_workers' }
+      let(:tab_param) { 'unallocated' }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe '#current_page?' do
     subject(:current_page?) { helper.current_page?(path_with_params) }
 

@@ -48,6 +48,10 @@ module ApplicationHelper
     path_matches?(path) && tab_check_passes?(path)
   end
 
+  def active_allocation_navigation_tab?(tab)
+    params[:controller] == 'case_workers/admin/allocations' && allocation_navigation_tab == tab
+  end
+
   def casual_date(date)
     if Date.parse(date) == Time.zone.today
       'Today'
@@ -151,6 +155,10 @@ module ApplicationHelper
        /case_workers/admin
        /case_workers/claims
        /external_users].include?(request.path)
+  end
+
+  def allocation_navigation_tab
+    params[:tab].presence_in(%w[allocated unallocated]) || 'unallocated'
   end
 
   def path_matches?(path)

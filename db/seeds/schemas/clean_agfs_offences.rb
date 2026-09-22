@@ -44,14 +44,17 @@ module Seeds
       end
 
       def merge_11
-        fee_scheme_eleven.offences.each do |offence|
+        offences = fee_scheme_eleven.offences.includes(offence_band: :offence_category).to_a
+        scheme_ten_offences_by_code = offences_by_unique_code(offences.map { |o| scheme_ten_code(o) })
+
+        offences.each do |offence|
           puts "Offence: #{offence.unique_code}" unless @quiet
           puts "  #{offence.description[0, 60]}" unless @quiet
           puts "  #{offence.offence_band.description} " unless @quiet
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
           Offence.transaction do
-            new_offence = scheme_ten_offence_for(offence)
+            new_offence = scheme_ten_offences_by_code[scheme_ten_code(offence)]
             if new_offence
               update_claims(offence.claims, new_offence)
               copy_schemes(from: offence, to: new_offence)
@@ -73,14 +76,19 @@ module Seeds
       end
 
       def merge_12
-        agfs_scheme_twelve_only.each do |offence|
+        offences = agfs_scheme_twelve_only
+        scheme_eleven_offences_by_code = offences_by_unique_code(offences.map { |o| scheme_eleven_code(o) })
+
+        offences.each do |offence|
           puts "Offence: #{offence.unique_code}" unless @quiet
           puts "  #{offence.description[0, 60]}" unless @quiet
           puts "  #{offence.offence_band.description} " unless @quiet
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
           Offence.transaction do
-            new_offence = scheme_eleven_offence_for(offence)
+            new_offence = scheme_eleven_offences_by_code[scheme_eleven_code(offence)]
+            raise MissingOffence unless offences_match?(offence, new_offence)
+
             update_claims(offence.claims, new_offence)
             add_scheme_twelve_to(new_offence)
             unlink_redundant(offence)
@@ -90,14 +98,19 @@ module Seeds
       end
 
       def merge_13
-        agfs_scheme_thirteen_only.each do |offence|
+        offences = agfs_scheme_thirteen_only
+        scheme_eleven_offences_by_code = offences_by_unique_code(offences.map { |o| scheme_eleven_code(o) })
+
+        offences.each do |offence|
           puts "Offence: #{offence.unique_code}" unless @quiet
           puts "  #{offence.description[0, 60]}" unless @quiet
           puts "  #{offence.offence_band.description} " unless @quiet
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
           Offence.transaction do
-            new_offence = scheme_eleven_offence_for(offence)
+            new_offence = scheme_eleven_offences_by_code[scheme_eleven_code(offence)]
+            raise MissingOffence unless offences_match?(offence, new_offence)
+
             update_claims(offence.claims, new_offence)
             add_scheme_thirteen_to(new_offence)
             unlink_redundant(offence)
@@ -128,7 +141,7 @@ module Seeds
       end
 
       def remove_redundant
-        offences = Offence.all
+        offences = pretending? ? Offence.all : orphaned_offences
         offences.each do |offence|
           if pretending?
             if offence.fee_schemes.empty?
@@ -172,16 +185,23 @@ module Seeds
         end
       end
 
-      def scheme_ten_offence_for(offence)
-        code = offence.unique_code.gsub(/~.*$/, '')
-        Offence.find_by(unique_code: code)
+      # orphaned offences have no fee_scheme joins at all - identified with a single anti-join
+      # query instead of loading and checking every offence individually
+      def orphaned_offences
+        Offence.where.not(id: OffenceFeeScheme.select(:offence_id))
       end
 
-      def scheme_eleven_offence_for(offence)
-        code = offence.unique_code.gsub(/~.*$/, '~11')
-        Offence.find_by(unique_code: code).tap do |new_offence|
-          raise MissingOffence unless offences_match?(offence, new_offence)
-        end
+      def scheme_ten_code(offence)
+        offence.unique_code.gsub(/~.*$/, '')
+      end
+
+      def scheme_eleven_code(offence)
+        offence.unique_code.gsub(/~.*$/, '~11')
+      end
+
+      # batches what would otherwise be one Offence.find_by per offence into a single query
+      def offences_by_unique_code(codes)
+        Offence.where(unique_code: codes).index_by(&:unique_code)
       end
 
       def update_claims(claims, new_offence)
@@ -209,6 +229,7 @@ module Seeds
           puts Rainbow("    [COPY] Fee schemes #{display_fee_schemes(*from.fee_schemes)} from offence #{from.unique_code} to offence #{to.unique_code}").green unless @quiet
           puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*to.fee_schemes)}").green unless @quiet
           to.fee_schemes.append(*from.fee_schemes)
+          # NOTE: to may be a cached lookup shared across iterations, so always reload to avoid appending against a stale association cache
           to.reload
           puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*to.fee_schemes)}").green unless @quiet
         end
@@ -221,6 +242,7 @@ module Seeds
           puts Rainbow("    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_twelve)}' to offence #{offence.unique_code}").green unless @quiet
           puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
           offence.fee_schemes << fee_scheme_twelve
+          # NOTE: offence may be a cached lookup shared across iterations, so always reload to avoid appending against a stale association cache
           offence.reload
           puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
         end
@@ -233,6 +255,7 @@ module Seeds
           puts Rainbow("    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_thirteen)}' to offence #{offence.unique_code}").green unless @quiet
           puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
           offence.fee_schemes << fee_scheme_thirteen
+          # NOTE: offence may be a cached lookup shared across iterations, so always reload to avoid appending against a stale association cache
           offence.reload
           puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
         end
@@ -348,7 +371,7 @@ module Seeds
           puts Rainbow("    [DETATCH] Fee schemes #{display_fee_schemes(*offence.fee_schemes)} (all) from offence #{offence.unique_code}").green unless @quiet
           puts Rainbow("      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
           offence.fee_schemes = []
-          offence.reload
+          offence.reload unless @quiet
           puts Rainbow("      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}").green unless @quiet
         end
       end
@@ -395,7 +418,10 @@ module Seeds
         ]
       end
 
-      def all_agfs_offences = @all_agfs_offences ||= Offence.joins(:fee_schemes).merge(FeeScheme.agfs).distinct
+      def all_agfs_offences
+        @all_agfs_offences ||= Offence.joins(:fee_schemes).merge(FeeScheme.agfs).distinct
+          .includes(:fee_schemes, offence_band: :offence_category)
+      end
       def agfs_scheme_nine_only = all_agfs_offences.select { |o| o.fee_schemes & all_fee_schemes == [fee_scheme_nine] }
       def agfs_scheme_ten_only = all_agfs_offences.select { |o| o.fee_schemes & all_fee_schemes == [fee_scheme_ten] }
       def agfs_scheme_eleven_only = all_agfs_offences.select { |o| o.fee_schemes & all_fee_schemes == [fee_scheme_eleven] }

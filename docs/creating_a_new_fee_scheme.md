@@ -301,6 +301,20 @@ end
 > [!TIP]
 > Use existing schema classes in `db/seeds/schemas/` as templates. Recent examples include `AddAGFSFeeScheme16` and `AddLGFSFeeScheme11`, which demonstrate common patterns for scheme creation and rollback.
 
+> [!IMPORTANT]
+> There are two patterns for associating offences with the new scheme, depending on whether the new scheme reuses the
+> previous scheme's offence records or needs its own copies:
+>
+> - **Associate existing offences (the common case, used by schemes 14 onwards)**: link the previous scheme's offences to
+>   the new scheme directly, e.g. `offence.fee_schemes << new_fee_scheme`. No new `Offence` records are created. Guard
+>   against re-running with `next if offence.fee_schemes.include?(new_fee_scheme)`.
+> - **Duplicate offences with a new unique_code (used by schemes 12, 13 and LGFS 10)**: only needed if the new scheme
+>   changes the `unique_code` format (e.g. appending a different scheme suffix). Use
+>   `SeedHelper.bulk_duplicate_offences!(source_offences, fee_scheme: new_fee_scheme) { |code| ... }` (see
+>   `db/seed_helper.rb`) rather than looping over offences calling `offence.dup` and `.save!` one at a time - for a
+>   scheme with ~1300 offences that's the difference between a handful of queries and several thousand. This bypasses
+>   `Offence` validations/callbacks, so only pass it offences already read back out of the database.
+
 #### Update main seeds file
 
 Update `db/seeds.rb` to include the new seed file:

@@ -5,6 +5,8 @@
 # 4. create offence fee scheme through table records to associate each
 #    with an fee scheme.
 #
+require Rails.root.join('db', 'seed_helper')
+
 module Seeds
   module Schemas
     class AddLGFSFeeScheme10
@@ -151,21 +153,16 @@ module Seeds
         set_offence_pk_sequence(8000)
         puts Rainbow('Adding LGFS fee scheme 10 offences').yellow
 
-        Offence.transaction do
+        if pretending?
           lgfs_scheme_nine_offences.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code}~10").yellow
-            else
-              new_offence = offence.dup
-              new_offence.unique_code += '~10'
-              new_offence.fee_schemes << lgfs_fee_scheme_10
-              new_offence.save!
-              print Rainbow('.').green
-            end
+            puts Rainbow("[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code}~10").yellow
           end
+        else
+          count = SeedHelper.bulk_duplicate_offences!(lgfs_scheme_nine_offences, fee_scheme: lgfs_fee_scheme_10) do |code|
+            "#{code}~10"
+          end
+          puts Rainbow("Copied #{count} offences").green
         end
-
-        print "\n"
       end
 
       def set_offence_pk_sequence(sequence_start)

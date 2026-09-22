@@ -34,6 +34,38 @@ module SeedHelper
       offence
     end
 
+    # Duplicates each offence in `source_offences` as a new Offence record linked to
+    # `fee_scheme`, deriving each copy's unique_code by yielding the original to the given
+    # block. Used when a new fee scheme needs its own offence records (e.g. because the
+    # unique_code format changes), as opposed to simply linking the existing offences to
+    # the new scheme via OffenceFeeScheme (see FeeScheme#offences usage elsewhere in
+    # db/seeds/schemas/*.rb for that simpler, more common case).
+    #
+    # Uses bulk insert_all rather than one Offence.create! per offence (which is what
+    # `source_offences.each { |o| o.dup.tap { |n| ... }.save! }` amounts to) - for a fee
+    # scheme with ~1300 offences that is the difference between a handful of queries and
+    # several thousand. This bypasses Offence validations/callbacks, so it must only be
+    # given attributes already known to be valid (i.e. offences read back out of the DB).
+    #
+    # Returns the number of offences copied.
+    def bulk_duplicate_offences!(source_offences, fee_scheme:)
+      source_offences = source_offences.to_a
+      return 0 if source_offences.empty?
+
+      now = Time.current
+      rows = source_offences.map do |offence|
+        offence.attributes.except('id', 'created_at', 'updated_at').merge(
+          'unique_code' => yield(offence.unique_code),
+          'created_at' => now,
+          'updated_at' => now
+        )
+      end
+
+      new_ids = Offence.insert_all(rows, returning: %w[id]).rows.flatten
+      OffenceFeeScheme.insert_all(new_ids.map { |id| { offence_id: id, fee_scheme_id: fee_scheme.id } })
+      new_ids.size
+    end
+
     def find_or_create_caseworker!(attrs)
       user = User.active.find_by(email: attrs[:email].downcase)
       if user.blank?

@@ -5,6 +5,8 @@
 # 4. create offence fee scheme through table records to assoicate each
 #    with an fee scheme.
 #
+require Rails.root.join('db', 'seed_helper')
+
 module Seeds
   module Schemas
     class AddAGFSFeeScheme12
@@ -154,21 +156,16 @@ module Seeds
         set_offence_pk_sequence(5000)
         puts Rainbow('Adding scheme 12 offences').yellow
 
-        Offence.transaction do
+        if pretending?
           agfs_scheme_eleven_offences.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code.sub('~11','~12')}").yellow
-            else
-              new_offence = offence.dup
-              new_offence.unique_code = new_offence.unique_code.sub('~11','~12')
-              new_offence.fee_schemes << agfs_fee_scheme_12
-              new_offence.save!
-              print Rainbow('.').green
-            end
+            puts Rainbow("[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code.sub('~11','~12')}").yellow
           end
+        else
+          count = SeedHelper.bulk_duplicate_offences!(agfs_scheme_eleven_offences, fee_scheme: agfs_fee_scheme_12) do |code|
+            code.sub('~11', '~12')
+          end
+          puts Rainbow("Copied #{count} offences").green
         end
-
-        print "\n"
       end
 
       def set_offence_pk_sequence(sequence_start)

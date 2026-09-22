@@ -1,3 +1,5 @@
+require Rails.root.join('db', 'seed_helper')
+
 module Seeds
   module Schemas
     class AddAGFSFeeScheme14
@@ -84,31 +86,25 @@ module Seeds
 
       def set_agfs_scheme_fourteen_offences
         puts Rainbow('Setting scheme 11 offences to include scheme 14').yellow
-        Offence.transaction do
+        if pretending?
           agfs_scheme_eleven_offences.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-ADD] Fee Scheme 14 to #{offence.unique_code}").yellow
-            else
-              offence.fee_schemes << agfs_fee_scheme_14
-              print Rainbow('.').green
-            end
+            puts Rainbow("[WOULD-ADD] Fee Scheme 14 to #{offence.unique_code}").yellow
           end
+        else
+          count = SeedHelper.bulk_associate_offences!(agfs_scheme_eleven_offences, fee_scheme: agfs_fee_scheme_14)
+          puts Rainbow("Added fee scheme 14 to #{count} offences").green
         end
-        print "\n"
       end
 
       def unset_agfs_scheme_fourteen_offences
-        Offence.transaction do
+        if pretending?
           Offence.joins(:fee_schemes).merge(FeeScheme.version(14)).merge(FeeScheme.agfs).distinct.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-REMOVE] Fee Scheme 14 from #{offence.unique_code}").yellow
-            else
-              offence.fee_schemes.delete(agfs_fee_scheme_14)
-              print Rainbow('.').green
-            end
+            puts Rainbow("[WOULD-REMOVE] Fee Scheme 14 from #{offence.unique_code}").yellow
           end
+        else
+          count = SeedHelper.bulk_dissociate_offences!(fee_scheme: agfs_fee_scheme_14)
+          puts Rainbow("Removed fee scheme 14 from #{count} offences").green
         end
-        print "\n"
       end
 
       def agfs_scheme_eleven_offences

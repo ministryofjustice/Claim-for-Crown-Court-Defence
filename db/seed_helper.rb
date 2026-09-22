@@ -66,6 +66,36 @@ module SeedHelper
       new_ids.size
     end
 
+    # Links each offence in `source_offences` to `fee_scheme`, skipping any offence
+    # already linked to it. This is the common case for a new fee scheme: it typically
+    # inherits the previous scheme's offences as-is, rather than needing its own copies
+    # (see bulk_duplicate_offences! for that rarer case).
+    #
+    # Replaces `source_offences.each { |o| o.fee_schemes << fee_scheme unless o.fee_schemes.include?(fee_scheme) }`
+    # (two queries per offence) with two queries in total, regardless of how many offences
+    # are given.
+    #
+    # Returns the number of joins created.
+    def bulk_associate_offences!(source_offences, fee_scheme:)
+      offence_ids = source_offences.pluck(:id)
+      return 0 if offence_ids.empty?
+
+      existing_ids = OffenceFeeScheme.where(offence_id: offence_ids, fee_scheme: fee_scheme).pluck(:offence_id)
+      new_ids = offence_ids - existing_ids
+      return 0 if new_ids.empty?
+
+      OffenceFeeScheme.insert_all(new_ids.map { |id| { offence_id: id, fee_scheme_id: fee_scheme.id } })
+      new_ids.size
+    end
+
+    # Removes every offence's association with `fee_scheme` in a single query, rather than
+    # loading each linked offence and calling `offence.fee_schemes.delete(fee_scheme)`.
+    #
+    # Returns the number of joins removed.
+    def bulk_dissociate_offences!(fee_scheme:)
+      OffenceFeeScheme.where(fee_scheme: fee_scheme).delete_all
+    end
+
     def find_or_create_caseworker!(attrs)
       user = User.active.find_by(email: attrs[:email].downcase)
       if user.blank?

@@ -1,3 +1,5 @@
+require Rails.root.join('db', 'seed_helper')
+
 module Seeds
   module Schemas
     class AddAGFSFeeScheme16
@@ -85,34 +87,26 @@ module Seeds
       def set_agfs_scheme_sixteen_offences
         puts Rainbow('Setting scheme 15 offences to include scheme 16').yellow
         puts Rainbow("Scheme 16 offence count before: #{scheme_16_offence_count}").yellow
-        Offence.transaction do
+        if pretending?
           agfs_scheme_fifteen_offences.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-ADD] Fee Scheme 16 to #{offence.unique_code}").yellow
-            else
-              next if offence.fee_schemes.include? agfs_fee_scheme_16
-
-              offence.fee_schemes << agfs_fee_scheme_16
-              print Rainbow('.').green
-            end
+            puts Rainbow("[WOULD-ADD] Fee Scheme 16 to #{offence.unique_code}").yellow
           end
+        else
+          count = SeedHelper.bulk_associate_offences!(agfs_scheme_fifteen_offences, fee_scheme: agfs_fee_scheme_16)
+          puts Rainbow("Added fee scheme 16 to #{count} offences").green
         end
-        print "\n"
         puts Rainbow("Scheme 16 offence count after: #{scheme_16_offence_count}").yellow
       end
 
       def unset_agfs_scheme_sixteen_offences
-        Offence.transaction do
+        if pretending?
           Offence.joins(:fee_schemes).merge(FeeScheme.version(16)).merge(FeeScheme.agfs).distinct.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-REMOVE] Fee Scheme 16 from #{offence.unique_code}").yellow
-            else
-              offence.fee_schemes.delete(agfs_fee_scheme_16)
-              print Rainbow('.').green
-            end
+            puts Rainbow("[WOULD-REMOVE] Fee Scheme 16 from #{offence.unique_code}").yellow
           end
+        else
+          count = SeedHelper.bulk_dissociate_offences!(fee_scheme: agfs_fee_scheme_16)
+          puts Rainbow("Removed fee scheme 16 from #{count} offences").green
         end
-        print "\n"
         puts Rainbow("Scheme 16 offence count after: #{scheme_16_offence_count}").yellow
       end
 

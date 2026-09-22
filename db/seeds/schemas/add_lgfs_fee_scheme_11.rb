@@ -5,6 +5,8 @@
 # 4. create offence fee scheme through table records to associate each
 #    with an fee scheme.
 #
+require Rails.root.join('db', 'seed_helper')
+
 module Seeds
   module Schemas
     class AddLGFSFeeScheme11
@@ -53,17 +55,14 @@ module Seeds
       end
 
       def unset_lgfs_scheme_eleven_offences
-        Offence.transaction do
+        if pretending?
           Offence.joins(:fee_schemes).merge(FeeScheme.version(11)).merge(FeeScheme.lgfs).distinct.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-REMOVE] Fee Scheme 11 from #{offence.unique_code}").yellow
-            else
-              offence.fee_schemes.delete(lgfs_fee_scheme_11)
-              print '.'.green
-            end
+            puts Rainbow("[WOULD-REMOVE] Fee Scheme 11 from #{offence.unique_code}").yellow
           end
+        else
+          count = SeedHelper.bulk_dissociate_offences!(fee_scheme: lgfs_fee_scheme_11)
+          puts Rainbow("Removed fee scheme 11 from #{count} offences").green
         end
-        print "\n"
         puts Rainbow("LGFS Scheme 11 offence count after: #{lgfs_scheme_11_offence_count}").yellow
       end
 
@@ -132,19 +131,14 @@ module Seeds
       def set_lgfs_scheme_eleven_offences
         puts Rainbow('Setting LGFS scheme 10 offences to include scheme 11').yellow
         puts Rainbow("LGFS Scheme 11 offence count before: #{lgfs_scheme_11_offence_count}").yellow
-        Offence.transaction do
+        if pretending?
           lgfs_scheme_ten_offences.each do |offence|
-            if pretending?
-              puts Rainbow("[WOULD-ADD] LGFS Fee Scheme 11 to #{offence.unique_code}").yellow
-            else
-              next if offence.fee_schemes.include? lgfs_fee_scheme_11
-
-              offence.fee_schemes << lgfs_fee_scheme_11
-              print Rainbow('.').green
-            end
+            puts Rainbow("[WOULD-ADD] LGFS Fee Scheme 11 to #{offence.unique_code}").yellow
           end
+        else
+          count = SeedHelper.bulk_associate_offences!(lgfs_scheme_ten_offences, fee_scheme: lgfs_fee_scheme_11)
+          puts Rainbow("Added fee scheme 11 to #{count} offences").green
         end
-        print "\n"
         puts Rainbow("LGFS Scheme 11 offence count after: #{lgfs_scheme_11_offence_count}").yellow
       end
 

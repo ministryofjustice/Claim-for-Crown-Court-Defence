@@ -50,7 +50,7 @@ RSpec.describe 'User sign up' do
     end
   end
 
-  # rubocop:disable RSpec/AnyInstance
+  # rubocop:disable-next RSpec/AnyInstance
   describe 'POST #create' do
     subject(:request) { post '/users', params: { user: sign_up_attributes } }
 
@@ -173,5 +173,4 @@ RSpec.describe 'User sign up' do
       end
     end
   end
-  # rubocop:enable RSpec/AnyInstance
 end

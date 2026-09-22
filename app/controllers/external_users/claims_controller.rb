@@ -254,9 +254,9 @@ module ExternalUsers
     end
 
     def sort_defaults(defaults = {})
-      @sort_defaults = {  column: defaults.fetch(:column, 'last_submitted_at'),
-                          direction: defaults.fetch(:direction, 'asc'),
-                          pagination: defaults.fetch(:pagination, page_size) }
+      @sort_defaults = { column: defaults.fetch(:column, 'last_submitted_at'),
+                         direction: defaults.fetch(:direction, 'asc'),
+                         pagination: defaults.fetch(:pagination, page_size) }
     end
 
     def sort_and_paginate(options = {})
@@ -285,7 +285,7 @@ module ExternalUsers
                          @claim.submission_stages.first
     end
 
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable-next Metrics/MethodLength
     def claim_params
       params.expect(
         claim: [:form_id,
@@ -443,7 +443,6 @@ module ExternalUsers
                 }]
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
     def params_with_external_user_and_creator
       form_params = claim_params

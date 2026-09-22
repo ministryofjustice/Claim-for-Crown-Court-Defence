@@ -4,8 +4,8 @@ RSpec.describe Claims::FinancialSummary do
   # Uses default VAT rate factory (implicitly) with VAT rate of 17.5%
 
   context 'by advocate' do
-    let!(:submitted_claim)  { create(:submitted_claim) }
-    let!(:allocated_claim)  { create(:allocated_claim) }
+    let!(:submitted_claim) { create(:submitted_claim) }
+    let!(:allocated_claim) { create(:allocated_claim) }
 
     let!(:old_part_authorised_claim) do
       travel_to(2.weeks.ago)

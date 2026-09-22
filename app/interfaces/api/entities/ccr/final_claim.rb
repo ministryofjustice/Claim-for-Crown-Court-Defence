@@ -4,12 +4,12 @@ module API
       class FinalClaim < BaseClaim
         expose :case_type, using: API::Entities::CCR::CaseType
         expose :offence, using: API::Entities::CCR::Offence
-        expose  :first_day_of_trial,
-                :trial_fixed_notice_at,
-                :trial_fixed_at,
-                :trial_cracked_at,
-                :retrial_started_at,
-                format_with: :utc
+        expose :first_day_of_trial,
+               :trial_fixed_notice_at,
+               :trial_fixed_at,
+               :trial_cracked_at,
+               :retrial_started_at,
+               format_with: :utc
         expose :trial_cracked_at_third
         expose :retrial_reduction
 

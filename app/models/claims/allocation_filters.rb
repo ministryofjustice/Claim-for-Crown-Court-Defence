@@ -19,7 +19,7 @@ module Claims::AllocationFilters
     end
 
     def agfs_lgfs_scopes
-      scope :fixed_fee,   -> { all_fixed_fee }
+      scope :fixed_fee, -> { all_fixed_fee }
     end
 
     def agfs_scopes

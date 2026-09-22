@@ -8,16 +8,16 @@ class DocType
   end
 
   DOCTYPES = [
-    DocType.new(1,  500,  'Representation order'),
-    DocType.new(3,  300,  'Committal bundle front sheets'),
-    DocType.new(4,  400,  'Copy of the indictment'),
-    DocType.new(5,  100,  'Order in respect of judicial apportionment'),
-    DocType.new(6,  800,  'Expenses invoices'),
-    DocType.new(7,  600,  'Hardship supporting evidence'),
-    DocType.new(8,  700,  'Details of previous fee advancements'),
-    DocType.new(9, 1000,  'Justification for out of time claim'),
-    DocType.new(10, 1100,  'Special preparation form'),
-    DocType.new(11, 1200,  'Prior authority CRM4')
+    DocType.new(1,  500, 'Representation order'),
+    DocType.new(3,  300, 'Committal bundle front sheets'),
+    DocType.new(4,  400, 'Copy of the indictment'),
+    DocType.new(5,  100, 'Order in respect of judicial apportionment'),
+    DocType.new(6,  800, 'Expenses invoices'),
+    DocType.new(7,  600, 'Hardship supporting evidence'),
+    DocType.new(8,  700, 'Details of previous fee advancements'),
+    DocType.new(9, 1000, 'Justification for out of time claim'),
+    DocType.new(10, 1100, 'Special preparation form'),
+    DocType.new(11, 1200, 'Prior authority CRM4')
   ].sort_by(&:sequence)
 
   FEE_REFORM_DOC_TYPE_IDS = [1, 3, 4, 6].freeze

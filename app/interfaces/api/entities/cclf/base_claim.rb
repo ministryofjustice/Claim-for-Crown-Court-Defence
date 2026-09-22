@@ -5,12 +5,12 @@ module API
         expose :uuid
         expose :supplier_number
         expose :case_number
-        expose  :first_day_of_trial,
-                :retrial_started_at,
-                :case_concluded_at,
-                :last_submitted_at,
-                :main_hearing_date,
-                format_with: :utc
+        expose :first_day_of_trial,
+               :retrial_started_at,
+               :case_concluded_at,
+               :last_submitted_at,
+               :main_hearing_date,
+               format_with: :utc
 
         expose :actual_trial_length_or_one, as: :actual_trial_Length, format_with: :string
 

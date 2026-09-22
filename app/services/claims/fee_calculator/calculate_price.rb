@@ -12,21 +12,21 @@ module Claims
         final_third: 3
       }.with_indifferent_access.freeze
 
-      delegate  :earliest_representation_order_date,
-                :main_hearing_date,
-                :agfs?,
-                :lgfs?,
-                :interim?,
-                :agfs_reform?,
-                :trial_concluded_at,
-                :retrial_reduction,
-                :retrial_started_at,
-                :trial_cracked_at_third,
-                :case_type,
-                :offence,
-                :defendants,
-                :prosecution_evidence?,
-                to: :claim
+      delegate :earliest_representation_order_date,
+               :main_hearing_date,
+               :agfs?,
+               :lgfs?,
+               :interim?,
+               :agfs_reform?,
+               :trial_concluded_at,
+               :retrial_reduction,
+               :retrial_started_at,
+               :trial_cracked_at_third,
+               :case_type,
+               :offence,
+               :defendants,
+               :prosecution_evidence?,
+               to: :claim
 
       delegate :limit_from, to: :fee_type_limit
       delegate :limit_to, to: :fee_type_limit

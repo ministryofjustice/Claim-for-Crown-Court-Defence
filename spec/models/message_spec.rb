@@ -50,7 +50,7 @@ RSpec.describe Message do
       .rejecting('text/plain', 'text/html')
   end
 
-  it { is_expected.to validate_size_of(:attachments).less_than_or_equal_to(20.megabytes) }
+  it { is_expected.to validate_size_of(:attachments).less_than(20.megabytes) }
 
   describe '.for' do
     let(:message) { create(:message) }

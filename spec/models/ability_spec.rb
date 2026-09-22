@@ -50,6 +50,46 @@ RSpec.describe Ability do
     end
   end
 
+  context 'when authorising messages for a claim' do
+    let(:claim) { create(:claim, creator: claim_creator, external_user: claim_creator) }
+    let(:claim_creator) { create(:external_user) }
+    let(:user) { sender.user }
+    let(:sender) { claim_creator }
+
+    it { should be_able_to(:create_message, claim.reload) }
+
+    context 'when the sender is the claim external user but not the creator' do
+      let(:claim) { create(:claim, creator: claim_creator, external_user: sender) }
+      let(:sender) { create(:external_user, provider: claim_creator.provider) }
+
+      it { should be_able_to(:create_message, claim.reload) }
+    end
+
+    context 'when the sender is another non-admin user at the same provider' do
+      let(:sender) { create(:external_user, provider: claim_creator.provider) }
+
+      it { should_not be_able_to(:create_message, claim) }
+    end
+
+    context 'when the sender is an admin at the same provider' do
+      let(:sender) { create(:external_user, :admin, provider: claim_creator.provider) }
+
+      it { should be_able_to(:create_message, claim) }
+    end
+
+    context 'when the sender belongs to another provider' do
+      let(:sender) { create(:external_user) }
+
+      it { should_not be_able_to(:create_message, claim) }
+    end
+
+    context 'when the sender is a case worker' do
+      let(:sender) { create(:case_worker) }
+
+      it { should be_able_to(:create_message, claim) }
+    end
+  end
+
   context 'external_user advocate' do
     let(:external_user) { create(:external_user, :advocate) }
     let(:provider) { external_user.provider }

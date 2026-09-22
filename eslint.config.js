@@ -9,7 +9,7 @@ module.exports = require('neostandard')({
     '**/coverage/**',
     '**/vendor/**',
     '**/app/assets/builds/**',
-    '**/app/webpack/javascripts/vendor/**',
+    '**/app/javascript/vendor/**',
     '**/spec/javascripts/helpers/**',
   ],
 })

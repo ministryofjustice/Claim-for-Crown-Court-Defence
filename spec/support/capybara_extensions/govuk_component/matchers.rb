@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Naming/PredicatePrefix
+# rubocop:disable-next Naming/PredicatePrefix
 module CapybaraExtensions
   module GovukComponent
     module Matchers
@@ -82,4 +82,3 @@ module CapybaraExtensions
     end
   end
 end
-# rubocop:enable Naming/PredicatePrefix

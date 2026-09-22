@@ -544,7 +544,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
       end
 
-      # rubocop:disable RSpec/ExampleLength
+      # rubocop:disable-next RSpec/ExampleLength
       context 'with a redetermination' do
         it 'slices transitions into "completed" chunks' do
           create(:advocate_final_claim, :allocated).tap do |claim|
@@ -602,7 +602,6 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
           expect(journey_tos).to eq([%w[submitted allocated part_authorised], %w[redetermination allocated refused]])
         end
       end
-      # rubocop:enable RSpec/ExampleLength
     end
   end
 end

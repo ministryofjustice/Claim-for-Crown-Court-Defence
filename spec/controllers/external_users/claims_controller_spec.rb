@@ -794,7 +794,7 @@ RSpec.describe ExternalUsers::ClaimsController do
     context 'when archived claim has null vat totals' do
       # TODO: Break this up
       # rubocop:disable RSpec/MultipleExpectations
-      # rubocop:disable RSpec/ExampleLength
+      # rubocop:disable-next RSpec/ExampleLength
       it 'sets the vat totals to zero' do
         # given a claim with nils in vat totals before archiving
         claim = create(:authorised_claim, external_user: advocate)
@@ -815,7 +815,6 @@ RSpec.describe ExternalUsers::ClaimsController do
         expect(claim.expenses_vat).to eq 0.0
         expect(claim.disbursements_vat).to eq 0.0
       end
-      # rubocop:enable RSpec/ExampleLength
       # rubocop:enable RSpec/MultipleExpectations
     end
 

@@ -17,21 +17,20 @@ module SeedHelper
     # unique_code has unique, not null contraint but cannot be given
     # expected value until all offences seeded
     # - see DataMigrator::OffenceUniqueCodeMigrator
+    # NOTE: does not create the OffenceFeeScheme join - callers are responsible for that
     def find_or_create_scheme_10_offence!(attrs)
       offence = Offence.find_by(attrs)
       offence = Offence.create!(attrs.merge(unique_code: SecureRandom.uuid)) if offence.blank?
-      agfs_fee_scheme_10 = FeeScheme.find_by(name: 'AGFS', version: 10)
-      OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_fee_scheme_10)
       offence
     end
 
     # unique_code has unique, not null contraint but cannot be given
     # expected value until all offences seeded
     # - see DataMigrator::OffenceUniqueCodeMigrator
-    def find_or_create_scheme_11_offence!(attrs, fee_scheme)
+    # NOTE: does not create the OffenceFeeScheme join - callers are responsible for that
+    def find_or_create_scheme_11_offence!(attrs)
       offence = Offence.where(id: 3000..4500).find_by(attrs)
       offence = Offence.create!(attrs.merge(unique_code: SecureRandom.uuid)) if offence.blank?
-      OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: fee_scheme)
       offence
     end
 

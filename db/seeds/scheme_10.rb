@@ -8,10 +8,16 @@ lgfs_scheme_nine = FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_d
 agfs_scheme_nine = FeeScheme.find_or_create_by(name: 'AGFS', version: 9, start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
 agfs_fee_scheme_ten = FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Date.new(2018, 04, 01).beginning_of_day)
 
-Offence.where.not(offence_class: nil).each do |offence|
-  OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_scheme_nine)
-  OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: lgfs_scheme_nine)
+# bulk insert to avoid one SELECT+INSERT round trip per offence per scheme
+existing_pairs = OffenceFeeScheme.where(fee_scheme: [agfs_scheme_nine, lgfs_scheme_nine]).pluck(:offence_id, :fee_scheme_id).to_set
+new_rows = []
+
+Offence.where.not(offence_class: nil).pluck(:id).each do |offence_id|
+  new_rows << { offence_id: offence_id, fee_scheme_id: agfs_scheme_nine.id } unless existing_pairs.include?([offence_id, agfs_scheme_nine.id])
+  new_rows << { offence_id: offence_id, fee_scheme_id: lgfs_scheme_nine.id } unless existing_pairs.include?([offence_id, lgfs_scheme_nine.id])
 end
+
+OffenceFeeScheme.insert_all(new_rows) if new_rows.any?
 
 # create offence categories
 OffenceCategory.find_or_create_by(number: 1, description: 'Murder/Manslaughter')
@@ -79,14 +85,19 @@ class CSV::Row
   include OffenceCSVRowExtensions
 end
 
-csv.each do |row|
+new_offence_ids = csv.map do |row|
   SeedHelper.find_or_create_scheme_10_offence!(
     offence_band: row.offence_band,
     description: row.description,
     contrary: row.contrary_to,
     year_chapter: row.year_chapter
-  )
+  ).id
 end
+
+# bulk insert the AGFS scheme 10 joins to avoid one SELECT+INSERT round trip per offence
+existing_ids = OffenceFeeScheme.where(offence_id: new_offence_ids, fee_scheme: agfs_fee_scheme_ten).pluck(:offence_id).to_set
+missing_rows = (new_offence_ids.uniq - existing_ids.to_a).map { |offence_id| { offence_id: offence_id, fee_scheme_id: agfs_fee_scheme_ten.id } }
+OffenceFeeScheme.insert_all(missing_rows) if missing_rows.any?
 
 # regenerate unique codes based on offence description and band where order is significant
 require Rails.root.join('lib','data_migrator','offence_unique_code_migrator')

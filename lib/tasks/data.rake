@@ -117,19 +117,23 @@ namespace :data do
         where(description: 'Possession or supply of apparatus for use in dishonestly obtaining an electronic communication service.').
         update_all(description: 'Possession or supply of apparatus etc for contravening s.125')
 
-      SeedHelper.find_or_create_scheme_10_offence!(
+      agfs_fee_scheme_10 = FeeScheme.find_by(name: 'AGFS', version: 10)
+
+      offence = SeedHelper.find_or_create_scheme_10_offence!(
         description: "Rape",
         offence_band: OffenceBand.find_by(description: '4.1'),
         contrary: "Sexual Offences Act 1956, s.1",
         year_chapter: "1956 c. 69"
       )
+      OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_fee_scheme_10)
 
-      SeedHelper.find_or_create_scheme_10_offence!(
+      offence = SeedHelper.find_or_create_scheme_10_offence!(
         description: "Rape",
         offence_band: OffenceBand.find_by(description: '5.1'),
         contrary: "Sexual Offences Act 1956, s.1",
         year_chapter: "1956 c. 69"
       )
+      OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: agfs_fee_scheme_10)
 
       Rake::Task['data:migrate:offence_unique_code_scheme_10'].invoke
     end

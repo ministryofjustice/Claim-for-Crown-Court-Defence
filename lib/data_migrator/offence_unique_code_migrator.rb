@@ -34,10 +34,7 @@ module DataMigrator
       out '-- clearing existing offences.unique_code data'
       offences.update_all('unique_code = id')
       out '-- updating offences.unique_code data'
-      offence_set.each do |code, offence|
-        sql = "UPDATE offences SET unique_code = '#{code}' WHERE id = #{offence[:id]}"
-        @offences.connection.execute sql
-      end
+      bulk_update_unique_codes
       out Rainbow("codes generated: #{offence_set.count}").green
       out Rainbow("unique codes generated: #{offence_set.keys.uniq.count}").green
     end
@@ -51,6 +48,19 @@ module DataMigrator
     end
 
     private
+
+    # apply all code updates in batched single statements instead of one UPDATE per offence
+    def bulk_update_unique_codes
+      connection = @offences.connection
+      offence_set.each_slice(500) do |batch|
+        values = batch.map { |code, offence| "(#{offence[:id]}, #{connection.quote(code)})" }.join(', ')
+        connection.execute(<<~SQL.squish)
+          UPDATE offences SET unique_code = v.code
+          FROM (VALUES #{values}) AS v(id, code)
+          WHERE offences.id = v.id
+        SQL
+      end
+    end
 
     def unique_code(offence)
       modifier = 0

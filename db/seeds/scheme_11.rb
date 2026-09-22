@@ -40,17 +40,19 @@ class CSV::Row
   include OffenceCSVRowExtensions
 end
 
-csv.each do |row|
+new_offence_ids = csv.map do |row|
   SeedHelper.find_or_create_scheme_11_offence!(
-    {
-      offence_band: row.offence_band,
-      description: row.description,
-      contrary: row.contrary_to,
-      year_chapter: row.year_chapter
-    },
-    agfs_fee_scheme_eleven
-  )
+    offence_band: row.offence_band,
+    description: row.description,
+    contrary: row.contrary_to,
+    year_chapter: row.year_chapter
+  ).id
 end
+
+# bulk insert the AGFS scheme 11 joins to avoid one SELECT+INSERT round trip per offence
+existing_ids = OffenceFeeScheme.where(offence_id: new_offence_ids, fee_scheme: agfs_fee_scheme_eleven).pluck(:offence_id).to_set
+missing_rows = (new_offence_ids.uniq - existing_ids.to_a).map { |offence_id| { offence_id: offence_id, fee_scheme_id: agfs_fee_scheme_eleven.id } }
+OffenceFeeScheme.insert_all(missing_rows) if missing_rows.any?
 
 # regenerate unique codes based on offence description and band where order is significant
 require Rails.root.join('lib','data_migrator','offence_unique_code_migrator')

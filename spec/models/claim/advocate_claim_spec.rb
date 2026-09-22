@@ -491,18 +491,14 @@ RSpec.describe Claim::AdvocateClaim do
         create(:allocated_claim, external_user: adv_bob_hoskins)
       end
 
-      it 'finds only claims of the single state specified' do
-        expect(described_class.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eq 2
-      end
-
-      it 'finds only claims of the multiple states specified' do
-        expect(
-          described_class.search('Bob Hoskins', %i[archived_pending_delete authorised], search_options).count
-        ).to eq 4
-      end
-
-      it 'defaults to finding claims of dashboard_displayable_states' do
-        expect(described_class.search('Bob Hoskins', nil, search_options).count).to eq 3
+      it 'finds only claims of the specified state(s), defaulting to dashboard_displayable_states' do
+        aggregate_failures do
+          expect(described_class.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eq 2
+          expect(
+            described_class.search('Bob Hoskins', %i[archived_pending_delete authorised], search_options).count
+          ).to eq 4
+          expect(described_class.search('Bob Hoskins', nil, search_options).count).to eq 3
+        end
       end
     end
 

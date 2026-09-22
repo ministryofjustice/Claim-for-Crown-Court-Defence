@@ -280,8 +280,12 @@ RSpec.describe ExternalUsers::ClaimsController do
         context 'with a pagination limit' do
           let(:limit) { 3 }
 
-          it { expect(advocate.claims.dashboard_displayable_states.count).to eq(5) }
-          it { expect(assigns(:claims).count).to eq(3) }
+          it 'limits the returned claims while retaining the full count' do
+            aggregate_failures do
+              expect(advocate.claims.dashboard_displayable_states.count).to eq(5)
+              expect(assigns(:claims).count).to eq(3)
+            end
+          end
         end
       end
     end
@@ -390,8 +394,12 @@ RSpec.describe ExternalUsers::ClaimsController do
         context 'with a pagination limit' do
           let(:limit) { 3 }
 
-          it { expect(advocate.claims.archived_pending_delete.count).to eq(5) }
-          it { expect(assigns(:claims).count).to eq(3) }
+          it 'limits the returned claims while retaining the full count' do
+            aggregate_failures do
+              expect(advocate.claims.archived_pending_delete.count).to eq(5)
+              expect(assigns(:claims).count).to eq(3)
+            end
+          end
         end
       end
     end

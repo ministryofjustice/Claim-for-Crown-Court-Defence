@@ -44,21 +44,21 @@ RSpec.describe Claims::Search do
       context 'when no search terms were provided' do
         let(:term) { '' }
 
-        it 'does not include related filters in the SQL query' do
-          filters = [
-            /claims.case_number ILIKE/,
-            /representation_orders.maat_reference ILIKE/,
-            /lower(defendants.first_name || ' ' || defendants.last_name) ILIKE/
-          ]
-          filters.each do |filter|
-            expect(query.to_sql).not_to match(filter)
-          end
-        end
+        it 'does not include related filters in the SQL query and returns all archived claims' do
+          aggregate_failures do
+            filters = [
+              /claims.case_number ILIKE/,
+              /representation_orders.maat_reference ILIKE/,
+              /lower(defendants.first_name || ' ' || defendants.last_name) ILIKE/
+            ]
+            filters.each do |filter|
+              expect(query.to_sql).not_to match(filter)
+            end
 
-        it 'returns all archived claims' do
-          expected_claim_ids = [authorised_claim, part_authorised_claim, rejected_claim, refused_claim, archived_pending_delete_claim, archived_pending_review_claim].map(&:id)
-          expect(query.count).to eq(6)
-          expect(query.map(&:id)).to match_array(expected_claim_ids)
+            expected_claim_ids = [authorised_claim, part_authorised_claim, rejected_claim, refused_claim, archived_pending_delete_claim, archived_pending_review_claim].map(&:id)
+            expect(query.count).to eq(6)
+            expect(query.map(&:id)).to match_array(expected_claim_ids)
+          end
         end
       end
 
@@ -156,21 +156,21 @@ RSpec.describe Claims::Search do
           )
         }
 
-        it 'includes related filters in the SQL query' do
-          filters = [
-            /claims.case_number ILIKE '%#{term}%'/,
-            /representation_orders.maat_reference ILIKE '%#{term}%'/,
-            /lower\(defendants.first_name || ' ' || defendants.last_name\) ILIKE '%#{term}%'/
-          ]
-          filters.each do |filter|
-            expect(query.to_sql).to match(filter)
-          end
-        end
+        it 'includes related filters in the SQL query and returns all matching archived claims' do
+          aggregate_failures do
+            filters = [
+              /claims.case_number ILIKE '%#{term}%'/,
+              /representation_orders.maat_reference ILIKE '%#{term}%'/,
+              /lower\(defendants.first_name || ' ' || defendants.last_name\) ILIKE '%#{term}%'/
+            ]
+            filters.each do |filter|
+              expect(query.to_sql).to match(filter)
+            end
 
-        it 'returns all matching archived claims' do
-          expected_claim_ids = [authorised_claim, part_authorised_claim, archived_pending_delete_claim, archived_pending_review_claim].map(&:id)
-          expect(query.count).to eq(4)
-          expect(query.map(&:id)).to match_array(expected_claim_ids)
+            expected_claim_ids = [authorised_claim, part_authorised_claim, archived_pending_delete_claim, archived_pending_review_claim].map(&:id)
+            expect(query.count).to eq(4)
+            expect(query.map(&:id)).to match_array(expected_claim_ids)
+          end
         end
       end
     end

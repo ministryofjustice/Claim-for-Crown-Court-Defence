@@ -1253,6 +1253,8 @@ en:
       confirmation:
         page_title: Thank you for submitting your claim
         thanks: Thank you for submitting your claim
+        survey_link: What did you think of this service
+        survey_link_new_tab: (opens in a new tab)
         what_happens_next: What happens next?
         what_happens_next_prompt_html: |
           <p>Your claim will be assessed by one of our caseworkers. You will be notified

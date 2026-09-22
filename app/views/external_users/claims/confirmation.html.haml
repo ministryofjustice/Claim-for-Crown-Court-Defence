@@ -22,5 +22,5 @@
           = govuk_button_link_to(t('link.view_claim'), external_users_root_url, secondary: true)
 
       %p.govuk-body{class: 'govuk-!-margin-top-6'}
-        = govuk_link_to t('.survey_link'), 'https://www.smartsurvey.co.uk/s/trl-claim-success/', target: '_blank', rel: 'noreferrer noopener'
+        = govuk_link_to t('.survey_link'), Settings.feedback_survey_url, target: '_blank', rel: 'noreferrer noopener'
         = " #{t('.survey_link_new_tab')}"

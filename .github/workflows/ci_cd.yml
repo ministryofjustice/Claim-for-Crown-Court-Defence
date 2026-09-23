@@ -285,6 +285,8 @@ jobs:
 # ----------------------------
   build-and-push:
     runs-on: ubuntu-latest
+    environment:
+      name: build-and-push
 
     permissions:
       id-token: write   # required for AWS OIDC stuff

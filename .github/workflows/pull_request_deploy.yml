@@ -4,14 +4,15 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [opened, reopened, synchronize]
 
 permissions:
   contents: read
 
 jobs:
   build-and-push:
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    environment:
+      name: build-and-push
     runs-on: ubuntu-latest
     permissions:
       id-token: write

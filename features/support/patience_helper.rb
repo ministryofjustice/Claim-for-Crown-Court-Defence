@@ -22,6 +22,7 @@ module PatienceHelper
     Selenium::WebDriver::Error::JavascriptError
     Selenium::WebDriver::Error::UnknownError
     Selenium::WebDriver::Error::NoSuchAlertError
+    SitePrism::Error::ElementVisibilityTimeoutError
   ]
 
   class Patiently

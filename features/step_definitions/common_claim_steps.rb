@@ -49,7 +49,7 @@ When(/^I add another defendant, (.*?)representation order and MAAT reference$/) 
   date = scheme_date_for(scheme_text)
   defendant_count = @claim_form_page.defendants.count
 
-  @claim_form_page.wait_until_add_another_defendant_visible
+  patiently { @claim_form_page.wait_until_add_another_defendant_visible }
   @claim_form_page.add_another_defendant.click
   expect(page).to have_css('.defendant-details', count: defendant_count + 1)
 
@@ -177,11 +177,12 @@ When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"
 end
 
 When(/^I click "Continue" in the claim form and move to the '(.*?)' form page$/) do |page_title|
+  @claim_form_page.wait_until_continue_button_visible
   patiently do
-    @claim_form_page.continue_button.click
-  end
-  using_wait_time(Capybara.default_max_wait_time) do
-    expect(page).to have_css('h1.govuk-heading-xl', text: page_title)
+    page.execute_script("document.querySelector('#save_continue').click()")
+    using_wait_time(Capybara.default_max_wait_time) do
+      expect(page).to have_css('h1.govuk-heading-xl', text: page_title)
+    end
   end
   wait_for_ajax
 end

@@ -284,6 +284,7 @@ jobs:
 # BUILD & PUSH DOCKER IMAGE
 # ----------------------------
   build-and-push:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
 
     permissions:
@@ -318,6 +319,7 @@ jobs:
   
         
   deploy-dev:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     needs: [rspec-tests,cucumber-tests,other-tests,build-and-push]
     environment: dev
@@ -349,6 +351,8 @@ jobs:
           echo $IMAGE
 
           kubectl set image -f .k8s/live/dev/deployment.yaml cccd-app=$IMAGE --local -o yaml | kubectl apply -f -
+          kubectl set image -f .k8s/live/dev/deployment-worker.yaml cccd-worker=$IMAGE --local -o yaml | kubectl apply -f -
+          kubectl rollout status deployment/claim-for-crown-court-defence-worker
           kubectl apply \
             -f .k8s/live/dev/service.yaml \
             -f .k8s/live/dev/ingress.yaml
@@ -636,7 +640,7 @@ jobs:
           
           echo "Testing Puma connectivity..."
           docker exec cccd-app curl -s http://127.0.0.1:3000/ping.json || echo "Puma connection failed"
-          docker exec cccd-app bash -c "
+          docker exec cccd-app bash -e -c "
             bundle exec rake db:migrate
             bundle exec rake db:seed
             bundle exec rake api:smoke_test
@@ -645,7 +649,7 @@ jobs:
           docker logs cccd-app | tail -100
 
   ui-smoke-test-dev:
-    needs: smoke-test-main
+    needs: [smoke-test-main,deploy-dev]
     runs-on: ubuntu-latest
     steps:
       - name: UI smoke test dev

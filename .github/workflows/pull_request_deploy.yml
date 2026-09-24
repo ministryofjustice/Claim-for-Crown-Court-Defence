@@ -71,6 +71,8 @@ jobs:
           IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
           kubectl set image -f .k8s/live/dev/deployment.yaml cccd-app=$IMAGE --local -o yaml | kubectl apply -f -
           kubectl apply -f .k8s/live/dev/service.yaml -f .k8s/live/dev/ingress.yaml
+          kubectl set image -f .k8s/live/dev/deployment-worker.yaml cccd-worker=$IMAGE --local -o yaml | kubectl apply -f -
+          kubectl rollout status deployment/claim-for-crown-court-defence-worker
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
 

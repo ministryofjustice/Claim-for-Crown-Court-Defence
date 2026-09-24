@@ -12,7 +12,7 @@ esac
 set -ex
 
 # if REDIS_URL is not set then we start redis-server locally
-if [ -z ${REDIS_URL+x} ]; then
+if [ -z "${REDIS_URL:-}" ]; then
   printf '\e[33mINFO: Starting redis-server daemon\e[0m\n'
   redis-server --daemonize yes
   # export so it's available for the smoke tests

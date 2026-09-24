@@ -20,6 +20,7 @@ module ExternalUsers
 
     before_action :set_and_authorize_claim, only: %i[show edit update unarchive clone_rejected destroy summary
                                                      confirmation show_message_controls messages]
+    before_action :suppress_hotline_link, only: :confirmation
     before_action :set_supplier_postcode, only: %i[edit update]
     before_action :set_form_step, only: %i[edit update]
     before_action :redirect_unless_editable, only: %i[edit update]

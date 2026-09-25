@@ -790,7 +790,6 @@ DEPENDENCIES
   i18n-tasks
   jquery-rails (~> 4.6.1)
   jsbundling-rails
-  json (< 3.0)
   json-schema (~> 6.2.0)
   laa-cda!
   laa-fee-calculator-client (~> 2.0)

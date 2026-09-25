@@ -233,6 +233,9 @@ govuk_notify:
 
 notify_report_errors: <%= ENV["ENV"].in?(%w[api-sandbox production]) %>
 
+# Override per-environment with SETTINGS__HEALTHCHECK_REPORT_ENABLED=true, e.g. to test from a non-production deploy
+healthcheck_report_enabled: <%= ENV["ENV"].in? %w[production] %>
+
 postcode_regexp: !ruby/regexp '/\A([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\z/'
 
 maat_regexp: !ruby/regexp <%= ENV['MAAT_REGEXP'] || '/^[2-9][0-9]{6}$/' %>

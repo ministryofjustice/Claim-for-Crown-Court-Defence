@@ -46,3 +46,6 @@ production:
       cron: '0 50 2 * * *'
       class: Schedule::ReportGeneration
       args: ['management_information_v2']
+    healthcheck_report:
+      cron: '0 0 8 * * *'
+      class: Schedule::HealthcheckReport

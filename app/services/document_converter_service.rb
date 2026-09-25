@@ -25,6 +25,11 @@ class DocumentConverterService
   rescue IOError => e
     log('Failed to convert document', e)
     raise
+  rescue Libreconv::ConversionFailedError => e
+    # LibreOffice can permanently fail to convert a given document (e.g. corrupted or unsupported
+    # content). The converted file is only used as a preview, so there's no value in retrying -
+    # log it and move on rather than exhausting Sidekiq's retries over the following weeks.
+    log('Failed to convert document', e)
   end
 
   def with_attached_file(document)

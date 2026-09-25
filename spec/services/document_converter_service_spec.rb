@@ -44,4 +44,27 @@ RSpec.describe DocumentConverterService do
     it { expect(converted_attachment.content_type).to eq 'application/pdf' }
     it { expect(converted_attachment.checksum).to eq checksum }
   end
+
+  context 'when LibreOffice permanently fails to convert the document' do
+    let(:document) { create(:document, :docx) }
+
+    before do
+      allow(Libreconv).to receive(:convert).and_raise(Libreconv::ConversionFailedError, 'Conversion failed!')
+    end
+
+    it 'does not raise' do
+      expect { convert_document }.not_to raise_error
+    end
+
+    it 'does not attach a converted document' do
+      convert_document
+      expect(converted_attachment).not_to be_attached
+    end
+
+    it 'logs the failure' do
+      allow(LogStuff).to receive(:warn)
+      convert_document
+      expect(LogStuff).to have_received(:warn).with(hash_including(error: a_string_matching('Libreconv::ConversionFailedError')))
+    end
+  end
 end

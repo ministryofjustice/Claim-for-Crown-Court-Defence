@@ -25,6 +25,8 @@ class DocumentConverterService
   rescue IOError => e
     log('Failed to convert document', e)
     raise
+  rescue Libreconv::ConversionFailedError => e
+    log('Failed to convert document', e)
   end
 
   def with_attached_file(document)

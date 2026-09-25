@@ -319,6 +319,26 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
 
     describe 'PUT #update' do
       context 'current user' do
+        it 'updates the multi-firm user setting' do
+          put :update,
+              params: { id: external_user,
+                        external_user: { user_attributes: { id: external_user.user.id, multi_firm_user: true } } }
+
+          expect(external_user.user.reload).to be_multi_firm_user
+        end
+
+        it 'preserves links when disabling the multi-firm user setting' do
+          external_user.user.update!(multi_firm_user: true)
+          create(:multi_firm_user_link, user: external_user.user)
+
+          expect do
+            put :update,
+                params: { id: external_user,
+                          external_user: { user_attributes: { id: external_user.user.id,
+                                                              multi_firm_user: false } } }
+          end.not_to change(MultiFirmUserLink, :count)
+        end
+
         it 'updates non-roles attributes' do
           expect(external_user.email).to_not eq 'bobsmith@example.com'
           put :update, params: params_updating_email(external_user)

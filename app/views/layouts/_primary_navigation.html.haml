@@ -12,6 +12,8 @@
       - if Rails.host.api_sandbox?
         = sn.with_navigation_item(text: t('.api_documentation'), href: api_landing_page_path)
       = sn.with_navigation_item(text: t('link.add_claim'), href: new_external_users_claim_types_path)
+      - if current_user.multi_firm_user? && !current_user.incoming_multi_firm_user_link
+        = sn.with_navigation_item(text: t('.linked_accounts'), href: external_users_multi_firm_user_links_path)
       - if current_user.persona.admin?
         = sn.with_navigation_item(text: t('.manage_users'), href: external_users_admin_external_users_path)
         = sn.with_navigation_item(text: t('.manage_provider'), href: external_users_admin_provider_path(current_user.persona.provider))

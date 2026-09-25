@@ -23,6 +23,16 @@
       inline: true,
       legend: { text: t('.email_notification'), size: 's' }
 
+    - if @external_user.user == current_user
+      = user_fields.govuk_radio_buttons_fieldset :multi_firm_user,
+        legend: { text: t('.multi_firm_user'), size: 's' },
+        hint: { text: t('.multi_firm_user_hint') } do
+        = user_fields.govuk_radio_button :multi_firm_user, true,
+          label: { text: t('global_yes') },
+          link_errors: true
+        = user_fields.govuk_radio_button :multi_firm_user, false,
+          label: { text: t('global_no') }
+
     - if current_user.persona.admin?
       = f.govuk_check_boxes_fieldset :roles, legend: { text: t('.roles'), size: 's' } do
         - @external_user.available_roles.each_with_index do |role, idx|

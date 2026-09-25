@@ -72,7 +72,7 @@ module ExternalUsers
                           :supplier_number,
                           {
                             roles: [],
-                            user_attributes: ATTRIBUTES
+                            user_attributes: permitted_user_attributes
                           }]
         )
       end
@@ -81,8 +81,14 @@ module ExternalUsers
         params.expect(
           external_user: [:vat_registered,
                           :supplier_number,
-                          { user_attributes: ATTRIBUTES }]
+                          { user_attributes: permitted_user_attributes }]
         )
+      end
+
+      def permitted_user_attributes
+        return ATTRIBUTES unless @external_user&.user == current_user
+
+        ATTRIBUTES + %i[multi_firm_user]
       end
     end
   end

@@ -82,6 +82,12 @@ en:
       errors:
         blank_email: Enter your email address
         invalid_email: Enter an email address in the correct format, like name@example.com
+  multi_firm_account_selections:
+    show:
+      page_title: Choose an account
+      page_heading: Choose an account
+      legend: Which provider account do you want to use?
+      continue: Continue
   errors:
     internal_server_error:
       page_heading: 500 - internal server error
@@ -740,6 +746,21 @@ en:
     agfs_claim_heading: Claim for advocate fees
     lgfs_claim_heading: Claim for litigator fees
     claim_heading: Claim for Crown court fees
+    multi_firm_user_links:
+      show:
+        page_title: Linked accounts
+        page_heading: Linked accounts
+        linked_accounts: Linked accounts
+        no_linked_accounts: You have not linked any accounts.
+        link_account: Link another account
+        email: Email address
+        password: Password
+        remove: Remove
+        multi_firm_user_required: Enable multi-firm access in your account settings first.
+      create:
+        notice: The account has been linked.
+      destroy:
+        notice: The account link has been removed.
     claim_types_helper:
       claim_type_page_header:
         page_title_advocate: Choose a bill type for advocate claim
@@ -791,6 +812,8 @@ en:
         form:
           email: *email
           email_notification: Get email notifications of caseworker messages on claims you created?
+          multi_firm_user: Do you need to access accounts for more than one provider?
+          multi_firm_user_hint: When enabled, you can link your existing CCCD accounts for other providers.
           email_confirmation: *email_confirmation
           password: *password
           password_confirmation: *password_confirmation

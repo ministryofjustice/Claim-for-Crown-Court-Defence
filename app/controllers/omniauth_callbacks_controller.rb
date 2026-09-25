@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/ClassLength
+# rubocop:disable-next Metrics/ClassLength
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
 
@@ -49,7 +49,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     log_omniauth_payload(auth)
 
     user, error_message = find_existing_user_from_auth(auth)
-    return sign_in_and_redirect(user, event: :authentication) if user
+    return complete_authentication(user) if user
 
     redirect_to sign_in_path, alert: error_message || authentication_failed_message
   ensure
@@ -66,6 +66,16 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def authentication_failed_message
     I18n.t('omniauth_callbacks.authentication_failed')
+  end
+
+  def complete_authentication(user)
+    if user.multi_firm_user? && user.selectable_multi_firm_users.many?
+      session[:multi_firm_primary_user_id] = user.id
+      redirect_to multi_firm_account_selection_path
+    else
+      session.delete(:multi_firm_primary_user_id)
+      sign_in_and_redirect(user, event: :authentication)
+    end
   end
 
   def identified_email_matches?(email)
@@ -528,4 +538,3 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     true
   end
 end
-# rubocop:enable Metrics/ClassLength

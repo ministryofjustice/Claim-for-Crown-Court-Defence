@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
 
-  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations', omniauth_callbacks: 'omniauth_callbacks' }
+  devise_for :users,
+             path_names: { sign_in: 'legacy_sign_in' },
+             controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations', omniauth_callbacks: 'omniauth_callbacks' }
 
   resources :users, only: :index
 
@@ -46,8 +48,11 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
+    get '/users/sign_in', to: 'session_routing#new', as: :sign_in
+    post '/users/sign_in', to: 'session_routing#create'
+
     unauthenticated :user do
-      root 'sessions#new', as: :unauthenticated_root
+      root 'session_routing#new', as: :unauthenticated_root
     end
   end
 

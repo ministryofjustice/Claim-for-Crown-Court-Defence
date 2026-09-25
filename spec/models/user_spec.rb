@@ -40,6 +40,11 @@ RSpec.describe User do
   it { should belong_to(:persona) }
   it { should have_many(:messages_sent).class_name('Message').with_foreign_key('sender_id') }
   it { should have_many(:user_message_statuses) }
+  it { should have_one(:login_route).with_foreign_key(:id).dependent(:destroy) }
+
+  it 'creates a legacy login route' do
+    expect(user.login_route).to have_attributes(id: user.id, login_method: LoginRoute::LEGACY)
+  end
 
   it { should delegate_method(:claims).to(:persona) }
 

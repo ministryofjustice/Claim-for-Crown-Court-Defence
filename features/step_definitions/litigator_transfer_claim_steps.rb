@@ -42,6 +42,8 @@ end
 
 Then(/^I should (not )?see the days claimed field$/) do |negate|
   patiently do
+    expect(@litigator_transfer_claim_form_page).to have_transfer_fee
+
     if negate
       expect(@litigator_transfer_claim_form_page.transfer_fee).not_to have_days_total
     else

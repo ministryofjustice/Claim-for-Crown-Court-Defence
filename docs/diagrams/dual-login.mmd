@@ -1,0 +1,39 @@
+%%{init: {"theme": "neutral"}}%%
+flowchart LR
+  subgraph Before["Previous login flow"]
+    direction LR
+    B1["User opens /users/sign_in"]
+    B2["Legacy sign-in page"]
+    B3["User enters email + password"]
+    B4["Devise authenticates user"]
+    B5["User signed in"]
+
+    B1 --> B2 --> B3 --> B4 --> B5
+  end
+
+  subgraph After["New login flow"]
+    direction LR
+    A1["User opens /users/sign_in"]
+    A2["Email identification page"]
+    A3["User enters email"]
+    A4{"Lookup login_routes by user email"}
+
+    A5["login_method = legacy"]
+    A6["/users/legacy_sign_in"]
+    A7["User enters password"]
+    A8["Devise authenticates user"]
+
+    A9["login_method = entra"]
+    A10["Redirect to Entra / SILAS"]
+    A11{"Microsoft account email matches identified email?"}
+    A12["OmniAuth authenticates user"]
+
+    A13["Show mismatch alert and return to /users/sign_in"]
+    A14["User signed in"]
+
+    A1 --> A2 --> A3 --> A4
+    A4 --> A5 --> A6 --> A7 --> A8 --> A14
+    A4 --> A9 --> A10 --> A11
+    A11 -- "Yes" --> A12 --> A14
+    A11 -- "No" --> A13
+  end

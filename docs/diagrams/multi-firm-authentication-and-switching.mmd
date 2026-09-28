@@ -1,0 +1,52 @@
+%%{init: {'theme': 'default'}}%%
+sequenceDiagram
+    autonumber
+    actor User
+    participant CCCD as CCCD
+    participant LoginRoute as LoginRoute
+    participant Entra as SiLAS / Entra
+    participant Session as Session
+
+    User->>CCCD: Submit email on sign-in page
+    CCCD->>LoginRoute: Resolve login method for email
+    alt Login method is Entra
+        LoginRoute-->>User: Redirect to Entra authorization
+        User->>Entra: Authenticate
+        Entra-->>CCCD: OmniAuth callback with email and claims
+        CCCD->>CCCD: Verify callback email matches entered email
+        alt Email mismatch or no valid account
+            CCCD-->>User: Redirect to sign-in with authentication error
+        else Account resolved
+            CCCD->>CCCD: Update mapped roles where applicable
+            CCCD->>CCCD: Load primary plus active, enabled direct linked users
+            alt Multi-firm enabled and more than one selectable account
+                CCCD->>Session: Store primary user ID
+                CCCD-->>User: Show account chooser before signing in
+                User->>CCCD: Select account ID
+                CCCD->>CCCD: Re-check selected ID belongs to selectable account list
+                alt Selection is valid
+                    CCCD->>Session: Sign in selected CCCD User
+                    CCCD-->>User: Redirect to selected account dashboard
+                    Note over User,CCCD: Header shows Switch account while primary ID remains in session
+                    User->>CCCD: Choose Switch account
+                    CCCD-->>User: Re-open account chooser
+                    User->>CCCD: Select another account in the same direct link group
+                    CCCD->>CCCD: Re-check membership and account status
+                    CCCD->>Session: Sign in selected CCCD User
+                    CCCD-->>User: Redirect to selected account dashboard
+                else Selection is invalid or session is stale
+                    CCCD->>Session: Clear primary user ID
+                    CCCD-->>User: Redirect to sign-in
+                end
+            else One selectable account or multi-firm disabled
+                CCCD->>Session: Clear stale primary user ID and sign in resolved User
+                CCCD-->>User: Redirect to resolved account dashboard
+            end
+        end
+    else Login method is legacy
+        LoginRoute-->>User: Redirect to legacy password sign-in
+        User->>CCCD: Submit email and password
+        CCCD->>CCCD: Authenticate through Devise
+        CCCD-->>User: Sign in directly to primary CCCD account
+        Note over User,CCCD: Current legacy flow does not invoke the multi-firm chooser
+    end

@@ -48,7 +48,7 @@ class FeedbackController < ApplicationController
     if current_user
       root_path_url_for_user
     else
-      new_user_session_url
+      sign_in_url
     end
   end
 

@@ -355,7 +355,10 @@ jobs:
           kubectl rollout status deployment/claim-for-crown-court-defence-worker
           kubectl apply \
             -f .k8s/live/dev/service.yaml \
-            -f .k8s/live/dev/ingress.yaml
+            -f .k8s/live/dev/ingress.yaml \
+            -f .k8s/live/cron_jobs/archive_stale.yaml \
+            -f .k8s/live/cron_jobs/vacuum_db.yaml \
+            -f .k8s/live/dev/prometheus-custom-rules.yaml
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
 
@@ -396,7 +399,10 @@ jobs:
           kubectl rollout status deployment/claim-for-crown-court-defence-worker
           kubectl apply \
             -f .k8s/live/api-sandbox/service.yaml \
-            -f .k8s/live/api-sandbox/ingress.yaml
+            -f .k8s/live/api-sandbox/ingress.yaml \
+            -f .k8s/live/cron_jobs/archive_stale.yaml \
+            -f .k8s/live/cron_jobs/vacuum_db.yaml \
+            -f .k8s/live/api-sandbox/prometheus-custom-rules.yaml
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
 
@@ -437,7 +443,10 @@ jobs:
           kubectl rollout status deployment/claim-for-crown-court-defence-worker
           kubectl apply \
             -f .k8s/live/dev-lgfs/service.yaml \
-            -f .k8s/live/dev-lgfs/ingress.yaml
+            -f .k8s/live/dev-lgfs/ingress.yaml \
+            -f .k8s/live/cron_jobs/archive_stale.yaml \
+            -f .k8s/live/cron_jobs/vacuum_db.yaml \
+            -f .k8s/live/dev-lgfs/prometheus-custom-rules.yaml
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
 
@@ -479,7 +488,10 @@ jobs:
           kubectl rollout status deployment/claim-for-crown-court-defence-worker
           kubectl apply \
             -f .k8s/live/staging/service.yaml \
-            -f .k8s/live/staging/ingress.yaml
+            -f .k8s/live/staging/ingress.yaml \
+            -f .k8s/live/cron_jobs/archive_stale.yaml \
+            -f .k8s/live/cron_jobs/vacuum_db.yaml \
+            -f .k8s/live/staging/prometheus-custom-rules.yaml
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
 
@@ -520,7 +532,10 @@ jobs:
           kubectl rollout status deployment/claim-for-crown-court-defence-worker
           kubectl apply \
             -f .k8s/live/production/service.yaml \
-            -f .k8s/live/production/ingress.yaml
+            -f .k8s/live/production/ingress.yaml \
+            -f .k8s/live/cron_jobs/archive_stale.yaml \
+            -f .k8s/live/cron_jobs/vacuum_db.yaml \
+            -f .k8s/live/production/prometheus-custom-rules.yaml
           kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
           kubectl rollout status deployment/claim-for-crown-court-defence
 

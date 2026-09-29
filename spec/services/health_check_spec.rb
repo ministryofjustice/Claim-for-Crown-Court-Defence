@@ -39,4 +39,29 @@ RSpec.describe HealthCheck do
       it { expect(health_check.healthy?).to be false }
     end
   end
+
+  describe 'claim count' do
+    subject(:num_claims) { health_check.checks[:num_claims] }
+
+    context 'when the database is unreachable' do
+      before do
+        allow(ActiveRecord::Base.connection).to receive(:select_value).and_raise(PG::ConnectionBad)
+        allow(Claim::BaseClaim).to receive(:count)
+      end
+
+      it { is_expected.to be_nil }
+
+      it 'does not attempt to count claims' do
+        num_claims
+        expect(Claim::BaseClaim).not_to have_received(:count)
+      end
+    end
+
+    context 'when counting claims fails' do
+      before { allow(Claim::BaseClaim).to receive(:count).and_raise(ActiveRecord::StatementInvalid) }
+
+      it { is_expected.to be_nil }
+      it { expect(health_check.healthy?).to be false }
+    end
+  end
 end

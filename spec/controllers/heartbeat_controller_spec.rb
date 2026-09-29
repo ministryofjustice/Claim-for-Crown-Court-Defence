@@ -123,7 +123,7 @@ RSpec.describe HeartbeatController do
 
       let(:failed_healthcheck) do
         {
-          checks: { database: false, redis: false, sidekiq: false, sidekiq_queue: true, num_claims: 0 }
+          checks: { database: false, redis: false, sidekiq: false, sidekiq_queue: true, num_claims: nil }
         }.to_json
       end
 

@@ -2,13 +2,16 @@ require 'sidekiq/api'
 
 class HealthCheck
   def checks
-    @checks ||= {
-      database: database_alive?,
-      redis: redis_alive?,
-      sidekiq: sidekiq_alive?,
-      sidekiq_queue: sidekiq_queue_healthy?,
-      num_claims: Claim::BaseClaim.count
-    }
+    @checks ||= begin
+      database = database_alive?
+      {
+        database:,
+        redis: redis_alive?,
+        sidekiq: sidekiq_alive?,
+        sidekiq_queue: sidekiq_queue_healthy?,
+        num_claims: database ? claim_count : nil
+      }
+    end
   end
 
   def healthy?
@@ -44,5 +47,11 @@ class HealthCheck
     true
   rescue StandardError
     false
+  end
+
+  def claim_count
+    Claim::BaseClaim.count
+  rescue StandardError
+    nil
   end
 end

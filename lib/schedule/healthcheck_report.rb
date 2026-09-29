@@ -32,7 +32,7 @@ module Schedule
     end
 
     def format_value(name, value)
-      return value if name == :num_claims
+      return value.nil? ? ':x: unavailable' : value if name == :num_claims
 
       CHECK_EMOJI.fetch(value)
     end

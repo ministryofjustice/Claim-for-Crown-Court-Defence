@@ -56,6 +56,18 @@ RSpec.describe Schedule::HealthcheckReport do
       end
     end
 
+    context 'when the claim count is unavailable' do
+      let(:checks) do
+        { database: false, redis: true, sidekiq: true, sidekiq_queue: true, num_claims: nil }
+      end
+      let(:healthy) { false }
+
+      it 'reports the claim count as unavailable' do
+        expect(notifier).to have_received(:build_payload)
+          .with(hash_including(message: a_string_including('Number of claims: :x: unavailable')))
+      end
+    end
+
     context 'when the healthcheck report is disabled for this environment' do
       before do
         allow(Settings).to receive(:healthcheck_report_enabled).and_return(false)

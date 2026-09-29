@@ -1,4 +1,4 @@
-# rubocop:disable-next Metrics/ClassLength
+# rubocop:disable Metrics/ClassLength
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
 
@@ -538,3 +538,4 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     true
   end
 end
+# rubocop:enable Metrics/ClassLength

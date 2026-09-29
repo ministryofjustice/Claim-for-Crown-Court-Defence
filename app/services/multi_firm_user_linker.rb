@@ -8,7 +8,7 @@ class MultiFirmUserLinker
   validates :email, :password, presence: true
 
   # ActiveModel form objects conventionally expose a boolean-returning save method.
-  # rubocop:disable-next Naming/PredicateMethod
+  # rubocop:disable Naming/PredicateMethod
   def save
     return false unless valid?
 
@@ -17,6 +17,7 @@ class MultiFirmUserLinker
 
     link_saved?(linked_user)
   end
+  # rubocop:enable Naming/PredicateMethod
 
   private
 

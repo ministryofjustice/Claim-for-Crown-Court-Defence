@@ -1,0 +1,13 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'layouts/page_heading', locals: { page_heading: t('.page_heading') }
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_with url: multi_firm_account_selection_path, method: :post do |f|
+      = f.govuk_radio_buttons_fieldset :user_id, legend: { text: t('.legend'), size: 'm' } do
+        - @accounts.each_with_index do |account, index|
+          = f.govuk_radio_button :user_id, account.id, label: { text: account.provider.name }, hint: { text: account.email }, link_errors: index.zero?
+
+      = f.govuk_submit t('.continue')

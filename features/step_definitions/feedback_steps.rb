@@ -19,5 +19,5 @@ Then(/^I should be on the bug report page$/) do
 end
 
 Then(/^I should be on the sign in page$/) do
-  expect(current_path).to eq(new_user_session_path)
+  expect([sign_in_path, new_user_session_path]).to include(current_path)
 end

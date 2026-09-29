@@ -747,6 +747,7 @@ en:
     lgfs_claim_heading: Claim for litigator fees
     claim_heading: Claim for Crown court fees
     multi_firm_user_links:
+      multi_firm_user_required: Enable multi-firm access in your account settings first.
       show:
         page_title: Linked accounts
         page_heading: Linked accounts
@@ -756,7 +757,6 @@ en:
         email: Email address
         password: Password
         remove: Remove
-        multi_firm_user_required: Enable multi-firm access in your account settings first.
       create:
         notice: The account has been linked.
       destroy:

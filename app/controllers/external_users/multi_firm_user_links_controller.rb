@@ -35,7 +35,7 @@ module ExternalUsers
       return if current_user.multi_firm_user?
 
       redirect_to edit_external_users_admin_external_user_path(current_user.persona),
-                  alert: t('.multi_firm_user_required')
+                  alert: t('external_users.multi_firm_user_links.multi_firm_user_required')
     end
   end
 end

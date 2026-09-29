@@ -62,6 +62,12 @@ RSpec.describe 'Multi-firm user links' do
 
         expect(response).to redirect_to edit_external_users_admin_external_user_path(external_user)
       end
+
+      it 'explains how to enable access' do
+        get external_users_multi_firm_user_links_path
+
+        expect(flash[:alert]).to eq('Enable multi-firm access in your account settings first.')
+      end
     end
   end
 

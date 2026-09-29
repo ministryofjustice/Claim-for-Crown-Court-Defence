@@ -18,7 +18,7 @@ module Schedule
       slack_notifier = SlackNotifier.new('laa-cccd-alerts', formatter: SlackNotifier::Formatter::Generic.new)
       slack_notifier.build_payload(
         icon: ':penguin:',
-        title: 'Daily healthcheck',
+        title: "Daily healthcheck on #{ENV.fetch('ENV', nil)}",
         message: format_message(health_check.checks),
         status: health_check.healthy? ? :pass : :fail
       )

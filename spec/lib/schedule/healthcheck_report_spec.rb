@@ -23,6 +23,8 @@ RSpec.describe Schedule::HealthcheckReport do
     end
 
     before do
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with('ENV', nil).and_return('dev')
       allow(Settings).to receive(:healthcheck_report_enabled).and_return(true)
       allow(HealthCheck).to receive(:new).and_return(health_check)
       allow(SlackNotifier).to receive(:new).and_return(notifier)
@@ -38,9 +40,9 @@ RSpec.describe Schedule::HealthcheckReport do
         .with('laa-cccd-alerts', formatter: an_instance_of(SlackNotifier::Formatter::Generic))
     end
 
-    it 'builds the payload with a summary of the checks' do
+    it 'builds the payload with the environment and a summary of the checks' do
       expect(notifier).to have_received(:build_payload).with(
-        icon: ':penguin:', title: 'Daily healthcheck', message: expected_message, status: :pass
+        icon: ':penguin:', title: 'Daily healthcheck on dev', message: expected_message, status: :pass
       )
     end
 

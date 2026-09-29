@@ -14,13 +14,13 @@ module Schedule
     def perform
       return unless Settings.healthcheck_report_enabled
 
-      health_check = HealthCheck.new
+      checks = HealthCheck.new.checks
       slack_notifier = SlackNotifier.new('laa-cccd-alerts', formatter: SlackNotifier::Formatter::Generic.new)
       slack_notifier.build_payload(
         icon: ':penguin:',
         title: "Daily healthcheck on #{ENV.fetch('ENV', nil)}",
-        message: format_message(health_check.checks),
-        status: health_check.healthy? ? :pass : :fail
+        message: format_message(checks),
+        status: checks.values.all? ? :pass : :fail
       )
       slack_notifier.send_message
     end

@@ -6,11 +6,10 @@ RSpec.describe Schedule::HealthcheckReport do
   describe '#perform' do
     subject(:perform) { report.perform }
 
-    let(:health_check) { instance_double(HealthCheck, checks:, healthy?: healthy) }
+    let(:health_check) { instance_double(HealthCheck, checks:) }
     let(:checks) do
       { database: true, redis: true, sidekiq: true, sidekiq_queue: true, num_claims: 42 }
     end
-    let(:healthy) { true }
     let(:notifier) { instance_double(SlackNotifier) }
     let(:expected_message) do
       [
@@ -50,8 +49,16 @@ RSpec.describe Schedule::HealthcheckReport do
       expect(notifier).to have_received(:send_message)
     end
 
-    context 'when a check has failed' do
-      let(:healthy) { false }
+    context 'when a dependency check has failed' do
+      let(:checks) { super().merge(redis: false) }
+
+      it 'sets the status to fail' do
+        expect(notifier).to have_received(:build_payload).with(hash_including(status: :fail))
+      end
+    end
+
+    context 'when there are dead or retrying Sidekiq jobs' do
+      let(:checks) { super().merge(sidekiq_queue: false) }
 
       it 'sets the status to fail' do
         expect(notifier).to have_received(:build_payload).with(hash_including(status: :fail))
@@ -59,10 +66,7 @@ RSpec.describe Schedule::HealthcheckReport do
     end
 
     context 'when the claim count is unavailable' do
-      let(:checks) do
-        { database: false, redis: true, sidekiq: true, sidekiq_queue: true, num_claims: nil }
-      end
-      let(:healthy) { false }
+      let(:checks) { super().merge(database: false, num_claims: nil) }
 
       it 'reports the claim count as unavailable' do
         expect(notifier).to have_received(:build_payload)

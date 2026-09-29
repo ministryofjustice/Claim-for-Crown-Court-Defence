@@ -2,6 +2,10 @@ module Schedule
   class HealthcheckReport
     include Sidekiq::Job
 
+    sidekiq_options retry: 5
+
+    class DeliveryError < StandardError; end
+
     CHECK_EMOJI = { true => ':white_check_mark:', false => ':x:' }.freeze
     CHECK_DESCRIPTIONS = {
       database: 'Database connection',
@@ -22,10 +26,15 @@ module Schedule
         message: format_message(checks),
         status: checks.values.all? ? :pass : :fail
       )
-      slack_notifier.send_message
+      deliver(slack_notifier)
     end
 
     private
+
+    def deliver(slack_notifier)
+      response = slack_notifier.send_message
+      raise DeliveryError, "Slack webhook responded with HTTP #{response.status}" unless response.success?
+    end
 
     def format_message(checks)
       checks.map { |name, value| "#{CHECK_DESCRIPTIONS.fetch(name)}: #{format_value(name, value)}" }.join("\n")

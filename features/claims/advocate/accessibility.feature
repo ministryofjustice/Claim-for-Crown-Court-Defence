@@ -96,6 +96,8 @@ Feature: Advocate submits a claim
 
     Then I should be on the claim confirmation page
     And I should see a page title "Thank you for submitting your claim"
+    And I should see "What did you think of this service"
+    And I should see "(opens in a new tab)"
     Then the page should be accessible
 
     When I click View your claims

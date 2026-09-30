@@ -20,3 +20,7 @@
         .govuk-button-group
           = govuk_button_link_to(t('link.file_another_claim'), new_external_users_claim_types_path)
           = govuk_button_link_to(t('link.view_claim'), external_users_root_url, secondary: true)
+
+      %p.govuk-body{class: 'govuk-!-margin-top-6'}
+        = govuk_link_to t('.survey_link'), Settings.feedback_survey_url, target: '_blank', rel: 'noreferrer noopener'
+        = " #{t('.survey_link_new_tab')}"

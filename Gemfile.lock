@@ -308,7 +308,7 @@ GEM
       nokogiri (~> 1.8, >= 1.8.2)
     grape-swagger (2.2.0)
       grape (>= 2.1, < 5.0)
-    grape-swagger-rails (1.0.9)
+    grape-swagger-rails (1.0.10)
       haml-rails (>= 2.0, < 4.0)
       json (>= 2.0, < 3.0)
       ostruct (>= 0.6, < 1.0)
@@ -543,7 +543,7 @@ GEM
       logger
       prism (>= 1.6.0)
       tsort
-    rdoc (8.0.0)
+    rdoc (8.1.0)
       erb
       prism (>= 1.6.0)
       rbs (>= 4.0.0)
@@ -783,7 +783,7 @@ DEPENDENCIES
   grape-entity (~> 1.1.0)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 2.2.0)
-  grape-swagger-rails (~> 1.0.9)
+  grape-swagger-rails (~> 1.0.10)
   haml-rails (~> 3.1.0)
   hashdiff (>= 1.0.0.beta1, < 2.0.0)
   hashie-forbidden_attributes (>= 0.1.1)
@@ -950,7 +950,7 @@ CHECKSUMS
   grape-entity (1.1.0) sha256=ab6a1004e57791834e8497d5e85a3c101b72144d8ca31462a26e6d0a380c3d89
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
   grape-swagger (2.2.0) sha256=e2b4a8a5d9848f4f43cc6c6f4862a4671a9767880795cff05e8dee963b3a331b
-  grape-swagger-rails (1.0.9) sha256=cdd3df81dab98ecbaa39ea03e58004ddfe86aefaf7aed96a1a2e873f2fb05aec
+  grape-swagger-rails (1.0.10) sha256=37ac88c26964fe2ee5ef8194b93efd89646bbcf5cb003cbaa1c4245679d40008
   haml (7.5.1) sha256=91c5843dd85d32042cc6218d2df8c81282403459958aa53caa58fda238adc287
   haml-rails (3.1.0) sha256=4366474d973e4b9d5326cb216f2073150cfeff4c2a3c07fadb49a490ffdf610b
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
@@ -1046,7 +1046,7 @@ CHECKSUMS
   rb-fsevent (0.11.2) sha256=43900b972e7301d6570f64b850a5aa67833ee7d87b458ee92805d56b7318aefe
   rb-inotify (0.11.1) sha256=a0a700441239b0ff18eb65e3866236cd78613d6b9f78fea1f9ac47a85e47be6e
   rbs (4.2.0) sha256=51f7b886dcc05bc09e10b901daa6a81829f6adc03101d6ca9ea4aac6103e0674
-  rdoc (8.0.0) sha256=03bf8c08a9639658855a0cfd77c0abca8325c227693f7f33f82957811348c469
+  rdoc (8.1.0) sha256=befc37880a5cfd36dcb176c748b5fd5ee39dd3536a75e81824e4972ce230f60a
   redis (6.0.0) sha256=de71c10edd106986b759ec7ecdd08b63b9c0ee7414a0d0c1da73d31ba2bccda6
   redis-client (0.30.1) sha256=5151bc5c7bbfe48623732cdae3b900d8a22dc691cc7cdfacfb351ac55116522d
   regexp_parser (2.13.0) sha256=d105d95d2138954e73914d2fbfb3d0a8f8605a49a3e89864c32e78b9107cb770

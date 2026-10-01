@@ -35,7 +35,7 @@ RSpec.describe ExternalUsers::CertificationsController do
         claim = create(:submitted_claim)
         get :new, params: { claim_id: claim }
         expect(response).to redirect_to(external_users_claim_path(claim))
-        expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state'
+        expect(flash[:alert]).to eq 'Cannot certify a claim in its current state'
       end
     end
 
@@ -66,6 +66,20 @@ RSpec.describe ExternalUsers::CertificationsController do
           post :create, params: valid_certification_params(claim, certification_type)
           expect(response).to redirect_to(summary_external_users_claim_path(claim))
           expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
+        end
+      end
+
+      context 'claim is allocated' do
+        let(:claim) { create(:allocated_claim) }
+        let!(:case_worker_id) { claim.case_workers.pick(:id) }
+
+        it 'does not resubmit the claim or remove its caseworker' do
+          post :create, params: valid_certification_params(claim, certification_type)
+
+          expect(response).to redirect_to(external_users_claim_path(claim))
+          expect(flash[:alert]).to eq 'Cannot certify a claim in its current state'
+          expect(claim.reload).to be_allocated
+          expect(claim.case_workers.pluck(:id)).to include(case_worker_id)
         end
       end
 
@@ -168,7 +182,7 @@ RSpec.describe ExternalUsers::CertificationsController do
       claim = create(:advocate_claim)
       patch :update, params: { claim_id: claim }
       expect(response).to redirect_to(external_users_claim_path(claim))
-      expect(flash[:alert]).to eq 'Cannot certify a claim in submitted state'
+      expect(flash[:alert]).to eq 'Cannot certify a claim in its current state'
     end
   end
 end

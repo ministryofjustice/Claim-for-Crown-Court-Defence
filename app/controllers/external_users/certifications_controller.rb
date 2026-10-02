@@ -33,7 +33,7 @@ module ExternalUsers
     private
 
     def redirect_already_certified
-      redirect_to external_users_claim_path(@claim), alert: t('shared.certification.alert') if @claim.submitted?
+      redirect_to external_users_claim_path(@claim), alert: t('shared.certification.alert') unless @claim.draft?
     end
 
     def redirect_if_not_valid

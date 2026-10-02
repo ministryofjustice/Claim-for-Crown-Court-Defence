@@ -1,0 +1,55 @@
+module Schedule
+  class HealthcheckReport
+    include Sidekiq::Job
+
+    sidekiq_options retry: 5
+
+    class DeliveryError < StandardError; end
+
+    CHECK_EMOJI = { true => ':white_check_mark:', false => ':x:' }.freeze
+    CHECK_DESCRIPTIONS = {
+      database: 'Database connection',
+      redis: 'Redis connection',
+      sidekiq: 'Sidekiq process running',
+      sidekiq_queue: 'No dead or retrying Sidekiq jobs',
+      num_claims: 'Number of claims'
+    }.freeze
+
+    def perform
+      return unless Settings.healthcheck_report_enabled
+
+      checks = HealthCheck.new.checks
+      slack_notifier = build_notifier
+      slack_notifier.build_payload(
+        icon: ':penguin:',
+        title: "Daily healthcheck on #{ENV.fetch('ENV', nil)}",
+        message: format_message(checks),
+        status: checks.values.all? ? :pass : :fail
+      )
+      deliver(slack_notifier)
+    end
+
+    private
+
+    def build_notifier
+      SlackNotifier.new(
+        'laa-cccd-alerts', formatter: SlackNotifier::Formatter::Generic.new, slack_bot_name: 'CCCD Healthcheck'
+      )
+    end
+
+    def deliver(slack_notifier)
+      response = slack_notifier.send_message
+      raise DeliveryError, "Slack webhook responded with HTTP #{response.status}" unless response.success?
+    end
+
+    def format_message(checks)
+      checks.map { |name, value| "#{CHECK_DESCRIPTIONS.fetch(name)}: #{format_value(name, value)}" }.join("\n")
+    end
+
+    def format_value(name, value)
+      return value.nil? ? ':x: unavailable' : value if name == :num_claims
+
+      CHECK_EMOJI.fetch(value)
+    end
+  end
+end

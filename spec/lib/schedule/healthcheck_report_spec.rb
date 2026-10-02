@@ -38,7 +38,8 @@ RSpec.describe Schedule::HealthcheckReport do
       it 'creates a new SlackNotifier for the alerts channel' do
         expect(SlackNotifier)
           .to have_received(:new)
-          .with('laa-cccd-alerts', formatter: an_instance_of(SlackNotifier::Formatter::Generic))
+          .with('laa-cccd-alerts', formatter: an_instance_of(SlackNotifier::Formatter::Generic),
+                                   slack_bot_name: 'CCCD Healthcheck')
       end
 
       it 'builds the payload with the environment and a summary of the checks' do

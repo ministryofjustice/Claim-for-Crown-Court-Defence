@@ -19,7 +19,7 @@ module Schedule
       return unless Settings.healthcheck_report_enabled
 
       checks = HealthCheck.new.checks
-      slack_notifier = SlackNotifier.new('laa-cccd-alerts', formatter: SlackNotifier::Formatter::Generic.new)
+      slack_notifier = build_notifier
       slack_notifier.build_payload(
         icon: ':penguin:',
         title: "Daily healthcheck on #{ENV.fetch('ENV', nil)}",
@@ -30,6 +30,12 @@ module Schedule
     end
 
     private
+
+    def build_notifier
+      SlackNotifier.new(
+        'laa-cccd-alerts', formatter: SlackNotifier::Formatter::Generic.new, slack_bot_name: 'CCCD Healthcheck'
+      )
+    end
 
     def deliver(slack_notifier)
       response = slack_notifier.send_message

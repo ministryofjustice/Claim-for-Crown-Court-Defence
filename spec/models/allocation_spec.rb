@@ -16,6 +16,16 @@ RSpec.describe Allocation do
     queries
   end
 
+  def vat_update_queries(&)
+    queries = []
+    subscriber = lambda do |*args|
+      sql = args.last[:sql]
+      queries << sql if sql.match?(/\AUPDATE "claims" SET "(?:apply_vat|vat_amount)"/i)
+    end
+    ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record', &)
+    queries
+  end
+
   it { should validate_presence_of(:case_worker_id) }
   it { should validate_presence_of(:claim_ids) }
 
@@ -211,6 +221,12 @@ RSpec.describe Allocation do
           allocation = reallocator
           queries = target_case_worker_queries(case_worker) { expect(allocation.save).to be true }
           expect(queries.size).to eq(1)
+        end
+
+        it 'does not rewrite unchanged VAT values during reallocation', :aggregate_failures do
+          allocation = reallocator
+          queries = vat_update_queries { expect(allocation.save).to be true }
+          expect(queries).to be_empty
         end
       end
 

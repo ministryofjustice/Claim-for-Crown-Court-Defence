@@ -45,6 +45,9 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: dev
+    concurrency:
+      group: cccd-deploy-dev
+      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -74,6 +77,9 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: dev-lgfs
+    concurrency:
+      group: cccd-deploy-dev-lgfs
+      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -103,6 +109,9 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: api-sandbox
+    concurrency:
+      group: cccd-deploy-api-sandbox
+      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -132,6 +141,9 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: staging
+    concurrency:
+      group: cccd-deploy-staging
+      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}

@@ -63,23 +63,11 @@ jobs:
           echo "$KUBE_CERT_DEV" > ca.crt
           kubectl config set-cluster cluster --certificate-authority=ca.crt --server=https://$KUBE_CLUSTER_DEV
           kubectl config set-credentials gha --token=$KUBE_TOKEN_DEV
-          kubectl config set-context ctx --cluster=cluster --user=gha --namespace=$KUBE_NAMESPACE_DEV
-          kubectl config use-context ctx
+          kubectl config set-context live --cluster=cluster --user=gha --namespace=$KUBE_NAMESPACE_DEV
+          kubectl config use-context live
       # added new apply lines to match prev circle deploy
       - name: Deploy to dev
-        run: |
-          IMAGE=$REGISTRY/$REPOSITORY:$IMAGE_TAG
-          kubectl set image -f .k8s/live/dev/deployment.yaml cccd-app=$IMAGE --local -o yaml | kubectl apply -f -
-          kubectl apply \
-            -f .k8s/live/dev/service.yaml \
-            -f .k8s/live/dev/ingress.yaml \
-            -f .k8s/live/cron_jobs/archive_stale.yaml \
-            -f .k8s/live/cron_jobs/vacuum_db.yaml \
-            -f .k8s/live/dev/prometheus-custom-rules.yaml
-          kubectl set image -f .k8s/live/dev/deployment-worker.yaml cccd-worker=$IMAGE --local -o yaml | kubectl apply -f -
-          kubectl rollout status deployment/claim-for-crown-court-defence-worker
-          kubectl annotate deployment/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $IMAGE via GitHub Actions" --overwrite
-          kubectl rollout status deployment/claim-for-crown-court-defence
+        run: .k8s/live/scripts/deploy.sh dev "$GITHUB_SHA"
 
   deploy-dev-lgfs:
     if: github.event.pull_request.head.repo.full_name == github.repository

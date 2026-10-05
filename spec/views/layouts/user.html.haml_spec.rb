@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'layouts/_user' do
-  let(:user) { build_stubbed(:user, first_name: 'Alex', last_name: 'Smith') }
+  let(:user) do
+    create(:external_user, user: build(:user, first_name: 'Alex', last_name: 'Smith', multi_firm_user: true)).user
+  end
 
   before do
     allow(view).to receive(:current_user).and_return(user)
@@ -31,5 +33,32 @@ RSpec.describe 'layouts/_user' do
     render
 
     expect(rendered).not_to include('Switch account')
+  end
+
+  it 'hides account switching when the primary account turns multi-firm access off' do
+    view.request.session[:multi_firm_primary_user_id] = user.id
+    user.update!(multi_firm_user: false)
+
+    render
+
+    expect(rendered).not_to include('Switch account')
+  end
+
+  it 'hides account switching when the primary account no longer exists' do
+    view.request.session[:multi_firm_primary_user_id] = -1
+
+    render
+
+    expect(rendered).not_to include('Switch account')
+  end
+
+  it 'shows account switching from a linked account while the primary has multi-firm access enabled' do
+    link = create(:multi_firm_user_link, user:)
+    view.request.session[:multi_firm_primary_user_id] = user.id
+    allow(view).to receive(:current_user).and_return(link.linked_user)
+
+    render
+
+    expect(rendered).to include('Switch account')
   end
 end

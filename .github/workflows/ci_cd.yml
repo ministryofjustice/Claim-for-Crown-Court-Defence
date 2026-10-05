@@ -560,6 +560,7 @@ jobs:
             --network host \
             --env RAILS_ENV="$RAILS_ENV" \
             --env DATABASE_URL="$DATABASE_URL" \
+            --env REDIS_URL="$REDIS_URL" \
             --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
             --env CASE_WORKER_PASSWORD="$CASE_WORKER_PASSWORD" \
             --env ADMIN_PASSWORD="$ADMIN_PASSWORD" \
@@ -689,6 +690,7 @@ jobs:
             --network host \
             --env RAILS_ENV="$RAILS_ENV" \
             --env DATABASE_URL="$DATABASE_URL" \
+            --env REDIS_URL="$REDIS_URL" \
             --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
             --env CASE_WORKER_PASSWORD="$CASE_WORKER_PASSWORD" \
             --env ADMIN_PASSWORD="$ADMIN_PASSWORD" \

@@ -12,11 +12,41 @@ RSpec.describe OmniauthCallbacksController do
     context 'when the Entra email matches the identified email' do
       let(:callback_email) { user.email.upcase }
 
-      before { session[:entra_sign_in_email] = user.email }
+      before do
+        session[:entra_sign_in_email] = user.email
+        session[:multi_firm_primary_user_id] = 123
+        get :entra_mock
+      end
 
       it 'signs the user in' do
-        get :entra_mock
         expect(response).to redirect_to case_workers_root_path
+      end
+
+      it 'clears stale multi-firm session state' do
+        expect(session[:multi_firm_primary_user_id]).to be_nil
+      end
+    end
+
+    context 'when a multi-firm external user has linked accounts' do
+      let(:user) { create(:external_user, user: build(:user, multi_firm_user: true)).user }
+      let(:callback_email) { user.email }
+
+      before do
+        create(:multi_firm_user_link, user:)
+        session[:entra_sign_in_email] = user.email
+        get :entra_mock
+      end
+
+      it 'redirects to account selection before signing in' do
+        expect(response).to redirect_to multi_firm_account_selection_path
+      end
+
+      it 'does not sign in before account selection' do
+        expect(controller.current_user).to be_nil
+      end
+
+      it 'retains the primary account for selection' do
+        expect(session[:multi_firm_primary_user_id]).to eq(user.id)
       end
     end
 

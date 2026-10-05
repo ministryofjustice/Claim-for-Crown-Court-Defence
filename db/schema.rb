@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_02_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_25_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -499,6 +499,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_090000) do
     t.index ["ppe"], name: "index_mi_data_on_ppe"
   end
 
+  create_table "multi_firm_user_links", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "linked_user_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["linked_user_id"], name: "index_multi_firm_user_links_on_linked_user_id", unique: true
+    t.index ["user_id", "linked_user_id"], name: "index_multi_firm_user_links_on_user_id_and_linked_user_id", unique: true
+    t.check_constraint "user_id <> linked_user_id", name: "multi_firm_user_links_different_users"
+  end
+
   create_table "offence_bands", id: :serial, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
@@ -624,6 +634,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_090000) do
     t.datetime "last_sign_in_at"
     t.inet "last_sign_in_ip"
     t.datetime "locked_at"
+    t.boolean "multi_firm_user", default: false, null: false
     t.integer "persona_id"
     t.string "persona_type"
     t.datetime "remember_created_at"
@@ -661,6 +672,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_090000) do
   add_foreign_key "claims", "case_stages", name: "fk_claims_case_stage_id"
   add_foreign_key "injection_attempts", "claims"
   add_foreign_key "login_routes", "users", column: "id", on_delete: :cascade
+  add_foreign_key "multi_firm_user_links", "users", column: "linked_user_id", on_delete: :cascade
+  add_foreign_key "multi_firm_user_links", "users", on_delete: :cascade
   add_foreign_key "offence_bands", "offence_categories"
   add_foreign_key "offences", "offence_bands"
 end

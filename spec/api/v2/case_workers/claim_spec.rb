@@ -83,6 +83,38 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       end
     end
 
+    context 'with unread message counts' do
+      before do
+        @claims = create_list(:submitted_claim, 3)
+        @claims.each { |claim| claim.case_workers << case_worker }
+        messages = create_list(:message, 2, claim: @claims.first, sender: @claims.first.external_user.user)
+        read_message = create(:message, claim: @claims.second, sender: @claims.second.external_user.user)
+        UserMessageStatus.where(user: case_worker.user, message: [messages.first, read_message]).find_each do |status|
+          status.update!(read: true)
+        end
+        UserMessageStatus.find_by!(user: messages.first.sender, message: messages.first).update!(read: false)
+        request_params = params.merge(status: 'current')
+        @queries = []
+        subscriber = lambda do |*args|
+          sql = args.last[:sql]
+          @queries << sql if sql.match?(/\ASELECT .*"user_message_statuses"/i)
+        end
+
+        ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') do
+          do_request(request_params)
+        end
+        @items = JSON.parse(last_response.body, symbolize_names: true).fetch(:items).sort_by { |item| item[:id] }
+      end
+
+      it 'counts unread messages for the current user in one query', :aggregate_failures do
+        expect(last_response.status).to eq 200
+        expect(@items.pluck(:id)).to eq(@claims.map(&:id))
+        expect(@items.pluck(:messages_count)).to eq([2, 1, 0])
+        expect(@items.pluck(:unread_messages_count)).to eq([1, 0, 0])
+        expect(@queries.size).to eq(1)
+      end
+    end
+
     context 'when accessed by a ExternalUser' do
       before { do_request(api_key: external_user.user.api_key) }
 

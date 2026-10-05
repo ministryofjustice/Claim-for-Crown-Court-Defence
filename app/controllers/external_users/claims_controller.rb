@@ -264,6 +264,8 @@ module ExternalUsers
       sort_defaults(options)
       @pagy, @claims = pagy(@claims.sort_using(sort_column, sort_direction), page: current_page,
                                                                              limit: @sort_defaults[:pagination])
+      @claims = @claims.preload(:messages)
+      @unread_message_counts = Message.unread_counts_for(current_user, @claims.map(&:id))
     end
 
     def scheme

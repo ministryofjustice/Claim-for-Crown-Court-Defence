@@ -16,7 +16,7 @@ module API
 
       expose :messages_count
       expose :unread_messages_count do |_instance, options|
-        unread_messages_count(options[:user])
+        unread_messages_count(options[:user], options[:unread_message_counts])
       end
 
       expose :external_user, using: API::Entities::ExternalUser
@@ -34,7 +34,9 @@ module API
         object.messages.size
       end
 
-      def unread_messages_count(user)
+      def unread_messages_count(user, counts)
+        return counts.fetch(object.id, 0) if counts
+
         object.unread_messages_for(user).size
       end
     end

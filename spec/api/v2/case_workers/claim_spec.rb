@@ -46,6 +46,43 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       expect(body).to have_key(:items)
     end
 
+    context 'with multiple allocated claims' do
+      before do
+        @claims = create_list(:submitted_claim, 2)
+        @claims.each do |claim|
+          claim.allocate!
+          claim.refuse!
+        end
+        @claims.first.redetermine!
+        @claims.last.await_written_reasons!
+        @claims.each(&:allocate!)
+        request_params = params.merge(status: 'allocated')
+        @queries = []
+        subscriber = lambda do |*args|
+          sql = args.last[:sql]
+          @queries << sql if sql.match?(/\ASELECT .*FROM "claim_state_transitions"/i)
+        end
+
+        ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') do
+          do_request(request_params)
+        end
+        @items = JSON.parse(last_response.body, symbolize_names: true).fetch(:items)
+      end
+
+      it 'loads transitions in one query', :aggregate_failures do
+        expect(last_response.status).to eq 200
+        expect(@items.pluck(:id)).to match_array(@claims.map(&:id))
+        expect(@queries.size).to eq(1)
+      end
+
+      it 'preserves the status flags', :aggregate_failures do
+        redetermination_item = @items.find { |item| item[:id] == @claims.first.id }
+        written_reasons_item = @items.find { |item| item[:id] == @claims.last.id }
+        expect(redetermination_item).to include(opened_for_redetermination: true, written_reasons_outstanding: false)
+        expect(written_reasons_item).to include(opened_for_redetermination: false, written_reasons_outstanding: true)
+      end
+    end
+
     context 'when accessed by a ExternalUser' do
       before { do_request(api_key: external_user.user.api_key) }
 

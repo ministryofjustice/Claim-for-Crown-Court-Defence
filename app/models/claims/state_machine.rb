@@ -189,6 +189,15 @@ module Claims
     end
 
     def filtered_last_state_transition
+      if claim_state_transitions.loaded?
+        eligible_transitions = claim_state_transitions.select do |transition|
+          !transition.to.nil? && !transition.to.in?(%w[allocated deallocated])
+        end
+        return eligible_transitions.max_by do |transition|
+          [transition.created_at.nil? ? 1 : 0, transition.created_at, transition.id]
+        end
+      end
+
       filtered_state_transitions.first
     end
 

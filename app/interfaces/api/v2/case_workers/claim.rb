@@ -92,7 +92,7 @@ module API
             def claims
               @pagy, @claims = pagy(claims_scope
                 .includes(:external_user, :case_type, :injection_attempts,
-                          :case_workers, :court, :messages,
+                          :case_workers, :court, :messages, :claim_state_transitions,
                           defendants: %i[representation_orders])
                 .sort_using(params[:sorting], params[:direction]),
                                     page:, limit:)

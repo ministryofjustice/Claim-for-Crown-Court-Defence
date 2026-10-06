@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 function _deploy() {
   usage="deploy -- deploy image from current commit to an environment
   Usage: .k8s/live/scripts/deploy.sh environment [image-tag]

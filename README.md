@@ -1,7 +1,7 @@
 # Claim for crown court defence
 ### a.k.a Advocate Defence Payments, Crime Billing Online
 
-[![CircleCI](https://circleci.com/gh/ministryofjustice/Claim-for-Crown-Court-Defence/tree/main.svg?style=svg)](https://circleci.com/gh/ministryofjustice/Claim-for-Crown-Court-Defence/tree/main)
+[![GitHub Actions](https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/actions/workflows/ci_cd.yml/badge.svg)](https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/actions/workflows/ci_cd.yml)
 [![Known Vulnerabilities](https://snyk.io/test/github/ministryofjustice/Claim-for-Crown-Court-Defence/badge.svg)](https://snyk.io/test/github/ministryofjustice/Claim-for-Crown-Court-Defence)
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/Claim-for-Crown-Court-Defence/badge)](https://github-community.service.justice.gov.uk/repository-standards/Claim-for-Crown-Court-Defence)
 

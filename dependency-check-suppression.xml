@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+  <suppress>
+    <notes><![CDATA[
+      Accepted risk for CVE-2026-93687 (GHSA-vfj7-8cjw-p6xm)
+    ]]></notes>
+    <cve>CVE-2026-93687</cve>
+  </suppress>
+</suppressions>

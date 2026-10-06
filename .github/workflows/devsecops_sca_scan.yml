@@ -27,3 +27,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           renovate: "false"
+          dependency-check-suppression-file: "dependency-check-suppression.xml"
+

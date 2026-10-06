@@ -126,8 +126,7 @@ namespace :claims do
 
     slack_notifier = SlackNotifier.new(
       'laa-cccd-alerts',
-      formatter: SlackNotifier::Formatter::Transitioner.new,
-      slack_bot_name: 'Stale Claim Archiver'
+      formatter: SlackNotifier::Formatter::Transitioner.new
     )
 
     TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy, notifier: slack_notifier).run

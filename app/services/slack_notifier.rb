@@ -1,12 +1,20 @@
 class SlackNotifier
-  def initialize(channel, formatter:, slack_bot_name: Settings.slack.bot_name)
+  WEBHOOK_SETTINGS_BY_CHANNEL = {
+    'laa-cccd-alerts' => :laa_cccd_alerts_webhook,
+    'cccd_development' => :cccd_development_webhook,
+    'cccd_ccr_injection' => :cccd_ccr_injection_webhook,
+    'cccd_cclf_injection' => :cccd_cclf_injection_webhook
+  }.freeze
+  private_constant :WEBHOOK_SETTINGS_BY_CHANNEL
+
+  def initialize(channel, formatter:)
     @formatter = formatter
-    @slack_url = Settings.slack.bot_url
+    webhook_setting = WEBHOOK_SETTINGS_BY_CHANNEL.fetch(channel) do
+      raise ArgumentError, "No Slack webhook configured for channel: #{channel}"
+    end
+    @slack_url = Settings.slack.public_send(webhook_setting)
     @ready_to_send = false
-    @payload = {
-      channel:,
-      username: slack_bot_name
-    }
+    @payload = {}
   end
 
   def send_message
@@ -17,7 +25,6 @@ class SlackNotifier
 
   def build_payload(**)
     @payload[:attachments] = [@formatter.attachment(**)]
-    @payload[:icon_emoji] = @formatter.message_icon
     @ready_to_send = true
   rescue StandardError
     @ready_to_send = false

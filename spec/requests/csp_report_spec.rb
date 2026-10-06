@@ -25,7 +25,7 @@ RSpec.describe 'Content Security Policy reports' do
 
     before do
       stub_request(:post, 'https://slack').and_return(status: 200)
-      allow(Settings).to receive(:slack).and_return(Struct.new(:bot_url).new('https://slack'))
+      allow(Settings).to receive(:slack).and_return(Struct.new(:laa_cccd_alerts_webhook).new('https://slack'))
 
       post csp_report_url, params:, headers: { 'Content-Type' => 'application/json' }
     end

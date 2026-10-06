@@ -110,12 +110,15 @@ RSpec.configure do |config|
 
   config.before :each, :slack_bot do
     allow(Settings.slack).to receive_messages(
-      bot_url: 'https://hooks.slack.com/services/fake/endpoint',
-      bot_name: 'monitor_bot',
-      success_icon: ':good_icon:',
-      fail_icon: ':bad_icon:'
+      laa_cccd_alerts_webhook: 'https://hooks.slack.com/services/fake/alerts',
+      cccd_development_webhook: 'https://hooks.slack.com/services/fake/development',
+      cccd_ccr_injection_webhook: 'https://hooks.slack.com/services/fake/ccr-injection',
+      cccd_cclf_injection_webhook: 'https://hooks.slack.com/services/fake/cclf-injection'
     )
-    stub_request(:post, 'https://hooks.slack.com/services/fake/endpoint').to_return(status: 200, body: '', headers: {})
+    %w[alerts development ccr-injection cclf-injection].each do |destination|
+      stub_request(:post, "https://hooks.slack.com/services/fake/#{destination}")
+        .to_return(status: 200, body: '', headers: {})
+    end
   end
 
   # RSpec Rails can automatically mix in different behaviours to your tests

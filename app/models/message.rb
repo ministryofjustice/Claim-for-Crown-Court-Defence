@@ -53,6 +53,15 @@ class Message < ApplicationRecord
   before_destroy -> { attachments.purge }
 
   class << self
+    def unread_counts_for(user, claim_ids)
+      return {} if claim_ids.empty?
+
+      joins(:user_message_statuses)
+        .where(claim_id: claim_ids, user_message_statuses: { user:, read: false })
+        .group(:claim_id)
+        .count
+    end
+
     def for(object)
       attribute = case object.class.to_s
                   when 'Claim::AdvocateClaim'

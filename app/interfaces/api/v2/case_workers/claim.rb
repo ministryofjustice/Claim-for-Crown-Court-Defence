@@ -92,7 +92,7 @@ module API
             def claims
               @pagy, @claims = pagy(claims_scope
                 .includes(:external_user, :case_type, :injection_attempts,
-                          :case_workers, :court, :messages,
+                          :case_workers, :court, :messages, :claim_state_transitions,
                           defendants: %i[representation_orders])
                 .sort_using(params[:sorting], params[:direction]),
                                     page:, limit:)
@@ -104,7 +104,10 @@ module API
           resource :claims do
             desc 'Retrieve list of allocated, unallocated or archived claims'
             get do
-              present claims, with: API::Entities::PaginatedCollection, user: current_user, pagy: @pagy
+              listed_claims = claims
+              unread_message_counts = Message.unread_counts_for(current_user, listed_claims.map(&:id))
+              present listed_claims, with: API::Entities::PaginatedCollection, user: current_user, pagy: @pagy,
+                                     unread_message_counts:
             end
           end
         end

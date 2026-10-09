@@ -69,6 +69,8 @@
               = claim.submitted_at.strftime(Settings.date_format)
         = row.with_cell(html_attributes: { 'data-label': t('.messages') }) do
           - if claim.messages.any?
-            = govuk_link_to claim.unread_messages_for(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
+            - unread_count = @unread_message_counts.fetch(claim.id, 0)
+            - message_label = unread_count.positive? ? t('.view_with_messages', message_count: unread_count) : t('.view')
+            = govuk_link_to message_label, "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
           - else
             %span.none= t('.none')

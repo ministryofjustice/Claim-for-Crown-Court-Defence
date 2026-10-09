@@ -1,0 +1,59 @@
+name: Prepare test shards
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Download historical timings
+        id: download-timings
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          TIMINGS_DIRECTORY=tmp/no-test-timings
+          if RUN_ID=$(gh run list --workflow ci_cd.yml --branch main --event push \
+            --status success --limit 1 --json databaseId --jq '.[0].databaseId // empty'); then
+            if [ -n "$RUN_ID" ] && gh run download "$RUN_ID" \
+              --pattern 'rspec-results-*' --pattern 'cucumber-results-*' \
+              --dir tmp/test-timings; then
+              TIMINGS_DIRECTORY=tmp/test-timings
+            else
+              echo "::warning::No historical test reports available; balancing shards by file size"
+            fi
+          else
+            echo "::warning::Could not look up historical timings; balancing shards by file size"
+          fi
+          echo "directory=$TIMINGS_DIRECTORY" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Prepare shards
+        env:
+          TIMINGS_DIRECTORY: ${{ steps.download-timings.outputs.directory }}
+        run: bundle exec ruby script/test_shards.rb "$TIMINGS_DIRECTORY" tmp/test-shards 6
+
+      - name: Upload shard plan
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: test-shards
+          path: tmp/test-shards
+          if-no-files-found: error

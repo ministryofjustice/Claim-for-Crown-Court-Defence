@@ -24,8 +24,19 @@ env:
 
 jobs:
 
+  prepare-test-shards:
+    if: github.event_name != 'schedule'
+    permissions:
+      contents: read
+      actions: read
+    uses: ./.github/workflows/test_shards.yml
+
   rspec-tests:
     if: github.event_name != 'schedule'
+    needs: prepare-test-shards
+    permissions:
+      contents: read
+      actions: read
     env:
         AWS_REGION: eu-west-2
         AWS_ACCESS_KEY_ID: test
@@ -53,6 +64,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Download shard plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8
@@ -81,20 +100,7 @@ jobs:
       - name: Run rspec shard
         shell: bash
         run: |
-          mapfile -t FILES < <(find spec -name '*_spec.rb' | sort)
-          if [ ${#FILES[@]} -eq 0 ]; then
-            echo "No rspec files found"
-            exit 0
-          fi
-
-          SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
-          TOTAL_SHARDS=6
-          SELECTED=()
-          for i in "${!FILES[@]}"; do
-            if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
-              SELECTED+=("${FILES[$i]}")
-            fi
-          done
+          mapfile -t SELECTED < "tmp/test-shards/rspec-${{ matrix.shard }}.txt"
 
           if [ ${#SELECTED[@]} -eq 0 ]; then
             echo "No tests selected for shard ${{ matrix.shard }}"
@@ -124,6 +130,10 @@ jobs:
 
   cucumber-tests:
     if: github.event_name != 'schedule'
+    needs: prepare-test-shards
+    permissions:
+      contents: read
+      actions: read
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -146,6 +156,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Download shard plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8
@@ -162,15 +180,6 @@ jobs:
       - name: Install JS dependencies
         run: yarn install --ignore-scripts --frozen-lockfile
 
-      - name: Halt if no cucumber tests to run
-        shell: bash
-        run: |
-          mapfile -t FEATURES < <(find features -name '*.feature' | sort)
-          if [ ${#FEATURES[@]} -eq 0 ]; then
-            echo "No cucumber feature files found"
-            exit 0
-          fi
-
       - name: Wait for DB
         run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
 
@@ -183,15 +192,7 @@ jobs:
       - name: Run cucumber shard
         shell: bash
         run: |
-          mapfile -t FEATURES < <(find features -name '*.feature' | sort)
-          SHARD_INDEX=$(( ${{ matrix.shard }} - 1 ))
-          TOTAL_SHARDS=6
-          SELECTED=()
-          for i in "${!FEATURES[@]}"; do
-            if (( i % TOTAL_SHARDS == SHARD_INDEX )); then
-              SELECTED+=("${FEATURES[$i]}")
-            fi
-          done
+          mapfile -t SELECTED < "tmp/test-shards/cucumber-${{ matrix.shard }}.txt"
 
           if [ ${#SELECTED[@]} -eq 0 ]; then
             echo "No features selected for shard ${{ matrix.shard }}"

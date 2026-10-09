@@ -3,13 +3,7 @@ class SlackNotifier
     class Generic < Formatter
       attr_reader :status
 
-      def initialize
-        super
-        @message_icon = ':cccd:'
-      end
-
-      def attachment(icon: nil, title: nil, message: nil, status: :pass)
-        @message_icon = icon if icon
+      def attachment(title: nil, message: nil, status: :pass)
         @status = status
 
         {

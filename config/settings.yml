@@ -217,10 +217,10 @@ aws:
     secret: 'store actual value as SETTINGS__AWS__SQS__SECRET'
 
 slack:
-  bot_url: 'slack_bot_url'
-  bot_name: 'bot_name'
-  success_icon: ':icon:'
-  fail_icon: ':icon:'
+  laa_cccd_alerts_webhook: 'store actual value as SETTINGS__SLACK__LAA_CCCD_ALERTS_WEBHOOK'
+  cccd_development_webhook: 'store actual value as SETTINGS__SLACK__CCCD_DEVELOPMENT_WEBHOOK'
+  cccd_ccr_injection_webhook: 'store actual value as SETTINGS__SLACK__CCCD_CCR_INJECTION_WEBHOOK'
+  cccd_cclf_injection_webhook: 'store actual value as SETTINGS__SLACK__CCCD_CCLF_INJECTION_WEBHOOK'
 
 govuk_notify:
   api_key: 'never-put-real-api-key-here-use-env-vars'

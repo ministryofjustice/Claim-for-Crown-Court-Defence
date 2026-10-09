@@ -31,7 +31,6 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
 
     it 'builds the payload with the notifier arguments' do
       notifier_args = {
-        icon: ':robot_face:',
         title: 'provisional_assessment failed on test',
         message: "Error: Test error\nStats::StatsReport.id: 999",
         status: :fail

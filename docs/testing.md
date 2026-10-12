@@ -107,6 +107,39 @@ approximately 15 minutes on an 8 core machine.
 
 While `rake parallel:features` will run the cucumber features in parallel they will error for various reasons. See [parallel_test getting stuff running wiki](https://github.com/grosser/parallel_tests/wiki) for various potential fixes.
 
+## GitHub Actions test shards
+
+The pull request and main-branch workflows each run six RSpec shards and six Cucumber
+shards. Both call `.github/workflows/test_shards.yml` to create a single shard plan
+before running tests. Shards download the same plan so every test file is assigned
+exactly once.
+
+The preparation job downloads JUnit reports from the latest successful `push` run
+of `ci_cd.yml` on `main`. `script/test_shards.rb` sums example or scenario durations
+per file, then uses the existing `parallel_tests` gem to balance estimated total
+runtime across shards. RSpec reports provide the file attribute automatically;
+Cucumber must retain `--format junit,fileattribute=true`.
+
+New files are estimated using their size and the recorded runtime per byte. If no
+timing reports are available, including the first run or after artifact expiry, the
+plan balances by file size. Subsequent successful main-branch runs provide updated
+timings through the existing result artifacts. Files remain indivisible, so a single
+very slow file can still determine the duration of its shard.
+
+To reproduce a plan locally, download the result artifacts into a directory containing
+`rspec-results-*` and `cucumber-results-*` subdirectories, then run:
+
+```bash
+bundle exec ruby script/test_shards.rb tmp/test-timings tmp/test-shards 6
+```
+
+Only the preparation and shard jobs receive `actions: read` to download artifacts.
+Their checkouts disable persisted credentials, and `GH_TOKEN` is set only on dedicated
+download steps before dependency setup, not on the planner or test execution steps.
+Preparation failure blocks dependent test jobs. Branch protection should require the preparation check as well
+as every test shard, or an aggregate check that explicitly rejects unsuccessful
+dependencies, because GitHub accepts skipped required checks.
+
 ## Linting
 
 ### Sass Linting

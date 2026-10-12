@@ -33,6 +33,9 @@ docker build --check --file docker/Dockerfile .
 ```
 
 - Prefer focused tests or linters for the touched slice before running broad suites.
+- GitHub Actions shards use historical JUnit timings through `script/test_shards.rb`;
+  see [docs/testing.md](../docs/testing.md#github-actions-test-shards) when changing
+  shard planning, report formats, or required checks. Preserve one shared plan per run.
 - Feature specs can be slow; use line-targeted Cucumber scenarios where possible.
 - To see a feature test in a real browser, run `BROWSER=chrome bundle exec cucumber <feature file>`.
 - Local development often needs two Rails servers: the web app on port 3000 and the internal API on

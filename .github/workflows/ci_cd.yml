@@ -290,6 +290,7 @@ jobs:
   build-and-push:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
+    needs: [rspec-tests,cucumber-tests,other-tests]
     environment:
       name: build-and-push
 
@@ -325,7 +326,7 @@ jobs:
   deploy-dev:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
-    needs: [rspec-tests,cucumber-tests,other-tests,build-and-push]
+    needs: [build-and-push]
     environment: dev
     concurrency:
       group: cccd-deploy-dev
@@ -358,7 +359,7 @@ jobs:
   deploy-apisandbox:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    needs: [rspec-tests,cucumber-tests,other-tests,build-and-push]
+    needs: [build-and-push]
     environment: api-sandbox
     concurrency:
       group: cccd-deploy-api-sandbox
@@ -391,7 +392,7 @@ jobs:
   deploy-devlgfs:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    needs: [rspec-tests,cucumber-tests,other-tests,build-and-push]
+    needs: [build-and-push]
     environment: dev-lgfs
     concurrency:
       group: cccd-deploy-dev-lgfs
@@ -424,7 +425,7 @@ jobs:
   deploy-staging:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    needs: [rspec-tests, cucumber-tests, other-tests, build-and-push]
+    needs: [build-and-push]
 
     environment: staging
     concurrency:
@@ -458,7 +459,7 @@ jobs:
   deploy-production:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    needs: [rspec-tests, cucumber-tests, other-tests, build-and-push, smoke-test-main, ui-smoke-test-dev]
+    needs: [build-and-push, smoke-test-main, ui-smoke-test-dev]
     environment: production
     concurrency:
       group: cccd-deploy-production

@@ -16,7 +16,6 @@ RSpec.describe SlackNotifier::Formatter::Injection do
     subject(:attachment) { formatter.attachment(**build_parameters) }
 
     before do
-      allow(Settings.slack).to receive_messages(success_icon: ':tada:', fail_icon: ':sad:')
       allow(ENV).to receive(:[]).and_call_original
       allow(ENV).to receive(:[]).with('ENV').and_return 'test_environment'
     end
@@ -29,7 +28,6 @@ RSpec.describe SlackNotifier::Formatter::Injection do
       it { expect(attachment[:text]).to eq claim.uuid }
       it { expect(attachment[:color]).to eq '#36a64f' }
       it { expect(attachment[:fields].pluck(:title)).to contain_exactly('Claim number', 'environment') }
-      it { expect { attachment }.to change(formatter, :message_icon).to ':tada:' }
     end
 
     context 'with errors' do
@@ -61,7 +59,6 @@ RSpec.describe SlackNotifier::Formatter::Injection do
       it { expect(attachment[:text]).to eq 'bad-uuid' }
       it { expect(attachment[:color]).to eq '#c41f1f' }
       it { expect(attachment[:fields].count).to eq 2 }
-      it { expect { attachment }.to change(formatter, :message_icon).to ':sad:' }
     end
 
     context 'without a from parameter' do

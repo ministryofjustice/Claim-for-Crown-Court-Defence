@@ -5,7 +5,6 @@ class CspReportsController < ApplicationController
   def create
     unless ignorable_violation?
       slack_notifier.build_payload(
-        icon: ':security:',
         title: 'Content Security Policy violation',
         message: report.map { |key, value| "#{key}: #{value}" }.join("\n") + "\n\nUser agent: #{request.env['HTTP_USER_AGENT']}",
         status: :fail
@@ -21,8 +20,7 @@ class CspReportsController < ApplicationController
   def slack_notifier
     @slack_notifier ||= SlackNotifier.new(
       'laa-cccd-alerts',
-      formatter: SlackNotifier::Formatter::Generic.new,
-      slack_bot_name: 'CSP'
+      formatter: SlackNotifier::Formatter::Generic.new
     )
   end
 

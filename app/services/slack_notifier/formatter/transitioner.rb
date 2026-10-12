@@ -1,12 +1,6 @@
 class SlackNotifier
   class Formatter
     class Transitioner < Formatter
-      ICONS = {
-        nil => ':sign-roadworks:',
-        pass: ':smile_cat:',
-        fail: ':scream_cat:'
-      }.freeze
-
       attr_reader :status
 
       def attachment(processed:, failed:)
@@ -18,10 +12,6 @@ class SlackNotifier
           title: message_title(failed),
           text: message_text(processed, failed)
         }.compact
-      end
-
-      def message_icon
-        ICONS[@status]
       end
 
       private

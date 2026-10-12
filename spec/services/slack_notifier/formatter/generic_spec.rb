@@ -5,7 +5,6 @@ RSpec.describe SlackNotifier::Formatter::Generic do
 
   let(:valid_build_parameters) do
     {
-      icon: ':sign-roadworks:',
       message: 'Test message',
       title: 'Test title',
       status: :pass
@@ -22,13 +21,6 @@ RSpec.describe SlackNotifier::Formatter::Generic do
       it { expect(attachment[:title]).to eq 'Test title' }
       it { expect(attachment[:text]).to eq 'Test message' }
       it { expect(attachment[:color]).to eq '#36a64f' }
-      it { expect { attachment }.to change(formatter, :message_icon).to ':sign-roadworks:' }
-    end
-
-    context 'without an icon' do
-      let(:build_parameters) { valid_build_parameters.except(:icon) }
-
-      it { expect { attachment }.not_to change(formatter, :message_icon).from ':cccd:' }
     end
 
     context 'with a failing status' do

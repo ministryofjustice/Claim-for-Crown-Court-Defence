@@ -20,7 +20,6 @@ RSpec.describe SlackNotifier::Formatter::Transitioner do
       it { expect(attachment[:title]).to eq '[test] Stale claim archiver completed' }
       it { expect(attachment[:text]).to eq '100 transitions processed (0 failed)' }
       it { expect(attachment[:color]).to eq '#36a64f' }
-      it { expect { attachment }.to change(formatter, :message_icon).to ':smile_cat:' }
     end
 
     context 'with failed jobs' do
@@ -30,7 +29,6 @@ RSpec.describe SlackNotifier::Formatter::Transitioner do
       it { expect(attachment[:title]).to eq '[test] Stale claim archiver completed with failures' }
       it { expect(attachment[:text]).to eq '100 transitions processed (3 failed)' }
       it { expect(attachment[:color]).to eq '#c41f1f' }
-      it { expect { attachment }.to change(formatter, :message_icon).to ':scream_cat:' }
     end
   end
 end

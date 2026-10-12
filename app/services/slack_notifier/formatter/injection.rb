@@ -5,7 +5,6 @@ class SlackNotifier
         @errors = errors
         @claim = Claim::BaseClaim.find_by(uuid:)
 
-        @message_icon = injected? ? Settings.slack.success_icon : Settings.slack.fail_icon
         {
           fallback: "#{generate_message} {#{uuid}}",
           color: message_colour,

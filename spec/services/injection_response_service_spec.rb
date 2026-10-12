@@ -72,7 +72,7 @@ RSpec.describe InjectionResponseService, :slack_bot do
 
       it 'does not send a slack message' do
         run!
-        expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).not_to have_been_made
+        expect(a_request(:post, 'https://hooks.slack.com/services/fake/ccr-injection')).not_to have_been_made
       end
     end
 
@@ -88,7 +88,7 @@ RSpec.describe InjectionResponseService, :slack_bot do
 
       it 'sends a slack message' do
         run!
-        expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).to have_been_made.times(1)
+        expect(a_request(:post, 'https://hooks.slack.com/services/fake/ccr-injection')).to have_been_made.times(1)
       end
 
       it 'adds error messages from the response' do
@@ -103,7 +103,7 @@ RSpec.describe InjectionResponseService, :slack_bot do
 
         it 'does not send a slack message' do
           run!
-          expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).not_to have_been_made
+          expect(a_request(:post, 'https://hooks.slack.com/services/fake/ccr-injection')).not_to have_been_made
         end
       end
     end

@@ -115,7 +115,7 @@ After do |scenario|
   travel_back
   RSpec::Mocks.space.proxy_for(Settings).reset
 
-  # screenshot failure for storage as artifact in circleCI
+  # capture failure screenshots for upload as GitHub Actions Capybara artifacts
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
   screenshot_image(name) if scenario.failed? && ENV['CI']
 

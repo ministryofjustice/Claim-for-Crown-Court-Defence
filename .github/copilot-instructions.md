@@ -73,8 +73,11 @@ docker build --check --file docker/Dockerfile .
 ### Deployment
 
 - Build/deploy details are in [docs/build_and_deploy.md](../docs/build_and_deploy.md).
-- CI runs through `.circleci/config.yml` and builds the application image with `docker/Dockerfile`
-  and `.circleci/build.sh`.
+- CI and deployment run through GitHub Actions workflows in `.github/workflows/`. The main
+  pipeline is `ci_cd.yml`; pull-request checks and deployments are in `pull_request_tests.yml`
+  and `pull_request_deploy.yml`.
+- The workflows build the application image with `docker/Dockerfile` via `.github/build.sh` and
+  deploy using scripts under `.k8s/live/scripts/`.
 - The Docker build precompiles assets in production mode with dummy `SECRET_KEY_BASE` and
   `AWS_REGION` values.
 - Runtime filesystem permissions matter because the image switches to a non-root user; create
@@ -102,7 +105,9 @@ docker build --check --file docker/Dockerfile .
 - Setup/runtime docs: [docs/development.md](../docs/development.md)
 - Test, lint, and VCR docs: [docs/testing.md](../docs/testing.md)
 - Build/deploy docs: [docs/build_and_deploy.md](../docs/build_and_deploy.md)
-- CI config: [.circleci/config.yml](../.circleci/config.yml)
+- CI config: [`.github/workflows/ci_cd.yml`](workflows/ci_cd.yml)
+- Pull-request workflows: [`pull_request_tests.yml`](workflows/pull_request_tests.yml) and
+  [`pull_request_deploy.yml`](workflows/pull_request_deploy.yml)
 - Short command reference: [docs/cheat_sheet.md](../docs/cheat_sheet.md)
 - Domain docs: [docs/fee_types.md](../docs/fee_types.md),
   [docs/creating_a_new_fee_scheme.md](../docs/creating_a_new_fee_scheme.md),

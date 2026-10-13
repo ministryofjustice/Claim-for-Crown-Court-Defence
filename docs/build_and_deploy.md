@@ -1,7 +1,7 @@
 ## Build and Deploy
 
 - [Build and Deploy](#build-and-deploy)
-  - [CircleCI](#circleci)
+  - [GitHub Actions](#github-actions)
   - [Kubernetes](#kubernetes)
     - [Cronjobs](#cronjobs)
     - [Container configuration and secrets](#container-configuration-and-secrets)
@@ -10,15 +10,15 @@
       - [Secret app configuration](#secret-app-configuration)
       - [Secret infrastructure configuration](#secret-infrastructure-configuration)
 
-### CircleCI
+### GitHub Actions
 
-CircleCI is configured such that:
+GitHub Actions workflows are defined in `.github/workflows`.
 
-1. merges to `main` will automatically build a docker container image for the app, tag it as `app-latest` and push to our AWS elastic container registry (ECR). The image will be smoke tested before then requiring approval for deployment.
+- `pull_request_tests.yml` runs the test suites and code checks for pull requests targeting `main`.
+- `pull_request_deploy.yml` builds and pushes a pull request image, then deploys it to non-production environments for pull requests from this repository.
+- `ci_cd.yml` runs on pushes to `main` and on a schedule. For pushes, it runs the test suites before building and pushing the image to AWS ECR. It then deploys to development, API sandbox, dev-lgfs, and staging (with manual trigger required). Production deployment is additionally gated by the main and development UI smoke tests. The scheduled run performs smoke tests.
 
-2. branches have 2 separate workflows. The first runs the test suite against the branch without any user interaction. The second workflow requires approval to build a container and then enables deployment to individual non-production environments (approval required).
-
-The build and deploy scripts can be found in the root `.circleci` directory.
+The workflows use the shared build script at `.github/build.sh` and the deployment scripts under `.k8s/live/scripts`.
 
 ### Kubernetes
 

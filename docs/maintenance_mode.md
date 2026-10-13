@@ -7,7 +7,7 @@ A conditional catchall routes exists in `routes.rb`. This directs all routes req
 MAINTENANCE_MODE=true rails s
 ```
 
-You can deploy the app in maintenance mode for kubernetes orchestrated environments by deploying either from your local machine or via circleCI. Either method requires you to amend the `deployment.yaml` file for the relevant environment to add the env var `MAINTENANCE_MODE` with a value `'true'`.
+You can deploy the app in maintenance mode for Kubernetes environments from your local machine or through GitHub Actions. Either method requires amending the `deployment.yaml` file for the relevant environment to add the `MAINTENANCE_MODE` environment variable with a value of `'true'`.
 
 example `deployment.yaml` config:
 ```yaml
@@ -16,12 +16,12 @@ env:
     value: 'true'
 ```
 
-To apply via circleCI:
+To apply via GitHub Actions:
 
-- commit the above change and push to github
-- run through circleCI and deploy to the relevant environment
-- For production environment you will need to merge to main and use its workflow
-- to take site out of maintenance you would have to commit the reverse and redeploy via circleCI
+- commit the change, push the branch, and open a pull request to `main`
+- `.github/workflows/pull_request_deploy.yml` builds and deploys same-repository pull requests to dev, dev-lgfs, API sandbox, and staging; it does not provide a single-environment selector
+- after merging, `.github/workflows/ci_cd.yml` deploys the main branch; production deployment follows the main and development UI smoke tests and may also require approval configured in the GitHub environment
+- to take the site out of maintenance, commit the reverse change and deploy it through the same workflow
 
 
 To apply via local machine:

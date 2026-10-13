@@ -44,7 +44,6 @@ vcr
 .rspec
 .rspec_parallel
 .bundle
-.circleci
 .editorconfig
 .stylelintrc.yml
 .k8s

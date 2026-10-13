@@ -336,13 +336,13 @@ due to timeouts in Kibana logs, for example.
 ---
 
   - merge the activating branch \*. Ensure you use a merge commit as this can be easily reverted if necessary.
-  - wait for CircleCI to have successfully built main and be waiting for approval to deploy to the target environment
+  - wait for the GitHub Actions `CI CD` workflow to pass its tests and build the image. Before phase 1, ensure deployment to the target environment is paused; a required-reviewer gate can be configured in that GitHub environment. If no gate is configured, coordinate a pause so the activating change is not deployed before the migration.
   - migrate phase 1: shell into the target environments worker pod and run rake task to migrate data from paperclip to active storage
     ```
     rails storage:migrate[model_table_name]
     rails storage:status
     ```
-  - migrate phase 2: approve deploy of the merged activating branch to the environment and wait for rollout to complete
+  - migrate phase 2: approve the pending deployment in GitHub Actions, or allow it to continue after phase 1, and wait for rollout to complete
   - migrate phase 3: shell into target environments worker pod and rerun migration to ensure any records created by users during deploy are migrated
     ```
     rails storage:migrate[model_table_name]

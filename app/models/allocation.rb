@@ -77,9 +77,12 @@ class Allocation
   end
 
   def case_worker
-    CaseWorker.active.find(@case_worker_id)
+    return @case_worker if defined?(@case_worker) && @resolved_case_worker_id == @case_worker_id
+
+    @resolved_case_worker_id = @case_worker_id
+    @case_worker = CaseWorker.active.find(@case_worker_id)
   rescue ActiveRecord::ActiveRecordError
-    nil
+    @case_worker = nil
     # deallocation will have a nil case worker id
   end
 

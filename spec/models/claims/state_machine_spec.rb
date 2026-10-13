@@ -3,6 +3,108 @@ require 'rails_helper'
 RSpec.describe Claims::StateMachine do
   subject(:claim) { create(:advocate_claim) }
 
+  describe '#filtered_last_state_transition' do
+    context 'when checking the status of multiple claims' do
+      let(:claims) { create_list(:submitted_claim, 2) }
+      let(:preloaded_claims) { Claim::BaseClaim.where(id: claims.map(&:id)).preload(:claim_state_transitions).to_a }
+      let(:queries) { [] }
+      let(:statuses) do
+        subscriber = ->(*args) { queries << args.last[:sql] }
+        ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') do
+          preloaded_claims.map do |preloaded_claim|
+            [preloaded_claim.opened_for_redetermination?, preloaded_claim.written_reasons_outstanding?]
+          end
+        end
+      end
+
+      before do
+        claims.each(&:allocate!)
+        preloaded_claims
+      end
+
+      it 'uses preloaded transitions without querying', :aggregate_failures do
+        expect(statuses).to eq([[false, false], [false, false]])
+        expect(queries).to be_empty
+      end
+    end
+
+    context 'when transitions are appended to a loaded association' do
+      let(:timestamp) { Time.current }
+      let(:expected) do
+        claim.claim_state_transitions.create!(to: 'redetermination', created_at: timestamp)
+      end
+      let(:queries) { [] }
+      let(:result) do
+        subscriber = ->(*args) { queries << args.last[:sql] }
+        ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') do
+          claim.filtered_last_state_transition
+        end
+      end
+
+      before do
+        claim.claim_state_transitions.create!(to: 'awaiting_written_reasons', created_at: timestamp)
+        claim.claim_state_transitions.load
+        expected
+        claim.claim_state_transitions.create!(to: 'allocated', created_at: timestamp)
+      end
+
+      it 'selects the newest eligible transition without querying', :aggregate_failures do
+        expect(result).to eq(expected)
+        expect(queries).to be_empty
+      end
+    end
+
+    [false, true].each do |preloaded|
+      context "when transitions are #{preloaded ? 'preloaded' : 'not preloaded'}" do
+        subject(:transition) do
+          claim.claim_state_transitions.reset
+          claim.claim_state_transitions.load if preloaded
+          claim.filtered_last_state_transition
+        end
+
+        before do
+          claim.claim_state_transitions.delete_all
+        end
+
+        context 'with eligible and excluded transitions' do
+          let(:timestamp) { Time.current }
+          let(:expected) do
+            create(:claim_state_transition, claim:, to: 'awaiting_written_reasons', created_at: timestamp)
+          end
+
+          before do
+            create(:claim_state_transition, claim:, to: 'refused', created_at: timestamp - 1.day)
+            create(:claim_state_transition, claim:, to: 'redetermination', created_at: timestamp)
+            expected
+            create(:claim_state_transition, claim:, to: 'allocated', created_at: timestamp + 1.hour)
+            create(:claim_state_transition, claim:, to: 'deallocated', created_at: timestamp + 2.hours)
+            create(:claim_state_transition, claim:, to: nil, created_at: timestamp + 3.hours)
+          end
+
+          it 'returns the newest eligible transition, breaking timestamp ties by ID' do
+            expect(transition).to eq(expected)
+          end
+
+          it 'matches descending SQL ordering for null timestamps' do
+            expected.update!(created_at: nil)
+            expect(transition).to eq(expected)
+          end
+        end
+
+        it 'returns nil when all transitions are excluded' do
+          create(:claim_state_transition, claim:, to: 'allocated')
+          create(:claim_state_transition, claim:, to: 'deallocated')
+
+          expect(transition).to be_nil
+        end
+
+        it 'returns nil when there are no transitions' do
+          expect(transition).to be_nil
+        end
+      end
+    end
+  end
+
   describe 'state machine' do
     let(:states) do
       %i[

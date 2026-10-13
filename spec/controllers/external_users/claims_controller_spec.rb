@@ -5,6 +5,77 @@ RSpec.describe ExternalUsers::ClaimsController do
 
   before { sign_in advocate.user }
 
+  describe 'unread message badges' do
+    render_views
+
+    let(:action) { :index }
+    let(:state) { 'submitted' }
+    let(:listed_claims) { create_list(:submitted_claim, 3, external_user: advocate, creator: advocate) }
+    let(:queries) { [] }
+
+    before do
+      create(:external_user, provider: advocate.provider)
+      listed_claims.each { |claim| claim.update_columns(state:) }
+      sender = create(:case_worker).user
+      messages = create_list(:message, 2, claim: listed_claims.first, sender:)
+      create(:message, claim: listed_claims.second, sender: advocate.user)
+      UserMessageStatus.find_by!(user: advocate.user, message: messages.first).update!(read: true)
+      subscriber = lambda do |*args|
+        sql = args.last[:sql]
+        queries << sql if sql.match?(/\ASELECT .*"user_message_statuses"/i)
+      end
+
+      ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') do
+        get action
+      end
+    end
+
+    it 'preserves message links with one unread-count query', :aggregate_failures do
+      expect(response).to be_successful
+      expect(message_labels).to eq(expected_message_labels)
+      expect(queries.size).to eq(1)
+    end
+
+    context 'when displaying outstanding claims' do
+      let(:action) { :outstanding }
+
+      it 'uses the page-scoped unread counts' do
+        expect(queries.size).to eq(1)
+      end
+    end
+
+    context 'when displaying archived claims' do
+      let(:action) { :archived }
+      let(:state) { 'archived_pending_delete' }
+
+      it 'preserves message links with one unread-count query', :aggregate_failures do
+        expect(message_labels).to eq(expected_message_labels)
+        expect(queries.size).to eq(1)
+      end
+    end
+
+    context 'when displaying authorised claims' do
+      let(:action) { :authorised }
+      let(:state) { 'authorised' }
+
+      it 'preserves message links with one unread-count query', :aggregate_failures do
+        expect(message_labels).to eq(expected_message_labels)
+        expect(queries.size).to eq(1)
+      end
+    end
+
+    def expected_message_labels
+      [I18n.t('external_users.claims.main_claims_list.view_with_messages', message_count: 1),
+       I18n.t('external_users.claims.main_claims_list.view'), nil]
+    end
+
+    def message_labels
+      listed_claims.map do |claim|
+        response.parsed_body.at_css("a[href='#{external_users_claim_path(claim, messages: true)}#messages']")&.text
+      end
+    end
+  end
+
   describe 'list views' do
     let!(:advocate_admin) do
       create(:external_user, :admin, provider: advocate.provider, user: build(:user, last_name: 'Advocate-Admin'))
@@ -432,6 +503,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           before { sign_in advocate.user }
 
           it 'assigns outstanding claims' do
+            get :outstanding
             expect(assigns(:claims)).to match_array(advocate.claims.outstanding)
           end
         end
@@ -440,6 +512,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           before { sign_in advocate_admin.user }
 
           it 'assigns outstanding claims' do
+            get :outstanding
             expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.outstanding)
           end
         end
@@ -474,6 +547,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           before { sign_in advocate.user }
 
           it 'assigns authorised and part authorised claims' do
+            get :authorised
             expect(assigns(:claims)).to match_array(advocate.claims.any_authorised)
           end
         end
@@ -482,6 +556,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           before { sign_in advocate_admin.user }
 
           it 'assigns authorised and part authorised claims' do
+            get :authorised
             expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.any_authorised)
           end
         end

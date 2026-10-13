@@ -73,8 +73,16 @@ module Claims::Calculations
   end
 
   def update_vat
-    update_column(:apply_vat, vat_registered?) if vat_registered?
-    update_column(:vat_amount, calculate_total_vat)
+    vat_attributes = {}
+    if vat_registered?
+      self.apply_vat = true
+      vat_attributes[:apply_vat] = apply_vat if will_save_change_to_apply_vat?
+    end
+    calculate_total_vat
+    vat_attributes[:vat_amount] = vat_amount if will_save_change_to_vat_amount?
+    return true if vat_attributes.empty?
+
+    update_columns(vat_attributes)
   end
 
   def assign_vat

@@ -3,6 +3,29 @@ require 'rails_helper'
 RSpec.describe Allocation do
   let(:current_user) { create(:case_worker, :admin) }
 
+  def target_case_worker_queries(case_worker, &)
+    queries = []
+    subscriber = lambda do |*args|
+      payload = args.last
+      next unless payload[:sql].match?(/\ASELECT .*FROM "case_workers".*"case_workers"\."id" =/i)
+      next unless payload[:binds].any? { |bind| bind.name == 'id' && bind.value_for_database == case_worker.id }
+
+      queries << payload[:sql]
+    end
+    ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record', &)
+    queries
+  end
+
+  def vat_update_queries(&)
+    queries = []
+    subscriber = lambda do |*args|
+      sql = args.last[:sql]
+      queries << sql if sql.match?(/\AUPDATE "claims" SET "(?:apply_vat|vat_amount)"/i)
+    end
+    ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record', &)
+    queries
+  end
+
   it { should validate_presence_of(:case_worker_id) }
   it { should validate_presence_of(:claim_ids) }
 
@@ -15,6 +38,36 @@ RSpec.describe Allocation do
 
     it 'sets the claim ids' do
       expect(subject.claim_ids).to contain_exactly(1, 2, 3)
+    end
+  end
+
+  describe '#case_worker' do
+    subject(:allocation) { described_class.new(case_worker_id: case_worker.id) }
+
+    let(:case_worker) { create(:case_worker) }
+
+    it 'reuses the resolved caseworker instance' do
+      expect(allocation.case_worker).to equal(allocation.case_worker)
+    end
+
+    it 'refreshes the lookup when the selected ID changes' do
+      allocation.case_worker
+      replacement = create(:case_worker)
+      allocation.case_worker_id = replacement.id
+      expect(allocation.case_worker).to eq(replacement)
+    end
+
+    it 'caches a missing target', :aggregate_failures do
+      allocation.case_worker_id = 0
+      expect(CaseWorker).to receive(:active).once.and_call_original
+      2.times { expect(allocation.case_worker).to be_nil }
+    end
+
+    it 'resolves a selected worker after a missing target' do
+      allocation.case_worker_id = nil
+      allocation.case_worker
+      allocation.case_worker_id = case_worker.id
+      expect(allocation.case_worker).to eq(case_worker)
     end
   end
 
@@ -47,6 +100,12 @@ RSpec.describe Allocation do
 
         it 'returns true' do
           expect(allocator.save).to be(true)
+        end
+
+        it 'resolves the target caseworker once for the batch', :aggregate_failures do
+          allocation = allocator
+          queries = target_case_worker_queries(case_worker) { expect(allocation.save).to be true }
+          expect(queries.size).to eq(1)
         end
       end
 
@@ -156,6 +215,18 @@ RSpec.describe Allocation do
 
         it 'returns true' do
           expect(reallocator.save).to be(true)
+        end
+
+        it 'resolves the target caseworker once for the batch', :aggregate_failures do
+          allocation = reallocator
+          queries = target_case_worker_queries(case_worker) { expect(allocation.save).to be true }
+          expect(queries.size).to eq(1)
+        end
+
+        it 'does not rewrite unchanged VAT values during reallocation', :aggregate_failures do
+          allocation = reallocator
+          queries = vat_update_queries { expect(allocation.save).to be true }
+          expect(queries).to be_empty
         end
       end
 

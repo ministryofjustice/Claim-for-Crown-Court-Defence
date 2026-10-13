@@ -840,6 +840,52 @@ RSpec.describe MockBaseClaim do
     end
   end
 
+  describe '#update_vat' do
+    let(:claim) { create(:submitted_claim) }
+
+    before do
+      allow(claim).to receive(:vat_registered?).and_return(false)
+      claim.update!(apply_vat: false)
+    end
+
+    def vat_writes(&)
+      writes = []
+      subscriber = lambda do |*args|
+        sql = args.last[:sql]
+        writes << sql if sql.start_with?('UPDATE "claims"')
+      end
+      ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record', &)
+      writes
+    end
+
+    it 'persists changed VAT totals without enabling VAT for an unregistered provider', :aggregate_failures do
+      claim.assign_attributes(fees_vat: 10, expenses_vat: 5, disbursements_vat: 2.5)
+      expect(claim.update_vat).to be true
+      expect(claim.reload).to have_attributes(vat_amount: 17.5, apply_vat: false)
+    end
+
+    it 'enables VAT and persists changed totals in one write', :aggregate_failures do
+      allow(claim).to receive(:vat_registered?).and_return(true)
+      claim.assign_attributes(fees_vat: 10, expenses_vat: 5, disbursements_vat: 2.5)
+      writes = vat_writes { expect(claim.update_vat).to be true }
+      expect(writes.size).to eq(1)
+      expect(claim.reload).to have_attributes(vat_amount: 17.5, apply_vat: true)
+    end
+
+    it 'does not write unchanged values', :aggregate_failures do
+      writes = vat_writes { expect(claim.update_vat).to be true }
+      expect(writes).to be_empty
+    end
+
+    it 'preserves an existing VAT flag when the provider is unregistered', :aggregate_failures do
+      allow(claim).to receive(:vat_registered?).and_return(true)
+      claim.update_vat
+      allow(claim).to receive(:vat_registered?).and_return(false)
+      expect(claim.update_vat).to be true
+      expect(claim.reload.apply_vat).to be true
+    end
+  end
+
   describe '#vat_registered?' do
     subject(:registered) { claim.vat_registered? }
 

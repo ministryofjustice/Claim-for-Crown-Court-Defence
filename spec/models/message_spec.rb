@@ -52,6 +52,34 @@ RSpec.describe Message do
 
   it { is_expected.to validate_size_of(:attachments).less_than(20.megabytes) }
 
+  describe '.unread_counts_for' do
+    let(:claims) { create_list(:submitted_claim, 3) }
+    let(:user) { create(:user) }
+
+    before do
+      messages = create_list(:message, 3, claim: claims.first, sender: claims.first.external_user.user)
+      messages.each_with_index do |message, index|
+        UserMessageStatus.create!(user:, message:, read: index == 2)
+      end
+      off_page_message = create(:message, claim: claims.last, sender: claims.last.external_user.user)
+      UserMessageStatus.create!(user:, message: off_page_message)
+    end
+
+    it 'counts only unread statuses for the requested user and claims' do
+      expect(described_class.unread_counts_for(user, claims.first(2).map(&:id))).to eq(claims.first.id => 2)
+    end
+
+    it 'does not query messages for an empty page', :aggregate_failures do
+      queries = []
+      subscriber = ->(*args) { queries << args.last[:sql] }
+      counts = ActiveSupport::Notifications.subscribed(subscriber, 'sql.active_record') do
+        described_class.unread_counts_for(user, [])
+      end
+      expect(counts).to eq({})
+      expect(queries).to be_empty
+    end
+  end
+
   describe '.for' do
     let(:message) { create(:message) }
     let(:claim) { message.claim }

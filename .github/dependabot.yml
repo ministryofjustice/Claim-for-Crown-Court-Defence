@@ -4,7 +4,6 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-    day: wednesday
     time: "03:00"
     timezone: Europe/London
   cooldown:
@@ -20,7 +19,6 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-    day: wednesday
     time: "03:00"
     timezone: Europe/London
   cooldown:
@@ -43,25 +41,14 @@ updates:
     sentry:
       patterns:
         - "sentry-*"
-  open-pull-requests-limit: 5
+  open-pull-requests-limit: 10
   rebase-strategy: "disabled"
   allow:
     - dependency-type: "all"
-  ignore:
-    - dependency-name: "rails"
-      versions:
-        - ">= 8.0"
-    - dependency-name: "active*"
-      versions:
-        - ">= 8.0"
-    - dependency-name: "action*"
-      versions:
-        - ">= 8.0"
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: daily
-    day: tuesday
     time: "03:00"
     timezone: Europe/London
   cooldown:

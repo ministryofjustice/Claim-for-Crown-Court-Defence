@@ -18,7 +18,7 @@ jobs:
       security-events: write
       actions: read
     with:
-      image_uri: ${{ format('{0}:latest', vars.ECR_REGISTRY_URI) }}
+      image_uri: ${{ format('{0}:latest', vars.ECR_REGISTRY_URL) }}
       dockerfile_path: docker/Dockerfile
     secrets:
       SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}

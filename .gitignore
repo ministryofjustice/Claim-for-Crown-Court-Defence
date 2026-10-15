@@ -86,3 +86,9 @@ yarn-debug.log*
 # ignore Brewfile changes
 Brewfile.lock.json
 
+# Keep local agent tooling out of the repository.
+/.agents/
+/AGENTS.md
+/docs/agents/
+/skills-lock.json
+

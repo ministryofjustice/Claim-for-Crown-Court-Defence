@@ -326,7 +326,7 @@ jobs:
     needs: [build-and-push]
     environment: dev
     concurrency:
-      group: cccd-deploy-dev
+      group: cccd-deploy-main-dev
       cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
@@ -359,7 +359,7 @@ jobs:
     needs: [build-and-push]
     environment: api-sandbox
     concurrency:
-      group: cccd-deploy-api-sandbox
+      group: cccd-deploy-main-api-sandbox
       cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
@@ -392,7 +392,7 @@ jobs:
     needs: [build-and-push]
     environment: dev-lgfs
     concurrency:
-      group: cccd-deploy-dev-lgfs
+      group: cccd-deploy-main-dev-lgfs
       cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
@@ -426,7 +426,7 @@ jobs:
 
     environment: staging
     concurrency:
-      group: cccd-deploy-staging
+      group: cccd-deploy-main-staging
       cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
@@ -459,7 +459,7 @@ jobs:
     needs: [build-and-push, smoke-test-main, ui-smoke-test-dev]
     environment: production
     concurrency:
-      group: cccd-deploy-production
+      group: cccd-deploy-main-production
       cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}

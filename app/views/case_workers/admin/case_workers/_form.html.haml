@@ -15,13 +15,6 @@
       = user_fields.govuk_email_field :email_confirmation,
         label: { text: t('.email_confirmation') }
 
-    = f.govuk_collection_radio_buttons :location_id,
-      Location.all,
-      :id,
-      :name,
-      inline: true,
-      legend: { text: t('.location'), size: 's' }
-
     = f.govuk_collection_check_boxes :roles,
       CaseWorker::ROLES,
       :to_s,

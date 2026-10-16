@@ -42,6 +42,11 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
     let(:params) { valid_base_params.merge(claim_ids:) }
 
     context 'with claim_ids as comma-separated string' do
+      it 'allocates claims to a case worker without a location' do
+        expect(case_worker.location_id).to be_nil
+        expect(case_worker.reload.claims).to match_array(claims)
+      end
+
       it 'returns http status 201' do
         expect(last_response.status).to eq 201
       end

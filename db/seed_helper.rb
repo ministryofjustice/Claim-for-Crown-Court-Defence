@@ -47,7 +47,9 @@ module SeedHelper
         )
         case_worker = CaseWorker.new(roles: attrs[:roles])
         case_worker.user = user
-        case_worker.location = Location.find_or_create_by!(name: attrs[:location].capitalize)
+        if attrs[:location].present?
+          case_worker.location = Location.find_or_create_by!(name: attrs[:location].capitalize)
+        end
         case_worker.save!
       end
       user.persona

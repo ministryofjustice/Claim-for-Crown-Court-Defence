@@ -7,12 +7,11 @@ data = CSV.read(file_path)
 data.shift
 
 data.each_with_index do |row, index|
-  fname, lname, email, location, role = row
+  fname, lname, email, _location, role = row
   SeedHelper.find_or_create_caseworker!(
     first_name: fname,
     last_name: lname,
     email: email,
-    location: location,
     roles: [role],
     password_env_var: 'CASE_WORKER_PASSWORD'
   )
@@ -23,7 +22,6 @@ SeedHelper.find_or_create_caseworker!(
   first_name: 'CCR Injection',
   last_name: 'DO NOT DELETE',
   email: 'ccr@example.com',
-  location: 'Nottingham',
   roles: %w[admin case_worker],
   password_env_var: 'CASE_WORKER_PASSWORD'
 )
@@ -39,7 +37,6 @@ SeedHelper.find_or_create_caseworker!(
   first_name: 'CCLF Injection',
   last_name: 'DO NOT DELETE',
   email: 'cclf@example.com',
-  location: 'Nottingham',
   roles: %w[admin case_worker],
   password_env_var: 'CASE_WORKER_PASSWORD'
 )

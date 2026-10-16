@@ -6,7 +6,7 @@ module CaseWorkers
       before_action :set_case_worker, only: %i[show edit update destroy change_password update_password]
 
       def index
-        @case_workers = CaseWorker.includes(:location).joins(:user)
+        @case_workers = CaseWorker.joins(:user)
         query = "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
         @case_workers = @case_workers.where(query, term: "%#{params[:search]}%") if params[:search].present?
         @case_workers = @case_workers.order('users.last_name', 'users.first_name')
@@ -58,12 +58,11 @@ module CaseWorkers
         attributes = %i[id email email_confirmation current_password password password_confirmation first_name
                         last_name]
         params.expect(
-          case_worker: [:location_id,
-                        {
-                          user_attributes: attributes,
-                          claim_ids: [],
-                          roles: []
-                        }]
+          case_worker: [{
+            user_attributes: attributes,
+            claim_ids: [],
+            roles: []
+          }]
         )
       end
     end

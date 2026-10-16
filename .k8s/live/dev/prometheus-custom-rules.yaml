@@ -107,3 +107,13 @@ spec:
       for: 1m
       labels:
         severity: laa-cccd-alerts
+    - alert: CCCD-secrets-changed
+      expr: secretsmanager_put_secret_value_sum{exported_job="secretsmanager", secret_id="arn:aws:secretsmanager:eu-west-2:754256621582:secret:live-cccd-dev-dbce51d960ec655f"} > 0
+      for: 1m
+      labels:
+        severity: laa-cccd-alerts
+        status_icon: information
+      annotations:
+        message: |
+          CCCD-dev secrets has been modified by user "{{ $labels.user_arn }}".
+        runbook_url: "https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting"

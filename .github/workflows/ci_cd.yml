@@ -7,10 +7,6 @@ on:
   schedule:
     - cron: "05 08 * * *"
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}
-  cancel-in-progress: false
-
 permissions:
   contents: read
 

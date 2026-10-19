@@ -1,26 +1,11 @@
-name: Static Application Security Testing
-run-name: SAST Scan
-on:
-  schedule:
-    - cron: '0 5 * * *'
-  workflow_dispatch:
-  pull_request:
-    branches: ["main"]
-
-permissions: {}
-
 jobs:
-  run-sast-tooling:
+  image_scan:
+    name: Run SaST tooling
     uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@665b123096f599d105d3b7ae19bd4b81bcabd99a # main as of 15/10/2026
     permissions:
+      actions: read
       id-token: write
       contents: read
       security-events: write
-      actions: read
-    with:
-      image_uri: ${{ format('{0}:latest', secrets.ECR_REGISTRY_URL) }}
-      dockerfile_path: docker/Dockerfile
     secrets:
-      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
-      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
-      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

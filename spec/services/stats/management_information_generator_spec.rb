@@ -56,6 +56,21 @@ RSpec.describe Stats::ManagementInformationGenerator do
       expect(csv.headers).to match_array(expected_headers)
     end
 
+    context 'with a caseworker without a location' do
+      let(:case_worker) { create(:case_worker, location: nil) }
+      let(:claim) { create(:advocate_final_claim, :allocated) }
+
+      before do
+        assign_fees_and_expenses_for(claim)
+        claim.authorise!({ author_id: case_worker.user.id })
+      end
+
+      it 'includes the caseworker name' do
+        row = csv.find { |entry| entry['Id'] == claim.id.to_s }
+        expect(row['Case worker']).to eq(case_worker.name)
+      end
+    end
+
     context 'with no scope' do
       subject(:call) { described_class.new.call }
 

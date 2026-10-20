@@ -32,6 +32,7 @@ en:
       back_to_referrer_html: Back <span class="govuk-visually-hidden">to referrer page</span>
 
     primary_navigation:
+      dual_login_testing: Dual-login testing
       add_a_provider: Add a provider
       allocation: Allocation
       api_documentation: API Documentation

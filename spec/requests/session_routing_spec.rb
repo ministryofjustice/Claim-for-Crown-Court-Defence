@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Session routing' do
-  describe 'GET /users/sign_in' do
-    before { get sign_in_path }
+  before { allow(Settings).to receive(:dual_login_enabled?).and_return(true) }
+
+  describe 'GET /users/dual_login' do
+    before { get dual_login_path }
 
     it 'responds successfully' do
       expect(response).to have_http_status(:success)
@@ -13,9 +15,9 @@ RSpec.describe 'Session routing' do
     end
   end
 
-  describe 'POST /users/sign_in' do
+  describe 'POST /users/dual_login' do
     context 'with a blank email' do
-      before { post sign_in_path, params: { email: '' } }
+      before { post dual_login_path, params: { email: '' } }
 
       it 'responds as unprocessable' do
         expect(response).to have_http_status(:unprocessable_content)
@@ -27,7 +29,7 @@ RSpec.describe 'Session routing' do
     end
 
     context 'with a malformed email' do
-      before { post sign_in_path, params: { email: 'not-an-email' } }
+      before { post dual_login_path, params: { email: 'not-an-email' } }
 
       it 'responds as unprocessable' do
         expect(response).to have_http_status(:unprocessable_content)
@@ -42,7 +44,7 @@ RSpec.describe 'Session routing' do
       before do
         user = create(:user, email: 'entra@example.com')
         user.login_route.update!(login_method: LoginRoute::ENTRA)
-        post sign_in_path, params: { email: 'Entra@example.com ' }
+        post dual_login_path, params: { email: 'Entra@example.com ' }
       end
 
       it 'redirects to the entra authorisation endpoint' do
@@ -53,7 +55,7 @@ RSpec.describe 'Session routing' do
     context 'when the email maps to legacy' do
       before do
         create(:user, email: 'legacy@example.com')
-        post sign_in_path, params: { email: 'legacy@example.com' }
+        post dual_login_path, params: { email: 'legacy@example.com' }
       end
 
       it 'redirects to the legacy password sign in page' do
@@ -62,7 +64,7 @@ RSpec.describe 'Session routing' do
     end
 
     context 'when the email is not mapped' do
-      before { post sign_in_path, params: { email: 'unknown@example.com' } }
+      before { post dual_login_path, params: { email: 'unknown@example.com' } }
 
       it 'redirects to the password sign in page' do
         expect(response).to redirect_to new_user_session_path
@@ -81,7 +83,7 @@ RSpec.describe 'Session routing' do
 
     context 'when email identification has completed' do
       before do
-        post sign_in_path, params: { email: 'legacy@example.com' }
+        post dual_login_path, params: { email: 'legacy@example.com' }
         get new_user_session_path
       end
 

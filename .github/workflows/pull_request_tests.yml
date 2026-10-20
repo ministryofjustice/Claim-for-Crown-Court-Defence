@@ -56,11 +56,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download shard plan
+      - name: Download shard plan and test assets
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+        run: |
+          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
+          tar -xf tmp/test-assets.tar
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec
@@ -82,9 +85,6 @@ jobs:
 
       - name: Database setup
         run: bin/rails db:schema:load --trace
-
-      - name: Precompile assets
-        run: bundle exec rails assets:precompile
 
       - name: Run RSpec shard
         shell: bash
@@ -147,11 +147,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download shard plan
+      - name: Download shard plan and test assets
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+        run: |
+          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
+          tar -xf tmp/test-assets.tar
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec
@@ -173,9 +176,6 @@ jobs:
 
       - name: Database setup
         run: bin/rails db:schema:load --trace
-
-      - name: Precompile assets
-        run: bundle exec rails assets:precompile
 
       - name: Run Cucumber shard
         shell: bash

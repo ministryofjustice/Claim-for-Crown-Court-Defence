@@ -114,6 +114,13 @@ shards. Both call `.github/workflows/test_shards.yml` to create a single shard p
 before running tests. Shards download the same plan so every test file is assigned
 exactly once.
 
+The same preparation job precompiles assets in the test environment and uploads a
+`test-assets` archive for all twelve shards to restore from the current workflow run.
+The archive includes `app/assets/builds` and `public/assets`, preserving Propshaft's
+hidden manifest. Shards still install their own dependencies and set up their own
+databases; Cucumber seeding is unchanged. The separate `other-tests` job continues
+to compile its own assets.
+
 The preparation job downloads JUnit reports from the latest successful `push` run
 of `ci_cd.yml` on `main`. `script/test_shards.rb` sums example or scenario durations
 per file, then uses the existing `parallel_tests` gem to balance estimated total

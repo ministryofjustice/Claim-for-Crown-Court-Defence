@@ -31,6 +31,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     handle_omniauth
   end
 
+  def failure
+    DualLogin.new(session).clear
+    redirect_to_authentication_failure
+  end
+
   private
 
   def find_existing_user_from_auth(auth)
@@ -42,18 +47,26 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def handle_omniauth
+    flow = DualLogin.new(session)
+    unless flow.allowed?(LoginRoute::ENTRA)
+      return redirect_to sign_in_path, alert: I18n.t('session_routing.unavailable')
+    end
+
     auth = request.env['omniauth.auth']
     return redirect_to_authentication_failure unless auth
     return redirect_to_email_mismatch unless identified_email_matches?(auth.info.email)
 
-    log_omniauth_payload(auth)
+    complete_sign_in(auth)
+  ensure
+    flow.clear
+  end
 
+  def complete_sign_in(auth)
+    log_omniauth_payload(auth)
     user, error_message = find_existing_user_from_auth(auth)
     return sign_in_and_redirect(user, event: :authentication) if user
 
     redirect_to sign_in_path, alert: error_message || authentication_failed_message
-  ensure
-    session.delete(:entra_sign_in_email)
   end
 
   def redirect_to_authentication_failure
@@ -69,7 +82,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def identified_email_matches?(email)
-    identified_email = session[:entra_sign_in_email]
+    identified_email = DualLogin.new(session).email
     identified_email.present? && identified_email == email.to_s.strip.downcase
   end
 

@@ -36,6 +36,8 @@ docker build --check --file docker/Dockerfile .
 - GitHub Actions shards use historical JUnit timings through `script/test_shards.rb`;
   see [docs/testing.md](../docs/testing.md#github-actions-test-shards) when changing
   shard planning, report formats, or required checks. Preserve one shared plan per run.
+- The shard-preparation job also builds a shared test-asset archive for all RSpec and
+  Cucumber shards. Preserve the hidden Propshaft manifest when sharing compiled assets.
 - Feature specs can be slow; use line-targeted Cucumber scenarios where possible.
 - To see a feature test in a real browser, run `BROWSER=chrome bundle exec cucumber <feature file>`.
 - Local development often needs two Rails servers: the web app on port 3000 and the internal API on

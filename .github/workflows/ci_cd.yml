@@ -325,9 +325,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-push]
     environment: dev
-    concurrency:
-      group: cccd-deploy-main-dev
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -358,9 +355,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-push]
     environment: api-sandbox
-    concurrency:
-      group: cccd-deploy-main-api-sandbox
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -391,9 +385,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-push]
     environment: dev-lgfs
-    concurrency:
-      group: cccd-deploy-main-dev-lgfs
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -425,9 +416,6 @@ jobs:
     needs: [build-and-push]
 
     environment: staging
-    concurrency:
-      group: cccd-deploy-main-staging
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -458,9 +446,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-push, smoke-test-main, ui-smoke-test-dev]
     environment: production
-    concurrency:
-      group: cccd-deploy-main-production
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}

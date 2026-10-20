@@ -1,10 +1,12 @@
 require 'omniauth/openid_connect'
 require Rails.root.join('lib/omniauth/strategies/entra_mock')
+require Rails.root.join('lib/dual_login_gate')
 
 OmniAuth.config.logger = Rails.logger
 OmniAuth.config.allowed_request_methods = %i[get post]
 OmniAuth.config.silence_get_warning = true
 
+Rails.application.config.middleware.use DualLoginGate
 Rails.application.config.middleware.use OmniAuth::Builder do
 	if Rails.env.local?
 		provider :entra_mock, {}

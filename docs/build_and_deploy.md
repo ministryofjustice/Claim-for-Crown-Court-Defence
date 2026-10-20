@@ -75,6 +75,16 @@ There is no automatic syncing of secrets between these backups and Kubernetes. I
 ##### Non-secret app configuration
 These are handled via sharable k8s [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/) and then shared between relevant deployment files (app and worker) using the `envFrom` field with `configMapRef`.
 
+`DUAL_LOGIN_ENABLED` defaults to `false` (original password login plus the approved-tester pilot).
+Set it to `true` for public email-first rollout, with master feature flags enabled. Changing it requires
+rollout/restart across instances. Deploy the tester-column migration before the new code.
+Check existing login-route coverage separately; the tester-column migration does not repair missing routes
+or approve accounts. Superadmins can manage approval and the Legacy/Entra login method separately in
+**Dual-login testing**. Verify both flows and live Microsoft authentication before public rollout.
+To roll back to the restricted pilot, disable `DUAL_LOGIN_ENABLED`, remove any `dual_login` entry in
+`active_features`, check settings overrides, and restart all instances. This does not end existing
+authenticated sessions or completely disable the approved-tester pilot.
+
 
 ```
 # deployment.yaml - example reference for a ConfigMap

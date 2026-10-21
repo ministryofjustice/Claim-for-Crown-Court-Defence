@@ -10,6 +10,13 @@ module ApplicationHelper
     current_user&.persona.is_a?(ExternalUser)
   end
 
+  def multi_firm_account_switching?
+    primary_user_id = session[:multi_firm_primary_user_id]
+    return false if primary_user_id.blank?
+
+    User.exists?(id: primary_user_id, multi_firm_user: true)
+  end
+
   #
   # Can be called in views in order to instantiate a presenter for a partilcular model
   # following the <Model>Presenter naming convention or, optionally, a named presenter

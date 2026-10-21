@@ -56,6 +56,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :multi_firm_account_selection, only: %i[show create]
+
   mount API::Root => '/'
   mount GrapeSwaggerRails::Engine => '/api/documentation'
 
@@ -135,6 +137,9 @@ Rails.application.routes.draw do
     root to: 'claims#index'
 
     resource :claim_types, only: [:new, :create]
+    resource :multi_firm_user_links, only: %i[show] do
+      resources :links, controller: :multi_firm_user_links, only: %i[create destroy]
+    end
 
     resources :claims, except: [:new, :create, :edit, :update] do
       get 'confirmation',           on: :member

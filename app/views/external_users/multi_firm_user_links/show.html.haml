@@ -1,0 +1,34 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'layouts/page_heading', locals: { page_heading: t('.page_heading') }
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    %h2.govuk-heading-m= t('.linked_accounts')
+
+    - if @links.any?
+      = govuk_summary_list do |summary_list|
+        - @links.each do |link|
+          - summary_list.with_row do |row|
+            - row.with_key(text: link.linked_user.provider.name)
+            - row.with_value(text: link.linked_user.email)
+            - row.with_action(text: t('.remove'), href: external_users_multi_firm_user_links_link_path(link), visually_hidden_text: link.linked_user.provider.name, html_attributes: { 'data-method': 'delete' })
+    - else
+      %p.govuk-body= t('.no_linked_accounts')
+
+    %h2.govuk-heading-m= t('.link_account')
+
+    - if @linker.errors.any?
+      .govuk-error-summary{ data: { module: 'govuk-error-summary' } }
+        %div{ role: 'alert' }
+          %h2.govuk-error-summary__title= t('devise.shared.error_messages.error_summary_title')
+          .govuk-error-summary__body
+            %ul.govuk-list.govuk-error-summary__list
+              - @linker.errors.full_messages.each do |message|
+                %li= message
+
+    = form_with model: @linker, url: external_users_multi_firm_user_links_links_path do |f|
+      = f.govuk_email_field :email, label: { text: t('.email') }, autocomplete: 'username'
+      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'current-password'
+      = f.govuk_submit t('.link_account')

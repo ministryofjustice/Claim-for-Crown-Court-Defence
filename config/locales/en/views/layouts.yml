@@ -51,6 +51,7 @@ en:
       sub_navigation: Sub navigation
       users: Users
       offences: Offences
+      linked_accounts: Linked accounts
 
     skip_content: Skip to main content
 
@@ -58,4 +59,5 @@ en:
       menu: Menu
       show_hide_menu: Show or hide navigation menu
       sign_out: Sign out
+      switch_account: Switch account
       top_navigation: Top Level Navigation

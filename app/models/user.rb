@@ -29,6 +29,7 @@
 
 class User < ApplicationRecord
   include Disablable
+  include MultiFirmAccess
   include SoftlyDeletable
 
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true

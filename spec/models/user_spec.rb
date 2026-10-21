@@ -41,9 +41,18 @@ RSpec.describe User do
   it { should have_many(:messages_sent).class_name('Message').with_foreign_key('sender_id') }
   it { should have_many(:user_message_statuses) }
   it { should have_one(:login_route).with_foreign_key(:id).dependent(:destroy) }
+  it { should have_many(:multi_firm_user_links).dependent(:destroy) }
+  it { should have_many(:linked_users).through(:multi_firm_user_links) }
+  it { should have_one(:incoming_multi_firm_user_link).dependent(:destroy) }
 
   it 'creates a legacy login route' do
     expect(user.login_route).to have_attributes(id: user.id, login_method: LoginRoute::LEGACY)
+  end
+
+  it 'does not become a multi-firm user when linked to another account' do
+    link = create(:multi_firm_user_link)
+
+    expect(link.linked_user.update(multi_firm_user: true)).to be(false)
   end
 
   it { should delegate_method(:claims).to(:persona) }

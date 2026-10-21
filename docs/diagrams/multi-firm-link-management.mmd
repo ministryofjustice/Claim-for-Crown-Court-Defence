@@ -1,0 +1,33 @@
+%%{init: {'theme': 'default'}}%%
+flowchart TD
+    Start([External user signed in]) --> Settings[Open own account settings]
+    Settings --> Toggle{Enable multi-firm access?}
+    Toggle -->|No| Disabled[Set multi_firm_user to false]
+    Disabled --> KeepLinks[Keep existing link rows]
+    KeepLinks --> Hidden[Hide Linked accounts navigation]
+    Toggle -->|Yes| Enabled[Set multi_firm_user to true]
+    Enabled --> ShowTab[Show Linked accounts navigation]
+    ShowTab --> OpenPage[Open Linked accounts page]
+    OpenPage --> EnabledCheck{Current account enabled?}
+    EnabledCheck -->|No| ReturnSettings[Redirect to account settings]
+    EnabledCheck -->|Yes| ListLinks[Show direct linked accounts]
+    ListLinks --> Choice{Manage links}
+    Choice -->|Link account| Credentials[Enter other CCCD account email and legacy password]
+    Credentials --> Lookup[Normalize email and find CCCD user]
+    Lookup --> CredentialCheck{Credentials authenticate?}
+    CredentialCheck -->|No| GenericError[Show generic email or password error]
+    CredentialCheck -->|Yes| ValidateLink[Validate provider and account relationship]
+    ValidateLink --> LinkValid{Link is allowed?}
+    LinkValid -->|No| ValidationError[Show link validation errors]
+    LinkValid -->|Yes| CreateLink[Create one multi_firm_user_links row]
+    CreateLink --> ListLinks
+    Choice -->|Remove account| ScopedDelete[Find link through current user's own links]
+    ScopedDelete --> DeleteLink[Delete only that link row]
+    DeleteLink --> ListLinks
+    GenericError --> Credentials
+    ValidationError --> Credentials
+
+    Note1[Separate CCCD users and providers remain unchanged]
+    Note2[Links are direct; linked accounts cannot own or chain links]
+    CreateLink -.-> Note1
+    ValidateLink -.-> Note2

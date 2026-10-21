@@ -38,6 +38,10 @@ docker build --check --file docker/Dockerfile .
   shard planning, report formats, or required checks. Preserve one shared plan per run.
 - The shard-preparation job also builds a shared test-asset archive for all RSpec and
   Cucumber shards. Preserve the hidden Propshaft manifest when sharing compiled assets.
+- Cucumber shards restore a same-run seeded database and set `CUCUMBER_PRESEEDED=true`.
+  Database preparation runs independently; only Cucumber waits for it, not RSpec.
+  Keep their seed sequence in `features/support/seeds.rb` aligned with local runs;
+  preserve reference tables during startup and scenario cleanup. RSpec stays unseeded.
 - Feature specs can be slow; use line-targeted Cucumber scenarios where possible.
 - To see a feature test in a real browser, run `BROWSER=chrome bundle exec cucumber <feature file>`.
 - Local development often needs two Rails servers: the web app on port 3000 and the internal API on

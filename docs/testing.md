@@ -118,8 +118,25 @@ The same preparation job precompiles assets in the test environment and uploads 
 `test-assets` archive for all twelve shards to restore from the current workflow run.
 The archive includes `app/assets/builds` and `public/assets`, preserving Propshaft's
 hidden manifest. Shards still install their own dependencies and set up their own
-databases; Cucumber seeding is unchanged. The separate `other-tests` job continues
-to compile its own assets.
+databases. The separate `other-tests` job continues to compile its own assets.
+
+A separate preparation job calls `.github/workflows/cucumber_database.yml` to load
+a fresh PostgreSQL schema, run the shared Cucumber seed sequence in
+`features/support/seeds.rb`, and upload a `cucumber-database` dump. It runs in parallel
+with shard-plan and asset preparation. RSpec waits only for the shard plan and
+assets; Cucumber waits for both preparation jobs.
+Database preparation starts a disposable PostgreSQL container with a masked,
+random per-run password and a loopback-only port. Rails receives the password via
+`PGPASSWORD`; no shared database secret is required.
+Each Cucumber shard restores the dump into its own database using PostgreSQL 13's
+tools inside its service container. The snapshot comes from the current workflow
+run and is retained for one day; there is no cross-run database cache.
+
+Only the Cucumber execution step sets `CUCUMBER_PRESEEDED=true`. In this mode startup
+checks that all reference tables contain data, preserves them during initial
+cleaning, and skips both full and VAT-only seeding. Scenario cleanup still preserves
+the same reference tables. Normal local Cucumber runs retain their existing seeding
+behaviour, and RSpec and `other-tests` continue loading an unseeded schema.
 
 The preparation job downloads JUnit reports from the latest successful `push` run
 of `ci_cd.yml` on `main`. `script/test_shards.rb` sums example or scenario durations
@@ -140,11 +157,12 @@ To reproduce a plan locally, download the result artifacts into a directory cont
 bundle exec ruby script/test_shards.rb tmp/test-timings tmp/test-shards 6
 ```
 
-Only the preparation and shard jobs receive `actions: read` to download artifacts.
+Only shard-plan preparation and test shard jobs receive `actions: read` to download artifacts.
 Their checkouts disable persisted credentials, and `GH_TOKEN` is set only on dedicated
 download steps before dependency setup, not on the planner or test execution steps.
-Preparation failure blocks dependent test jobs. Branch protection should require the preparation check as well
-as every test shard, or an aggregate check that explicitly rejects unsuccessful
+Database preparation needs only `contents: read`. Preparation failure blocks dependent
+test jobs, so a database preparation failure does not block RSpec. Branch protection
+should require both preparation checks as well as every test shard, or an aggregate check that explicitly rejects unsuccessful
 dependencies, because GitHub accepts skipped required checks.
 
 ## Linting

@@ -16,6 +16,7 @@ require 'sidekiq/testing'
 require_relative '../page_objects/base_page'
 require_relative '../../spec/vcr_helper'
 require 'axe-cucumber-steps'
+require_relative 'seeds'
 
 # enable forgery protection in feature tests so as not to obscure
 # loss of signed in user
@@ -41,7 +42,12 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
-  DatabaseCleaner.clean_with(:deletion)
+  if CucumberSeeds.preseeded?
+    CucumberSeeds.verify!
+    DatabaseCleaner.clean_with(:deletion, except: CucumberSeeds::TABLES)
+  else
+    DatabaseCleaner.clean_with(:deletion)
+  end
   DatabaseCleaner.strategy = :transaction
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."

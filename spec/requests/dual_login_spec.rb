@@ -64,6 +64,30 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     end
   end
 
+  [false, true].product(%i[existing unknown]).each do |rollout, account|
+    it "preserves the password recovery confirmation for an #{account} account with public rollout #{rollout}" do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
+      user.login_route.update!(dual_login_tester: true)
+      identify
+      follow_redirect!
+      get new_user_password_path
+      email = account == :existing ? user.email : 'unknown@example.com'
+      post user_password_path, params: { user: { email: email } }
+
+      expect(response).to redirect_to sign_in_path
+      follow_redirect!
+      follow_redirect! if rollout
+      expect(response).to have_http_status(:ok)
+      expect(Capybara.string(response.body)).to have_text(I18n.t('devise.passwords.send_paranoid_instructions'))
+      expect(flash[:alert]).to be_nil
+      expect(response.body).not_to include(I18n.t('session_routing.unavailable'))
+      expect(request.env['warden'].user).to be_nil
+
+      get new_user_session_path
+      expect_rejection
+    end
+  end
+
   [false, true].each do |rollout|
     it "signs out cleanly in development with public rollout #{rollout}" do
       allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)

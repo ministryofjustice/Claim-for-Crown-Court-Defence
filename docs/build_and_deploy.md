@@ -80,6 +80,8 @@ rollout/restart across instances. Deploy the tester-column migration before the 
 Check existing login-route coverage separately; the tester-column migration does not repair missing routes
 or approve accounts. Superadmins can manage approval and the Legacy/Entra login method separately in
 **Dual-login testing**. Verify both flows and live Microsoft authentication before public rollout.
+Verify that requesting password reset instructions returns through standard sign-in and displays the
+recovery confirmation without a pilot-rejection alert, with public rollout both off and on.
 To roll back to the restricted pilot, disable `DUAL_LOGIN_ENABLED`, remove any `dual_login` entry in
 `active_features`, check settings overrides, and restart all instances. This does not end existing
 authenticated sessions or completely disable the approved-tester pilot.

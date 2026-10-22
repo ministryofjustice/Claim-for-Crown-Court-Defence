@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # Exercise approval changes and their persisted results as one request scenario.
-# rubocop:disable RSpec/ExampleLength
+# rubocop:disable-next RSpec/ExampleLength
 RSpec.describe 'Dual-login tester management', :aggregate_failures do
   let(:account) { create(:case_worker).user }
   let(:path) { super_admins_dual_login_testing_index_path }
@@ -66,8 +66,9 @@ RSpec.describe 'Dual-login tester management', :aggregate_failures do
     end
 
     it 'surfaces validation failures without reporting success' do
-      # Simulate invalid persisted routing data so the update fails model validation.
-      account.login_route.update_column(:login_method, 'invalid') # rubocop:disable Rails/SkipsModelValidations
+      account.login_route.login_method = 'invalid'
+      allow(User).to receive(:find).and_call_original
+      allow(User).to receive(:find).with(account.to_param).and_return(account)
       patch super_admins_dual_login_testing_path(account), params: { dual_login_tester: 'true' }
       expect(flash[:alert]).to include('Unable to update tester approval')
       expect(flash[:notice]).to be_nil
@@ -149,4 +150,3 @@ RSpec.describe 'Dual-login tester management', :aggregate_failures do
     end
   end
 end
-# rubocop:enable RSpec/ExampleLength

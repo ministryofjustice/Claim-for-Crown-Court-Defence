@@ -33,7 +33,7 @@
     "datatables.net-fixedheader-dt": "^5.1.2",
     "datatables.net-select-dt": "^4.1.1",
     "esbuild": "^0.28.1",
-    "govuk-frontend": "^6.5.1",
+    "govuk-frontend": "^6.6.0",
     "jquery": "^3.7.1",
     "jquery-accessible-accordion-aria": "^2.6.1",
     "jquery-highlight": "^3.5.0",

@@ -1,7 +1,5 @@
-class CreateLegacyLoginRoutes < ActiveRecord::Migration[8.1]
+class CreateLoginRoutes < ActiveRecord::Migration[8.1]
   def up
-    return if table_exists?(:login_routes)
-
     # Interim routing table: the primary key is the user's id, so the whole
     # table can be dropped once every account uses a single login method.
     create_table :login_routes, id: :integer do |t|
@@ -20,6 +18,6 @@ class CreateLegacyLoginRoutes < ActiveRecord::Migration[8.1]
   end
 
   def down
-    drop_table :login_routes, if_exists: true
+    drop_table :login_routes
   end
 end

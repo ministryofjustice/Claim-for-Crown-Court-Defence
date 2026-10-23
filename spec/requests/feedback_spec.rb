@@ -56,7 +56,12 @@ RSpec.describe 'send feedback' do
         before { post_feedback }
 
         it 'redirects to the sign in page' do
-          expect(response).to redirect_to(new_user_session_url)
+          expect(response).to redirect_to(sign_in_url)
+        end
+
+        it 'does not display a pilot rejection after returning to sign in' do
+          follow_redirect!
+          expect(flash[:alert]).to be_nil
         end
       end
 

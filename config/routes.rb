@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   get '/404', to: 'errors#not_found', as: :error_404
   get '/500', to: 'errors#internal_server_error', as: :error_500
 
-  devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations' }
+  devise_for :users,
+             path_names: { sign_in: 'legacy_sign_in' },
+             controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations', omniauth_callbacks: 'omniauth_callbacks' }
 
   resources :users, only: :index
 
@@ -46,8 +48,14 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
+    get '/users/sign_in', to: 'sessions#new', as: :sign_in, defaults: { standard_sign_in: true }
+    post '/users/sign_in', to: 'sessions#create', defaults: { standard_sign_in: true }
+    get '/users/dual_login', to: 'session_routing#new', as: :dual_login
+    post '/users/dual_login', to: 'session_routing#create'
+    get '/users/auth/failure', to: 'omniauth_callbacks#failure'
+
     unauthenticated :user do
-      root 'sessions#new', as: :unauthenticated_root
+      root 'sessions#new', as: :unauthenticated_root, defaults: { standard_sign_in: true }
     end
   end
 
@@ -81,6 +89,9 @@ Rails.application.routes.draw do
 
   namespace :super_admins do
     root to: 'super_admins#show'
+    resources :dual_login_testing, only: %i[index update] do
+      patch :update_login_method, on: :member
+    end
 
     get 'stats', to: 'stats#show'
     post 'stats', to: 'stats#show'

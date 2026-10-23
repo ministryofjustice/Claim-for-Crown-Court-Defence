@@ -74,6 +74,25 @@ There is no automatic syncing of secrets between these backups and Kubernetes. I
 ##### Non-secret app configuration
 These are handled via sharable k8s [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/) and then shared between relevant deployment files (app and worker) using the `envFrom` field with `configMapRef`.
 
+`DUAL_LOGIN_ENABLED` defaults to `false` (original password login plus the approved-tester pilot).
+Set it to `true` for public email-first rollout, with master feature flags enabled. Changing it requires
+rollout/restart across instances. Deploy the tester-column migration before the new code.
+The deployed table migration retains version `20260902090000` and its original name
+`CreateLoginRoutes`. The only additional table change is migration `20261020113000`, which adds
+the default-false, non-nullable `dual_login_tester` column without changing existing routes.
+The overlapping upstream migration `20261015120000` is not included in this branch.
+If an environment has already applied it, removing the file does not undo its database changes.
+Review that environment separately before deployment; do not roll it back, as its rollback drops the table.
+Run pending migrations normally; do not delete migration-history rows or rerun the operational backfill SQL.
+Check existing login-route coverage separately; the tester-column migration does not repair missing routes
+or approve accounts. Superadmins can manage approval and the Legacy/Entra login method separately in
+**Dual-login testing**. Verify both flows and live Microsoft authentication before public rollout.
+Verify that requesting password reset instructions returns through standard sign-in and displays the
+recovery confirmation without a pilot-rejection alert, with public rollout both off and on.
+To roll back to the restricted pilot, disable `DUAL_LOGIN_ENABLED`, remove any `dual_login` entry in
+`active_features`, check settings overrides, and restart all instances. This does not end existing
+authenticated sessions or completely disable the approved-tester pilot.
+
 
 ```
 # deployment.yaml - example reference for a ConfigMap

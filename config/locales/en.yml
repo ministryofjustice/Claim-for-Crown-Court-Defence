@@ -67,6 +67,25 @@ en:
       hint_text: "For any queries about your claim, contact the following:"
       advocate_hint: "Advocates’ graduated fee scheme"
       litigator_hint: "Litigators’ graduated fee scheme"
+
+  omniauth_callbacks:
+    authentication_failed: Authentication failed.
+    email_mismatch: The Microsoft account you selected does not match the email address you entered. Please sign in again and select the correct account.
+  session_routing:
+    pilot_link: Try the new sign-in (approved testers only)
+    pilot_banner: This sign-in page is for approved testers only.
+    unavailable: Unable to continue with this sign-in method. Use the standard sign-in page.
+    standard_sign_in: Back to standard sign-in
+    new:
+      page_title: Sign in to claim for Crown Court defence
+      page_heading: Sign in
+      hint: Enter your email address and we will take you to the right sign in page.
+      email: Email address
+      continue: Continue
+      error_prefix: "Error:"
+      errors:
+        blank_email: Enter your email address
+        invalid_email: Enter an email address in the correct format, like name@example.com
   errors:
     internal_server_error:
       page_heading: 500 - internal server error

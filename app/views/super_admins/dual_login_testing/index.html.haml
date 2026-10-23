@@ -1,0 +1,27 @@
+= content_for :page_title, t('.page_title')
+= render partial: 'layouts/page_heading', locals: { page_heading: t('.page_title') }
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    %p.govuk-body= t('.hint')
+    = form_with(url: super_admins_dual_login_testing_index_path, method: :get) do |f|
+      = f.govuk_email_field :email, value: @email, label: { text: t('.email') }
+      = f.govuk_submit t('.find')
+
+    - if @account
+      %h2.govuk-heading-m= @account.email
+      - if @account.login_route
+        %p.govuk-body= t('.login_method', method: @account.login_route.login_method)
+        %p.govuk-body= @account.login_route.dual_login_tester? ? t('.approved') : t('.not_approved')
+        = form_with(url: super_admins_dual_login_testing_path(@account), method: :patch) do |f|
+          = f.hidden_field :dual_login_tester, value: !@account.login_route.dual_login_tester?
+          = f.govuk_submit(@account.login_route.dual_login_tester? ? t('.revoke') : t('.approve'))
+        = form_with(url: update_login_method_super_admins_dual_login_testing_path(@account), method: :patch) do |f|
+          = f.govuk_radio_buttons_fieldset :login_method, legend: { text: t('.change_login_method'), size: 's' } do
+            = f.govuk_radio_button :login_method, LoginRoute::LEGACY, label: { text: t('.legacy') }, checked: @account.login_route.login_method == LoginRoute::LEGACY
+            = f.govuk_radio_button :login_method, LoginRoute::ENTRA, label: { text: t('.entra') }, checked: @account.login_route.login_method == LoginRoute::ENTRA
+          = f.govuk_submit t('.save_login_method')
+      - else
+        %p.govuk-body= t('super_admins.dual_login_testing.missing_route')
+    - elsif @email.present?
+      %p.govuk-body= t('.not_found')

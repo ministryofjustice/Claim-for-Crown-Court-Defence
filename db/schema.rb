@@ -420,12 +420,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_113000) do
     t.index ["name"], name: "index_locations_on_name"
   end
 
-  create_table "login_routes", id: :integer, default: nil, force: :cascade do |t|
-    t.datetime "created_at", null: false
+  create_table "login_routes", id: :serial, force: :cascade do |t|
     t.boolean "dual_login_tester", default: false, null: false
     t.string "login_method", default: "legacy", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.check_constraint "login_method::text = ANY (ARRAY['legacy'::character varying, 'entra'::character varying]::text[])", name: "login_routes_login_method_check"
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|

@@ -149,7 +149,7 @@ GEM
     builder (3.3.0)
     byebug (13.0.0)
       reline (>= 0.6.0)
-    cancancan (3.6.1)
+    cancancan (3.7.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -760,7 +760,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   byebug
-  cancancan (~> 3.6)
+  cancancan (~> 3.7)
   capybara (~> 3.40)
   capybara-selenium
   chartkick (~> 5.2.1)
@@ -887,7 +887,7 @@ CHECKSUMS
   brakeman (8.1.0) sha256=cfa9e5214e4925842f4bc849a64f8a7e6c5d0425fe98eac8d7b7bc60fdc17e07
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   byebug (13.0.0) sha256=d2263efe751941ca520fa29744b71972d39cbc41839496706f5d9b22e92ae05d
-  cancancan (3.6.1) sha256=975c1d5cbf58d5df48a9452a7f61ae3d254608cd87570402f5925a8864c56b62
+  cancancan (3.7.0) sha256=6dfcc6056cc3d8205446bcb368f50913b6aceec2191b3f4d84e82b5607013722
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-selenium (0.0.6) sha256=d7333331901d79f4b86a31f659afd3024473efb679a0dad2bd6d8f69f45950de
   case_transform (0.2) sha256=e2ad4418dceeb227cf474cc332cd5004c95c136c04186c1cceaad8ab8de6fe3b

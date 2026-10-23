@@ -7,7 +7,7 @@ gem 'aws-sdk-s3',             '~> 1'
 gem 'aws-sdk-sns',            '~> 1'
 gem 'aws-sdk-sqs',            '~> 1'
 gem 'bootsnap', require: false
-gem 'cancancan',              '~> 3.6'
+gem 'cancancan',              '~> 3.7'
 gem 'chartkick',              '~> 5.2.1'
 gem 'cocoon',                 '~> 1.2.15'
 gem 'cssbundling-rails'

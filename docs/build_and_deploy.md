@@ -78,13 +78,13 @@ These are handled via sharable k8s [ConfigMaps](https://kubernetes.io/docs/conce
 `DUAL_LOGIN_ENABLED` defaults to `false` (original password login plus the approved-tester pilot).
 Set it to `true` for public email-first rollout, with master feature flags enabled. Changing it requires
 rollout/restart across instances. Deploy the tester-column migration before the new code.
-The pilot's table migration retains version `20260902090000` under the distinct name
-`CreateLegacyLoginRoutes`. Upstream's `20261015120000` migration reconciles an existing table,
-preserves assigned login methods and tester approvals, and backfills only missing routes.
-It also applies the upstream login-method constraint and removes the generated-ID default.
-On environments that already ran upstream's migration, the older migration leaves the table unchanged.
+The deployed table migration retains version `20260902090000` and its original name
+`CreateLoginRoutes`. The only additional table change is migration `20261020113000`, which adds
+the default-false, non-nullable `dual_login_tester` column without changing existing routes.
+The overlapping upstream migration `20261015120000` is not included in this branch.
+If an environment has already applied it, removing the file does not undo its database changes.
+Review that environment separately before deployment; do not roll it back, as its rollback drops the table.
 Run pending migrations normally; do not delete migration-history rows or rerun the operational backfill SQL.
-An invalid stored login method will cause constraint validation to fail and must be investigated before retrying.
 Check existing login-route coverage separately; the tester-column migration does not repair missing routes
 or approve accounts. Superadmins can manage approval and the Legacy/Entra login method separately in
 **Dual-login testing**. Verify both flows and live Microsoft authentication before public rollout.

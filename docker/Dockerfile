@@ -18,6 +18,10 @@ RUN apk --update-cache upgrade \
                    yaml-dev \
                    yarn
 
+RUN apk add --no-cache --upgrade \
+    ca-certificates \
+    ca-certificates-bundle
+
 ENV RAILS_ENV=production
 
 COPY Gemfile Gemfile.lock .ruby-version $APP_HOME/
@@ -72,6 +76,10 @@ RUN apk --update-cache upgrade \
                    redis \
                    runit \
                    ttf-freefont
+
+RUN apk add --no-cache --upgrade \
+    ca-certificates \
+    ca-certificates-bundle
 
 RUN addgroup -g 1000 -S appgroup \
 && adduser -u 1000 -S appuser -G appgroup

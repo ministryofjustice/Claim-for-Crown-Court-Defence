@@ -43,3 +43,12 @@ ignore:
           MissingTemplate), so no SSTI/LFI is possible.
         expires: 2027-10-22T00:00:00.000Z
         created: 2026-10-22T00:00:00.000Z
+  SNYK-JS-PICOMATCH-21248802:
+    - '*':
+        reason: >-
+          Non-exploitable. picomatch is a build-time dev dependency via
+          sass > @parcel/watcher (watch mode only, not used in the CI build);
+          no attacker-controlled glob patterns reach it and it is not in the
+          production runtime. 
+        expires: 2027-10-31T00:00:00.000Z
+        created: 2026-10-26T00:00:00.000Z

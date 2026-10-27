@@ -1,5 +1,5 @@
 When(/^I have not signed in$/) do
-  visit new_user_session_path
+  visit sign_in_path
 end
 
 Then('I see confirmation that my bug report was received') do
@@ -19,5 +19,5 @@ Then(/^I should be on the bug report page$/) do
 end
 
 Then(/^I should be on the sign in page$/) do
-  expect(current_path).to eq(new_user_session_path)
+  expect(page).to have_current_path(sign_in_path)
 end

@@ -21,10 +21,13 @@ jobs:
       uses: snyk/actions/setup@9adf32b1121593767fc3c057af55b55db032dc04
 
     - name: Authenticate Snyk
+      env:
+        SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+        SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
       run: |
         snyk auth --auth-type=oauth \
-          --client-id="${{ secrets.SNYK_CLIENT_ID }}" \
-          --client-secret="${{ secrets.SNYK_CLIENT_SECRET }}"
+          --client-id="$SNYK_CLIENT_ID" \
+          --client-secret="$SNYK_CLIENT_SECRET"
 
     - name: Scan docker image using snyk
       id: image-scan

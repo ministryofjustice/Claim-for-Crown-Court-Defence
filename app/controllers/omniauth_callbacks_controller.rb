@@ -394,7 +394,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     mapped = role_mapping.external_user_roles
     raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if mapped.empty?
 
-    roles = available_external_user_roles(provider) & mapped
+    roles = provider.available_external_user_roles & mapped
     raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if roles.empty?
 
     roles
@@ -413,18 +413,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     agfs_numbers, = separate_agfs_and_lgfs_supplier_numbers(raw)
     agfs_numbers.first
-  end
-
-  def available_external_user_roles(provider)
-    if provider.agfs? && provider.lgfs?
-      %w[admin advocate litigator]
-    elsif provider.agfs?
-      %w[admin advocate]
-    elsif provider.lgfs?
-      %w[admin litigator]
-    else
-      []
-    end
   end
 
   # cannot determine provider_type from auth payload, so default to 'firm' for now. In future, if we have a way to determine provider_type from auth payload, we can implement that logic here.

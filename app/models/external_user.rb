@@ -62,15 +62,10 @@ class ExternalUser < ApplicationRecord
   def available_roles
     return %w[admin] if provider.nil?
 
-    if provider.agfs? && provider.lgfs?
-      %w[admin advocate litigator]
-    elsif provider.agfs?
-      %w[admin advocate]
-    elsif provider.lgfs?
-      %w[admin litigator]
-    else
-      raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
-    end
+    available_roles = provider.available_external_user_roles
+    raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}" if available_roles.empty?
+
+    available_roles
   end
 
   def advocate_claim_types

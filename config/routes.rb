@@ -90,7 +90,7 @@ Rails.application.routes.draw do
   namespace :super_admins do
     root to: 'super_admins#show'
     resources :dual_login_testing, only: %i[index update] do
-      patch :update_login_method, on: :member
+      patch :update_login_method, to: 'dual_login_testing#update_login_method', on: :member
     end
 
     get 'stats', to: 'stats#show'

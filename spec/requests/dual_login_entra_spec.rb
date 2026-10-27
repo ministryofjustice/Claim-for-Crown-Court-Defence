@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # Keep authorization entry and callback transitions in the same scenario.
-# rubocop:disable RSpec/ExampleLength
+# rubocop:disable-next RSpec/ExampleLength
 RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
   let(:user) { create(:case_worker).user }
 
@@ -146,4 +146,3 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
     expect_rejection
   end
 end
-# rubocop:enable RSpec/ExampleLength

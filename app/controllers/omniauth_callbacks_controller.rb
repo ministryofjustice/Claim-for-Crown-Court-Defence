@@ -164,12 +164,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   end
 
-  def missing_user_message(email)
-    return nil unless Rails.env.development?
-
-    "No user found for #{email}. Seed or create the user first."
-  end
-
   def provision_failed_message(email, error)
     return nil unless Rails.env.development?
 

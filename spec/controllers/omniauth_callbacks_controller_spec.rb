@@ -20,6 +20,28 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
         get :entra_mock
         expect(response).to redirect_to case_workers_root_path
       end
+
+      context 'when SiLAS assigns the administrator role' do
+        before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['LAA Administrator'] }
+
+        it 'synchronises roles before choosing the landing page' do
+          get :entra_mock
+          expect(user.persona.reload.roles).to eq ['admin']
+          expect(response).to redirect_to case_workers_admin_root_path
+        end
+      end
+
+      context 'with an external user' do
+        let(:user) { create(:external_user).user }
+
+        before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = %w[Advocate Administrator] }
+
+        it 'synchronises the external user roles and signs in' do
+          get :entra_mock
+          expect(user.persona.reload.roles).to eq %w[advocate admin]
+          expect(response).to redirect_to external_users_root_path
+        end
+      end
     end
 
     context 'when the Entra email differs from the identified email' do

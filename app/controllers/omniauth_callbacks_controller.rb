@@ -2,22 +2,6 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
 
-  LAA_INTERNAL_ROLE_MAPPINGS = {
-    'Caseworker' => 'case_worker',
-    'Provider Management' => 'provider_management',
-    'LAA Administrator' => 'admin'
-  }.freeze
-
-  LAA_EXTERNAL_ROLE_MAPPINGS = {
-    'Advocate' => 'advocate',
-    'Litigator' => 'litigator',
-    'Advocate Admin' => 'admin', # old role name, may remove later
-    'Litigator Admin' => 'admin', # old role name, may remove later
-    'Administrator' => 'admin'
-  }.freeze
-
-  LAA_SUPER_ADMIN_ROLE = 'Super Administrator'.freeze
-
   PERSONA_CASE_WORKER = CaseWorker.name
   PERSONA_EXTERNAL_USER = ExternalUser.name
   PERSONA_SUPER_ADMIN = SuperAdmin.name
@@ -87,7 +71,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def resolved_persona(user, raw)
-    user&.persona_type || persona_from_laa_roles(raw) || raw['persona'] || PERSONA_CASE_WORKER
+    user&.persona_type || Silas::Roles.new(raw).persona_type || raw['persona'] || PERSONA_CASE_WORKER
   end
 
   def find_user_by_persona(user, info, raw)
@@ -127,7 +111,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
                                        PERSONA_CASE_WORKER)]
     end
 
-    update_case_worker_roles(user, raw)
+    Silas::Roles.new(raw).sync!(user)
 
     [user, nil]
   end
@@ -142,7 +126,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
                                        PERSONA_EXTERNAL_USER)]
     end
 
-    update_external_user_roles(user, raw)
+    Silas::Roles.new(raw).sync!(user)
 
     [user, nil]
   end
@@ -190,10 +174,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def extract_case_worker_roles(raw)
-    laa_roles = laa_roles_from_payload(raw)
-    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if laa_roles.empty?
+    role_mapping = Silas::Roles.new(raw)
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
 
-    mapped = map_laa_internal_roles(raw)
+    mapped = role_mapping.case_worker_roles
     raise ArgumentError, 'No valid case worker roles found in LAA_ROLES' if mapped.empty?
 
     mapped
@@ -201,66 +185,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def default_case_worker_location
     'Nottingham'
-  end
-
-  def update_case_worker_roles(user, raw)
-    return if user.persona_type == PERSONA_SUPER_ADMIN
-    return unless user.case_worker?
-
-    mapped = map_laa_internal_roles(raw)
-    return if mapped.empty?
-
-    current_roles = Array(user.persona.roles).map(&:to_s).sort
-    desired_roles = mapped.sort
-    return if current_roles == desired_roles
-
-    user.persona.update!(roles: mapped)
-  end
-
-  def map_laa_internal_roles(raw)
-    laa_roles = laa_roles_from_payload(raw)
-    return [] if laa_roles.empty?
-
-    mapped = laa_roles.filter_map { |role| LAA_INTERNAL_ROLE_MAPPINGS[role] }
-    mapped &= CaseWorker::ROLES
-    mapped.uniq
-  end
-
-  def map_laa_external_roles(raw)
-    laa_roles = laa_roles_from_payload(raw)
-    return [] if laa_roles.empty?
-
-    mapped = laa_roles.filter_map { |role| LAA_EXTERNAL_ROLE_MAPPINGS[role] }
-    mapped &= ExternalUser::ROLES
-    mapped.uniq
-  end
-
-  def update_external_user_roles(user, raw)
-    return if user.persona_type == PERSONA_SUPER_ADMIN
-    return unless user.external_user?
-
-    mapped = map_laa_external_roles(raw)
-    return if mapped.empty?
-
-    current_roles = Array(user.persona.roles).map(&:to_s).sort
-    desired_roles = mapped.sort
-    return if current_roles == desired_roles
-
-    user.persona.update!(roles: mapped)
-  end
-
-  def persona_from_laa_roles(raw)
-    laa_roles = laa_roles_from_payload(raw)
-    return nil if laa_roles.empty?
-    return PERSONA_SUPER_ADMIN if laa_roles.include?(LAA_SUPER_ADMIN_ROLE)
-
-    external_roles = map_laa_external_roles(raw)
-    return PERSONA_EXTERNAL_USER if external_roles.any?
-
-    internal_roles = map_laa_internal_roles(raw)
-    return PERSONA_CASE_WORKER if internal_roles.any?
-
-    nil
   end
 
   def create_external_user_from_auth(info, raw)
@@ -464,10 +388,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def extract_external_user_roles(raw, provider)
-    laa_roles = laa_roles_from_payload(raw)
-    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if laa_roles.empty?
+    role_mapping = Silas::Roles.new(raw)
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
 
-    mapped = map_laa_external_roles(raw)
+    mapped = role_mapping.external_user_roles
     raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if mapped.empty?
 
     roles = available_external_user_roles(provider) & mapped
@@ -520,10 +444,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return roles unless provider_type == 'firm'
 
     roles.include?('lgfs') ? roles : (roles + ['lgfs'])
-  end
-
-  def laa_roles_from_payload(raw)
-    Array(raw['LAA_ROLES']).map { |role| role.to_s.strip }.reject(&:empty?)
   end
 
   # cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.

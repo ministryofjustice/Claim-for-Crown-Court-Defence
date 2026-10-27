@@ -141,6 +141,57 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
   end
 
+  describe 'provider provisioning defaults' do
+    subject(:provider) { controller.send(:find_or_create_provider_for_external_user, raw) }
+
+    let(:raw) { { 'FIRM_NAME' => ' Example Firm ', 'LAA_ACCOUNTS' => %w[123AB 9a123b 8Z456Y] } }
+    let(:auto_create_providers) { 'true' }
+
+    around do |example|
+      Dotenv.modify('AUTO_CREATE_PROVIDERS_FROM_SILAS' => auto_create_providers) { example.run }
+    end
+
+    it 'creates an LGFS firm with VAT registration and no firm AGFS supplier number' do
+      expect(provider).to be_persisted
+      expect(provider).to have_attributes(
+        name: 'Example Firm', provider_type: 'firm', roles: ['lgfs'],
+        vat_registered: true, firm_agfs_supplier_number: nil
+      )
+    end
+
+    it 'persists only the normalised LGFS supplier numbers' do
+      expect(provider.lgfs_supplier_numbers.reload.pluck(:supplier_number)).to contain_exactly('9A123B', '8Z456Y')
+    end
+
+    context 'when automatic provider creation is disabled' do
+      let(:auto_create_providers) { 'false' }
+
+      it 'rejects the request without creating a provider' do
+        expect do
+          expect { provider }.to raise_error(ArgumentError, 'No provider found for FIRM_NAME: Example Firm')
+        end.not_to change(Provider, :count)
+      end
+    end
+
+    context 'without a firm name' do
+      let(:raw) { super().merge('FIRM_NAME' => ' ') }
+
+      it 'rejects the missing name' do
+        expect { provider }.to raise_error(ArgumentError, 'Missing FIRM_NAME in auth payload')
+      end
+    end
+
+    context 'without an LGFS supplier number' do
+      let(:raw) { super().merge('LAA_ACCOUNTS' => ['123AB']) }
+
+      it 'propagates validation errors without creating a provider' do
+        expect do
+          expect { provider }.to raise_error(ActiveRecord::RecordInvalid)
+        end.not_to change(Provider, :count)
+      end
+    end
+  end
+
   def omniauth_auth(email)
     OmniAuth::AuthHash.new(info: { email: email }, extra: { raw_info: {} })
   end

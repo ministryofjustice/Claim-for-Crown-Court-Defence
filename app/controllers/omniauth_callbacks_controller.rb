@@ -359,24 +359,17 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def create_provider_with_supplier_numbers(raw, lgfs_supplier_numbers)
-    name = extract_provider_name(raw)
-    provider_type = extract_provider_type
-    roles = extract_provider_roles(provider_type)
+    supplier_numbers = lgfs_supplier_numbers.map { |number| SupplierNumber.new(supplier_number: number) }
 
-    Provider.create!(provider_attributes(raw, name, provider_type, roles, lgfs_supplier_numbers))
-  end
-
-  def provider_attributes(raw, name, provider_type, roles, lgfs_supplier_numbers)
-    {
-      name: name,
-      provider_type: provider_type,
-      roles: roles,
-      vat_registered: provider_vat_registered?,
-      firm_agfs_supplier_number: extract_firm_agfs_supplier_number(raw, provider_type, roles),
-      lgfs_supplier_numbers: lgfs_supplier_numbers.map do |supplier_number|
-        SupplierNumber.new(supplier_number: supplier_number)
-      end
-    }
+    # SiLAS does not currently identify provider type, roles or VAT registration status.
+    Provider.create!(
+      name: extract_provider_name(raw),
+      provider_type: 'firm',
+      roles: ['lgfs'],
+      vat_registered: true,
+      firm_agfs_supplier_number: nil,
+      lgfs_supplier_numbers: supplier_numbers
+    )
   end
 
   def normalize_firm_name(name)
@@ -405,37 +398,5 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     raise ArgumentError, 'Missing FIRM_NAME in auth payload' if name.empty?
 
     name
-  end
-
-  def extract_firm_agfs_supplier_number(raw, provider_type, roles)
-    return nil unless provider_type == 'firm'
-    return nil unless roles.include?('agfs')
-
-    agfs_numbers, = separate_agfs_and_lgfs_supplier_numbers(raw)
-    agfs_numbers.first
-  end
-
-  # cannot determine provider_type from auth payload, so default to 'firm' for now. In future, if we have a way to determine provider_type from auth payload, we can implement that logic here.
-  def extract_provider_type
-    'firm'
-  end
-
-  # cannot determine provider roles from auth payload, so default to ['lgfs'] for now. In future, if we have a way to determine provider roles from auth payload, we can implement that logic here.
-  def extract_provider_roles(provider_type)
-    roles = ['lgfs']
-
-    normalize_provider_roles(roles, provider_type)
-  end
-
-  def normalize_provider_roles(roles, provider_type)
-    roles &= Provider::ROLES
-    return roles unless provider_type == 'firm'
-
-    roles.include?('lgfs') ? roles : (roles + ['lgfs'])
-  end
-
-  # cannot determine provider VAT registration status from auth payload, so default to true for now. In future, if we have a way to determine provider VAT registration status from auth payload, we can implement that logic here.
-  def provider_vat_registered?
-    true
   end
 end

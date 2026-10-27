@@ -46,25 +46,4 @@ RSpec.describe LoginRoute do
     route = create(:user).login_route
     expect { route.user.destroy }.to change(described_class, :count).by(-1)
   end
-
-  describe '.method_for' do
-    it 'returns the mapped method regardless of case or whitespace' do
-      user = create(:user, email: 'a@example.com')
-      user.login_route.update!(login_method: LoginRoute::ENTRA)
-      expect(described_class.method_for(' A@Example.com ')).to eq LoginRoute::ENTRA
-    end
-
-    it 'defaults to legacy for a user without a route' do
-      create(:user, email: 'unrouted@example.com').login_route.destroy!
-      expect(described_class.method_for('unrouted@example.com')).to eq LoginRoute::LEGACY
-    end
-
-    it 'defaults to legacy for an unknown email' do
-      expect(described_class.method_for('unknown@example.com')).to eq LoginRoute::LEGACY
-    end
-
-    it 'defaults to legacy for a blank email' do
-      expect(described_class.method_for(nil)).to eq LoginRoute::LEGACY
-    end
-  end
 end

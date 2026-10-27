@@ -41,9 +41,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def find_existing_user_from_auth(auth)
     info = auth.info
     raw = auth.extra&.raw_info || {}
-    persona = resolved_persona(info, raw)
+    user = User.find_by(email: info.email.to_s.downcase)
 
-    find_user_by_persona(persona, info, raw)
+    find_user_by_persona(user, info, raw)
   end
 
   def handle_omniauth
@@ -86,19 +86,18 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     identified_email.present? && identified_email == email.to_s.strip.downcase
   end
 
-  def resolved_persona(info, raw)
-    existing_user = User.find_by(email: info.email.to_s.downcase)
-    existing_user&.persona_type || persona_from_laa_roles(raw) || raw['persona'] || PERSONA_CASE_WORKER
+  def resolved_persona(user, raw)
+    user&.persona_type || persona_from_laa_roles(raw) || raw['persona'] || PERSONA_CASE_WORKER
   end
 
-  def find_user_by_persona(persona, info, raw)
-    case persona
+  def find_user_by_persona(user, info, raw)
+    case resolved_persona(user, raw)
     when PERSONA_SUPER_ADMIN
-      find_super_admin(info)
+      find_super_admin(user, info)
     when PERSONA_EXTERNAL_USER
-      find_external_user(info, raw)
+      find_external_user(user, info, raw)
     else
-      find_case_worker(info, raw)
+      find_case_worker(user, info, raw)
     end
   end
 
@@ -118,9 +117,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     Rails.logger.info(payload.to_json)
   end
 
-  def find_case_worker(info, raw)
+  def find_case_worker(user, info, raw)
     email = info.email.to_s.downcase
-    user = User.find_by(email: email)
     return create_case_worker_from_auth(info, raw) if user.nil?
 
     if user.persona_type && user.persona_type != PERSONA_CASE_WORKER
@@ -134,9 +132,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   end
 
-  def find_external_user(info, raw)
+  def find_external_user(user, info, raw)
     email = info.email.to_s.downcase
-    user = User.find_by(email: email)
     return create_external_user_from_auth(info, raw) if user.nil?
 
     if user.persona_type && user.persona_type != PERSONA_EXTERNAL_USER
@@ -150,9 +147,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   end
 
-  def find_super_admin(info)
+  def find_super_admin(user, info)
     email = info.email.to_s.downcase
-    user = User.find_by(email: email)
     return create_super_admin_from_auth(info) if user.nil?
 
     if user.persona_type && user.persona_type != PERSONA_SUPER_ADMIN

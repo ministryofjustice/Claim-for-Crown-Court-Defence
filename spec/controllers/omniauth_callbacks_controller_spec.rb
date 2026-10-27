@@ -57,6 +57,38 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
   end
 
+  describe 'existing account resolution' do
+    {
+      case_worker: :case_workers_root_path,
+      external_user: :external_users_root_path,
+      super_admin: :super_admins_root_path
+    }.each do |persona, destination|
+      context "with an existing #{persona}" do
+        let(:user) { create(persona).user }
+
+        before do
+          allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+          user.login_route.update!(login_method: LoginRoute::ENTRA)
+          request.env['devise.mapping'] = Devise.mappings[:user]
+          request.env['omniauth.auth'] = omniauth_auth(user.email.upcase)
+          request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = %w[Advocate Caseworker]
+          DualLogin.new(session).identify(user.email)
+          allow(User).to receive(:find_by).and_call_original
+          get :entra_id
+        end
+
+        it 'signs in the existing account using its stored persona' do
+          expect(controller.current_user).to eq user
+          expect(response).to redirect_to public_send(destination)
+        end
+
+        it 'looks up the account once for eligibility and once for identity resolution' do
+          expect(User).to have_received(:find_by).with(email: user.email).twice
+        end
+      end
+    end
+  end
+
   describe 'callback eligibility' do
     before do
       allow(Settings).to receive_messages(feature_flags_enabled?: true, active_features: [], dual_login_enabled?: false)

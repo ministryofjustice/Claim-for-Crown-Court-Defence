@@ -17,13 +17,4 @@ class LoginRoute < ApplicationRecord
   belongs_to :user, foreign_key: :id, inverse_of: :login_route, optional: false
 
   validates :login_method, inclusion: { in: LOGIN_METHODS }
-
-  # Unknown addresses fall back to the legacy method so that the email-only step
-  # does not reveal whether an account exists.
-  def self.method_for(email)
-    normalised = email.to_s.strip.downcase
-    return DEFAULT_LOGIN_METHOD if normalised.blank?
-
-    User.find_by(email: normalised)&.login_route&.login_method || DEFAULT_LOGIN_METHOD
-  end
 end

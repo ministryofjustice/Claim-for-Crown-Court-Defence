@@ -17,25 +17,31 @@ jobs:
           --tag cccd:scan \
           --file docker/Dockerfile .
 
+    - name: Set up Snyk CLI
+      uses: snyk/actions/setup@9adf32b1121593767fc3c057af55b55db032dc04
+
+    - name: Authenticate Snyk
+      env:
+        SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+        SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+      run: |
+        snyk auth --auth-type=oauth \
+          --client-id="$SNYK_CLIENT_ID" \
+          --client-secret="$SNYK_CLIENT_SECRET"
+
     - name: Scan docker image using snyk
       id: image-scan
       continue-on-error: true
-      uses: snyk/actions/docker@9adf32b1121593767fc3c057af55b55db032dc04
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        image: cccd:scan
-        args: --file=docker/Dockerfile
+      run: |
+        snyk container test cccd:scan \
+          --file=docker/Dockerfile \
+          --sarif-file-output=snyk.sarif
 
     - name: Monitor docker image using snyk
       id: image-monitor
-      uses: snyk/actions/docker@9adf32b1121593767fc3c057af55b55db032dc04
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        command: monitor
-        image: cccd:scan
-        args: --file=docker/Dockerfile
+      run: |
+        snyk container monitor cccd:scan \
+          --file=docker/Dockerfile
 
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee

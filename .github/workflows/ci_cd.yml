@@ -78,7 +78,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: yarn
 
       - name: Install JS dependencies
@@ -170,7 +170,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: yarn
 
       - name: Install JS dependencies
@@ -248,7 +248,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: yarn
 
       - name: Install JS dependencies

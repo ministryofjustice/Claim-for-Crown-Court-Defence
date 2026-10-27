@@ -20,6 +20,11 @@ GitHub Actions workflows are defined in `.github/workflows`.
 
 The workflows use the shared build script at `.github/build.sh` and the deployment scripts under `.k8s/live/scripts`.
 
+CI reads the Node.js version from `.nvmrc`. When updating Node.js, also update the
+Alpine `nodejs` package pins and version assertions in both stages of
+`docker/Dockerfile`. Check that the package is available for the base image's Alpine
+release; the assertions fail the build if either stage runs a different Node.js version.
+
 ### Kubernetes
 
 CCCD's stack orchestration tool is kubernetes. Config for kubernetes can be found under the `.k8s/` directory. Note, however, that the infrastructure is defined in the [Cloud platform environments repository](https://github.com/ministryofjustice/cloud-platform-environments)

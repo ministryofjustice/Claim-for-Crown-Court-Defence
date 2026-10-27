@@ -80,6 +80,8 @@ docker build --check --file docker/Dockerfile .
   deploy using scripts under `.k8s/live/scripts/`.
 - The Docker build precompiles assets in production mode with dummy `SECRET_KEY_BASE` and
   `AWS_REGION` values.
+- When updating Node.js, follow the version alignment guidance in
+  [docs/build_and_deploy.md](../docs/build_and_deploy.md#github-actions).
 - Runtime filesystem permissions matter because the image switches to a non-root user; create
   writable runtime directories before `USER 1000` or explicitly assign ownership.
 

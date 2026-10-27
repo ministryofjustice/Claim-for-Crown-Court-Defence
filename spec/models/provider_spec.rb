@@ -157,6 +157,40 @@ RSpec.describe Provider do
     end
   end
 
+  describe '#available_external_user_roles' do
+    subject { provider.available_external_user_roles }
+
+    context 'with an AGFS provider' do
+      let(:provider) { build(:provider, :agfs) }
+
+      it { is_expected.to eq %w[admin advocate] }
+    end
+
+    context 'with an LGFS provider' do
+      let(:provider) { build(:provider, :lgfs) }
+
+      it { is_expected.to eq %w[admin litigator] }
+    end
+
+    context 'with an AGFS and LGFS provider' do
+      let(:provider) { build(:provider, :agfs_lgfs) }
+
+      it { is_expected.to eq %w[admin advocate litigator] }
+    end
+
+    context 'with no provider roles' do
+      let(:provider) { build(:provider, roles: []) }
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'with an unrecognised provider role' do
+      let(:provider) { build(:provider, roles: ['invalid_role']) }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
   describe '#available_claim_types' do
     include_context 'claim-types object helpers'
 

@@ -32,7 +32,7 @@ RSpec.describe 'User management' do
     context 'when user is not signed in' do
       before { sign_out user }
 
-      it { is_expected.to redirect_to new_user_session_path }
+      it { is_expected.to redirect_to sign_in_path }
     end
   end
 end

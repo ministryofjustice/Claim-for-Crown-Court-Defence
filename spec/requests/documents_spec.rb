@@ -28,7 +28,7 @@ RSpec.shared_examples 'download evidence document' do
   context 'when the user is not signed in' do
     before { sign_out user }
 
-    it { is_expected.to redirect_to new_user_session_url }
+    it { is_expected.to redirect_to sign_in_url }
   end
 end
 
@@ -326,7 +326,7 @@ RSpec.describe 'Document management' do
 
       it do
         delete_document
-        expect(response).to redirect_to(new_user_session_url)
+        expect(response).to redirect_to(sign_in_url)
       end
     end
   end

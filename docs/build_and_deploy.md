@@ -94,6 +94,17 @@ To roll back to the restricted pilot, disable `DUAL_LOGIN_ENABLED`, remove any `
 `active_features`, check settings overrides, and restart all instances. This does not end existing
 authenticated sessions or completely disable the approved-tester pilot.
 
+**SiLAS provisioning scope:** the current sign-in journey supports existing CCCD accounts assigned
+the Entra login method. During the restricted pilot, those accounts must also be approved testers.
+Unknown email addresses are rejected during the pilot and routed to password sign-in during public
+rollout; neither mode enables SiLAS new-account onboarding.
+
+The user and provider provisioning helpers are retained for future onboarding work but are not
+reachable through the normal gated sign-in journey. `AUTO_CREATE_PROVIDERS_FROM_SILAS` defaults to
+`false` and controls provider creation within those helpers only. Setting it to `true` does not
+enable onboarding or change login routing. A future onboarding flow needs its own agreed eligibility
+and account/provider creation rules and tests; the existing eligibility and identified-email checks
+must remain intact.
 
 ```
 # deployment.yaml - example reference for a ConfigMap

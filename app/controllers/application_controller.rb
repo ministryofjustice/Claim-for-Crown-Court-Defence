@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
       method_name = "after_sign_in_path_for_#{current_user.persona.class.to_s.underscore.downcase}"
       send(method_name)
     else
-      new_user_session_url
+      sign_in_url
     end
   end
 

@@ -57,6 +57,10 @@ feature file run in a browser use
 BROWSER=chrome bundle exec cucumber <feature file>
 ```
 
+Standard password sign-in steps use `sign_in_path`. Devise's `new_user_session_path`
+is the guarded password step for an identified dual-login account, not the general
+sign-in entry point. Keep direct-entry rejection coverage in the dual-login request specs.
+
 ## API Smoke tests
 
 API smoke tests can be executed with

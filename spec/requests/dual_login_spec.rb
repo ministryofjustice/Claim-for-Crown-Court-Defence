@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 # Keep multi-request state transitions together in these regression scenarios.
-# rubocop:disable RSpec/ExampleLength
+# rubocop:disable-next RSpec/ExampleLength
 RSpec.describe 'Dual-login pilot', :aggregate_failures do
   let(:password) { 'Password123456!' }
   let(:user) { create(:case_worker, user: build(:user, password: password, password_confirmation: password)).user }
@@ -118,6 +118,48 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     expect(response.body).to include("action=\"#{sign_in_path}\"")
     submit_password(sign_in_path)
     expect(response).to redirect_to case_workers_root_path
+  end
+
+  %i[disable soft_delete].each do |deactivate|
+    it "preserves the authentication error after #{deactivate} on an existing session" do
+      sign_in user
+      user.public_send(deactivate)
+      get case_workers_root_path
+      expect(response).to redirect_to sign_in_path
+      follow_redirect!
+      expect(response).to have_http_status(:ok)
+      expect(flash[:alert]).to eq I18n.t('activerecord.attributes.user.disabled_and_deleted_message')
+      expect(response.body).not_to include(I18n.t('session_routing.unavailable'))
+      expect(request.env['warden'].user).to be_nil
+    end
+  end
+
+  it 'preserves the authentication error when a deleted account attempts standard sign-in' do
+    user.persona.soft_delete
+    submit_password(sign_in_path)
+    expect(response).to redirect_to sign_in_path
+    follow_redirect!
+    expect(flash[:alert]).to eq I18n.t('activerecord.attributes.user.disabled_and_deleted_message')
+    expect(response.body).not_to include(I18n.t('session_routing.unavailable'))
+    expect(request.env['warden'].user).to be_nil
+  end
+
+  [false, true].each do |rollout|
+    it "routes unauthenticated access through standard sign-in with public rollout #{rollout}" do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
+      get case_workers_root_path
+      expect(response).to redirect_to sign_in_path
+      follow_redirect!
+      follow_redirect! if rollout
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(I18n.t('session_routing.unavailable'))
+    end
+  end
+
+  it 'keeps non-navigational authentication failures as unauthorized responses' do
+    post sign_in_path, params: { user: { email: user.email, password: 'wrong' } }, as: :json
+    expect(response).to have_http_status(:unauthorized)
+    expect(response.headers['Location']).to be_nil
   end
 
   it 'gives the same rejection to unknown, unapproved and missing-route accounts' do
@@ -260,4 +302,3 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     end
   end
 end
-# rubocop:enable RSpec/ExampleLength

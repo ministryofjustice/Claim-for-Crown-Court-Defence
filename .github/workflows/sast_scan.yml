@@ -20,6 +20,8 @@ jobs:
     with:
       image_uri: ${{ format('{0}/{1}:app-latest', vars.ECR_REGISTRY_HOST, vars.ECR_REPOSITORY) }}
       dockerfile_path: docker/Dockerfile
+      iac_path: .k8s/live
+
     secrets:
       SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
       SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}

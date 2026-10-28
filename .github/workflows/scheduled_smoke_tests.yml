@@ -1,0 +1,150 @@
+name: Scheduled smoke tests
+
+on:
+  schedule:
+    - cron: "05 08 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cccd_smoke_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_smoke_test
+      SECRET_KEY_BASE: just-be-present
+      ADVOCATE_PASSWORD: just-be-present
+      CASE_WORKER_PASSWORD: just-be-present
+      ADMIN_PASSWORD: just-be-present
+      SUPERADMIN_USERNAME: onefakeadmin@github.com
+      SUPERADMIN_PASSWORD: just-be-present
+      IMAGE: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}:app-latest
+      GRAPE_SWAGGER_ROOT_URL: http://127.0.0.1:3000
+      REDIS_URL: redis://127.0.0.1:6379
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd
+        with:
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.ECR_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd
+
+      - name: Pull application image
+        run: docker pull "$IMAGE"
+
+      - name: Start application container
+        env:
+          AWS_REGION: ${{ vars.ECR_REGION }}
+        run: |
+          docker run --detach \
+            --name cccd-app \
+            --network host \
+            --env RAILS_ENV="$RAILS_ENV" \
+            --env DATABASE_URL="$DATABASE_URL" \
+            --env REDIS_URL="$REDIS_URL" \
+            --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
+            --env CASE_WORKER_PASSWORD="$CASE_WORKER_PASSWORD" \
+            --env ADMIN_PASSWORD="$ADMIN_PASSWORD" \
+            --env ADVOCATE_PASSWORD="$ADVOCATE_PASSWORD" \
+            --env SUPERADMIN_USERNAME="$SUPERADMIN_USERNAME" \
+            --env SUPERADMIN_PASSWORD="$SUPERADMIN_PASSWORD" \
+            --env LIVE1_DB_TASK=migrate \
+            --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+            --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+            --env AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
+            --env AWS_REGION="$AWS_REGION" \
+            --env GRAPE_SWAGGER_ROOT_URL="$GRAPE_SWAGGER_ROOT_URL" \
+            "$IMAGE"
+
+          sleep 15
+          docker logs cccd-app
+
+      - name: Wait for application
+        run: |
+          for attempt in {1..60}; do
+            if curl --silent --show-error --fail \
+              -H "Accept: application/json" \
+              http://127.0.0.1:3000/ping.json > /dev/null; then
+              exit 0
+            fi
+
+            if ! docker inspect -f '{{.State.Running}}' cccd-app 2>/dev/null | grep -q true; then
+              docker logs cccd-app
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+          docker logs cccd-app
+          exit 1
+
+      - name: Run scheduled smoke tests
+        run: |
+          docker exec cccd-app redis-cli -u redis://127.0.0.1:6379/0 ping
+          docker exec cccd-app curl -s http://127.0.0.1:3000/ping.json
+          docker exec cccd-app bash -e -c "
+            bundle exec rake db:migrate
+            bundle exec rake db:seed
+            bundle exec rake api:smoke_test
+          "
+
+  notify:
+    if: always()
+    needs: smoke-test
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    steps:
+      - name: Notify Slack on smoke test success
+        if: success() && env.SLACK_WEBHOOK != ''
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d
+        with:
+          webhook: ${{ env.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": ":tada: smoke test of ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} successful!"
+            }
+
+      - name: Notify Slack on smoke test failure
+        if: failure() && env.SLACK_WEBHOOK != ''
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d
+        with:
+          webhook: ${{ env.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": ":no_smoking: smoke test failed for ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }

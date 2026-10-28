@@ -80,8 +80,9 @@ docker build --check --file docker/Dockerfile .
 
 - Build/deploy details are in [docs/build_and_deploy.md](../docs/build_and_deploy.md).
 - CI and deployment run through GitHub Actions workflows in `.github/workflows/`. The main
-  pipeline is `ci_cd.yml`; pull-request checks and deployments are in `pull_request_tests.yml`
-  and `pull_request_deploy.yml`.
+  push pipeline is `ci_cd.yml`; scheduled smoke checks are in `scheduled_smoke_tests.yml`;
+  pull-request checks and deployments are in `pull_request_tests.yml` and
+  `pull_request_deploy.yml`.
 - The workflows build the application image with `docker/Dockerfile` via `.github/build.sh` and
   deploy using scripts under `.k8s/live/scripts/`.
 - The Docker build precompiles assets in production mode with dummy `SECRET_KEY_BASE` and

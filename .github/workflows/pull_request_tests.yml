@@ -59,15 +59,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download shard plan and test assets
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
-          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
-          tar -xf tmp/test-assets.tar
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec
         with:
@@ -82,6 +73,15 @@ jobs:
 
       - name: Install JavaScript dependencies
         run: yarn install --ignore-scripts --frozen-lockfile
+
+      - name: Download shard plan and test assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
+          tar -xf tmp/test-assets.tar
 
       - name: Wait for database
         run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
@@ -150,16 +150,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download shard plan, test assets and Cucumber database
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
-          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
-          tar -xf tmp/test-assets.tar
-          gh run download "$GITHUB_RUN_ID" --name cucumber-database --dir tmp
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec
         with:
@@ -174,6 +164,16 @@ jobs:
 
       - name: Install JavaScript dependencies
         run: yarn install --ignore-scripts --frozen-lockfile
+
+      - name: Download shard plan, test assets and Cucumber database
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
+          tar -xf tmp/test-assets.tar
+          gh run download "$GITHUB_RUN_ID" --name cucumber-database --dir tmp
 
       - name: Wait for database
         run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done

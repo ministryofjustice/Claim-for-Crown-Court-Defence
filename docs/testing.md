@@ -159,7 +159,12 @@ bundle exec ruby script/test_shards.rb tmp/test-timings tmp/test-shards 6
 
 Only shard-plan preparation and test shard jobs receive `actions: read` to download artifacts.
 Their checkouts disable persisted credentials, and `GH_TOKEN` is set only on dedicated
-download steps before dependency setup, not on the planner or test execution steps.
+download steps, not on the planner or test execution steps. In shard preparation,
+Ruby/Node cache setup, dependency installation, and asset compilation/publication run
+before historical timing artifacts are downloaded. The downloaded reports are consumed
+only by the shard planner, after cache and build work is complete. In the RSpec and
+Cucumber matrix jobs, Ruby/Node cache setup and JavaScript dependency installation also
+finish before same-run shard, asset and database artifacts are downloaded.
 Database preparation needs only `contents: read`. Preparation failure blocks dependent
 test jobs, so a database preparation failure does not block RSpec. Branch protection
 should require both preparation checks as well as every test shard, or an aggregate check that explicitly rejects unsuccessful

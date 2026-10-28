@@ -1,0 +1,54 @@
+ignore:
+  ruby/PathTraversal:
+    - app/controllers/case_workers/claims_controller.rb:
+        reason: >-
+          False positive. download_zip paths derive from
+          ActiveStorage::Filename#to_s (sanitizes / and \ in Rails 8.1) and from case_number (validated /^[A-Za-z0-9]{1,20}$/, squished); send_file
+          streams a freshly created UUID-named temp file.
+        expires: 2027-10-22T00:00:00.000Z
+        created: 2026-10-22T00:00:00.000Z
+    - app/services/s3_zip_downloader.rb:
+        reason: >-
+          False positive. FileUtils.copy destination uses
+          ActiveStorage::Filename#to_s, which in Rails 8.1 replaces path
+          separators with '-', so File.join cannot escape the temp directory.
+        expires: 2027-10-22T00:00:00.000Z
+        created: 2026-10-22T00:00:00.000Z
+  ruby/Sqli:
+    - app/controllers/establishments_controller.rb:
+        reason: >-
+          False positive. Establishment.where receives a Hash, so ActiveRecord builds a parameterised, bound query; no SQL string interpolation.
+        expires: 2027-10-22T00:00:00.000Z
+        created: 2026-10-22T00:00:00.000Z
+    - app/controllers/offences_controller.rb:
+        reason: >-
+          False positive. Offence.where receives a Hash, so ActiveRecord builds a parameterised, bound query; no SQL string interpolation.
+        expires: 2027-10-22T00:00:00.000Z
+        created: 2026-10-22T00:00:00.000Z
+    - app/controllers/external_users/claims_controller.rb:
+        reason: >-
+          False positive. The flagged `sum` is Enumerable#sum with a block over loaded records (document byte sizes); it emits no SQL.
+        expires: 2027-10-22T00:00:00.000Z
+        created: 2026-10-22T00:00:00.000Z
+    - app/interfaces/api/v2/mi/agfs_scheme_ten_claims.rb:
+        reason: >-
+          False positive. Interpolated start/end dates are coerced via
+          String#to_date and escaped with connection.quote, so the input cannot break out of the quoted SQL literal.
+        expires: 2027-10-22T00:00:00.000Z
+        created: 2026-10-22T00:00:00.000Z
+  ruby/Ssti:
+    - app/controllers/feedback_controller.rb:
+        reason: >-
+          False positive. render path is allowlisted to feedback/bug_report in #new; in #create the Rails 8.1 template resolver blocks traversal outside app/views/feedback (verified: '../' paths raise
+          MissingTemplate), so no SSTI/LFI is possible.
+        expires: 2027-10-22T00:00:00.000Z
+        created: 2026-10-22T00:00:00.000Z
+  SNYK-JS-PICOMATCH-21248802:
+    - '*':
+        reason: >-
+          Non-exploitable. picomatch is a build-time dev dependency via
+          sass > @parcel/watcher (watch mode only, not used in the CI build);
+          no attacker-controlled glob patterns reach it and it is not in the
+          production runtime. 
+        expires: 2027-10-31T00:00:00.000Z
+        created: 2026-10-26T00:00:00.000Z

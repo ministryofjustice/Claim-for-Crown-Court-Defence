@@ -348,7 +348,7 @@ RSpec.describe ExternalUser do
 
       it 'raises an error' do
         expect { user.available_roles }
-          .to raise_error(RuntimeError, 'Provider has no valid roles available: agfs, lgfs')
+          .to raise_error(ExternalUser::InvalidProviderRolesError, 'Provider has no valid roles available: agfs, lgfs')
       end
     end
 
@@ -357,7 +357,7 @@ RSpec.describe ExternalUser do
 
       it 'raises an error' do
         expect { user.available_roles }
-          .to raise_error(RuntimeError, 'Provider has no valid roles available: agfs, lgfs')
+          .to raise_error(ExternalUser::InvalidProviderRolesError, 'Provider has no valid roles available: agfs, lgfs')
       end
     end
   end

@@ -80,6 +80,15 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
   end
 
   describe 'existing account resolution' do
+    before do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+      user.login_route.update!(login_method: LoginRoute::ENTRA)
+      request.env['devise.mapping'] = Devise.mappings[:user]
+      request.env['omniauth.auth'] = omniauth_auth(user.email.upcase)
+      request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = %w[Advocate Caseworker]
+      DualLogin.new(session).identify(user.email)
+    end
+
     {
       case_worker: :case_workers_root_path,
       external_user: :external_users_root_path,
@@ -88,26 +97,18 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       context "with an existing #{persona}" do
         let(:user) { create(persona).user }
 
-        before do
-          allow(Settings).to receive(:dual_login_enabled?).and_return(true)
-          user.login_route.update!(login_method: LoginRoute::ENTRA)
-          request.env['devise.mapping'] = Devise.mappings[:user]
-          request.env['omniauth.auth'] = omniauth_auth(user.email.upcase)
-          request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = %w[Advocate Caseworker]
-          DualLogin.new(session).identify(user.email)
-          allow(User).to receive(:find_by).and_call_original
-          get :entra_id
-        end
-
         it 'signs in the existing account using its stored persona' do
+          get :entra_id
           expect(controller.current_user).to eq user
           expect(response).to redirect_to public_send(destination)
         end
-
-        it 'looks up the account once for eligibility and once for identity resolution' do
-          expect(User).to have_received(:find_by).with(email: user.email).twice
-        end
       end
+    end
+
+    it 'looks up the account once for eligibility and once for identity resolution' do
+      allow(User).to receive(:find_by).and_call_original
+      get :entra_id
+      expect(User).to have_received(:find_by).with(email: user.email).twice
     end
   end
 
@@ -151,15 +152,11 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       Dotenv.modify('AUTO_CREATE_PROVIDERS_FROM_SILAS' => auto_create_providers) { example.run }
     end
 
-    it 'creates an LGFS firm with VAT registration and no firm AGFS supplier number' do
-      expect(provider).to be_persisted
-      expect(provider).to have_attributes(
+    it 'persists LGFS firm defaults and normalised supplier numbers' do
+      expect(provider.reload).to have_attributes(
         name: 'Example Firm', provider_type: 'firm', roles: ['lgfs'],
         vat_registered: true, firm_agfs_supplier_number: nil
       )
-    end
-
-    it 'persists only the normalised LGFS supplier numbers' do
       expect(provider.lgfs_supplier_numbers.reload.pluck(:supplier_number)).to contain_exactly('9A123B', '8Z456Y')
     end
 

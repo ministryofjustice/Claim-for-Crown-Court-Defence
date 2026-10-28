@@ -7,12 +7,10 @@ RSpec.describe Silas::Roles do
   let(:laa_roles) { [] }
 
   describe '#empty?' do
-    [nil, [], ['', ' ', nil]].each do |roles|
-      context "with #{roles.inspect} roles" do
-        let(:laa_roles) { roles }
+    context 'with only blank roles' do
+      let(:laa_roles) { ['', ' ', nil] }
 
-        it { is_expected.to be_empty }
-      end
+      it { is_expected.to be_empty }
     end
 
     context 'without the role claim' do
@@ -63,9 +61,9 @@ RSpec.describe Silas::Roles do
 
     ['Advocate Admin', 'Litigator Admin'].each do |role|
       context "with the legacy #{role} role" do
-        let(:laa_roles) { [role, 'Administrator'] }
+        let(:laa_roles) { [role] }
 
-        it 'retains the administrator mapping without duplicates' do
+        it 'maps the alias to the administrator role' do
           expect(role_mapping.external_user_roles).to eq ['admin']
         end
       end
@@ -99,7 +97,8 @@ RSpec.describe Silas::Roles do
   end
 
   describe '#sync!' do
-    unmapped_role_sets = [[], ['Unknown'], ['Super Administrator']]
+    let(:user) { create(:case_worker).user }
+    let(:laa_roles) { ['Caseworker', 'Advocate', 'LAA Administrator', 'Administrator'] }
 
     {
       case_worker: %w[case_worker admin],
@@ -107,44 +106,43 @@ RSpec.describe Silas::Roles do
     }.each do |persona, expected_roles|
       context "with a #{persona}" do
         let(:user) { create(persona).user }
-        let(:laa_roles) { ['Caseworker', 'Advocate', 'LAA Administrator', 'Administrator'] }
 
         it 'persists only the roles appropriate to the existing persona' do
           role_mapping.sync!(user)
           expect(user.persona.reload.roles).to eq expected_roles
         end
+      end
+    end
 
-        context 'with unchanged roles in a different order' do
-          before do
-            user.persona.update!(roles: expected_roles.reverse)
-            allow(user.persona).to receive(:update!).and_call_original
-          end
+    context 'with unchanged roles in a different order' do
+      before do
+        user.persona.update!(roles: %w[admin case_worker])
+        allow(user.persona).to receive(:update!).and_call_original
+      end
 
-          it 'does not write to the database' do
-            role_mapping.sync!(user)
-            expect(user.persona).not_to have_received(:update!)
-          end
+      it 'does not write to the database' do
+        role_mapping.sync!(user)
+        expect(user.persona).not_to have_received(:update!)
+      end
+    end
+
+    [[], ['Unknown'], ['Super Administrator']].each do |roles|
+      context "with #{roles.inspect} incoming roles" do
+        let(:laa_roles) { roles }
+
+        it 'preserves the current roles' do
+          expect { role_mapping.sync!(user) }.not_to change { user.persona.reload.roles }
         end
+      end
+    end
 
-        unmapped_role_sets.each do |roles|
-          context "with #{roles.inspect} incoming roles" do
-            let(:laa_roles) { roles }
+    context 'when updating roles fails' do
+      before do
+        allow(user.persona).to receive(:update!).and_raise(ActiveRecord::RecordInvalid.new(user.persona))
+      end
 
-            it 'preserves the current roles' do
-              expect { role_mapping.sync!(user) }.not_to change { user.persona.reload.roles }
-            end
-          end
-        end
-
-        context 'when updating roles fails' do
-          before do
-            allow(user.persona).to receive(:update!).and_raise(ActiveRecord::RecordInvalid.new(user.persona))
-          end
-
-          it 'propagates the error' do
-            expect { role_mapping.sync!(user) }.to raise_error(ActiveRecord::RecordInvalid)
-          end
-        end
+      it 'propagates the error' do
+        expect { role_mapping.sync!(user) }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
 

@@ -14,6 +14,8 @@
 #
 
 class ExternalUser < ApplicationRecord
+  class InvalidProviderRolesError < RuntimeError; end
+
   SUPPLIER_NUMBER_REGEX = /\A[0-9A-Z]{5}\z/
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true
@@ -63,7 +65,9 @@ class ExternalUser < ApplicationRecord
     return %w[admin] if provider.nil?
 
     available_roles = provider.available_external_user_roles
-    raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}" if available_roles.empty?
+    if available_roles.empty?
+      raise InvalidProviderRolesError, "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
+    end
 
     available_roles
   end

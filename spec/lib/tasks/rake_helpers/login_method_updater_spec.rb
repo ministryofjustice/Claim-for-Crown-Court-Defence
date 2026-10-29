@@ -71,4 +71,59 @@ RSpec.describe Tasks::RakeHelpers::LoginMethodUpdater do
       expect(listed_user.login_route.reload.login_method).to eq('legacy')
     end
   end
+
+  context 'when updating dual login testing' do
+    subject(:result) { described_class.new(true, dry_run:, attribute: :dual_login_tester).call(csv.path) }
+
+    let(:rows) { ['listed@example.com'] }
+
+    def stub_routes(enabled, matching: true)
+      route = instance_spy(LoginRoute, id: listed_user.id)
+      allow(stub_route_scope).to receive(:not).with({ dual_login_tester: enabled }).and_return(matching ? [route] : [])
+      route
+    end
+
+    def stub_route_scope
+      scope = instance_double(ActiveRecord::Relation)
+      where_chain = instance_double(ActiveRecord::QueryMethods::WhereChain)
+      allow(LoginRoute).to receive(:where).with(id: [listed_user.id]).and_return(scope)
+      allow(scope).to receive(:where).with(no_args).and_return(where_chain)
+      where_chain
+    end
+
+    it 'enables the flag without changing the login method', :aggregate_failures do
+      route = stub_routes(true)
+
+      expect(result.changed).to eq(['listed@example.com'])
+      expect(route).to have_received(:update!).with({ dual_login_tester: true })
+    end
+
+    context 'when disabling the flag' do
+      subject(:result) { described_class.new(false, dry_run:, attribute: :dual_login_tester).call(csv.path) }
+
+      it 'sets the flag to false', :aggregate_failures do
+        route = stub_routes(false)
+
+        expect(result.changed).to eq(['listed@example.com'])
+        expect(route).to have_received(:update!).with({ dual_login_tester: false })
+      end
+    end
+
+    context 'with a dry run' do
+      let(:dry_run) { true }
+
+      it 'reports the user without updating the flag', :aggregate_failures do
+        route = stub_routes(true)
+
+        expect(result.changed).to eq(['listed@example.com'])
+        expect(route).not_to have_received(:update!)
+      end
+    end
+
+    context 'when the flag already matches' do
+      before { stub_routes(true, matching: false) }
+
+      it { is_expected.to have_attributes(changed: [], unchanged: 1, not_found: []) }
+    end
+  end
 end

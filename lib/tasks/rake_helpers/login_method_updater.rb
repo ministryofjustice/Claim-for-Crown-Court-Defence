@@ -5,8 +5,8 @@ module Tasks
     class LoginMethodUpdater
       Result = Struct.new(:changed, :unchanged, :not_found)
 
-      def initialize(login_method, dry_run: true)
-        @login_method = login_method
+      def initialize(value, dry_run: true, attribute: :login_method)
+        @attributes = { attribute => value }
         @dry_run = dry_run
       end
 
@@ -23,8 +23,8 @@ module Tasks
       private
 
       def update_routes(users)
-        routes = LoginRoute.where(id: users.map(&:id)).where.not(login_method: @login_method).to_a
-        LoginRoute.transaction { routes.each { |route| route.update!(login_method: @login_method) } } unless @dry_run
+        routes = LoginRoute.where(id: users.map(&:id)).where.not(@attributes).to_a
+        LoginRoute.transaction { routes.each { |route| route.update!(@attributes) } } unless @dry_run
         routes.map { |route| users.find { |user| user.id == route.id }.email }
       end
 

@@ -65,6 +65,10 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
       expect(response).to render_template(:new)
     end
 
+    it 'does not offer a location selection' do
+      expect(response.body).to have_no_field('case_worker[location_id]')
+    end
+
     render_views
   end
 
@@ -82,6 +86,12 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
     it 'renders the template' do
       expect(response).to render_template(:edit)
     end
+
+    it 'does not offer a location selection' do
+      expect(response.body).to have_no_field('case_worker[location_id]')
+    end
+
+    render_views
   end
 
   describe 'GET #change_password' do
@@ -104,6 +114,26 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
   # See spec/requests/case_workers/admin/case_workers_spec.rb
 
   describe 'PUT #update' do
+    context 'with an existing location assignment' do
+      let(:location) { create(:location) }
+
+      subject { create(:case_worker, location:) }
+
+      it 'preserves the location when editing other details' do
+        put :update, params: { id: subject, case_worker: { roles: ['admin'] } }
+
+        expect(subject.reload.roles).to eq(['admin'])
+        expect(subject.location).to eq(location)
+      end
+
+      it 'ignores attempts to change the location' do
+        put :update, params: { id: subject, case_worker: { roles: ['admin'], location_id: create(:location).id } }
+
+        expect(subject.reload.roles).to eq(['admin'])
+        expect(subject.location).to eq(location)
+      end
+    end
+
     context 'when valid' do
       before { put :update, params: { id: subject, case_worker: { roles: ['admin'] } } }
 

@@ -126,12 +126,24 @@ RSpec.describe Silas::Roles do
       end
     end
 
-    [[], ['Unknown'], ['Super Administrator']].each do |roles|
+    context 'without the role claim' do
+      let(:raw) { {} }
+
+      it 'preserves the current roles' do
+        expect { role_mapping.sync!(user) }.not_to change { user.persona.reload.roles }
+      end
+    end
+
+    [[], nil, ['', ' ', nil], ['Unknown'], ['Advocate'], ['Super Administrator']].each do |roles|
       context "with #{roles.inspect} incoming roles" do
         let(:laa_roles) { roles }
 
-        it 'preserves the current roles' do
-          expect { role_mapping.sync!(user) }.not_to change { user.persona.reload.roles }
+        it 'rejects synchronisation without changing the current roles', :aggregate_failures do
+          expect do
+            expect { role_mapping.sync!(user) }.to raise_error(
+              described_class::NoApplicableRoles, 'No applicable roles found in LAA_ROLES'
+            )
+          end.not_to change { user.persona.reload.roles }
         end
       end
     end

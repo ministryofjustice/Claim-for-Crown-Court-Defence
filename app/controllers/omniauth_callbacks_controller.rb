@@ -316,7 +316,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def find_or_create_provider_for_external_user(raw)
     firm_name = extract_provider_name(raw)
-    provider = matched_provider_from_firm_name(firm_name)
+    provider = Provider.find_by(name: firm_name)
     return provider if provider
 
     find_or_create_provider_from_supplier_numbers(raw, firm_name)
@@ -350,16 +350,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     SupplierNumber.find_by!([SUPPLIER_NUMBER_CASE_INSENSITIVE_WHERE, matching_supplier_number]).provider
   end
 
-  def matched_provider_from_firm_name(firm_name)
-    normalized_firm_name = normalize_firm_name(firm_name)
-
-    Provider.find_each do |provider|
-      return provider if normalized_firm_name == normalize_firm_name(provider.name)
-    end
-
-    nil
-  end
-
   def create_provider_with_supplier_numbers(raw, lgfs_supplier_numbers)
     supplier_numbers = lgfs_supplier_numbers.map { |number| SupplierNumber.new(supplier_number: number) }
 
@@ -372,14 +362,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       firm_agfs_supplier_number: nil,
       lgfs_supplier_numbers: supplier_numbers
     )
-  end
-
-  def normalize_firm_name(name)
-    name.to_s.upcase
-        .gsub('&', ' AND ')
-        .gsub(/[^A-Z0-9]+/, ' ')
-        .squeeze(' ')
-        .strip
   end
 
   def extract_external_user_roles(raw, provider)

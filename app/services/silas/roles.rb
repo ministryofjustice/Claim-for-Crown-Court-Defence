@@ -62,7 +62,7 @@ module Silas
 
     def roles_for(user)
       return case_worker_roles if user.case_worker?
-      return external_user_roles if user.external_user?
+      return external_user_roles & user.persona.available_roles if user.external_user?
 
       []
     end

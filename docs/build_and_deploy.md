@@ -16,7 +16,8 @@ GitHub Actions workflows are defined in `.github/workflows`.
 
 - `pull_request_tests.yml` runs the test suites and code checks for pull requests targeting `main`.
 - `pull_request_deploy.yml` builds and pushes a pull request image, then deploys it to non-production environments for pull requests from this repository.
-- `ci_cd.yml` runs on pushes to `main` and on a schedule. For pushes, it runs the test suites before building and pushing the image to AWS ECR. It then deploys to development, API sandbox, dev-lgfs, and staging (with manual trigger required). Production deployment is additionally gated by the main and development UI smoke tests. The scheduled run performs smoke tests.
+- `ci_cd.yml` runs on pushes to `main`. It runs the test suites before building and pushing the image to AWS ECR, then deploys to development, API sandbox, dev-lgfs, and staging (with manual trigger required). Production deployment is additionally gated by the main and development UI smoke tests.
+- `scheduled_smoke_tests.yml` runs the daily scheduled smoke test against the latest application image and sends the result to Slack.
 
 The workflows use the shared build script at `.github/build.sh` and the deployment scripts under `.k8s/live/scripts`.
 

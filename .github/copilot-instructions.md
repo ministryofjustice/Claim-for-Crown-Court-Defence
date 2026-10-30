@@ -36,6 +36,12 @@ docker build --check --file docker/Dockerfile .
 - GitHub Actions shards use historical JUnit timings through `script/test_shards.rb`;
   see [docs/testing.md](../docs/testing.md#github-actions-test-shards) when changing
   shard planning, report formats, or required checks. Preserve one shared plan per run.
+- The shard-preparation job also builds a shared test-asset archive for all RSpec and
+  Cucumber shards. Preserve the hidden Propshaft manifest when sharing compiled assets.
+- Cucumber shards restore a same-run seeded database and set `CUCUMBER_PRESEEDED=true`.
+  Database preparation runs independently; only Cucumber waits for it, not RSpec.
+  Keep their seed sequence in `features/support/seeds.rb` aligned with local runs;
+  preserve reference tables during startup and scenario cleanup. RSpec stays unseeded.
 - Feature specs can be slow; use line-targeted Cucumber scenarios where possible.
 - To see a feature test in a real browser, run `BROWSER=chrome bundle exec cucumber <feature file>`.
 - Local development often needs two Rails servers: the web app on port 3000 and the internal API on
@@ -74,8 +80,9 @@ docker build --check --file docker/Dockerfile .
 
 - Build/deploy details are in [docs/build_and_deploy.md](../docs/build_and_deploy.md).
 - CI and deployment run through GitHub Actions workflows in `.github/workflows/`. The main
-  pipeline is `ci_cd.yml`; pull-request checks and deployments are in `pull_request_tests.yml`
-  and `pull_request_deploy.yml`.
+  push pipeline is `ci_cd.yml`; scheduled smoke checks are in `scheduled_smoke_tests.yml`;
+  pull-request checks and deployments are in `pull_request_tests.yml` and
+  `pull_request_deploy.yml`.
 - The workflows build the application image with `docker/Dockerfile` via `.github/build.sh` and
   deploy using scripts under `.k8s/live/scripts/`.
 - The Docker build precompiles assets in production mode with dummy `SECRET_KEY_BASE` and

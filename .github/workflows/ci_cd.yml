@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: "05 08 * * *"
 
 permissions:
   contents: read
@@ -21,14 +19,18 @@ env:
 jobs:
 
   prepare-test-shards:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: read
       actions: read
     uses: ./.github/workflows/test_shards.yml
 
+  prepare-cucumber-database:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/cucumber_database.yml
+
   rspec-tests:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: prepare-test-shards
     permissions:
       contents: read
@@ -63,12 +65,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download shard plan
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec
         with:
@@ -84,14 +80,21 @@ jobs:
       - name: Install JS dependencies
         run: yarn install --ignore-scripts --frozen-lockfile
 
+      - name: Download shard plan and test assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
+          tar -xf tmp/test-assets.tar
+
       - name: Wait for DB
         run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
 
       - name: Database setup
         run: bin/rails db:schema:load --trace
-
-      - name: Precompile assets
-        run: bundle exec rails assets:precompile
 
       - name: Run rspec shard
         shell: bash
@@ -110,7 +113,7 @@ jobs:
             "${SELECTED[@]}"
 
       - name: Upload rspec results
-        if: always()
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: rspec-results-${{ matrix.shard }}
@@ -125,8 +128,8 @@ jobs:
           if-no-files-found: ignore
 
   cucumber-tests:
-    if: github.event_name != 'schedule'
-    needs: prepare-test-shards
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [prepare-test-shards, prepare-cucumber-database]
     permissions:
       contents: read
       actions: read
@@ -155,12 +158,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Download shard plan
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@26e5b7d197ebf60545ee9667bcbace0be11ccaec
         with:
@@ -176,16 +173,29 @@ jobs:
       - name: Install JS dependencies
         run: yarn install --ignore-scripts --frozen-lockfile
 
+      - name: Download shard plan, test assets and Cucumber database
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh run download "$GITHUB_RUN_ID" --name test-shards --dir tmp/test-shards
+          gh run download "$GITHUB_RUN_ID" --name test-assets --dir tmp
+          tar -xf tmp/test-assets.tar
+          gh run download "$GITHUB_RUN_ID" --name cucumber-database --dir tmp
+
       - name: Wait for DB
         run: until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do sleep 1; done
 
-      - name: Database setup
-        run: bin/rails db:schema:load --trace
-
-      - name: Precompile assets
-        run: bundle exec rails assets:precompile
+      - name: Restore Cucumber database
+        run: >-
+          docker exec -i ${{ job.services.postgres.id }}
+          pg_restore -U postgres --dbname=cccd_test --exit-on-error --no-owner --no-acl
+          < tmp/cucumber-database.dump
 
       - name: Run cucumber shard
+        env:
+          CUCUMBER_PRESEEDED: "true"
         shell: bash
         run: |
           mapfile -t SELECTED < "tmp/test-shards/cucumber-${{ matrix.shard }}.txt"
@@ -203,7 +213,7 @@ jobs:
             "${SELECTED[@]}"
 
       - name: Upload cucumber results
-        if: always()
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: cucumber-results-${{ matrix.shard }}
@@ -219,7 +229,7 @@ jobs:
           if-no-files-found: ignore
 
   other-tests:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -285,7 +295,7 @@ jobs:
 # BUILD & PUSH DOCKER IMAGE
 # ----------------------------
   build-and-push:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [rspec-tests,cucumber-tests,other-tests]
     environment:
@@ -351,7 +361,7 @@ jobs:
         run: .k8s/live/scripts/deploy.sh dev "$GITHUB_SHA"
 
   deploy-apisandbox:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [build-and-push]
     environment: api-sandbox
@@ -381,7 +391,7 @@ jobs:
         run: .k8s/live/scripts/deploy.sh api-sandbox "$GITHUB_SHA"
 
   deploy-devlgfs:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [build-and-push]
     environment: dev-lgfs
@@ -411,7 +421,7 @@ jobs:
         run: .k8s/live/scripts/deploy.sh dev-lgfs "$GITHUB_SHA"
 
   deploy-staging:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [build-and-push]
 
@@ -442,7 +452,7 @@ jobs:
         run: .k8s/live/scripts/deploy.sh staging "$GITHUB_SHA"
 
   deploy-production:
-    if: github.event_name != 'schedule'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: [build-and-push, smoke-test-main, ui-smoke-test-dev]
     environment: production
@@ -608,119 +618,6 @@ jobs:
           echo "Capturing full container logs..."
           docker logs cccd-app | tail -100
 
-  smoke-test-scheduled:
-    if: github.event_name == 'schedule'
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: cccd_smoke_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    env:
-      RAILS_ENV: test
-      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/cccd_smoke_test
-      SECRET_KEY_BASE: just-be-present
-      ADVOCATE_PASSWORD: just-be-present
-      CASE_WORKER_PASSWORD: just-be-present
-      ADMIN_PASSWORD: just-be-present
-      SUPERADMIN_USERNAME: onefakeadmin@github.com
-      SUPERADMIN_PASSWORD: just-be-present
-      IMAGE: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}:app-latest
-      GRAPE_SWAGGER_ROOT_URL: http://127.0.0.1:3000
-      REDIS_URL: redis://127.0.0.1:6379
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd
-        with:
-          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-          aws-region: ${{ vars.ECR_REGION }}
-
-      - name: Login to ECR
-        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd
-
-      - name: Pull application image
-        run: docker pull "$IMAGE"
-
-      - name: Start application container
-        env:
-          AWS_REGION: ${{ vars.ECR_REGION }}
-        run: |
-          docker run --detach \
-            --name cccd-app \
-            --network host \
-            --env RAILS_ENV="$RAILS_ENV" \
-            --env DATABASE_URL="$DATABASE_URL" \
-            --env REDIS_URL="$REDIS_URL" \
-            --env SECRET_KEY_BASE="$SECRET_KEY_BASE" \
-            --env CASE_WORKER_PASSWORD="$CASE_WORKER_PASSWORD" \
-            --env ADMIN_PASSWORD="$ADMIN_PASSWORD" \
-            --env ADVOCATE_PASSWORD="$ADVOCATE_PASSWORD" \
-            --env SUPERADMIN_USERNAME="$SUPERADMIN_USERNAME" \
-            --env SUPERADMIN_PASSWORD="$SUPERADMIN_PASSWORD" \
-            --env LIVE1_DB_TASK=migrate \
-            --env AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
-            --env AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
-            --env AWS_SESSION_TOKEN="$AWS_SESSION_TOKEN" \
-            --env AWS_REGION="$AWS_REGION" \
-            --env GRAPE_SWAGGER_ROOT_URL="$GRAPE_SWAGGER_ROOT_URL" \
-            "$IMAGE"
-
-          sleep 15
-          docker logs cccd-app
-
-      - name: Wait for application
-        run: |
-          for attempt in {1..60}; do
-            if curl --silent --show-error --fail \
-              -H "Accept: application/json" \
-              http://127.0.0.1:3000/ping.json > /dev/null; then
-              exit 0
-            fi
-
-            if ! docker inspect -f '{{.State.Running}}' cccd-app 2>/dev/null | grep -q true; then
-              docker logs cccd-app
-              exit 1
-            fi
-
-            sleep 2
-          done
-
-          docker logs cccd-app
-          exit 1
-
-      - name: Run scheduled smoke tests
-        run: |
-          docker exec cccd-app redis-cli -u redis://127.0.0.1:6379/0 ping
-          docker exec cccd-app curl -s http://127.0.0.1:3000/ping.json
-          docker exec cccd-app bash -e -c "
-            bundle exec rake db:migrate
-            bundle exec rake db:seed
-            bundle exec rake api:smoke_test
-          "
-
   ui-smoke-test-dev:
     needs: [smoke-test-main,deploy-dev]
     runs-on: ubuntu-latest
@@ -733,33 +630,3 @@ jobs:
             echo "UI smoke test failed with HTTP $STATUS"
             exit 1
           fi
-
-
-  scheduled-smoke-test-notification:
-    if: ${{ always() && github.event_name == 'schedule' }}
-    needs: smoke-test-scheduled
-    runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    steps:
-      - name: Notify Slack on smoke test success
-        if: success() && env.SLACK_WEBHOOK != ''
-        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d
-        with:
-          webhook: ${{ env.SLACK_WEBHOOK }}
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "text": ":tada: smoke test of ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} successful!"
-            }
-
-      - name: Notify Slack on smoke test failure
-        if: failure() && env.SLACK_WEBHOOK != ''
-        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d
-        with:
-          webhook: ${{ env.SLACK_WEBHOOK }}
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "text": ":no_smoking: smoke test failed for ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            }

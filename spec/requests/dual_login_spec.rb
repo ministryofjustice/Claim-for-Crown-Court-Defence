@@ -86,9 +86,56 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
       get new_user_session_path
       expect_rejection
     end
+
+    it "preserves unlock-instruction confirmation for an #{account} account with public rollout #{rollout}" do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
+      user.lock_access!(send_instructions: false) if account == :existing
+      email = account == :existing ? user.email : 'unknown@example.com'
+
+      post user_unlock_path, params: { user: { email: } }
+
+      expect(response).to redirect_to sign_in_path
+      follow_redirect!
+      follow_redirect! if rollout
+      expect(response).to have_http_status(:ok)
+      expect(Capybara.string(response.body)).to have_text(I18n.t('devise.unlocks.send_paranoid_instructions'))
+      expect(flash[:alert]).to be_nil
+      expect(response.body).not_to include(I18n.t('session_routing.unavailable'))
+      expect(request.env['warden'].user).to be_nil
+    end
   end
 
   [false, true].each do |rollout|
+    it "preserves the successful unlock confirmation with public rollout #{rollout}" do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
+      user.lock_access!(send_instructions: false)
+      token = user.send_unlock_instructions
+
+      get user_unlock_path, params: { unlock_token: token }
+
+      expect(user.reload).not_to be_access_locked
+      expect(response).to redirect_to sign_in_path
+      follow_redirect!
+      follow_redirect! if rollout
+      expect(response).to have_http_status(:ok)
+      expect(Capybara.string(response.body)).to have_text(I18n.t('devise.unlocks.unlocked'))
+      expect(flash[:alert]).to be_nil
+      expect(response.body).not_to include(I18n.t('session_routing.unavailable'))
+      expect(request.env['warden'].user).to be_nil
+    end
+
+    it "rejects invalid unlock links with public rollout #{rollout}" do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
+      user.lock_access!(send_instructions: false)
+
+      get user_unlock_path, params: { unlock_token: 'invalid-token' }
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to render_template(:new)
+      expect(user.reload).to be_access_locked
+      expect(request.env['warden'].user).to be_nil
+    end
+
     it "signs out cleanly in development with public rollout #{rollout}" do
       allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
       sign_in user

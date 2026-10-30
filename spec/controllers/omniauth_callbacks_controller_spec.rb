@@ -79,6 +79,68 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
   end
 
+  describe 'SiLAS role eligibility' do
+    before do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+      user.login_route.update!(login_method: LoginRoute::ENTRA)
+      request.env['devise.mapping'] = Devise.mappings[:user]
+      request.env['omniauth.auth'] = omniauth_auth(user.email)
+      DualLogin.new(session).identify(user.email)
+    end
+
+    personas = %i[case_worker external_user]
+    invalid_roles = [[], nil, ['', ' ', nil], ['Unknown'], ['Super Administrator']]
+
+    %i[entra_id entra_mock].each do |callback|
+      personas.each do |persona|
+        context "with an existing #{persona} administrator using #{callback}" do
+          let(:user) { create(persona, :admin).user }
+
+          invalid_roles.each do |roles|
+            context "with #{roles.inspect} supplied roles" do
+              before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles }
+
+              it 'rejects sign-in with an authentication failure message' do
+                get callback
+                expect(controller.current_user).to be_nil
+                expect(response).to redirect_to sign_in_path
+                expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+              end
+
+              it 'clears identification without changing stored roles' do
+                get callback
+                expect(session[:dual_login]).to be_nil
+                expect(user.persona.reload.roles).to eq ['admin']
+              end
+            end
+          end
+
+          context 'with roles applicable only to another persona' do
+            before do
+              roles = persona == :case_worker ? ['Advocate'] : ['Caseworker']
+              request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles
+            end
+
+            it 'rejects sign-in' do
+              get callback
+              expect(controller.current_user).to be_nil
+              expect(response).to redirect_to sign_in_path
+              expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+            end
+          end
+
+          context 'without the role claim' do
+            it 'preserves existing sign-in behaviour and stored roles' do
+              get callback
+              expect(controller.current_user).to eq user
+              expect(user.persona.reload.roles).to eq ['admin']
+            end
+          end
+        end
+      end
+    end
+  end
+
   describe 'existing account resolution' do
     before do
       allow(Settings).to receive(:dual_login_enabled?).and_return(true)

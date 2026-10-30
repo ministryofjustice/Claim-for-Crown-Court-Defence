@@ -1,5 +1,7 @@
 module Silas
   class Roles
+    class NoApplicableRoles < StandardError; end
+
     INTERNAL_ROLE_MAPPINGS = {
       'Caseworker' => 'case_worker',
       'Provider Management' => 'provider_management',
@@ -17,6 +19,7 @@ module Silas
     SUPER_ADMIN_ROLE = 'Super Administrator'.freeze
 
     def initialize(raw)
+      @roles_supplied = raw.key?('LAA_ROLES')
       @laa_roles = Array(raw['LAA_ROLES']).map { |role| role.to_s.strip }.reject(&:empty?)
     end
 
@@ -39,10 +42,11 @@ module Silas
     end
 
     def sync!(user)
-      return if user.persona_type == SuperAdmin.name
+      return unless roles_supplied && (user.case_worker? || user.external_user?)
 
       mapped = roles_for(user)
-      return if mapped.empty?
+      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' if mapped.empty?
+
       return if Array(user.persona.roles).map(&:to_s).sort == mapped.sort
 
       user.persona.update!(roles: mapped)
@@ -50,7 +54,7 @@ module Silas
 
     private
 
-    attr_reader :laa_roles
+    attr_reader :laa_roles, :roles_supplied
 
     def mapped_roles(mapping, valid_roles)
       laa_roles.filter_map { |role| mapping[role] } & valid_roles

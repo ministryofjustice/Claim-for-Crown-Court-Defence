@@ -47,6 +47,7 @@ module Silas
       mapped = roles_for(user)
       raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' if mapped.empty?
 
+      mapped |= local_roles_for(user)
       return if Array(user.persona.roles).map(&:to_s).sort == mapped.sort
 
       user.persona.update!(roles: mapped)
@@ -58,6 +59,12 @@ module Silas
 
     def mapped_roles(mapping, valid_roles)
       laa_roles.filter_map { |role| mapping[role] } & valid_roles
+    end
+
+    def local_roles_for(user)
+      return [] unless user.case_worker?
+
+      Array(user.persona.roles) & ['beta_tester']
     end
 
     def roles_for(user)

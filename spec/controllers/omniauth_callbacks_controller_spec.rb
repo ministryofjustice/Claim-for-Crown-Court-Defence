@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'cancan/matchers'
 
 RSpec.describe OmniauthCallbacksController, :aggregate_failures do
   let(:user) { create(:case_worker).user }
@@ -40,6 +41,38 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
           get :entra_mock
           expect(user.persona.reload.roles).to eq %w[advocate admin]
           expect(response).to redirect_to external_users_root_path
+        end
+      end
+
+      context 'when SiLAS supplies both advocate and litigator roles for an AGFS chamber' do
+        let(:user) { create(:external_user, :advocate).user }
+
+        before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = %w[Advocate Litigator] }
+
+        it 'signs in with only the provider-permitted roles' do
+          get :entra_mock
+          expect(controller.current_user).to eq user
+          expect(user.persona.reload.roles).to eq ['advocate']
+          expect(response).to redirect_to external_users_root_path
+        end
+
+        it 'does not grant LGFS claim permissions' do
+          get :entra_mock
+          expect(Ability.new(controller.current_user)).not_to be_able_to(:create, Claim::LitigatorClaim)
+          expect(Ability.new(controller.current_user)).to be_able_to(:create, Claim::AdvocateClaim)
+        end
+      end
+
+      context 'when SiLAS supplies only litigator roles for an AGFS chamber' do
+        let(:user) { create(:external_user, :advocate).user }
+
+        before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['Litigator'] }
+
+        it 'rejects sign-in with an authentication failure message' do
+          get :entra_mock
+          expect(controller.current_user).to be_nil
+          expect(response).to redirect_to sign_in_path
+          expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
         end
       end
     end

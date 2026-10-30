@@ -182,6 +182,12 @@ describe CaseWorkers::ClaimsHelper do
         let(:user) { create(:case_worker, roles: ['beta_tester']).user }
 
         it { is_expected.to be_truthy }
+
+        it 'keeps the Court Data view enabled after SiLAS role synchronisation' do
+          Silas::Roles.new('LAA_ROLES' => ['Caseworker']).sync!(user)
+          user.persona.reload
+          expect(helper).to be_cda_view_enabled
+        end
       end
 
       context 'when user is a case worker without the beta tester role' do

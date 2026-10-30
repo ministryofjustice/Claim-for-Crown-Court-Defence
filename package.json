@@ -46,7 +46,7 @@
     "eslint": "^9.0.0",
     "jasmine-browser-runner": "^5.0.0",
     "jasmine-core": "^7.0.2",
-    "neostandard": "^0.13.0",
+    "neostandard": "^0.14.1",
     "stylelint": "^16.26.1",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^8.1.2"

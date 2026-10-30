@@ -153,8 +153,13 @@ When(/^I click "Continue" in the claim form$/) do
       end
     end
   else
+    page.execute_script('document.documentElement.dataset.leaving = "1"')
     patiently do
       @claim_form_page.continue_button.click
+    end
+    page.document.synchronize(errors: [Capybara::ExpectationNotMet]) do
+      leaving = page.evaluate_script('document.documentElement.dataset.leaving')
+      raise Capybara::ExpectationNotMet, 'Still on the previous page after Continue' if leaving
     end
     wait_for_ajax
   end

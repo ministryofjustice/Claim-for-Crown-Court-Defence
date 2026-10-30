@@ -164,7 +164,7 @@ GEM
       selenium-webdriver
     case_transform (0.2)
       activesupport
-    chartkick (5.2.1)
+    chartkick (5.3.0)
     childprocess (5.1.0)
       logger (~> 1.5)
     cocoon (1.2.15)
@@ -763,7 +763,7 @@ DEPENDENCIES
   cancancan (~> 3.6)
   capybara (~> 3.40)
   capybara-selenium
-  chartkick (~> 5.2.1)
+  chartkick (~> 5.3.0)
   cocoon (~> 1.2.15)
   config (~> 5.6)
   cssbundling-rails
@@ -891,7 +891,7 @@ CHECKSUMS
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-selenium (0.0.6) sha256=d7333331901d79f4b86a31f659afd3024473efb679a0dad2bd6d8f69f45950de
   case_transform (0.2) sha256=e2ad4418dceeb227cf474cc332cd5004c95c136c04186c1cceaad8ab8de6fe3b
-  chartkick (5.2.1) sha256=2848d7de87189f30f28d077eb0bbdebc8a1f0f6f81de1ded95008fe564369949
+  chartkick (5.3.0) sha256=19a2bba39decf54c4939d3f31460535f8814c85045672ba2ed616c6897325b00
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
   cocoon (1.2.15) sha256=d08f14e69653287d7a060ee43389b8c824e55191dffbca0c5c586f38ef491f0d
   coderay (1.1.3) sha256=dc530018a4684512f8f38143cd2a096c9f02a1fc2459edcfe534787a7fc77d4b

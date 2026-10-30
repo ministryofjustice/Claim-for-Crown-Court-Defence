@@ -155,6 +155,48 @@ RSpec.describe Silas::Roles do
       end
     end
 
+    context 'with a locally managed beta tester role' do
+      let(:user) { create(:case_worker, roles: %w[admin case_worker provider_management beta_tester]).user }
+      let(:laa_roles) { ['Caseworker'] }
+
+      it 'preserves beta tester access while removing revoked SiLAS-managed roles' do
+        role_mapping.sync!(user)
+        expect(user.persona.reload.roles).to eq %w[case_worker beta_tester]
+      end
+
+      context 'with unchanged roles in a different order' do
+        let(:user) { create(:case_worker, roles: %w[beta_tester case_worker]).user }
+
+        before { allow(user.persona).to receive(:update!).and_call_original }
+
+        it 'does not write to the database' do
+          role_mapping.sync!(user)
+          expect(user.persona).not_to have_received(:update!)
+        end
+      end
+
+      [[], ['Unknown'], ['beta_tester']].each do |roles|
+        context "with #{roles.inspect} supplied SiLAS roles" do
+          let(:laa_roles) { roles }
+
+          it 'still rejects synchronisation without applicable SiLAS roles', :aggregate_failures do
+            expect do
+              expect { role_mapping.sync!(user) }.to raise_error(described_class::NoApplicableRoles)
+            end.not_to change { user.persona.reload.roles }
+          end
+        end
+      end
+    end
+
+    context 'when SiLAS supplies the locally managed role without an existing entitlement' do
+      let(:laa_roles) { %w[Caseworker beta_tester] }
+
+      it 'does not grant beta tester access' do
+        role_mapping.sync!(user)
+        expect(user.persona.reload.roles).to eq ['case_worker']
+      end
+    end
+
     context 'with unchanged roles in a different order' do
       before do
         user.persona.update!(roles: %w[admin case_worker])

@@ -114,6 +114,47 @@ RSpec.describe Silas::Roles do
       end
     end
 
+    {
+      agfs: %w[advocate admin],
+      lgfs: %w[litigator admin],
+      agfs_lgfs: %w[advocate litigator admin]
+    }.each do |provider_trait, expected_roles|
+      context "with an #{provider_trait} provider" do
+        let(:provider) { create(:provider, provider_trait) }
+        let(:user) { create(:external_user, provider:, roles: ['admin']).user }
+        let(:laa_roles) { %w[Advocate Litigator Administrator] }
+
+        it 'persists only roles permitted by the provider' do
+          role_mapping.sync!(user)
+          expect(user.persona.reload.roles).to eq expected_roles
+        end
+      end
+    end
+
+    { agfs: ['Litigator'], lgfs: ['Advocate'] }.each do |provider_trait, roles|
+      context "with only roles outside the #{provider_trait} provider entitlements" do
+        let(:provider) { create(:provider, provider_trait) }
+        let(:user) { create(:external_user, :admin, provider:).user }
+        let(:laa_roles) { roles }
+
+        it 'rejects synchronisation without changing stored roles', :aggregate_failures do
+          expect do
+            expect { role_mapping.sync!(user) }.to raise_error(described_class::NoApplicableRoles)
+          end.not_to change { user.persona.reload.roles }
+        end
+      end
+    end
+
+    context 'with a previously stored role outside the provider entitlements' do
+      let(:user) { create(:external_user, roles: %w[advocate litigator]).user }
+      let(:laa_roles) { %w[Advocate Litigator] }
+
+      it 'removes the role no longer permitted by the provider' do
+        role_mapping.sync!(user)
+        expect(user.persona.reload.roles).to eq ['advocate']
+      end
+    end
+
     context 'with unchanged roles in a different order' do
       before do
         user.persona.update!(roles: %w[admin case_worker])

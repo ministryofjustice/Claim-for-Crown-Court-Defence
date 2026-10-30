@@ -22,10 +22,10 @@
       .govuk-form-group{ class: ('govuk-form-group--error' if @error.present?) }
         = f.label :email, t('.email'), class: 'govuk-label'
         - if @error.present?
-          %p.govuk-error-message
+          %p#email-error.govuk-error-message
             %span.govuk-visually-hidden= t('.error_prefix')
             = @error
-        = f.email_field :email, value: @email, id: 'email', class: "govuk-input #{'govuk-input--error' if @error.present?}", autofocus: true, spellcheck: 'false', autocomplete: 'username'
+        = f.email_field :email, value: @email, id: 'email', class: "govuk-input #{'govuk-input--error' if @error.present?}", autofocus: true, spellcheck: 'false', autocomplete: 'username', aria: (@error.present? ? { describedby: 'email-error', invalid: true } : {})
 
       = f.submit t('.continue'), class: 'govuk-button', data: { module: 'govuk-button' }
 

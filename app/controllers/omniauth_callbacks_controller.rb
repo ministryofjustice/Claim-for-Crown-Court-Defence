@@ -28,7 +28,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.find_by(email: info.email.to_s.downcase)
 
     find_user_by_persona(user, info, raw)
-  rescue Silas::Roles::NoApplicableRoles
+  rescue Silas::Roles::NoApplicableRoles, ActiveRecord::RecordInvalid
     [nil, authentication_failed_message]
   end
 

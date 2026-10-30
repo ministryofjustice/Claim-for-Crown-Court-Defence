@@ -174,6 +174,64 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
   end
 
+  describe 'role synchronisation validation' do
+    let(:user) { create(:external_user, :admin, supplier_number:).user }
+    let(:supplier_number) { nil }
+
+    before do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+      user.login_route.update!(login_method: LoginRoute::ENTRA)
+      request.env['devise.mapping'] = Devise.mappings[:user]
+      request.env['omniauth.auth'] = omniauth_auth(user.email)
+      request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = %w[Advocate Administrator]
+      request.env['omniauth.auth'].extra.raw_info['LAA_ACCOUNTS'] = ['123AB']
+      DualLogin.new(session).identify(user.email)
+    end
+
+    %i[entra_id entra_mock].each do |callback|
+      context "when granting Advocate access through #{callback}" do
+        it 'rejects sign-in gracefully when the supplier number is missing' do
+          get callback
+          expect(controller.current_user).to be_nil
+          expect(response).to redirect_to sign_in_path
+          expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+        end
+
+        it 'preserves stored roles and does not populate the supplier number from SiLAS' do
+          get callback
+          expect(user.persona.reload).to have_attributes(roles: ['admin'], supplier_number: nil)
+        end
+
+        it 'clears the failed identification' do
+          get callback
+          expect(session[:dual_login]).to be_nil
+        end
+
+        context 'with an invalid stored supplier number' do
+          let(:supplier_number) { 'INVALID' }
+
+          it 'rejects sign-in without changing stored data' do
+            get callback
+            expect(controller.current_user).to be_nil
+            expect(response).to redirect_to sign_in_path
+            expect(user.persona.reload).to have_attributes(roles: ['admin'], supplier_number: 'INVALID')
+          end
+        end
+
+        context 'when the supplier number has been corrected in CCCD' do
+          let(:supplier_number) { '456CD' }
+
+          it 'synchronises roles and signs in without replacing the stored supplier number' do
+            get callback
+            expect(controller.current_user).to eq user
+            expect(response).to redirect_to external_users_root_path
+            expect(user.persona.reload).to have_attributes(roles: %w[advocate admin], supplier_number: '456CD')
+          end
+        end
+      end
+    end
+  end
+
   describe 'existing account resolution' do
     before do
       allow(Settings).to receive(:dual_login_enabled?).and_return(true)

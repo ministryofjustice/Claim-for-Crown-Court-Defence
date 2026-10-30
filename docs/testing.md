@@ -154,7 +154,7 @@ To reproduce a plan locally, download the result artifacts into a directory cont
 `rspec-results-*` and `cucumber-results-*` subdirectories, then run:
 
 ```bash
-bundle exec ruby script/test_shards.rb tmp/test-timings tmp/test-shards 6
+bundle exec ruby script/test_shards.rb tmp/test-timings tmp/test-shards 8
 ```
 
 Only shard-plan preparation and test shard jobs receive `actions: read` to download artifacts.

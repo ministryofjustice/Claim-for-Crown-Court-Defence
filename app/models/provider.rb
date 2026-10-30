@@ -81,6 +81,18 @@ class Provider < ApplicationRecord
     update_column(:api_key, SecureRandom.uuid)
   end
 
+  def available_external_user_roles
+    if agfs? && lgfs?
+      %w[admin advocate litigator]
+    elsif agfs?
+      %w[admin advocate]
+    elsif lgfs?
+      %w[admin litigator]
+    else
+      []
+    end
+  end
+
   def available_claim_types
     roles.inject([]) do |claim_types, role|
       claim_types | claim_types_for(role)

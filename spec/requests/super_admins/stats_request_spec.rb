@@ -41,7 +41,7 @@ RSpec.describe 'Stats' do
     it 'redirects the user' do
       get '/super_admins/stats'
 
-      expect(response).to redirect_to new_user_session_path
+      expect(response).to redirect_to sign_in_path
     end
   end
 

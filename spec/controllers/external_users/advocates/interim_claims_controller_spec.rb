@@ -18,7 +18,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
       it 'redirects the user to the login page' do
         new_request
         expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(sign_in_path)
         expect(flash[:alert]).to eq('Must be signed in as an advocate, litigator or admin user')
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
       it 'redirects the user to the login page' do
         create_request
         expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(sign_in_path)
         expect(flash[:alert]).to eq('Must be signed in as an advocate, litigator or admin user')
       end
 
@@ -234,7 +234,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
       it 'redirects the user to the login page' do
         edit_request
         expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(sign_in_path)
         expect(flash[:alert]).to eq('Must be signed in as an advocate, litigator or admin user')
       end
     end
@@ -321,7 +321,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
       it 'redirects the user to the login page' do
         update_request
         expect(response).to have_http_status(:redirect)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(sign_in_path)
         expect(flash[:alert]).to eq('Must be signed in as an advocate, litigator or admin user')
       end
 

@@ -14,6 +14,10 @@ Unit tests for ruby code are written using [rspec](https://rspec.info/documentat
 bundle exec rspec
 ```
 
+For anonymous-access redirect expectations, use `sign_in_path` (or `sign_in_url`).
+Reserve `new_user_session_path` for the guarded, identified-account password step
+in dual-login routing tests.
+
 ### Javascript unit testing
 
 Unit tests for Javascript code are written using the [Jasmine](https://jasmine.github.io/pages/docs_home.html) framework.
@@ -56,6 +60,10 @@ feature file run in a browser use
 ```bash
 BROWSER=chrome bundle exec cucumber <feature file>
 ```
+
+Standard password sign-in steps use `sign_in_path`. Devise's `new_user_session_path`
+is the guarded password step for an identified dual-login account, not the general
+sign-in entry point. Keep direct-entry rejection coverage in the dual-login request specs.
 
 ## API Smoke tests
 

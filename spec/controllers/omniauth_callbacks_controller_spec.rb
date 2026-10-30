@@ -323,6 +323,34 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       end
     end
 
+    context 'when matching an existing provider by name' do
+      let!(:existing_provider) { create(:provider, name: 'Example & Firm') }
+      let(:raw) { super().merge('FIRM_NAME' => ' Example & Firm ') }
+      let(:auto_create_providers) { 'false' }
+
+      it 'reuses the exact name match without creating a provider' do
+        expect { expect(provider).to eq existing_provider }.not_to change(Provider, :count)
+      end
+
+      it 'queries the name column directly' do
+        allow(Provider).to receive(:find_by).and_call_original
+        provider
+        expect(Provider).to have_received(:find_by).with(name: 'Example & Firm')
+      end
+
+      ['EXAMPLE & FIRM', 'Example and Firm', 'Example & Firm.', 'Example  & Firm'].each do |firm_name|
+        context "with the non-identical name #{firm_name.inspect}" do
+          let(:raw) { super().merge('FIRM_NAME' => firm_name) }
+
+          it 'rejects the request without creating a provider' do
+            expect do
+              expect { provider }.to raise_error(ArgumentError, "No provider found for FIRM_NAME: #{firm_name}")
+            end.not_to change(Provider, :count)
+          end
+        end
+      end
+    end
+
     context 'without a firm name' do
       let(:raw) { super().merge('FIRM_NAME' => ' ') }
 

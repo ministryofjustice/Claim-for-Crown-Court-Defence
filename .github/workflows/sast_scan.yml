@@ -10,18 +10,65 @@ on:
 permissions: {}
 
 jobs:
-  run-sast-tooling:
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@665b123096f599d105d3b7ae19bd4b81bcabd99a # main as of 15/10/2026
+  # Builds the PR's own image so the scan reflects the branch, independent of the
+  # approval-gated build in pull_request_deploy.yml. Skipped on schedule/manual
+  # runs, which scan main's published app-latest instead.
+  build-and-push:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      ECR_REGISTRY_URL: ${{ secrets.ECR_REGISTRY_URL }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+      ECR_REGION: ${{ vars.ECR_REGION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd
+        with:
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.ECR_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd
+
+      - name: Build and push image
+        run: .github/build.sh
+
+  sast-pr:
+    needs: build-and-push
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       id-token: write
       contents: read
       security-events: write
       actions: read
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@665b123096f599d105d3b7ae19bd4b81bcabd99a # main as of 15/10/2026
+    with:
+      image_uri: ${{ format('{0}/{1}:app-{2}', vars.ECR_REGISTRY_HOST, vars.ECR_REPOSITORY, github.sha) }}
+      dockerfile_path: docker/Dockerfile
+      iac_path: .k8s/live
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+
+  sast-scheduled:
+    if: github.event_name != 'pull_request'
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+      actions: read
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@665b123096f599d105d3b7ae19bd4b81bcabd99a # main as of 15/10/2026
     with:
       image_uri: ${{ format('{0}/{1}:app-latest', vars.ECR_REGISTRY_HOST, vars.ECR_REPOSITORY) }}
       dockerfile_path: docker/Dockerfile
       iac_path: .k8s/live
-
     secrets:
       SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
       SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}

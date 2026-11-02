@@ -21,6 +21,7 @@ module PatienceHelper
     Selenium::WebDriver::Error::NoAlertPresentError
     Selenium::WebDriver::Error::JavascriptError
     Selenium::WebDriver::Error::UnknownError
+    Selenium::WebDriver::Error::StaleElementReferenceError
     Selenium::WebDriver::Error::NoSuchAlertError
     SitePrism::Error::ElementVisibilityTimeoutError
   ]

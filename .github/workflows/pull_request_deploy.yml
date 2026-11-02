@@ -40,6 +40,24 @@ jobs:
       - name: Build and push image
         run: .github/build.sh
 
+  sast:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    needs: build-and-push
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+      actions: read
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@665b123096f599d105d3b7ae19bd4b81bcabd99a # main as of 15/10/2026
+    with:
+      image_uri: ${{ format('{0}/{1}:app-{2}', vars.ECR_REGISTRY_HOST, vars.ECR_REPOSITORY, github.sha) }}
+      dockerfile_path: docker/Dockerfile
+      iac_path: .k8s/live
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+
   deploy-dev:
     if: github.event.pull_request.head.repo.full_name == github.repository
     needs: build-and-push

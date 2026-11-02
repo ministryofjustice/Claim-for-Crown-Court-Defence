@@ -9,7 +9,7 @@ on:
 jobs:
   sca-scan:
     name: Scan dependencies with Snyk
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk-sca-scan.yml@<insert latest sha here>
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk-sca-scan.yml@a7a2b7cda8092fdcbf1224ddc2b51125645352f1
     permissions:
       contents: read
       security-events: write

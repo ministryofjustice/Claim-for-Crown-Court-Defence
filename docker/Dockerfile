@@ -14,7 +14,7 @@ RUN apk --update-cache upgrade \
                    build-base \
                    curl \
                    git \
-                   nodejs=24.22.1-r0 \
+                   nodejs=24.22.1 \
                    postgresql-dev \
                    yaml-dev \
                    yarn

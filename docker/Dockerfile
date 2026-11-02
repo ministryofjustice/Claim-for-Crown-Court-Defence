@@ -14,7 +14,7 @@ RUN apk --update-cache upgrade \
                    build-base \
                    curl \
                    git \
-                   nodejs=24.22.1-r0 \
+                   nodejs=24.22.1-r1 \
                    postgresql-dev \
                    yaml-dev \
                    yarn
@@ -73,7 +73,7 @@ RUN apk --update-cache upgrade \
                    file \
                    libreoffice \
                    linux-headers \
-                   nodejs=24.22.1 \
+                   nodejs=24.22.1-r1 \
                    openjdk17-jre-headless \
                    postgresql-client \
                    redis \

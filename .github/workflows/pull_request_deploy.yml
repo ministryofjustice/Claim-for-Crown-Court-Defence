@@ -41,7 +41,6 @@ jobs:
         run: .github/build.sh
 
   snyk-scan:
-    name: Scan image using Snyk
     if: github.event.pull_request.head.repo.full_name == github.repository
     needs: build-and-push
     permissions:

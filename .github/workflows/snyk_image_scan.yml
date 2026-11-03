@@ -6,7 +6,7 @@ on:
     branches: ["main"]
 
 jobs:
-  snyk-scan:
+  snyk-image-scan:
     uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@8a897e31a8c74d37a48246285ff0ef5e5087e908 # main as of 03/11/2026
     permissions:
       id-token: write
@@ -24,12 +24,12 @@ jobs:
       ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
 
   slack-notify:
-    needs: snyk-scan
+    needs: snyk-image-scan
     if: always()
     runs-on: ubuntu-latest
     steps:
     - name: Slack notify failure
-      if: ${{ needs.snyk-scan.result == 'failure' }}
+      if: ${{ needs.snyk-image-scan.result == 'failure' }}
       uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -40,7 +40,7 @@ jobs:
         SLACK_FOOTER:
 
     - name: Slack notify success
-      if: ${{ needs.snyk-scan.result == 'success' }}
+      if: ${{ needs.snyk-image-scan.result == 'success' }}
       uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

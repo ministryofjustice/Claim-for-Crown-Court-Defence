@@ -40,10 +40,10 @@ jobs:
       - name: Build and push image
         run: .github/build.sh
 
-  snyk-image-scan:
+  sast-scan:
     if: github.event.pull_request.head.repo.full_name == github.repository
     needs: build-and-push
-    name: Snyk image scan
+    name: SAST image scan
     permissions:
       id-token: write
       contents: read

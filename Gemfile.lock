@@ -131,10 +131,10 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.13.0)
+    axe-core-api (4.14.0)
       dumb_delegator
-    axe-core-cucumber (4.13.0)
-      axe-core-api (= 4.13.0)
+    axe-core-cucumber (4.14.0)
+      axe-core-api (= 4.14.0)
     base64 (0.3.0)
     bcrypt (3.1.22)
     better_errors (2.10.1)
@@ -755,7 +755,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1)
   aws-sdk-sns (~> 1)
   aws-sdk-sqs (~> 1)
-  axe-core-cucumber (~> 4.12)
+  axe-core-cucumber (~> 4.14)
   better_errors
   bootsnap
   brakeman
@@ -877,8 +877,8 @@ CHECKSUMS
   aws-sdk-sns (1.124.0) sha256=55fc1dc033f9d2d4aa05455a4f50be5003156348e7b8966b82b3845db0bfc203
   aws-sdk-sqs (1.122.0) sha256=a74975bf769b6f33ce7b69b99138df4960960011ebbfeb87de2c27e06d9b9b4d
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
-  axe-core-api (4.13.0) sha256=6556c36d541090993b0efffd2659e13c289c109a0a6bf65d28271e363fc7ffa3
-  axe-core-cucumber (4.13.0) sha256=049c44d7badd1988da3d023bc97433f88fdc20b845d90dfab691d4ba2669aeca
+  axe-core-api (4.14.0) sha256=61fa8065b6643d3faa82527220fafff5b80d3beed4a19c198782f415d8ad8ac0
+  axe-core-cucumber (4.14.0) sha256=5eaaef1a4d0b15b5788dbe0bd9dfbba3b50fbe32ada9e4cd8b527a1f799e2d59
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032
   better_errors (2.10.1) sha256=f798f1bac93f3e775925b7fcb24cffbcf0bb62ee2210f5350f161a6b75fc0a73

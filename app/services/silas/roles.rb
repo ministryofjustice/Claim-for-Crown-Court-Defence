@@ -41,6 +41,12 @@ module Silas
       nil
     end
 
+    def validate_super_admin!
+      return unless roles_supplied
+
+      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' unless laa_roles.include?(SUPER_ADMIN_ROLE)
+    end
+
     def sync!(user)
       return unless roles_supplied && (user.case_worker? || user.external_user?)
 

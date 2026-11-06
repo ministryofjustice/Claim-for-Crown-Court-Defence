@@ -67,7 +67,7 @@ moj.Modules.FeeTypeCtrl = {
         $quantity.val(defaultQuantity)
         $quantity.trigger('keyup')
       }
-      $quantity.attr('readonly', true)
+      $quantity.prop('readonly', true)
     } else {
       $quantity.removeAttr('readonly')
     }

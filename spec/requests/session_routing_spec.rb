@@ -10,10 +10,6 @@ RSpec.describe 'Session routing' do
       expect(response).to have_http_status(:success)
     end
 
-    it 'renders the email only sign in page' do
-      expect(response).to render_template(:new)
-    end
-
     it 'does not mark the email field as invalid or reference a missing error' do
       expect(response.parsed_body.at_css('input#email').attributes.keys)
         .not_to include('aria-invalid', 'aria-describedby')

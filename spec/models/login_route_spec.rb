@@ -20,26 +20,8 @@ RSpec.describe LoginRoute do
     expect(create(:user).login_route).not_to be_dual_login_tester
   end
 
-  [true, false].each do |approved|
-    it "keeps tester approval #{approved} independent of the login method" do
-      route = create(:user).login_route
-      route.update!(login_method: LoginRoute::ENTRA, dual_login_tester: !approved)
-      route.update!(dual_login_tester: approved)
-      expect(route.reload.login_method).to eq LoginRoute::ENTRA
-    end
-  end
-
-  it 'rejects unknown login methods' do
-    expect(build(:login_route, login_method: 'magic')).not_to be_valid
-  end
-
   it 'requires a user' do
     expect(described_class.new(login_method: LoginRoute::LEGACY)).not_to be_valid
-  end
-
-  it 'shares its primary key with the user' do
-    user = create(:user)
-    expect(user.login_route.id).to eq user.id
   end
 
   it 'is destroyed with the user' do

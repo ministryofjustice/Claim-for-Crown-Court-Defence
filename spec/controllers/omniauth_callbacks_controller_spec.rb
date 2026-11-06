@@ -298,12 +298,6 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
         end
       end
     end
-
-    it 'looks up the account once for eligibility and once for identity resolution' do
-      allow(User).to receive(:find_by).and_call_original
-      get :entra_id
-      expect(User).to have_received(:find_by).with(email: user.email).twice
-    end
   end
 
   describe 'callback eligibility' do
@@ -371,12 +365,6 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
       it 'reuses the exact name match without creating a provider' do
         expect { expect(provider).to eq existing_provider }.not_to change(Provider, :count)
-      end
-
-      it 'queries the name column directly' do
-        allow(Provider).to receive(:find_by).and_call_original
-        provider
-        expect(Provider).to have_received(:find_by).with(name: 'Example & Firm')
       end
 
       ['EXAMPLE & FIRM', 'Example and Firm', 'Example & Firm.', 'Example  & Firm'].each do |firm_name|

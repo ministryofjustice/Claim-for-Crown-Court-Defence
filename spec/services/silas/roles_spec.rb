@@ -96,6 +96,42 @@ RSpec.describe Silas::Roles do
     end
   end
 
+  describe '#validate_super_admin!' do
+    context 'without the role claim' do
+      let(:raw) { {} }
+
+      it 'preserves existing eligibility' do
+        expect { role_mapping.validate_super_admin! }.not_to raise_error
+      end
+    end
+
+    [
+      ['Super Administrator'],
+      ['Caseworker', 'Super Administrator', 'Advocate'],
+      ' Super Administrator '
+    ].each do |roles|
+      context "with #{roles.inspect} supplied roles" do
+        let(:laa_roles) { roles }
+
+        it 'accepts the superadmin role' do
+          expect { role_mapping.validate_super_admin! }.not_to raise_error
+        end
+      end
+    end
+
+    [[], nil, ['', ' ', nil], ['Unknown'], %w[Caseworker Advocate], ['LAA Administrator']].each do |roles|
+      context "with #{roles.inspect} supplied roles" do
+        let(:laa_roles) { roles }
+
+        it 'rejects roles without superadmin authorisation' do
+          expect { role_mapping.validate_super_admin! }.to raise_error(
+            described_class::NoApplicableRoles, 'No applicable roles found in LAA_ROLES'
+          )
+        end
+      end
+    end
+  end
+
   describe '#sync!' do
     let(:user) { create(:case_worker).user }
     let(:laa_roles) { ['Caseworker', 'Advocate', 'LAA Administrator', 'Administrator'] }

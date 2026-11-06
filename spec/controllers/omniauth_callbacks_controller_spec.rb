@@ -123,8 +123,49 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
     personas = %i[case_worker external_user]
     invalid_roles = [[], nil, ['', ' ', nil], ['Unknown'], ['Super Administrator']]
+    invalid_super_admin_roles = [[], nil, ['', ' ', nil], ['Unknown'], %w[Caseworker Advocate], ['LAA Administrator']]
 
     %i[entra_id entra_mock].each do |callback|
+      context "with an existing superadmin using #{callback}" do
+        let(:user) { create(:super_admin).user }
+
+        invalid_super_admin_roles.each do |roles|
+          context "with #{roles.inspect} supplied roles" do
+            before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles }
+
+            it 'rejects sign-in with an authentication failure message' do
+              get callback
+              expect(controller.current_user).to be_nil
+              expect(response).to redirect_to sign_in_path
+              expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+            end
+
+            it 'clears identification without changing the stored persona' do
+              expect { get callback }.not_to change { user.reload.attributes.slice('persona_type', 'persona_id') }
+              expect(session[:dual_login]).to be_nil
+            end
+          end
+        end
+
+        context 'with the Super Administrator role' do
+          before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['Super Administrator'] }
+
+          it 'signs in without changing the stored persona' do
+            expect { get callback }.not_to change { user.reload.attributes.slice('persona_type', 'persona_id') }
+            expect(controller.current_user).to eq user
+            expect(response).to redirect_to super_admins_root_path
+          end
+        end
+
+        context 'without the role claim' do
+          it 'preserves existing sign-in behaviour and the stored persona' do
+            expect { get callback }.not_to change { user.reload.attributes.slice('persona_type', 'persona_id') }
+            expect(controller.current_user).to eq user
+            expect(response).to redirect_to super_admins_root_path
+          end
+        end
+      end
+
       personas.each do |persona|
         context "with an existing #{persona} administrator using #{callback}" do
           let(:user) { create(persona, :admin).user }
@@ -141,7 +182,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
               end
 
               it 'clears identification without changing stored roles' do
-                get callback
+                expect { get callback }.not_to change { user.reload.attributes.slice('persona_type', 'persona_id') }
                 expect(session[:dual_login]).to be_nil
                 expect(user.persona.reload.roles).to eq ['admin']
               end
@@ -238,7 +279,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       user.login_route.update!(login_method: LoginRoute::ENTRA)
       request.env['devise.mapping'] = Devise.mappings[:user]
       request.env['omniauth.auth'] = omniauth_auth(user.email.upcase)
-      request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = %w[Advocate Caseworker]
+      request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['Advocate', 'Caseworker', 'Super Administrator']
       DualLogin.new(session).identify(user.email)
     end
 
@@ -251,7 +292,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
         let(:user) { create(persona).user }
 
         it 'signs in the existing account using its stored persona' do
-          get :entra_id
+          expect { get :entra_id }.not_to change { user.reload.attributes.slice('persona_type', 'persona_id') }
           expect(controller.current_user).to eq user
           expect(response).to redirect_to public_send(destination)
         end

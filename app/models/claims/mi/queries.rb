@@ -26,7 +26,7 @@ module Claims::MI
           LEFT OUTER JOIN offences o on o.id = c.offence_id
             LEFT OUTER JOIN offence_bands ob ON o.offence_band_id = ob.id
           INNER JOIN external_users eu ON eu.id = c.external_user_id
-            INNER JOIN users u ON u.persona_id = eu.id
+            INNER JOIN users u ON u.persona_id = eu.id AND u.persona_type = 'ExternalUser'
             INNER JOIN providers p ON p.id = eu.provider_id
         WHERE
           c.last_submitted_at BETWEEN #{start_date} AND #{end_date}

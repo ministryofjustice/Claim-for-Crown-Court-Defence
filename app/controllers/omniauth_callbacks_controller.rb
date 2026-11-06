@@ -79,7 +79,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def find_user_by_persona(user, info, raw)
     case resolved_persona(user, raw)
     when PERSONA_SUPER_ADMIN
-      find_super_admin(user, info)
+      find_super_admin(user, info, raw)
     when PERSONA_EXTERNAL_USER
       find_external_user(user, info, raw)
     else
@@ -133,7 +133,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   end
 
-  def find_super_admin(user, info)
+  def find_super_admin(user, info, raw)
     email = info.email.to_s.downcase
     return create_super_admin_from_auth(info) if user.nil?
 
@@ -142,6 +142,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
               persona_mismatch_message(email, user.persona_type,
                                        PERSONA_SUPER_ADMIN)]
     end
+
+    Silas::Roles.new(raw).validate_super_admin!
 
     [user, nil]
   end

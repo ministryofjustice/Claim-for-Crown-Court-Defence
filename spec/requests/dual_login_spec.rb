@@ -27,12 +27,14 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     [sign_in_path, unauthenticated_root_path].each do |path|
       get path
       expect(Capybara.string(response.body)).to have_field('Password')
+      expect(Capybara.string(response.body)).to have_link('Forgot your password?', href: new_user_password_path)
       expect(Capybara.string(response.body)).to have_link('Try the new sign-in (approved testers only)',
                                                           href: dual_login_path)
     end
     get dual_login_path
     expect(response.body).to include('This sign-in page is for approved testers only.')
     expect(Capybara.string(response.body)).to have_no_field('Password')
+    expect(Capybara.string(response.body)).to have_no_link(href: new_user_password_path)
   end
 
   it 'authenticates directly using original credentials without tester approval' do
@@ -102,6 +104,73 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
       expect(flash[:alert]).to be_nil
       expect(response.body).not_to include(I18n.t('session_routing.unavailable'))
       expect(request.env['warden'].user).to be_nil
+    end
+  end
+
+  describe 'password reset completion' do
+    let(:new_password) { 'NewPassword123456!' }
+    let(:token) { user.send_reset_password_instructions }
+    let(:reset_params) do
+      { reset_password_token: token, password: new_password, password_confirmation: new_password }
+    end
+
+    [false, true].product([LoginRoute::LEGACY, LoginRoute::ENTRA]).each do |rollout, login_method|
+      context "with a #{login_method} account and public rollout #{rollout}" do
+        before do
+          allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
+          user.login_route.update!(login_method: login_method, dual_login_tester: true)
+        end
+
+        it 'changes the password and returns to sign in without authenticating the user' do
+          get edit_user_password_path, params: { reset_password_token: token }
+          expect(response).to have_http_status(:ok)
+          expect(response).to render_template(:edit)
+
+          put user_password_path, params: { user: reset_params }
+
+          expect(user.reload.valid_password?(new_password)).to be true
+          expect(user.reset_password_token).to be_nil
+          expect(request.env['warden'].user).to be_nil
+          expect(response).to redirect_to sign_in_path
+          follow_redirect!
+          follow_redirect! if rollout
+          expect(response).to have_http_status(:ok)
+          expect(Capybara.string(response.body)).to have_text(I18n.t('devise.passwords.updated_not_active'))
+          expect(flash[:alert]).to be_nil
+          expect(request.env['warden'].user).to be_nil
+
+          get case_workers_root_path
+          expect(response).to redirect_to sign_in_path
+        end
+
+        it 'clears existing identification when completing a reset directly' do
+          identify
+          put user_password_path, params: { user: reset_params }
+
+          expect(response).to redirect_to sign_in_path
+          expect(request.env['warden'].user).to be_nil
+          get new_user_session_path
+          expect_rejection
+          get user_entra_id_omniauth_authorize_path
+          expect_rejection
+        end
+
+        it 'rejects an invalid reset token without changing the password or signing in' do
+          put user_password_path, params: { user: reset_params.merge(reset_password_token: 'invalid-token') }
+
+          expect(response).to render_template(:edit)
+          expect(user.reload.valid_password?(password)).to be true
+          expect(request.env['warden'].user).to be_nil
+        end
+
+        it 'rejects mismatched passwords without changing the password or signing in' do
+          put user_password_path, params: { user: reset_params.merge(password_confirmation: 'DifferentPassword123!') }
+
+          expect(response).to render_template(:edit)
+          expect(user.reload.valid_password?(password)).to be true
+          expect(request.env['warden'].user).to be_nil
+        end
+      end
     end
   end
 

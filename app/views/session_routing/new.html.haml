@@ -30,7 +30,6 @@
       = f.submit t('.continue'), class: 'govuk-button', data: { module: 'govuk-button' }
 
     %ul.govuk-list
-      %li= govuk_link_to t('devise.shared.links.forgot_your_password'), new_user_password_path
       - if Rails.host.api_sandbox?
         %li= t('devise.shared.links.api_sign_up_and_documentation_html', link: api_landing_page_path)
         %li= t('devise.shared.links.vendor_terms_and_conditions.short_html', link: vendor_tandcs_page_path)

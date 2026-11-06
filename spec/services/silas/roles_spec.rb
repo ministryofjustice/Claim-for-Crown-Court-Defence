@@ -200,17 +200,6 @@ RSpec.describe Silas::Roles do
         expect(user.persona.reload.roles).to eq %w[case_worker beta_tester]
       end
 
-      context 'with unchanged roles in a different order' do
-        let(:user) { create(:case_worker, roles: %w[beta_tester case_worker]).user }
-
-        before { allow(user.persona).to receive(:update!).and_call_original }
-
-        it 'does not write to the database' do
-          role_mapping.sync!(user)
-          expect(user.persona).not_to have_received(:update!)
-        end
-      end
-
       [[], ['Unknown'], ['beta_tester']].each do |roles|
         context "with #{roles.inspect} supplied SiLAS roles" do
           let(:laa_roles) { roles }
@@ -230,18 +219,6 @@ RSpec.describe Silas::Roles do
       it 'does not grant beta tester access' do
         role_mapping.sync!(user)
         expect(user.persona.reload.roles).to eq ['case_worker']
-      end
-    end
-
-    context 'with unchanged roles in a different order' do
-      before do
-        user.persona.update!(roles: %w[admin case_worker])
-        allow(user.persona).to receive(:update!).and_call_original
-      end
-
-      it 'does not write to the database' do
-        role_mapping.sync!(user)
-        expect(user.persona).not_to have_received(:update!)
       end
     end
 

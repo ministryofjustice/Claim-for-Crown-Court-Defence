@@ -15,7 +15,8 @@ module SeedHelpers
     FeeScheme.find_or_create_by(name: 'AGFS', version: 14, start_date: Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day, end_date: Settings.agfs_scheme_15_additional_prep_fee_and_kc.end_of_day - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 15, start_date: Settings.agfs_scheme_15_additional_prep_fee_and_kc.beginning_of_day, end_date: Settings.agfs_scheme_16_section_twenty_eight_increase.end_of_day - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 16, start_date: Settings.agfs_scheme_16_section_twenty_eight_increase.beginning_of_day, end_date: Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.end_of_day - 1.day)
-    FeeScheme.find_or_create_by(name: 'AGFS', version: 17, start_date: Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.beginning_of_day, end_date: nil)
+    FeeScheme.find_or_create_by(name: 'AGFS', version: 17, start_date: Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.beginning_of_day, end_date: Settings.agfs_scheme_18_start_date.end_of_day - 1.day)
+    FeeScheme.find_or_create_by(name: 'AGFS', version: 18, start_date: Settings.agfs_scheme_18_start_date.beginning_of_day, end_date: nil)
   end
 
   def seed_case_types

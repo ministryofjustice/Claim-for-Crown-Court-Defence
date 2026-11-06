@@ -9,7 +9,7 @@ module CucumberSeeds
   SEED_FILES = %w[
     courts offence_classes offences scheme_10 scheme_11 scheme_12 case_types case_stages fee_types
     certification_types disbursement_types expense_types vat_rates establishments lgfs_scheme_10
-    scheme_13 scheme_14 scheme_15 scheme_16 agfs_scheme_cleaner lgfs_scheme_11 scheme_17
+    scheme_13 scheme_14 scheme_15 scheme_16 agfs_scheme_cleaner lgfs_scheme_11 scheme_17 scheme_18
   ].freeze
 
   def self.preseeded?

@@ -90,6 +90,23 @@ RSpec.describe Fee::MiscFeeType do
     end
   end
 
+  describe 'scheme 18 hearing fees' do
+    let(:codes) { %w[MISHA MIMSH MIMSA MIBAM] }
+
+    before do
+      codes.each { |code| create(:misc_fee_type, unique_code: code) }
+    end
+
+    it 'allows every new fee on supplementary claims' do
+      expect(described_class.supplementary.pluck(:unique_code)).to match_array(codes)
+    end
+
+    it 'allows every new fee on final claims for all case types' do
+      types = described_class.without_supplementary_only.without_trial_fee_only
+      expect(types.pluck(:unique_code)).to match_array(codes)
+    end
+  end
+
   describe '#case_uplift?' do
     subject { fee_type.case_uplift? }
 

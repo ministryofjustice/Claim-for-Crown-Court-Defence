@@ -48,6 +48,21 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
     it 'returns fee types excluded by default' do
       expect(subject.keys).to include(*exclusions)
     end
+
+    {
+      MISHA: 'AGFS_SENT_ADD',
+      MIMSH: 'AGFS_MITIG',
+      MIMSA: 'AGFS_MIT_ADD',
+      MIBAM: 'AGFS_BAIL_APP'
+    }.each do |code, calculator_code|
+      it "maps #{code} to Fee Calculator" do
+        expect(subject.fetch(code)).to eq(bill_type: 'AGFS_MISC_FEES', bill_subtype: calculator_code)
+      end
+
+      it "includes #{code} through the misc fee adapter" do
+        expect(misc_fee_mappings).to include(code)
+      end
+    end
   end
 
   describe '#primary_fee_types' do

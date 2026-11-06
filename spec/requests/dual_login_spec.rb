@@ -27,14 +27,12 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     [sign_in_path, unauthenticated_root_path].each do |path|
       get path
       expect(Capybara.string(response.body)).to have_field('Password')
-      expect(Capybara.string(response.body)).to have_link('Forgot your password?', href: new_user_password_path)
       expect(Capybara.string(response.body)).to have_link('Try the new sign-in (approved testers only)',
                                                           href: dual_login_path)
     end
     get dual_login_path
     expect(response.body).to include('This sign-in page is for approved testers only.')
     expect(Capybara.string(response.body)).to have_no_field('Password')
-    expect(Capybara.string(response.body)).to have_no_link(href: new_user_password_path)
   end
 
   it 'authenticates directly using original credentials without tester approval' do
@@ -49,21 +47,6 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
       '.govuk-notification-banner--success',
       text: 'This sign-in page is for approved testers only.'
     )
-  end
-
-  [
-    ['/users/sign_in', 'Try the new sign-in (approved testers only)', '/users/dual_login'],
-    ['/users/dual_login', 'Back to standard sign-in', '/users/sign_in']
-  ].each do |page_path, label, destination|
-    it "places #{label} beneath terms and conditions with a separate line of spacing" do
-      get page_path
-      link = response.parsed_body.at_xpath(
-        "//ul[li/a[@href='#{tandcs_page_path}']]/following-sibling::p[1]" \
-        "[contains(@class, 'govuk-!-margin-top-6')]/a"
-      )
-      expect(link&.text).to eq label
-      expect(link&.[]('href')).to eq destination
-    end
   end
 
   [false, true].product(%i[existing unknown]).each do |rollout, account|

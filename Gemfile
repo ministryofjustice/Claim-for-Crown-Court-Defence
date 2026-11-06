@@ -43,7 +43,7 @@ gem 'rainbow', '>= 3.1.1'
 gem 'redis',                  '~> 6.0.0'
 gem 'rubyzip'
 gem 'config',                 '~> 5.6' # this gem provides our Settings.xxx mechanism
-gem 'sentry-rails', '~> 7.1'
+gem 'sentry-rails', '~> 7.2'
 gem 'sentry-sidekiq', '~> 7.1'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'

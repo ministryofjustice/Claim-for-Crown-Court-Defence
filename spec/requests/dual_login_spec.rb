@@ -32,6 +32,7 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     end
     get dual_login_path
     expect(response.body).to include('This sign-in page is for approved testers only.')
+    expect(Capybara.string(response.body)).to have_link('Back to standard sign-in', href: sign_in_path)
     expect(Capybara.string(response.body)).to have_no_field('Password')
   end
 

@@ -1,0 +1,51 @@
+name: SAST image scan (daily)
+on:
+  schedule:
+    - cron: '0 7 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  sast-scan:
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@8a897e31a8c74d37a48246285ff0ef5e5087e908 # main as of 03/11/2026
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+      actions: read
+    with:
+      image_uri: ${{ format('{0}/{1}:app-latest', vars.ECR_REGISTRY_HOST, vars.ECR_REPOSITORY) }}
+      dockerfile_path: docker/Dockerfile
+      iac_path: .k8s/live
+
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+
+  slack-notify:
+    needs: sast-scan
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Slack notify failure
+      if: ${{ needs.sast-scan.result == 'failure' }}
+      uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_COLOR: failure
+        SLACK_TITLE: Scanned ${{ github.repository }}
+        SLACK_MESSAGE: SAST image scan detected vulnerabilities! @chb-devs
+        SLACK_LINK_NAMES: true
+        SLACK_FOOTER:
+
+    - name: Slack notify success
+      if: ${{ needs.sast-scan.result == 'success' }}
+      uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_COLOR: success
+        SLACK_TITLE: Scanned ${{ github.repository }}
+        SLACK_MESSAGE: SAST image scan found no High or Critical vulnerabilities!
+        SLACK_FOOTER:

@@ -47,5 +47,5 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_COLOR: success
         SLACK_TITLE: Scanned ${{ github.repository }}
-        SLACK_MESSAGE: SAST image scan found no vulnerabilities!
+        SLACK_MESSAGE: SAST image scan found no High or Critical vulnerabilities!
         SLACK_FOOTER:

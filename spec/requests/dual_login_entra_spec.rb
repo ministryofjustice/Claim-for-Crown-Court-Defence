@@ -103,9 +103,35 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
     follow_redirect!
     expect { follow_redirect! }.not_to change(User, :count)
     expect(response).to redirect_to sign_in_path
-    expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.email_mismatch')
+    expect(flash[:alert].deep_symbolize_keys).to eq I18n.t('omniauth_callbacks.email_mismatch')
+    follow_redirect!
+    content = Capybara.string(response.body)
+    expect(content).to have_css(
+      '.moj-alert--error[role="region"] .moj-alert__heading',
+      text: 'The account you selected does not match the email address you entered'
+    )
+    expect(content).to have_css(
+      '.moj-alert__content p',
+      text: 'Sign in again and select the Microsoft account that matches the email address you entered.'
+    )
+    expect(content).to have_no_css('.govuk-notification-banner')
     get '/users/auth/entra_id'
     expect(response).to redirect_to sign_in_path
+  end
+
+  it 'shows the mismatch alert on the email page during public rollout' do
+    allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+    identify_entra(approved: false)
+    OmniAuth.config.add_mock(:entra_id, uid: 'other-uid', info: { email: 'unknown@example.com' })
+    follow_redirect!
+    follow_redirect!
+    follow_redirect!
+    follow_redirect! if response.redirect?
+    expect(response).to have_http_status(:ok)
+    expect(Capybara.string(response.body)).to have_css(
+      '.moj-alert--error .moj-alert__heading',
+      text: 'The account you selected does not match the email address you entered'
+    )
   end
 
   it 'clears state on provider failure' do

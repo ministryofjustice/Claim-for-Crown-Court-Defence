@@ -69,8 +69,12 @@ en:
       litigator_hint: "Litigators’ graduated fee scheme"
 
   omniauth_callbacks:
-    authentication_failed: Authentication failed.
-    email_mismatch: The Microsoft account you selected does not match the email address you entered. Please sign in again and select the correct account.
+    authentication_failed: 
+      title: Authentication failed
+      text: Please try again.
+    email_mismatch:
+      title: The account you selected does not match the email address you entered
+      text: Sign in again and select the Microsoft account that matches the email address you entered.
   session_routing:
     pilot_link: Try the new sign-in (approved testers only)
     pilot_banner: This sign-in page is for approved testers only.

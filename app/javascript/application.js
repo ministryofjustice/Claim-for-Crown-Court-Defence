@@ -75,7 +75,8 @@ import './modules/Modules.StringInterpolation.js'
 import './modules/Modules.Miscellaneous.js'
 
 // GOV.UK Frontend
-import { initAll } from 'govuk-frontend'
+import { createAll, initAll } from 'govuk-frontend'
+import { Alert } from '@ministryofjustice/frontend/moj/components/alert/alert.mjs'
 
 // Initialise DataTables extensions
 DataTable(window, $)
@@ -84,5 +85,6 @@ FixedHeader(window, $)
 Select(window, $)
 
 initAll()
+createAll(Alert)
 
 Rails.start()

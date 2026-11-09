@@ -41,6 +41,14 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     expect(response).to redirect_to case_workers_root_path
   end
 
+  it 'authenticates an approved tester with only a password and the session email' do
+    user.login_route.update!(dual_login_tester: true)
+    identify
+    post user_session_path, params: { user: { password: password } }
+    expect(response).to redirect_to case_workers_root_path
+    expect(request.env['warden'].user).to eq user
+  end
+
   it 'shows the pilot-only message in a green notification banner' do
     get dual_login_path
     expect(response.parsed_body.at_css('.govuk-notification-banner__title')&.text&.strip).to eq 'Notice'

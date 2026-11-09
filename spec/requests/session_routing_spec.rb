@@ -130,8 +130,22 @@ RSpec.describe 'Session routing' do
         expect(response).to have_http_status(:success)
       end
 
-      it 'prefills the identified email address' do
-        expect(response.body).to include('value="legacy@example.com"')
+      it 'displays the identified email as text without an email input', :aggregate_failures do
+        expect(Capybara.string(response.body)).to have_css('h2', text: 'Signing in as')
+        expect(Capybara.string(response.body)).to have_css('p.cccd-sign-in-email', text: 'legacy@example.com')
+        expect(Capybara.string(response.body)).to have_no_field('user[email]', visible: :all)
+      end
+
+      it 'shows the password-step heading and button', :aggregate_failures do
+        expect(Capybara.string(response.body)).to have_css('h1.govuk-heading-l', text: 'Enter your password')
+        expect(Capybara.string(response.body)).to have_button('Continue')
+      end
+
+      it 'keeps password recovery without change-email or terms links in the main content', :aggregate_failures do
+        content = Capybara.string(response.parsed_body.at_css('main').to_html)
+        expect(content).to have_link('Forgot your password?', href: new_user_password_path)
+        expect(content).to have_no_link('Change email address')
+        expect(content).to have_no_link(href: tandcs_page_path)
       end
     end
   end

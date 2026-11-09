@@ -79,9 +79,9 @@ en:
     new:
       page_title: Sign in to claim for Crown Court defence
       page_heading: Sign in
-      hint: Enter your email address and we will take you to the right sign in page.
+      hint: We’ll use your email address to find the right way for you to sign in.
       email: Email address
-      continue: Continue
+      sign_in: Sign in
       error_prefix: "Error:"
       errors:
         blank_email: Enter your email address

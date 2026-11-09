@@ -37,10 +37,7 @@ moj.Modules.OffenceCtrl = {
   bindEvents: function () {
     $('.fx-autocomplete-wrapper select').each(function () {
       $.subscribe('/onConfirm/' + this.id + '/', function (e, data) {
-        const param = $.param({
-          description: data.query
-        })
-        $.getScript('/offences?' + param).done(function (result) {
+        $.getJSON('/offences.json', { description: data.query }).done(function (result) {
           moj.Modules.OffenceCtrl.mapToOffenceClassSelect(result)
         })
       })
@@ -72,19 +69,20 @@ moj.Modules.OffenceCtrl = {
   },
 
   mapToOffenceClassSelect: function (result) {
-    const array = JSON.parse(result)
-
-    if (array.length > 0) {
+    if (result.length > 0) {
       $(this.els.offenceClassSelectWrapper).show()
       $(this.els.offenceClassSelect).empty()
       arrayOfOffenceClass = []
-      array.map(function (data) {
+      const offenceClassIds = new Set()
+      result.forEach(function (data) {
+        if (offenceClassIds.has(data.offence_class.id)) return
+        offenceClassIds.add(data.offence_class.id)
         $(moj.Modules.OffenceCtrl.els.offenceClassSelect).append(
           '<option value=' + data.offence_class.id + '>' + data.offence_class.class_letter + ': ' + data.offence_class.description + '</option>'
         )
-        return arrayOfOffenceClass.push(data)
+        arrayOfOffenceClass.push(data)
       })
-      this.setValueToOffenceID(array[0].offence_class.id)
+      this.setValueToOffenceID(result[0].offence_class.id)
     }
   }
 }

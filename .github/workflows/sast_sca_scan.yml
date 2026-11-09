@@ -1,0 +1,18 @@
+name: SNYK SCA
+run-name: SNYK SCA Scan
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+  pull_request:
+    branches: ["main"]
+jobs:
+  sca-scan:
+    name: Scan dependencies with Snyk
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk-sca-scan.yml@a7a2b7cda8092fdcbf1224ddc2b51125645352f1
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    secrets:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

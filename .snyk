@@ -1,11 +1,3 @@
-exclude:
-  code:
-    - app/controllers/case_workers/claims_controller.rb
-    - app/controllers/establishments_controller.rb
-    - app/controllers/external_users/claims_controller.rb
-    - app/controllers/offences_controller.rb
-    - app/controllers/feedback_controller.rb
-    - app/interfaces/api/v2/mi/agfs_scheme_ten_claims.rb
 ignore:
   SNYK-JS-PICOMATCH-21248802:
     - 'sass > @parcel/watcher > picomatch':

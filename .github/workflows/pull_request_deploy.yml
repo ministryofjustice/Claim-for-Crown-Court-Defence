@@ -40,14 +40,30 @@ jobs:
       - name: Build and push image
         run: .github/build.sh
 
+  sast-scan:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    needs: build-and-push
+    name: SAST image scan
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+      actions: read
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@8a897e31a8c74d37a48246285ff0ef5e5087e908 # main as of 03/11/2026
+    with:
+      image_uri: ${{ format('{0}/{1}:app-{2}', vars.ECR_REGISTRY_HOST, vars.ECR_REPOSITORY, github.sha) }}
+      dockerfile_path: docker/Dockerfile
+      iac_path: .k8s/live
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+
   deploy-dev:
     if: github.event.pull_request.head.repo.full_name == github.repository
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: dev
-    concurrency:
-      group: cccd-deploy-dev
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -77,9 +93,6 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: dev-lgfs
-    concurrency:
-      group: cccd-deploy-dev-lgfs
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -109,9 +122,6 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: api-sandbox
-    concurrency:
-      group: cccd-deploy-api-sandbox
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -141,9 +151,6 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     environment: staging
-    concurrency:
-      group: cccd-deploy-staging
-      cancel-in-progress: false
     env:
       REGISTRY: ${{ secrets.ECR_REGISTRY_URL }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}

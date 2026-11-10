@@ -19,7 +19,7 @@ class CaseWorker < ApplicationRecord
   include Roles
   include SoftlyDeletable
 
-  belongs_to :location
+  belongs_to :location, optional: true
   has_one :user, as: :persona, inverse_of: :persona, dependent: :destroy
   has_many :case_worker_claims
   has_many :claims, -> { active },
@@ -29,7 +29,6 @@ class CaseWorker < ApplicationRecord
 
   default_scope { includes(:user) }
 
-  validates :location, presence: true
   validates :user, presence: true
 
   accepts_nested_attributes_for :user

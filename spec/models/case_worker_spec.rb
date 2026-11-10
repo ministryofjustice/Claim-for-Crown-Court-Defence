@@ -17,7 +17,7 @@ require 'support/shared_examples_for_users'
 RSpec.describe CaseWorker do
   it_behaves_like 'roles', described_class, described_class::ROLES
 
-  it { is_expected.to belong_to(:location) }
+  it { is_expected.to belong_to(:location).optional }
   it { is_expected.to have_one(:user) }
   it { is_expected.to have_many(:case_worker_claims) }
   it { is_expected.to have_many(:claims) }
@@ -29,8 +29,14 @@ RSpec.describe CaseWorker do
 
   it { is_expected.to accept_nested_attributes_for(:user) }
 
-  it { is_expected.to validate_presence_of(:location).with_message('Location cannot be blank') }
   it { is_expected.to validate_presence_of(:user).with_message('User cannot be blank') }
+
+  it 'saves without a location' do
+    case_worker = build(:case_worker, location: nil)
+
+    case_worker.save!
+    expect(case_worker.reload.location_id).to be_nil
+  end
 
   describe 'ROLES' do
     it 'has "admin", "case_worker" and "provider_management"' do

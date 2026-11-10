@@ -1,7 +1,4 @@
-NON_TRUNCATED_TABLES ||= %w(
-  vat_rates courts offence_classes offences case_types case_stages fee_types certification_types expense_types disbursement_types
-  offence_bands offence_categories offence_fee_schemes fee_schemes establishments
-)
+NON_TRUNCATED_TABLES = CucumberSeeds::TABLES
 
 Before('not @no-site-prism') do
   @fee_scheme_selector = FeeSchemeSelectorPage.new
@@ -40,34 +37,12 @@ Before('not @no-site-prism') do
 end
 
 Before('not @no-seed') do
-  unless ($seed_done ||= false)
+  unless CucumberSeeds.preseeded? || ($seed_done ||= false)
     # IMPORTANT - Truncate lookup table data to ensure any factory created lookup data is cleared
     truncate_lookup_tables
 
     # IMPORTANT - add any seeded tables to list of NON_TRUNCATED_TABLES
-    ActiveRecord::Base.connection.reset_pk_sequence!('offences')
-    load "#{Rails.root}/db/seeds/courts.rb"
-    load "#{Rails.root}/db/seeds/offence_classes.rb"
-    load "#{Rails.root}/db/seeds/offences.rb"
-    load "#{Rails.root}/db/seeds/scheme_10.rb"
-    load "#{Rails.root}/db/seeds/scheme_11.rb"
-    load "#{Rails.root}/db/seeds/scheme_12.rb"
-    load "#{Rails.root}/db/seeds/case_types.rb"
-    load "#{Rails.root}/db/seeds/case_stages.rb"
-    load "#{Rails.root}/db/seeds/fee_types.rb"
-    load "#{Rails.root}/db/seeds/certification_types.rb"
-    load "#{Rails.root}/db/seeds/disbursement_types.rb"
-    load "#{Rails.root}/db/seeds/expense_types.rb"
-    load "#{Rails.root}/db/seeds/vat_rates.rb"
-    load "#{Rails.root}/db/seeds/establishments.rb"
-    load "#{Rails.root}/db/seeds/lgfs_scheme_10.rb"
-    load "#{Rails.root}/db/seeds/scheme_13.rb"
-    load "#{Rails.root}/db/seeds/scheme_14.rb"
-    load "#{Rails.root}/db/seeds/scheme_15.rb"
-    load "#{Rails.root}/db/seeds/scheme_16.rb"
-    load "#{Rails.root}/db/seeds/agfs_scheme_cleaner.rb"
-    load "#{Rails.root}/db/seeds/lgfs_scheme_11.rb"
-    load "#{Rails.root}/db/seeds/scheme_17.rb"
+    CucumberSeeds.load!
 
     $vat_seed_done = true
     $seed_done = true
@@ -83,7 +58,7 @@ end
 # to avoid long start up time for basic case worker features
 #
 Before('@vat-seeds') do
-  unless ($vat_seed_done ||= false)
+  unless CucumberSeeds.preseeded? || ($vat_seed_done ||= false)
     load "#{Rails.root}/db/seeds/vat_rates.rb"
     $vat_seed_done = true
   end

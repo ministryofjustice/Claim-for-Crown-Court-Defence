@@ -38,12 +38,47 @@ RSpec.describe User do
   end
 
   it { should belong_to(:persona) }
+  it { is_expected.to have_one(:login_route).with_foreign_key(:id).inverse_of(:user) }
   it { should have_many(:messages_sent).class_name('Message').with_foreign_key('sender_id') }
   it { should have_many(:user_message_statuses) }
 
   it { should delegate_method(:claims).to(:persona) }
 
   it_behaves_like 'a disablable object'
+
+  describe 'login route creation' do
+    let(:new_user) { build(:user) }
+
+    it 'creates a legacy route with the same ID as the user', :aggregate_failures do
+      expect { user }.to change(LoginRoute, :count).by(1)
+
+      expect(user.reload.login_route).to have_attributes(id: user.id, login_method: 'legacy', user: user)
+    end
+
+    it 'does not create or reset the route when the user is updated', :aggregate_failures do
+      user.login_route.update!(login_method: 'entra')
+
+      expect { user.update!(first_name: 'Updated') }.not_to change(LoginRoute, :count)
+      expect(user.login_route.reload.login_method).to eq('entra')
+    end
+
+    it 'does not create a route for an invalid user', :aggregate_failures do
+      invalid_user = build(:user, first_name: nil)
+
+      expect { invalid_user.save }.not_to change(LoginRoute, :count)
+      expect(invalid_user).not_to be_persisted
+    end
+
+    it 'rolls back the user when creating the route fails', :aggregate_failures do
+      allow(new_user).to receive(:create_login_route!).and_raise(ActiveRecord::RecordInvalid.new(LoginRoute.new))
+
+      expect do
+        described_class.transaction(requires_new: true) { new_user.save! }
+      end.to raise_error(ActiveRecord::RecordInvalid)
+
+      expect(described_class.exists?(email: new_user.email)).to be(false)
+    end
+  end
 
   describe '#name' do
     it 'returns the first and last names' do

@@ -1,4 +1,4 @@
-FROM ruby:3.4.8-alpine3.23 AS base
+FROM ruby:3.4.12-alpine3.23 AS base
 
 # Stage 1: installs gems and npm packages
 FROM base AS builder
@@ -14,9 +14,16 @@ RUN apk --update-cache upgrade \
                    build-base \
                    curl \
                    git \
+                   nodejs=24.22.1-r1 \
                    postgresql-dev \
                    yaml-dev \
                    yarn
+
+RUN apk add --no-cache --upgrade \
+    ca-certificates \
+    ca-certificates-bundle
+
+RUN test "$(node --version)" = "v24.22.1"
 
 ENV RAILS_ENV=production
 
@@ -66,12 +73,18 @@ RUN apk --update-cache upgrade \
                    file \
                    libreoffice \
                    linux-headers \
-                   nodejs \
+                   nodejs=24.22.1-r1 \
                    openjdk17-jre-headless \
                    postgresql-client \
                    redis \
                    runit \
                    ttf-freefont
+
+RUN apk add --no-cache --upgrade \
+    ca-certificates \
+    ca-certificates-bundle
+
+RUN test "$(node --version)" = "v24.22.1"
 
 RUN addgroup -g 1000 -S appgroup \
 && adduser -u 1000 -S appuser -G appgroup

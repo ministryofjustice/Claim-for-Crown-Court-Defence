@@ -49,6 +49,7 @@ class User < ApplicationRecord
   attr_accessor :email_confirmation
 
   belongs_to :persona, polymorphic: true
+  has_one :login_route, foreign_key: :id, inverse_of: :user, dependent: :destroy
   has_many :messages_sent, foreign_key: 'sender_id', class_name: 'Message'
   has_many :user_message_statuses
 
@@ -59,6 +60,8 @@ class User < ApplicationRecord
             allow_nil: false,
             on: :create,
             if: proc { terms_and_conditions_required? }
+
+  after_create :create_login_route!
 
   # enable current_user to directly call persona methods (in controllers)
   delegate :claims, to: :persona

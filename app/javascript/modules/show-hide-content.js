@@ -1,7 +1,7 @@
 (function (global) {
   'use strict'
 
-  const $ = global.jQuery
+  const $ = global.jQuery || require('jquery')
   const GOVUK = global.GOVUK || {}
 
   function ShowHideContent () {
@@ -112,16 +112,22 @@
 
       // Prepare ARIA attributes
       const $controls = $(elementSelector)
-      $controls.each(initToggledContent)
+      const controls = $controls.toArray()
+      for (const control of controls) {
+        initToggledContent.call(control)
+      }
 
       // Handle events
-      $.each(eventSelectors, function (idx, eventSelector) {
+      eventSelectors.forEach(function (eventSelector) {
         $container.on('click.' + selectors.namespace, eventSelector, deferred)
       })
 
       // Any already :checked on init?
       if ($controls.is(':checked')) {
-        $controls.filter(':checked').each(deferred)
+        const checkedControls = $controls.filter(':checked').toArray()
+        for (const checkedControl of checkedControls) {
+          deferred.call(checkedControl)
+        }
       }
     }
 
@@ -130,15 +136,17 @@
       const radioGroups = []
 
       // Build an array of radio group selectors
-      return $(selectors.radio).map(function () {
-        const groupName = $(this).attr('name')
+      const radios = document.querySelectorAll(selectors.radio)
+      const eventSelectors = []
+      for (const radio of radios) {
+        const groupName = radio.getAttribute('name')
 
-        if ($.inArray(groupName, radioGroups) === -1) {
+        if (!radioGroups.includes(groupName)) {
           radioGroups.push(groupName)
-          return 'input[type="radio"][name="' + $(this).attr('name') + '"]'
+          eventSelectors.push('input[type="radio"][name="' + groupName + '"]')
         }
-        return null
-      })
+      }
+      return eventSelectors
     }
 
     // Set up radio show/hide content for container

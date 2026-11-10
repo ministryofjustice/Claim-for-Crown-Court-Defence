@@ -228,8 +228,6 @@ en:
               blank: Case stage description must exist
         case_worker:
           attributes:
-            location:
-              blank: Location cannot be blank
             roles:
               blank: cannot be blank
             user:
@@ -2704,7 +2702,6 @@ en:
           email: *email
           email_confirmation: *email_confirmation
           case_worker_details: Case worker details
-          location: Location
           roles: Roles
           save: Save
         change_password:

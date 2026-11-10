@@ -20,14 +20,19 @@ RSpec.describe 'Caseworker admin' do
               first_name: 'John',
               last_name: 'Smith'
             },
-            roles: ['case_worker'],
-            location_id: create(:location).id
+            roles: ['case_worker']
           }
         }
       end
 
       it 'creates a case_worker' do
         expect { create_case_workers_request }.to change(User, :count).by(1)
+      end
+
+      it 'creates a case worker without a location' do
+        create_case_workers_request
+
+        expect(User.find_by!(email: 'foo@foobar.com').persona.location_id).to be_nil
       end
 
       it 'redirects to case workers index' do

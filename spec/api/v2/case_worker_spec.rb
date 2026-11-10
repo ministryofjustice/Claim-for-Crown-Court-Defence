@@ -57,6 +57,15 @@ describe API::V2::CaseWorker do
       expect(cw.keys.sort).to eq(%i[email first_name id last_name uuid])
     end
 
+    it 'includes case workers without a location' do
+      expect(case_workers.map(&:location_id)).to all(be_nil)
+
+      do_request
+
+      body = JSON.parse(last_response.body, symbolize_names: true)
+      expect(body.pluck(:id)).to match_array(case_workers.map(&:id))
+    end
+
     context 'sorting' do
       let(:case_workers_ids) do
         response = do_request

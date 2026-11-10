@@ -24,8 +24,6 @@ FactoryBot.define do
       end
     end
 
-    location
-
     roles { ['case_worker'] }
 
     trait :case_worker do

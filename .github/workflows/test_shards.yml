@@ -12,11 +12,49 @@ jobs:
       contents: read
       actions: read
     runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+      TZ: Europe/London
+      AWS_REGION: eu-west-2
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_EC2_METADATA_DISABLED: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@de492cf36cbab201753d720ce4f4e336cd688c94
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 24
+          cache: yarn
+
+      - name: Install JavaScript dependencies
+        run: yarn install --ignore-scripts --frozen-lockfile
+
+      - name: Precompile test assets
+        run: bundle exec rails assets:precompile
+
+      - name: Archive test assets
+        run: |
+          mkdir -p tmp
+          tar -cf tmp/test-assets.tar app/assets/builds public/assets
+
+      - name: Upload test assets
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: test-assets
+          path: tmp/test-assets.tar
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Download historical timings
         id: download-timings
@@ -40,19 +78,13 @@ jobs:
           fi
           echo "directory=$TIMINGS_DIRECTORY" >> "$GITHUB_OUTPUT"
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
       - name: Prepare shards
         env:
           TIMINGS_DIRECTORY: ${{ steps.download-timings.outputs.directory }}
-        run: bundle exec ruby script/test_shards.rb "$TIMINGS_DIRECTORY" tmp/test-shards 6
+        run: bundle exec ruby script/test_shards.rb "$TIMINGS_DIRECTORY" tmp/test-shards 8
 
       - name: Upload shard plan
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: test-shards
           path: tmp/test-shards

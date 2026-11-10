@@ -31,7 +31,7 @@ jobs:
     steps:
     - name: Slack notify failure
       if: ${{ needs.sast-scan.result == 'failure' }}
-      uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58
+      uses: rtCamp/action-slack-notify@06cc13f74fa8d4d2296c09455d91e9453e4025f4
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_COLOR: failure
@@ -42,7 +42,7 @@ jobs:
 
     - name: Slack notify success
       if: ${{ needs.sast-scan.result == 'success' }}
-      uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58
+      uses: rtCamp/action-slack-notify@06cc13f74fa8d4d2296c09455d91e9453e4025f4
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_COLOR: success

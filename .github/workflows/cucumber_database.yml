@@ -68,7 +68,7 @@ jobs:
           name: cucumber-database
           path: tmp/cucumber-database.dump
           if-no-files-found: error
-          retention-days: 1
+          retention-days: 7
 
       - name: Stop Cucumber database
         if: always()

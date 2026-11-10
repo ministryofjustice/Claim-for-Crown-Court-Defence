@@ -54,7 +54,7 @@ jobs:
           name: test-assets
           path: tmp/test-assets.tar
           if-no-files-found: error
-          retention-days: 1
+          retention-days: 7
 
       - name: Download historical timings
         id: download-timings

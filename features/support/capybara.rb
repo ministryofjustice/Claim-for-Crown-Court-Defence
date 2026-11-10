@@ -16,9 +16,13 @@ Capybara.register_server :puma do |app, port, host|
   Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "0:5")
 end
 
+# axe.run is an async script and can exceed Selenium's default 30s script timeout
+SCRIPT_TIMEOUT_MS = 60_000
+
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new(
-    args: %w[headless disable-gpu window-size=1366,768 no-sandbox disable-dev-shm-usage disable-extensions disable-background-networking]
+    args: %w[headless disable-gpu window-size=1366,768 no-sandbox disable-dev-shm-usage disable-extensions disable-background-networking],
+    timeouts: { script: SCRIPT_TIMEOUT_MS }
   )
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
@@ -32,7 +36,8 @@ end
 
 if ENV['BROWSER'] == 'chrome'
   Capybara.register_driver :chrome do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome)
+    options = Selenium::WebDriver::Chrome::Options.new(timeouts: { script: SCRIPT_TIMEOUT_MS })
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
   end
 
   Capybara.configure do |config|

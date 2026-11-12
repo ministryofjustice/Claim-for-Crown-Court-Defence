@@ -289,6 +289,24 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
   it { is_expected.to respond_to(:call) }
 
+  context 'with scheme 18 hearing fees on cracked-before-retrial cases' do
+    let(:case_type) { create(:case_type, fee_type_code: 'GRCBR') }
+    let(:claim) { build(:draft_claim, case_type: case_type) }
+
+    %w[MISHA MIMSH MIMSA MIBAM].each do |code|
+      context "with #{code}" do
+        let(:fee_type) { create(:misc_fee_type, unique_code: code) }
+        let(:service) { described_class.new(claim, fee_type_id: fee_type.id, fees: {}) }
+
+        before { allow(service).to receive(:unit_price).and_return(166.0) }
+
+        it 'applies the same retrial data restrictions as existing misc fees' do
+          expect(service.call).not_to be_success
+        end
+      end
+    end
+  end
+
   context 'AGFS claims' do
     describe '#call' do
       subject(:response) { described_class.new(claim, params).call }

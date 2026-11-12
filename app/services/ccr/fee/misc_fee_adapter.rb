@@ -43,7 +43,11 @@ module CCR
         MIUMU: zip(%w[AGFS_MISC_FEES AGFS_UNUSED_UP3]), # Unused material (up to 3 hours) - AGFS 12+ only
         MIUMO: zip(%w[AGFS_MISC_FEES AGFS_UNUSED_OV3]), # Unused material (over 3 hours) - AGFS 12+ only
         MISTE: zip(%w[AGFS_MISC_FEES AGFS_SECTION_28]), # Section 28 hearing - AGFS 14+ only
-        MIAPF: zip(%w[AGFS_MISC_FEES AGFS_PREP_FEE]) # Additional preparation fee - AGFS 15+ only
+        MIAPF: zip(%w[AGFS_MISC_FEES AGFS_PREP_FEE]), # Additional preparation fee - AGFS 15+ only
+        MISHA: zip(%w[AGFS_MISC_FEES AGFS_SENT_ADD]),
+        MIMSH: zip(%w[AGFS_MISC_FEES AGFS_MITIG]),
+        MIMSA: zip(%w[AGFS_MISC_FEES AGFS_MIT_ADD]),
+        MIBAM: zip(%w[AGFS_MISC_FEES AGFS_BAIL_APP])
       }.freeze
 
       MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO MIAPF].freeze

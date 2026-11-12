@@ -99,6 +99,20 @@ RSpec.describe FeeSchemeFactory::AGFS do
 
     include_examples 'a fee scheme factory'
 
+    context 'when selecting at the scheme 18 boundary' do
+      before { travel_to(Date.new(2026, 11, 2)) }
+
+      [nil, Date.new(2026, 12, 1), Date.new(2027, 1, 2)].each do |hearing_date|
+        [[Date.new(2026, 10, 31), 17], [Date.new(2026, 11, 1), 18]].each do |rep_order_date, version|
+          context "with rep order #{rep_order_date} and hearing #{hearing_date.inspect}" do
+            let(:options) { { representation_order_date: rep_order_date, main_hearing_date: hearing_date } }
+
+            it { is_expected.to eq FeeScheme.agfs.version(version).first! }
+          end
+        end
+      end
+    end
+
     context 'without a main hearing date' do
       let(:options) { { representation_order_date: } }
 

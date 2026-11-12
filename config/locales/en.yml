@@ -1220,7 +1220,7 @@ en:
             defendant_reporder: Defendant %{index} representation order %{index}
       main_claims_list:
         amount_assessed_sort_label: 'Sort by: Amount assessed'
-        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        last_submitted_at_sort_label: 'Sort by: Date submitted'
         total_inc_vat_sort_label: 'Sort by: Claimed amount'
         advocate_sort_label: 'Sort by: Provider name'
         case_number_sort_label: 'Sort by: Case number'
@@ -1547,8 +1547,8 @@ en:
         total_authorised: 'Total authorised:'
         view_details_outstanding_html: 'View details <span class="govuk-visually-hidden">for total outstanding</span>'
         view_details_authorised_html: 'View details <span class="govuk-visually-hidden">for total authorised</span>'
-        outstanding_claim_details_label: View outstanding claims details
-        authorised_claim_details_label: View authorised claims details
+        outstanding_claim_details_label: View details for total outstanding
+        authorised_claim_details_label: View details for total authorised
       graduated_fees:
         fields:
           page_header: Graduated fees
@@ -2867,7 +2867,7 @@ en:
         case_type: Case type
         case_type_sort_label: 'Sort by: Case type'
         defendants: Defendants
-        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        last_submitted_at_sort_label: 'Sort by: Date submitted'
         messages: Messages
         none: None
         number_of_claims: 'Number of claims: %{claim_count}'

@@ -4,6 +4,7 @@
       = sn.with_navigation_item(text: t('.sidekiq_console'), href: sidekiq_web_path)
       = sn.with_navigation_item(text: t('.manage_providers'), href: provider_management_providers_path)
       = sn.with_navigation_item(text: t('.users'), href: users_path)
+      = sn.with_navigation_item(text: t('.dual_login_testing'), href: super_admins_dual_login_testing_index_path)
       = sn.with_navigation_item(text: t('.offences'), href: super_admins_offences_path)
       = sn.with_navigation_item(text: t('.stats'), href: super_admins_stats_path)
     - elsif current_user.persona.is_a?(ExternalUser)

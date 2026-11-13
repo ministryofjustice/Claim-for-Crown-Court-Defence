@@ -5,9 +5,16 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with(model: resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f|
-      = f.govuk_text_field :email, label: { text: t('.email') }, autofocus: true
-      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off'
+    = form_with(model: resource, as: resource_name, url: identified_password_step? ? session_path(resource_name) : sign_in_path, html: { autocomplete: 'off' }) do |f|
+      = f.govuk_text_field :email, label: { text: t('.email') }, value: resource.email, readonly: identified_password_step?, autofocus: resource.email.blank?
+      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off', autofocus: params[:email].present?
       = f.govuk_submit t('.sign_in')
 
+    - if identified_password_step?
+      %p.govuk-body= govuk_link_to t('.change_email'), dual_login_path
+
     = render "devise/shared/links"
+
+    - if !identified_password_step? && !DualLogin.public_rollout?
+      %p.govuk-body{ class: 'govuk-!-margin-top-6' }
+        = govuk_link_to t('session_routing.pilot_link'), dual_login_path

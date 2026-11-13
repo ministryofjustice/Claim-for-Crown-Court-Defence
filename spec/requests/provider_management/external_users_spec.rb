@@ -383,7 +383,7 @@ RSpec.describe 'providers external users management' do
       end
 
       it { expect(external_user).to be_enabled }
-      it { expect(response).to redirect_to new_user_session_path }
+      it { expect(response).to redirect_to sign_in_path }
       it { expect(flash[:alert]).to eq('Unauthorised') }
     end
 
@@ -468,7 +468,7 @@ RSpec.describe 'providers external users management' do
       end
 
       it { expect(external_user.reload).to be_disabled }
-      it { expect(response).to redirect_to new_user_session_path }
+      it { expect(response).to redirect_to sign_in_path }
       it { expect(flash[:alert]).to eq('Unauthorised') }
     end
 

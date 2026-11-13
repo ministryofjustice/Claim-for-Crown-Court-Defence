@@ -313,7 +313,7 @@ GEM
       json (>= 2.0)
       ostruct (>= 0.6, < 1.0)
       railties (>= 8.1.4, < 8.2)
-    haml (7.5.1)
+    haml (7.5.2)
       prism (>= 1.1.0)
       temple (>= 0.8.2)
       thor
@@ -956,7 +956,7 @@ CHECKSUMS
   grape-papertrail (0.2.0) sha256=aab407886882774a53d1468551fd073862418f930b4bf353b07dfdb105f54cff
   grape-swagger (2.2.0) sha256=e2b4a8a5d9848f4f43cc6c6f4862a4671a9767880795cff05e8dee963b3a331b
   grape-swagger-rails (2.0.1) sha256=11a11d0af3cc667ec7f7215e32083a737e1323b52fa4f2a65125fe124b2fc755
-  haml (7.5.1) sha256=91c5843dd85d32042cc6218d2df8c81282403459958aa53caa58fda238adc287
+  haml (7.5.2) sha256=fcef494c3c5f173f5b38338b1ade7e65b1de37194919b901f047cac76f370d42
   haml-rails (3.1.0) sha256=4366474d973e4b9d5326cb216f2073150cfeff4c2a3c07fadb49a490ffdf610b
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashie (5.2.0) sha256=357a22635195c2e3911fbbc3de9a7d528843d1f42ab0aae02171048f16332d72

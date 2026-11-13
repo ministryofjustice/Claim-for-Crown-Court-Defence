@@ -21,10 +21,20 @@ GitHub Actions workflows are defined in `.github/workflows`.
 
 The workflows use the shared build script at `.github/build.sh` and the deployment scripts under `.k8s/live/scripts`.
 
-CI reads the Node.js version from `.nvmrc`. When updating Node.js, also update the
-Alpine `nodejs` package pins and version assertions in both stages of
-`docker/Dockerfile`. Check that the package is available for the base image's Alpine
-release; the assertions fail the build if either stage runs a different Node.js version.
+Local development and CI use the Node.js version in `.nvmrc`. Both stages of
+`docker/Dockerfile` install the unpinned Alpine `nodejs` package and require Node 24
+at version 24.22.1 or later, the minimum for the October 2026 certificate security fix.
+The container version may differ from `.nvmrc`; newer Node 24 packages and Alpine
+package revisions do not require Dockerfile changes. Older versions and other Node
+majors fail the build.
+
+Review security advisories for Ruby, Alpine and Node.js when maintaining the Ruby
+base image. Raise the minimum Node version in both Docker stages when further security
+fixes require it; review compatibility and security requirements before accepting a new
+major. Validate changes with the CI tests, Docker asset build and a vulnerability scan
+of the final application image. Base-image scan results alone do not cover the packages
+and gems added during the build, and a minimum-version check is not a guarantee against
+all vulnerabilities.
 
 ### Kubernetes
 

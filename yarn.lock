@@ -1617,11 +1617,6 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash.truncate@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
-  integrity sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==
-
 lru-cache@^11.0.0:
   version "11.5.3"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-11.5.3.tgz#a7767b4034e35269562d2b9da2b185b5df70c421"
@@ -2276,12 +2271,11 @@ svg-tags@^1.0.0:
   integrity sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==
 
 table@^6.9.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/table/-/table-6.9.0.tgz#50040afa6264141c7566b3b81d4d82c47a8668f5"
-  integrity sha512-9kY+CygyYM6j02t5YFHbNz2FN5QmYGv9zAjVp4lCDjlCw7amdckXlEt/bjMhUIfj4ThGRE4gCUH5+yGnNuPo5A==
+  version "6.10.1"
+  resolved "https://registry.yarnpkg.com/table/-/table-6.10.1.tgz#cae3bd5d21e33393b579ce696105aa145d76bf6c"
+  integrity sha512-f05boz6UD5S70AJiUxqKOnDuE45mBIVagX490oQmcW38+Lq/H1s7CjIpFgJjR/kpV87L4lw/AN+14D2PktQJsQ==
   dependencies:
     ajv "^8.0.1"
-    lodash.truncate "^4.4.2"
     slice-ansi "^4.0.0"
     string-width "^4.2.3"
     strip-ansi "^6.0.1"

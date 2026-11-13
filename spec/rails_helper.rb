@@ -87,6 +87,7 @@ RSpec.configure do |config|
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [Rails.root.join('spec', 'fixtures')]
+  config.file_fixture_path = Rails.root.join('spec', 'fixtures').to_s
 
   # allow it_behaves_like to be called as it_returns
   config.alias_it_behaves_like_to :it_returns, 'returns'

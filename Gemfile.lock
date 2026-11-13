@@ -429,7 +429,7 @@ GEM
       net-ssh (>= 2.6.5, < 9.0.0)
     net-smtp (0.5.2)
       net-protocol
-    net-ssh (8.0.4)
+    net-ssh (8.1.0)
       logger
       openssl (>= 3.2.0)
     nio4r (2.7.5)
@@ -805,7 +805,7 @@ DEPENDENCIES
   logstuff (= 0.0.2)
   meta_request
   net-scp (~> 4.2)
-  net-ssh (~> 8.0)
+  net-ssh (~> 8.1)
   nokogiri (~> 1.19)
   pagy
   paper_trail (~> 17.0.0)
@@ -1006,7 +1006,7 @@ CHECKSUMS
   net-protocol (0.4.0) sha256=f9f90c8c6f64794a45160bf422177a336db12809de3beeeaa26b88fcd2e8c853
   net-scp (4.2.1) sha256=5c9ff6743da37eef6746f248043d97d2bbf3910a4694ec8e372326ec588c2394
   net-smtp (0.5.2) sha256=35103cc04d6b2d94632f9928ede07483c24b70b9c0db1f231fea43909b678f3c
-  net-ssh (8.0.4) sha256=969e1675fe82894178dd04b69236e5dc404e464f57ba006e87679dc448f9bf1b
+  net-ssh (8.1.0) sha256=c9b488c2fbb13a1770e833443b1ee447ca9a33d5cb57af2e6ab692d6fc25d3c1
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
   nokogiri (1.19.7-arm64-darwin) sha256=f27d7f25f4873fbc3aa35a2cc2fb680c98555fec1925348da439d0869d541142
   nokogiri (1.19.7-x86_64-darwin) sha256=508e81e8c5f84aaa240dce981bf1c43faae60808726f0ce7024ee92effc5cafe

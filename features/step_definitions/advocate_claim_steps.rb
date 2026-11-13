@@ -19,11 +19,15 @@ end
 
 When(/^I choose '(.*)' as the trial advocate$/) do |text|
   @claim_form_page.find('label', text: text).click
+  wait_for_ajax
 end
 
 When(/^I select the advocate offence class '(.*)'$/) do |offence_class|
-  sleep 1
-  @claim_form_page.select_offence_class(offence_class)
+  wait_for_ajax
+  patiently do
+    @claim_form_page.select_offence_class(offence_class)
+  end
+  wait_for_ajax
 end
 
 When(/I enter (.*?)(retrial|trial) start and end dates(?: with (\d+) day interval)?$/i) do |scheme_text, trial_type, interval|
@@ -45,10 +49,12 @@ When(/I enter (.*?)(retrial|trial) start and end dates(?: with (\d+) day interva
       @claim_form_page.retrial_details.retrial_actual_length.set 8
     end
   end
+  wait_for_ajax
 end
 
 When(/I enter (.*?) main hearing date$/i) do |scheme_text|
   @claim_form_page.main_hearing_date.set_date Date.parse(main_hearing_date_for(scheme_text)).strftime
+  wait_for_ajax
 end
 
 When(/I enter (.*?)(retrial|trial) long start and end dates(?: with (\d+) day interval)?$/i) do |scheme_text, trial_type, interval|
@@ -70,6 +76,7 @@ When(/I enter (.*?)(retrial|trial) long start and end dates(?: with (\d+) day in
       @claim_form_page.retrial_details.retrial_actual_length.set 52
     end
   end
+  wait_for_ajax
 end
 
 When(/I choose (not )?to apply retrial reduction$/) do |negate|
@@ -78,9 +85,11 @@ When(/I choose (not )?to apply retrial reduction$/) do |negate|
   else
     @claim_form_page.retrial_details.retrial_reduction_yes.click
   end
+  wait_for_ajax
 end
 
 Then(/^the basic fee net amount should be populated with '(\d+\.\d+)'$/) do |total|
+  wait_for_ajax
   patiently do
     expect(@claim_form_page.basic_fees.basic_fee).to have_total
     expect(@claim_form_page.basic_fees.basic_fee.total.value).to eql total
@@ -99,6 +108,7 @@ When("I enter {string} prosecution witnesses") do |quantity|
 end
 
 Then("the prosecution witnesses net amount should be populated with {string}") do |amount|
+  wait_for_ajax
   patiently do
     expect(@claim_form_page.basic_fees.prosecution_witnesses.total.value).to eql amount
   end
@@ -111,6 +121,7 @@ When("I enter {string} pages of prosecution evidence") do |quantity|
 end
 
 Then("the pages of prosecution evidence net amount should be populated with {string}") do |amount|
+  wait_for_ajax
   patiently do
     expect(@claim_form_page.basic_fees.pages_of_prosecution_evidence.total.value).to eql amount
   end
@@ -186,7 +197,9 @@ Then("I add a govuk calculated miscellaneous fee {string} without a quantity") d
 end
 
 Then(/^I check the section heading to be "([^"]*)"$/) do |num|
-  expect(@claim_form_page.miscellaneous_fees.last.numbered.text).to have_content(num)
+  patiently do
+    expect(@claim_form_page.miscellaneous_fees.last.numbered.text).to have_content(num)
+  end
 end
 
 Then(/^I select the '(.*?)' fixed fee( with case numbers)?$/) do |name, add_case_numbers|
@@ -239,28 +252,37 @@ Given(/^6\+ advocates exist for my provider$/) do
 end
 
 Then(/^I should see trial fields$/) do
-  expect(@claim_form_page).to have_trial_details
-  expect(@claim_form_page.trial_details).to be_visible
-  expect(@claim_form_page.trial_details).to be_all_there
+  patiently do
+    expect(@claim_form_page).to have_trial_details
+    expect(@claim_form_page.trial_details).to be_visible
+    expect(@claim_form_page.trial_details).to be_all_there
+  end
 end
 
 Then(/^I should see retrial fields$/) do
-  expect(@claim_form_page).to have_retrial_details
-  expect(@claim_form_page.retrial_details).to be_visible
-  expect(@claim_form_page.retrial_details).to be_all_there
+  patiently do
+    expect(@claim_form_page).to have_retrial_details
+    expect(@claim_form_page.retrial_details).to be_visible
+    expect(@claim_form_page.retrial_details).to be_all_there
+  end
 end
 
 Then("I should see cracked trial fields") do
-  expect(@claim_form_page).to have_cracked_trial_details
-  expect(@claim_form_page.cracked_trial_details).to be_visible
-  expect(@claim_form_page.cracked_trial_details).to be_all_there
+  patiently do
+    expect(@claim_form_page).to have_cracked_trial_details
+    expect(@claim_form_page.cracked_trial_details).to be_visible
+    expect(@claim_form_page.cracked_trial_details).to be_all_there
+  end
 end
 
 Then(/^the last fixed fee case numbers section should (not )?be visible$/) do |negate|
-  if negate
-    expect(@claim_form_page.fixed_fees.last).to_not have_case_numbers_section
-  else
-    expect(@claim_form_page.fixed_fees.last).to have_case_numbers_section
+  wait_for_ajax
+  patiently do
+    if negate
+      expect(@claim_form_page.fixed_fees.last).to_not have_case_numbers_section
+    else
+      expect(@claim_form_page.fixed_fees.last).to have_case_numbers_section
+    end
   end
 end
 
@@ -275,72 +297,101 @@ Given(/^I uncheck the fixed fee "([^"]*)"$/) do |label|
 end
 
 Then(/^the fixed fee '(.*)' entry should be unchecked$/) do |label|
-  checkbox = @claim_form_page.fixed_fees.checklist_item_for(label).checkbox
-  expect(checkbox).to_not be_checked
+  wait_for_ajax
+  patiently do
+    checkbox = @claim_form_page.fixed_fees.checklist_item_for(label).checkbox
+    expect(checkbox).to_not be_checked
+  end
 end
 
 Then(/^the fixed fee checkboxes should consist of \s*'([^']*)'$/) do |fee_type_descriptions|
   fee_type_descriptions = CSV.parse(fee_type_descriptions).flatten
-  expect(@claim_form_page.fixed_fees.checklist_labels).to match_array(fee_type_descriptions)
+  wait_for_ajax
+  patiently do
+    expect(@claim_form_page.fixed_fees.checklist_labels).to match_array(fee_type_descriptions)
+  end
 end
 
 Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, description, rate, hint|
-  fee_block = @claim_form_page.fee_block_for("#{fee_type}_fees", description)
-  expect(fee_block.rate.value).to eql rate
-  expect(fee_block.quantity_hint).to have_text(hint) if hint.present?
-  expect(fee_block.calc_help_text).to be_visible
+  wait_for_ajax
+  patiently do
+    fee_block = @claim_form_page.fee_block_for("#{fee_type}_fees", description)
+    expect(fee_block.rate.value).to eql rate
+    expect(fee_block.quantity_hint).to have_text(hint) if hint.present?
+    expect(fee_block.calc_help_text).to be_visible
+  end
 end
 
 # Alternative data table step for the above
 Then(/^the following fee details should exist:$/) do |table|
+  wait_for_ajax
   table.hashes.each do |row|
-    fee_block = @claim_form_page.fee_block_for("#{row['section']}_fees", row['fee_description'])
+    patiently do
+      fee_block = @claim_form_page.fee_block_for("#{row['section']}_fees", row['fee_description'])
 
-    expect(fee_block.rate.value).to eql row['rate']
-    expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
-    expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
-    expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')
+      expect(fee_block.rate.value).to eql row['rate']
+      expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
+      expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
+      expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')
+    end
   end
 end
 
 Then(/^the following govuk fee details should exist:$/) do |table|
+  wait_for_ajax
   table.hashes.each do |row|
-    fee_block = @claim_form_page.govuk_fee_block_for("#{row['section']}_fees", row['fee_description'])
+    patiently do
+      fee_block = @claim_form_page.govuk_fee_block_for("#{row['section']}_fees", row['fee_description'])
 
-    expect(fee_block.rate.value).to eql row['rate']
-    expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
-    expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
-    expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')
+      expect(fee_block.rate.value).to eql row['rate']
+      expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
+      expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
+      expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')
+    end
   end
 end
 
 Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee, rate, hint|
-  fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
   wait_for_ajax
-  expect(fee_block.rate.value).to eql rate
-  expect(fee_block.quantity_hint.text).to eql hint if hint.present?
+  patiently do
+    fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
+    expect(fee_block.rate.value).to eql rate
+    expect(fee_block.quantity_hint.text).to eql hint if hint.present?
+  end
 end
 
 Then(/^the last '(.*?)' fee rate should be populated with '(\d+\.\d+)'$/) do |fee_type, rate|
-  expect(@claim_form_page.send("#{fee_type}_fees").last).to have_rate
-  expect(@claim_form_page.send("#{fee_type}_fees").last.rate.value).to eql rate
+  wait_for_ajax
+  patiently do
+    fee_block = @claim_form_page.public_send("#{fee_type}_fees").last
+    expect(fee_block).to have_rate
+    expect(fee_block.rate.value).to eql rate
+  end
 end
 
 Then(/^the last fixed fee rate should be in the calculator error state/) do
-  expect(@claim_form_page.fixed_fees.last).to have_rate
-  expect(@claim_form_page.fixed_fees.last.rate.value).to be_empty
-  expect(@claim_form_page.fixed_fees.last.text).to match /The calculated rate is unavailable, enter manually/
+  wait_for_ajax
+  patiently do
+    fee_block = @claim_form_page.fixed_fees.last
+    expect(fee_block).to have_rate
+    expect(fee_block.rate.value).to be_empty
+    expect(fee_block.text).to match /The calculated rate is unavailable, enter manually/
+  end
 end
 
 Then(/^the '(.*?)' fixed fee rate should be in the calculator error state/) do |name|
-  fee_block = @claim_form_page.fixed_fees.fee_block_for(name)
-  expect(fee_block).to have_rate
-  expect(fee_block.rate.value).to be_empty
-  expect(fee_block.text).to match /The calculated rate is unavailable, enter manually/
+  wait_for_ajax
+  patiently do
+    fee_block = @claim_form_page.fixed_fees.fee_block_for(name)
+    expect(fee_block).to have_rate
+    expect(fee_block.rate.value).to be_empty
+    expect(fee_block.text).to match /The calculated rate is unavailable, enter manually/
+  end
 end
 
 Then("I click last remove link") do
   @claim_form_page.find_all('.remove_fields').last.click
+  wait_for_ajax
 end
 
 Then("I amend the fixed fee {string} to have a quantity of {string}") do |fee_type, quantity|
@@ -369,18 +420,27 @@ end
 
 Then(/^I should see the advocate categories\s*'([^']*)'$/) do |categories|
   categories = categories.split(',')
-  expect(@claim_form_page.advocate_category_radios).to be_visible
-  expect(@claim_form_page.advocate_category_radios.radio_labels).to match_array(categories)
+  wait_for_ajax
+  patiently do
+    expect(@claim_form_page.advocate_category_radios).to be_visible
+    expect(@claim_form_page.advocate_category_radios.radio_labels).to match_array(categories)
+  end
 end
 
 Then('I should see the scheme {int} applicable basic fees') do |scheme_no|
   additional_fees = scheme_no.eql?(9) ? scheme_9_additional_fees : scheme_10_additional_fees
-  expect(@claim_form_page.basic_fees.checklist_labels).to match_array(additional_fees)
+  wait_for_ajax
+  patiently do
+    expect(@claim_form_page.basic_fees.checklist_labels).to match_array(additional_fees)
+  end
 end
 
 Then('I should see the scheme {int} applicable basic fees based on the govuk checkbox group') do |scheme_no|
   additional_fees = scheme_no.eql?(9) ? scheme_9_additional_fees : scheme_10_additional_fees
-  expect(@claim_form_page.basic_fees.basic_fees_checkboxes.checklist_labels).to match_array(additional_fees)
+  wait_for_ajax
+  patiently do
+    expect(@claim_form_page.basic_fees.basic_fees_checkboxes.checklist_labels).to match_array(additional_fees)
+  end
 end
 
 Then(/^the basic fee should have its price_calculated value set to true$/) do

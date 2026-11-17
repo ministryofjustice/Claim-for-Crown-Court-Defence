@@ -14,7 +14,7 @@ RUN apk --update-cache upgrade \
                    build-base \
                    curl \
                    git \
-                   nodejs=24.22.1-r1 \
+                   nodejs \
                    postgresql-dev \
                    yaml-dev \
                    yarn
@@ -23,7 +23,9 @@ RUN apk add --no-cache --upgrade \
     ca-certificates \
     ca-certificates-bundle
 
-RUN test "$(node --version)" = "v24.22.1"
+RUN node -e 'const [major, minor, patch] = process.versions.node.split(".").map(Number); \
+    require("node:assert/strict")(major === 24 && (minor > 22 || (minor === 22 && patch >= 1)), \
+    "Expected Node.js >=24.22.1 and <25; found " + process.versions.node)'
 
 ENV RAILS_ENV=production
 
@@ -73,7 +75,7 @@ RUN apk --update-cache upgrade \
                    file \
                    libreoffice \
                    linux-headers \
-                   nodejs=24.22.1-r1 \
+                   nodejs \
                    openjdk17-jre-headless \
                    postgresql-client \
                    redis \
@@ -84,7 +86,9 @@ RUN apk add --no-cache --upgrade \
     ca-certificates \
     ca-certificates-bundle
 
-RUN test "$(node --version)" = "v24.22.1"
+RUN node -e 'const [major, minor, patch] = process.versions.node.split(".").map(Number); \
+    require("node:assert/strict")(major === 24 && (minor > 22 || (minor === 22 && patch >= 1)), \
+    "Expected Node.js >=24.22.1 and <25; found " + process.versions.node)'
 
 RUN addgroup -g 1000 -S appgroup \
 && adduser -u 1000 -S appuser -G appgroup

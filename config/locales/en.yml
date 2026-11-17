@@ -1220,9 +1220,9 @@ en:
             defendant_reporder: Defendant %{index} representation order %{index}
       main_claims_list:
         amount_assessed_sort_label: 'Sort by: Amount assessed'
-        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        last_submitted_at_sort_label: 'Sort by: Date submitted'
         total_inc_vat_sort_label: 'Sort by: Claimed amount'
-        advocate_sort_label: 'Sort by: Provider name'
+        advocate_sort_label: 'Sort by: Advocate / Litigator'
         case_number_sort_label: 'Sort by: Case number'
         state_sort_label: 'Sort by: Claim status'
         case_number_label: "View %{claim_state} Claim, Case number: %{case_number}"
@@ -1246,7 +1246,7 @@ en:
         none: 'No messages'
         advocate_litigator: *advocate_litigator
         type: "Type"
-        view_messages_label: "View messages for case number %{case_number}"
+        view_messages_label: "%{text} messages for case number %{case_number}"
         view_with_messages: "View (%{message_count} new)"
       confirmation:
         page_title: Thank you for submitting your claim
@@ -1547,8 +1547,8 @@ en:
         total_authorised: 'Total authorised:'
         view_details_outstanding_html: 'View details <span class="govuk-visually-hidden">for total outstanding</span>'
         view_details_authorised_html: 'View details <span class="govuk-visually-hidden">for total authorised</span>'
-        outstanding_claim_details_label: View outstanding claims details
-        authorised_claim_details_label: View authorised claims details
+        outstanding_claim_details_label: View details for total outstanding
+        authorised_claim_details_label: View details for total authorised
       graduated_fees:
         fields:
           page_header: Graduated fees
@@ -2860,18 +2860,18 @@ en:
       claims_list:
         advocate: Advocate
         advocate_litigator: *advocate_litigator
-        advocate_sort_label: 'Sort by: Provider name'
+        advocate_sort_label: 'Sort by: Advocate / Litigator'
         case_number: Case number
         case_number_html: <span class="govuk-visually-hidden">View Case number</span> %{context}
         case_number_sort_label: 'Sort by: Case number'
         case_type: Case type
         case_type_sort_label: 'Sort by: Case type'
         defendants: Defendants
-        last_submitted_at_sort_label: 'Sort by: Last submitted at date'
+        last_submitted_at_sort_label: 'Sort by: Date submitted'
         messages: Messages
         none: None
         number_of_claims: 'Number of claims: %{claim_count}'
-        state_sort_label: 'Sort by: Claim state'
+        state_sort_label: 'Sort by: Claim status'
         status: Status
         submission_date: Date submitted
         total: Claimed
@@ -2879,7 +2879,7 @@ en:
         type: Type
         type_sort_label: 'Sort by: Claim type'
         view: *view
-        view_messages_label: "View Messages for Case number %{case_number}"
+        view_messages_label: "%{text} messages for case number %{case_number}"
         view_with_messages: "View (%{message_count} new)"
       hint:
         search: for example case number, MAAT reference, defendant name, case worker name or email

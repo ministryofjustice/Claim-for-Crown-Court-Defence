@@ -11,7 +11,7 @@
       - summary_list.with_row do |row|
         - row.with_key(text: t('.provider'))
         - row.with_value do
-          = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
+          = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider)
 
       - summary_list.with_row do |row|
         - row.with_key(text: t('.email'))

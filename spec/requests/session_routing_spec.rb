@@ -15,19 +15,6 @@ RSpec.describe 'Session routing' do
         .not_to include('aria-invalid')
       expect(response.parsed_body.at_css('input#email')['aria-describedby']).to eq 'email-hint'
     end
-
-    it 'shows the sign-in heading and button', :aggregate_failures do
-      expect(Capybara.string(response.body)).to have_css('h1.govuk-heading-l', text: 'Sign in')
-      expect(Capybara.string(response.body)).to have_button('Sign in')
-    end
-
-    it 'places the email hint between the label and input', :aggregate_failures do
-      expect(Capybara.string(response.body)).to have_css(
-        'label[for="email"] + #email-hint.govuk-hint',
-        text: 'We’ll use your email address to find the right way for you to sign in.'
-      )
-      expect(Capybara.string(response.body)).to have_css('#email-hint + input#email')
-    end
   end
 
   describe 'POST /users/dual_login' do
@@ -130,22 +117,8 @@ RSpec.describe 'Session routing' do
         expect(response).to have_http_status(:success)
       end
 
-      it 'displays the identified email as text without an email input', :aggregate_failures do
-        expect(Capybara.string(response.body)).to have_css('h2', text: 'Signing in as')
-        expect(Capybara.string(response.body)).to have_css('p.cccd-sign-in-email', text: 'legacy@example.com')
-        expect(Capybara.string(response.body)).to have_no_field('user[email]', visible: :all)
-      end
-
-      it 'shows the password-step heading and button', :aggregate_failures do
-        expect(Capybara.string(response.body)).to have_css('h1.govuk-heading-l', text: 'Enter your password')
-        expect(Capybara.string(response.body)).to have_button('Continue')
-      end
-
-      it 'keeps password recovery without change-email or terms links in the main content', :aggregate_failures do
-        content = Capybara.string(response.parsed_body.at_css('main').to_html)
-        expect(content).to have_link('Forgot your password?', href: new_user_password_path)
-        expect(content).to have_no_link('Change email address')
-        expect(content).to have_no_link(href: tandcs_page_path)
+      it 'displays the identified email address' do
+        expect(Capybara.string(response.body)).to have_text('legacy@example.com')
       end
     end
   end

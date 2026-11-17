@@ -60,7 +60,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def redirect_to_email_mismatch
-    redirect_to sign_in_path, alert: I18n.t('omniauth_callbacks.email_mismatch')
+    redirect_to sign_in_path, flash: { error_summary: I18n.t('omniauth_callbacks.email_mismatch') }
   end
 
   def authentication_failed_message

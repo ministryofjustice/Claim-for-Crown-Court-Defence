@@ -93,7 +93,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
       it 'explains the email mismatch' do
         get :entra_mock
-        expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.email_mismatch')
+        expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.email_mismatch')
       end
 
       it 'clears the identified email' do

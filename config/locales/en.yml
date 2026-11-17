@@ -72,9 +72,7 @@ en:
     authentication_failed: 
       title: Authentication failed
       text: Please try again.
-    email_mismatch:
-      title: The account you selected does not match the email address you entered
-      text: Sign in again and select the Microsoft account that matches the email address you entered.
+    email_mismatch: The account you selected does not match the email address you entered
   session_routing:
     pilot_link: Try the new sign-in (approved testers only)
     pilot_banner: This sign-in page is for approved testers only.
@@ -417,7 +415,7 @@ en:
     description: Description
     warning: 'Warning'
     send: &send Send
-    unauthorised: Unauthorised
+    unauthorised: You need to sign in to access that page
   link:
     add_claim: Start a claim
     back: Back

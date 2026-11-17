@@ -64,12 +64,9 @@
             = row.with_cell(html_attributes: { 'data-label': t('.submission_date') }, text: claim.submitted_at(include_time: false), numeric: true)
             = row.with_cell(classes: 'messages', html_attributes: { 'data-label': t('.messages') }) do
               - if claim.has_messages?
-                - if claim.remote?
-                  - message_label = claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view')
-                  = govuk_link_to message_label, "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', text: message_label, case_number: claim.case_number)
-                - else
-                  - message_label = claim.unread_messages_for(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view')
-                  = govuk_link_to message_label, "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', text: message_label, case_number: claim.case_number)
+                - unread_count = claim.remote? ? claim.unread_messages_count.to_int : claim.unread_messages_for(current_user).count
+                - message_label = unread_count.positive? ? t('.view_with_messages', message_count: unread_count) : t('.view')
+                = govuk_link_to message_label, "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', text: message_label, case_number: claim.case_number)
               - else
                 %span.none
                   = t('.none')

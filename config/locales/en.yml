@@ -415,7 +415,7 @@ en:
     description: Description
     warning: 'Warning'
     send: &send Send
-    unauthorised: You need to sign in to access that page
+    unauthorised: You are not authorised to access that page.
   link:
     add_claim: Start a claim
     back: Back

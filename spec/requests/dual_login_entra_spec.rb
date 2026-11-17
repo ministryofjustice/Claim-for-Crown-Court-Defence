@@ -121,6 +121,9 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
     follow_redirect!
     expect(response).to have_http_status(:ok)
     expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.email_mismatch')
+    expect(Capybara.string(response.body)).to have_css(
+      '.govuk-error-summary', text: I18n.t('omniauth_callbacks.email_mismatch')
+    )
   end
 
   it 'clears state on provider failure' do

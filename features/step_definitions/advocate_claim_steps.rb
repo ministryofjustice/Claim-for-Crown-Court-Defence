@@ -324,12 +324,14 @@ end
 
 # Alternative data table step for the above
 Then(/^the following fee details should exist:$/) do |table|
+  wait_for_debounce
   wait_for_ajax
   table.hashes.each do |row|
     patiently do
       fee_block = @claim_form_page.fee_block_for("#{row['section']}_fees", row['fee_description'])
 
-      expect(fee_block.rate.value).to eql row['rate']
+      expect(fee_block).not_to be_nil, "no #{row['section']} fee block found for '#{row['fee_description']}'"
+      expect(fee_block.rate.value).to eql(row['rate']), "#{row['fee_description']}: expected rate #{row['rate']}, got '#{fee_block.rate.value}'"
       expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
       expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
       expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')
@@ -338,12 +340,14 @@ Then(/^the following fee details should exist:$/) do |table|
 end
 
 Then(/^the following govuk fee details should exist:$/) do |table|
+  wait_for_debounce
   wait_for_ajax
   table.hashes.each do |row|
     patiently do
       fee_block = @claim_form_page.govuk_fee_block_for("#{row['section']}_fees", row['fee_description'])
 
-      expect(fee_block.rate.value).to eql row['rate']
+      expect(fee_block).not_to be_nil, "no #{row['section']} fee block found for '#{row['fee_description']}'"
+      expect(fee_block.rate.value).to eql(row['rate']), "#{row['fee_description']}: expected rate #{row['rate']}, got '#{fee_block.rate.value}'"
       expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
       expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
       expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')

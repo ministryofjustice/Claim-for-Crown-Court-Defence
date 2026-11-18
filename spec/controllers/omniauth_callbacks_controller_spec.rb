@@ -417,8 +417,8 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       context "with #{description}" do
         let(:raw) { claims }
 
-        it 'returns the technical problem message' do
-          expect(result).to eq [nil, I18n.t('omniauth_callbacks.invalid_claims')]
+        it 'returns the technical problem message with the important flash key' do
+          expect(result).to eq [nil, I18n.t('omniauth_callbacks.invalid_claims'), :important]
         end
 
         it 'does not persist a user or provider' do

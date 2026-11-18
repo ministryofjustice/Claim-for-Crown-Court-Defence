@@ -59,10 +59,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def complete_sign_in(auth)
     log_omniauth_payload(auth)
-    user, error_message = find_existing_user_from_auth(auth)
+    user, error_message, flash_key = find_existing_user_from_auth(auth)
     return sign_in_and_redirect(user, event: :authentication) if user
 
-    redirect_to sign_in_path, flash: { error_summary: error_message || authentication_failed_message }
+    redirect_to sign_in_path, flash: { flash_key || :error_summary => error_message || authentication_failed_message }
   end
 
   def redirect_to_authentication_failure
@@ -255,7 +255,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     [user, nil]
   rescue InvalidClaims
-    [nil, invalid_claims_message]
+    [nil, invalid_claims_message, :important]
   rescue StandardError => e
     [nil, provision_failed_message(email, e)]
   end

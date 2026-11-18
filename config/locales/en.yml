@@ -70,6 +70,8 @@ en:
 
   omniauth_callbacks:
     authentication_failed: We could not sign you in. If the problem continues, report a fault.
+    invalid_claims: We are experiencing technical problems. Please try again later.
+    no_applicable_roles: Your account does not have a role that allows you to sign in. Report a fault to get help.
     email_mismatch: The account you selected does not match the email address you entered
   session_routing:
     pilot_link: Try the new sign-in (approved testers only)

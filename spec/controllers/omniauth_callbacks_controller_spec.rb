@@ -72,7 +72,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
           get :entra_mock
           expect(controller.current_user).to be_nil
           expect(response).to redirect_to sign_in_path
-          expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+          expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
         end
       end
     end
@@ -137,7 +137,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
               get callback
               expect(controller.current_user).to be_nil
               expect(response).to redirect_to sign_in_path
-              expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
             end
 
             it 'clears identification without changing the stored persona' do
@@ -178,7 +178,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
                 get callback
                 expect(controller.current_user).to be_nil
                 expect(response).to redirect_to sign_in_path
-                expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+                expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
               end
 
               it 'clears identification without changing stored roles' do
@@ -199,7 +199,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
               get callback
               expect(controller.current_user).to be_nil
               expect(response).to redirect_to sign_in_path
-              expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
             end
           end
 
@@ -235,7 +235,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
           get callback
           expect(controller.current_user).to be_nil
           expect(response).to redirect_to sign_in_path
-          expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+          expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
         end
 
         it 'preserves stored roles and does not populate the supplier number from SiLAS' do

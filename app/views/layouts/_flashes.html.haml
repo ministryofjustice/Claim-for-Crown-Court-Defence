@@ -6,9 +6,6 @@
           %h2.govuk-error-summary__title= t('devise.shared.error_messages.error_summary_title')
           .govuk-error-summary__body
             %p.govuk-body= value
-    - elsif key == 'alert' && value.is_a?(Hash)
-      - message = value.with_indifferent_access
-      = moj_alert(type: :error, heading: message[:title], body: (tag.p(message[:text], class: 'govuk-body') if message[:text].present?), dismiss_text: nil)
     - else
       = govuk_notification_banner(title_text: key == 'signed_out' ? 'Notice' : key.capitalize, success: key == 'notice', classes: "auto-dismiss-banner") do |nb|
         - nb.with_heading(text: value)

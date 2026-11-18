@@ -69,9 +69,7 @@ en:
       litigator_hint: "Litigators’ graduated fee scheme"
 
   omniauth_callbacks:
-    authentication_failed: 
-      title: Authentication failed
-      text: Please try again.
+    authentication_failed: We could not sign you in. If the problem continues, report a fault.
     email_mismatch: The account you selected does not match the email address you entered
   session_routing:
     pilot_link: Try the new sign-in (approved testers only)

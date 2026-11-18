@@ -419,9 +419,6 @@ GEM
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
-    moj_components (0.3.0)
-      govuk-components
-      view_component (>= 4.0)
     msgpack (1.8.7)
     multi_test (1.1.0)
     multi_xml (0.9.1)
@@ -861,7 +858,6 @@ DEPENDENCIES
   logstasher (= 3.0.0)
   logstuff (= 0.0.2)
   meta_request
-  moj_components (~> 0.3.0)
   net-scp (~> 4.2)
   net-ssh (~> 8.0)
   nokogiri (~> 1.19)
@@ -1060,7 +1056,6 @@ CHECKSUMS
   method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (6.1.0) sha256=ff373595aa8888631e8a5463986a76b3845346ae6d7fa46e139c1633d418076e
-  moj_components (0.3.0) sha256=870aee5548e9a6ee3a459c4e777dbc21b0b8e8a1804cfd68e41416bf89a1a52f
   msgpack (1.8.7) sha256=dfefec761b5f9047e6e8d95d2c7f8af4b3725d984a01942adc533aa819a2df33
   multi_test (1.1.0) sha256=e9e550cdd863fb72becfe344aefdcd4cbd26ebf307847f4a6c039a4082324d10
   multi_xml (0.9.1) sha256=7ce766b59c17241ed62976caeae1fae9b2431b263398c35396239a68c4a64e57

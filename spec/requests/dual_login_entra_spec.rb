@@ -130,16 +130,27 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
     identify_entra
     get '/users/auth/failure', params: { message: 'access_denied' }
     expect(response).to redirect_to sign_in_path
+    follow_redirect!
+    expect(Capybara.string(response.body)).to have_css(
+      '.govuk-error-summary', text: I18n.t('omniauth_callbacks.authentication_failed')
+    )
     get '/users/auth/entra_id'
     expect(response).to redirect_to sign_in_path
   end
 
   it 'recovers from a provider authentication failure without retaining state' do
-    identify_entra
+    allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+    identify_entra(approved: false)
     OmniAuth.config.mock_auth[:entra_id] = :access_denied
     follow_redirect!
     follow_redirect!
     expect(response).to redirect_to sign_in_path
+    follow_redirect!
+    expect(response).to redirect_to dual_login_path
+    follow_redirect!
+    expect(Capybara.string(response.body)).to have_css(
+      '.govuk-error-summary', text: I18n.t('omniauth_callbacks.authentication_failed')
+    )
     get '/users/auth/entra_id'
     expect(response).to redirect_to sign_in_path
   end

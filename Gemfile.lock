@@ -334,14 +334,14 @@ GEM
       activesupport (>= 6.1.4.4)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
-    i18n-tasks (1.1.2)
+    i18n-tasks (1.2.0)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
       erubi
       highline (>= 3.0.0)
       i18n
       parser (>= 3.2.2.1)
-      prism
+      prism (>= 0.28)
       rails-i18n
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.8, >= 1.8.1)
@@ -964,7 +964,7 @@ CHECKSUMS
   highline (3.1.2) sha256=67cbd34d19f6ef11a7ee1d82ffab5d36dfd5b3be861f450fc1716c7125f4bb4a
   html-attributes-utils (1.0.2) sha256=594e0b37b3dd4e554abe893bee9719896f876675fd08fe534fc2e6e1b4e2538c
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
-  i18n-tasks (1.1.2) sha256=4dcfba49e52a623f30661cb316cb80d84fbba5cb8c6d88ef5e02545fffa3637a
+  i18n-tasks (1.2.0) sha256=71203cd2fe69ef66f08fd6a8620dff46f53d6f40b78dbacf0ab37eec917810a5
   inflection (1.0.0) sha256=ceba9b26fc28b9af82e33e822d28f78a4312af75687efec81d5ef1062498d355
   io-console (0.9.5) sha256=83dd9bbf4c4680416629245b39cd4212eb5f4d9a4ea91804870c1f6b846414d5
   irb (1.19.0) sha256=55ee56acbdd6c9fe06a2e6909f46a24e5c41f45f16906bab04e8049cf46f1d27

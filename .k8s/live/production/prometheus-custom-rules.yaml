@@ -25,7 +25,7 @@ spec:
         severity: laa-cccd-alerts
       annotations:
         message: cccd-production More than a hundred 404 errors in one day
-        runbook_url: https://kibana.cloud-platform.service.justice.gov.uk/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-24h,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:ec9109a0-2b35-11e9-ac82-95e56bd45b02,key:kubernetes.namespace_name,negate:!f,params:(query:cccd-production,type:phrase),type:phrase,value:cccd-production),query:(match:(kubernetes.namespace_name:(query:cccd-production,type:phrase))))),index:ec9109a0-2b35-11e9-ac82-95e56bd45b02,interval:auto,query:(language:lucene,query:'log:%22RoutingError%22'),sort:!('@timestamp',desc))
+        dashboard_url: https://alertmanager.live.cloud-platform.service.justice.gov.uk/#/alerts?receiver=slack-laa-cccd-alerts
     - alert: nginx-5xx-error
       expr: sum(rate(nginx_ingress_controller_requests{exported_namespace="cccd-production", status=~"5.."}[5m])) * 300 > 5
       for: 1m
@@ -33,11 +33,12 @@ spec:
         severity: laa-cccd-alerts
       annotations:
         message: cccd-production An HTTP 5xx error has occurred
-        runbook_url: https://kibana.cloud-platform.service.justice.gov.uk/_plugin/kibana/app/kibana#/discover?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-24h,to:now))&_a=(columns:!(log_processed.status,log_processed.http_referer,log_processed.request_uri),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'71644ed0-d648-11ea-b6f0-6bf964cd13a4',key:log_processed.kubernetes_namespace,negate:!f,params:(query:cccd-production),type:phrase,value:cccd-production),query:(match:(log_processed.kubernetes_namespace:(query:cccd-production,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'71644ed0-d648-11ea-b6f0-6bf964cd13a4',key:log_processed.status,negate:!f,params:(query:'500'),type:phrase,value:'500'),query:(match:(log_processed.status:(query:'500',type:phrase))))),index:'71644ed0-d648-11ea-b6f0-6bf964cd13a4',interval:auto,query:(language:lucene,query:''),sort:!(!('@timestamp',desc)))
+        dashboard_url: https://alertmanager.live.cloud-platform.service.justice.gov.uk/#/alerts?receiver=slack-laa-cccd-alerts
     - alert: Production-SQS-Responses-For-CCCD-oldest-message
       annotations:
         message: Production SQS queue 'laa-get-paid-production-responses-for-cccd' has messages older than or equal to 10 mins, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_age_of_oldest_message_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-responses-for-cccd%5C%22%7D%20%3E%3D%20bool%2010%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: |-
           aws_sqs_approximate_age_of_oldest_message_maximum{queue_name=~"laa-get-paid-production-responses-for-cccd"} >= 10 * 60
       for: 1m
@@ -47,6 +48,7 @@ spec:
       annotations:
         message: Production SQS queue 'laa-get-paid-production-responses-for-cccd' has more than or equal to 10 messages, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22queryMode%22:%22Metrics%22,%22namespace%22:%22%22,%22metricName%22:%22%22,%22expression%22:%22%22,%22dimensions%22:%7B%7D,%22region%22:%22default%22,%22id%22:%22%22,%22statistic%22:%22Average%22,%22period%22:%22%22,%22metricQueryType%22:0,%22metricEditorMode%22:0,%22sqlExpression%22:%22%22,%22matchExact%22:true,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_number_of_messages_visible_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-responses-for-cccd%5C%22%7D%20%3E%3D%20bool%2010%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false,%22label%22:%22%22,%22exemplar%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_number_of_messages_visible_maximum{queue_name="laa-get-paid-production-responses-for-cccd"} >= 10
       for: 1m
       labels:
@@ -55,6 +57,7 @@ spec:
       annotations:
         message: Production SQS queue 'laa-get-paid-production-cccd-claims-for-ccr' has messages older than or equal to 10 mins, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_age_of_oldest_message_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-cccd-claims-for-ccr%5C%22%7D%20%3E%3D%20bool%2010%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_age_of_oldest_message_maximum{queue_name=~"laa-get-paid-production-cccd-claims-for-ccr"} >= 10 * 60
       for: 1m
       labels:
@@ -63,6 +66,7 @@ spec:
       annotations:
         message: Production SQS queue 'laa-get-paid-production-cccd-claims-for-ccr' has more than or equal to 10 messages, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22queryMode%22:%22Metrics%22,%22namespace%22:%22%22,%22metricName%22:%22%22,%22expression%22:%22%22,%22dimensions%22:%7B%7D,%22region%22:%22default%22,%22id%22:%22%22,%22statistic%22:%22Average%22,%22period%22:%22%22,%22metricQueryType%22:0,%22metricEditorMode%22:0,%22sqlExpression%22:%22%22,%22matchExact%22:true,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_number_of_messages_visible_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-cccd-claims-for-ccr%5C%22%7D%20%3E%3D%20bool%2010%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false,%22label%22:%22%22,%22exemplar%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_number_of_messages_visible_maximum{queue_name="laa-get-paid-production-cccd-claims-for-ccr"} >= 10
       for: 1m
       labels:
@@ -71,6 +75,7 @@ spec:
       annotations:
         message: Production SQS queue 'laa-get-paid-production-cccd-claims-for-cclf' has messages older than or equal to 10 mins, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_age_of_oldest_message_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-cccd-claims-for-cclf%5C%22%7D%20%3E%3D%20bool%2010%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_age_of_oldest_message_maximum{queue_name=~"laa-get-paid-production-cccd-claims-for-cclf"} >= 10 * 60
       for: 1m
       labels:
@@ -79,6 +84,7 @@ spec:
       annotations:
         message: Production SQS queue 'laa-get-paid-production-cccd-claims-for-cclf' has more than or equal to 10 messages, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22queryMode%22:%22Metrics%22,%22namespace%22:%22%22,%22metricName%22:%22%22,%22expression%22:%22%22,%22dimensions%22:%7B%7D,%22region%22:%22default%22,%22id%22:%22%22,%22statistic%22:%22Average%22,%22period%22:%22%22,%22metricQueryType%22:0,%22metricEditorMode%22:0,%22sqlExpression%22:%22%22,%22matchExact%22:true,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_number_of_messages_visible_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-cccd-claims-for-cclf%5C%22%7D%20%3E%3D%20bool%2010%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false,%22label%22:%22%22,%22exemplar%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_number_of_messages_visible_maximum{queue_name="laa-get-paid-production-cccd-claims-for-cclf"} >= 10
       for: 1m
       labels:
@@ -87,6 +93,7 @@ spec:
       annotations:
         message: Production SQS queue 'laa-get-paid-production-reponses-for-cccd-dlq' has more than or equal to 1 message, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22queryMode%22:%22Metrics%22,%22namespace%22:%22%22,%22metricName%22:%22%22,%22expression%22:%22%22,%22dimensions%22:%7B%7D,%22region%22:%22default%22,%22id%22:%22%22,%22statistic%22:%22Average%22,%22period%22:%22%22,%22metricQueryType%22:0,%22metricEditorMode%22:0,%22sqlExpression%22:%22%22,%22matchExact%22:true,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_number_of_messages_visible_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-reponses-for-cccd-dlq%5C%22%7D%20%3E%3D%20bool%201%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false,%22label%22:%22%22,%22exemplar%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_number_of_messages_visible_maximum{queue_name="laa-get-paid-production-reponses-for-cccd-dlq"} >= 1
       for: 1m
       labels:
@@ -95,6 +102,7 @@ spec:
       annotations:
         message: Production SQS queue 'laa-get-paid-production-cccd-claims-submitted-ccr-dlq' has more than or equal to 1 message, check consumers are healthy.
         dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22queryMode%22:%22Metrics%22,%22namespace%22:%22%22,%22metricName%22:%22%22,%22expression%22:%22%22,%22dimensions%22:%7B%7D,%22region%22:%22default%22,%22id%22:%22%22,%22statistic%22:%22Average%22,%22period%22:%22%22,%22metricQueryType%22:0,%22metricEditorMode%22:0,%22sqlExpression%22:%22%22,%22matchExact%22:true,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_number_of_messages_visible_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-cccd-claims-submitted-ccr-dlq%5C%22%7D%20%3E%3D%20bool%201%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false,%22label%22:%22%22,%22exemplar%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_age_of_oldest_message_maximum{queue_name="laa-get-paid-production-cccd-claims-submitted-ccr-dlq"} >= 1
       for: 1m
       labels:
@@ -102,7 +110,8 @@ spec:
     - alert: Production-SQS-CCLF-Dead-Letter-Queue-Threshold-Reached
       annotations:
         message: Production SQS queue 'laa-get-paid-production-cccd-claims-submitted-cclf-dlq' has more than or equal to 1 message, check consumers are healthy.
-        dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22queryMode%22:%22Metrics%22,%22namespace%22:%22%22,%22metricName%22:%22%22,%22expression%22:%22%22,%22dimensions%22:%7B%7D,%22region%22:%22default%22,%22id%22:%22%22,%22statistic%22:%22Average%22,%22period%22:%22%22,%22metricQueryType%22:0,%22metricEditorMode%22:0,%22sqlExpression%22:%22%22,%22matchExact%22:true,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_number_of_messages_visible_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-cccd-claims-submitted-cclf-dlq%5C%22%7D%20%3E%3D%20bool%201%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false,%22label%22:%22%22,%22exemplar%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        dashboard_url: https://grafana.live.cloud-platform.service.justice.gov.uk/explore?orgId=1&left=%7B%22datasource%22:%22prometheus%22,%22queries%22:%5B%7B%22queryMode%22:%22Metrics%22,%22namespace%22:%22%22,%22metricName%22:%22%22,%22expression%22:%22%22,%22dimensions%22:%7B%7D,%22region%22:%22default%22,%22id%22:%22%22,%22statistic%22:%22Average%22,%22period%22:%22%22,%22metricQueryType%22:0,%22metricEditorMode%22:0,%22sqlExpression%22:%22%22,%22matchExact%22:true,%22refId%22:%22A%22,%22datasource%22:%7B%22type%22:%22prometheus%22,%22uid%22:%22prometheus%22%7D,%22editorMode%22:%22builder%22,%22expr%22:%22aws_sqs_approximate_number_of_messages_visible_maximum%7Bqueue_name%3D%5C%22laa-get-paid-production-cccd-claims-submitted-cclf%5C%22%7D%20%3E%3D%20bool%201%22,%22legendFormat%22:%22__auto%22,%22range%22:true,%22instant%22:false,%22label%22:%22%22,%22exemplar%22:false%7D%5D,%22range%22:%7B%22from%22:%22now-10m%22,%22to%22:%22now%22%7D%7D
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting
       expr: aws_sqs_approximate_age_of_oldest_message_maximum{queue_name="laa-get-paid-production-cccd-claims-submitted-cclf-dlq"} >= 1
       for: 1m
       labels:
@@ -116,4 +125,4 @@ spec:
       annotations:
         message: |
           CCCD-production secrets has been modified by user "{{ $labels.user_arn }}".
-        runbook_url: "https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting"
+        runbook_url: https://dsdmoj.atlassian.net/wiki/spaces/CT/pages/6254559962/Claim+for+Crown+Court+Defence+CCCD+Runbook#Monitoring-and-Alerting

@@ -12,7 +12,9 @@ When(/^I save and open screenshot$/) do
 end
 
 Given(/^I am on the 'Your claims' page$/) do
+  wait_for_ajax
   @external_user_home_page.load
+  expect(@external_user_home_page).to be_displayed
 end
 
 Given(/^I click 'Start a claim'$/) do

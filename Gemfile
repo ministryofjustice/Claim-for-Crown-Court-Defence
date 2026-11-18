@@ -102,7 +102,7 @@ group :test do
   # There is a bug in rspec-mocks regarding `allow_any_instance_of` that some
   # of our tests depend on and was fixed in version 3.13.3 of rspec-mocks (see
   # https://github.com/rspec/rspec-mocks/pull/1596)
-  gem 'rspec-mocks', '<= 3.13.8'
+  gem 'rspec-mocks', '<= 3.13.10'
   gem 'shoulda-matchers', '~> 8.0'
   gem 'simplecov', require: false
   gem 'timecop'

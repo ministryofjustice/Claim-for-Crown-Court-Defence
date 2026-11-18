@@ -76,7 +76,6 @@ RUN apk --update-cache upgrade \
                    libreoffice \
                    linux-headers \
                    nodejs \
-                   openjdk17-jre-headless \
                    postgresql-client \
                    redis \
                    runit \

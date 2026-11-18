@@ -7,5 +7,5 @@
           .govuk-error-summary__body
             %p.govuk-body= value
     - else
-      = govuk_notification_banner(title_text: key == 'signed_out' ? 'Notice' : key.capitalize, success: key == 'notice', classes: "auto-dismiss-banner") do |nb|
+      = govuk_notification_banner(title_text: key == 'signed_out' ? 'Important' : key.capitalize, success: key == 'notice', classes: "auto-dismiss-banner") do |nb|
         - nb.with_heading(text: value)

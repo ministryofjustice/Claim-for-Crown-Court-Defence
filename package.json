@@ -23,7 +23,7 @@
     "build:js": "esbuild app/javascript/application.js --bundle --minify --sourcemap --outdir=app/assets/builds --target=es2017 --inject:app/javascript/shims/jquery-global.js --inject:app/javascript/shims/stickyfill-global.js --inject:app/javascript/shims/accessible-autocomplete-global.js"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^11.1.0",
+    "@ministryofjustice/frontend": "^12.0.0",
     "@rails/ujs": "^7.1.3-4",
     "accessible-autocomplete": "^3.0.2",
     "chart.js": "^4.6.1",

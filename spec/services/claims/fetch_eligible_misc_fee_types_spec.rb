@@ -71,6 +71,23 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   describe '#call' do
     subject(:call) { described_class.new(claim).call }
 
+    context 'with scheme 18 hearing fees' do
+      before { travel_to(Date.new(2027, 1, 2)) }
+
+      %i[advocate_claim advocate_supplementary_claim].each do |claim_factory|
+        context "with #{claim_factory}" do
+          let(:claim) { create(claim_factory, :agfs_scheme_18) }
+
+          it 'allows all four fees for every case type' do
+            CaseType.find_each do |case_type|
+              claim.case_type = case_type
+              expect(call.map(&:unique_code)).to include('MISHA', 'MIMSH', 'MIMSA', 'MIBAM')
+            end
+          end
+        end
+      end
+    end
+
     context 'with nil claim' do
       let(:claim) { nil }
 

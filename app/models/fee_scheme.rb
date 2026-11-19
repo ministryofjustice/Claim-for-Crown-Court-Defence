@@ -63,6 +63,10 @@ class FeeScheme < ApplicationRecord
     agfs? && version.eql?(17)
   end
 
+  def agfs_scheme_18?
+    agfs? && version.eql?(18)
+  end
+
   def agfs_scheme_17_or_later?
     agfs? && version >= 17
   end

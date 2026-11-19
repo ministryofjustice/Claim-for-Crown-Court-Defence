@@ -56,7 +56,11 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     MIUMU: %w[AGFS_MISC_FEES AGFS_UNUSED_UP3], # Unused material (up to 3 hours) - AGFS 12+ only
     MIUMO: %w[AGFS_MISC_FEES AGFS_UNUSED_OV3], # Unused material (over 3 hours) - AGFS 12+ only
     MISTE: %w[AGFS_MISC_FEES AGFS_SECTION_28], # Section 28 hearing - AGFS 14+ only
-    MIAPF: %w[AGFS_MISC_FEES AGFS_PREP_FEE] # Additional preparation fee - AGFS 15+ only
+    MIAPF: %w[AGFS_MISC_FEES AGFS_PREP_FEE], # Additional preparation fee - AGFS 15+ only
+    MISHA: %w[AGFS_MISC_FEES AGFS_SENT_ADD], # Sentencing Hearing Additional Claim
+    MIMSH: %w[AGFS_MISC_FEES AGFS_MITIG], # Hearing for Mitigation of Sentence
+    MIMSA: %w[AGFS_MISC_FEES AGFS_MIT_ADD], # Hearing for Mitigation of Sentence Additional Claim
+    MIBAM: %w[AGFS_MISC_FEES AGFS_BAIL_APP] # Bail applications, mentions and other applications in appeal, committals for sentence and breach hearings
   }.freeze
 
   def self.mappings(exclusions: true)

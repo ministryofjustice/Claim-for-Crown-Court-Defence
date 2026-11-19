@@ -11,6 +11,7 @@ module SchemeDateHelpers
 
   def scheme_date_mappings
     {
+      'scheme 18' => Settings.agfs_scheme_18_start_date.strftime,
       'scheme 17' => Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.strftime,
       'scheme 16' => Settings.agfs_scheme_16_section_twenty_eight_increase.strftime,
       'scheme 15' => Settings.agfs_scheme_15_additional_prep_fee_and_kc.strftime,
@@ -32,6 +33,7 @@ module SchemeDateHelpers
 
   def main_hearing_date_mappings
     {
+      'scheme 18' => Settings.agfs_scheme_18_start_date.strftime,
       'scheme 17' => Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date.strftime,
       'scheme 16' => Settings.agfs_scheme_16_section_twenty_eight_increase.strftime,
       'scheme 15' => Settings.agfs_scheme_15_additional_prep_fee_and_kc.strftime,

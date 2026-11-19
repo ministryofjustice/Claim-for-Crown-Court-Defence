@@ -1,7 +1,7 @@
 # rubocop:disable-next Metrics/ClassLength
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
-  rescue_from StandardError, with: :handle_authentication_error
+  rescue_from StandardError, with: :redirect_to_authentication_failure
 
   class InvalidClaims < ArgumentError; end
 
@@ -50,11 +50,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     complete_sign_in(auth)
   ensure
     flow&.clear
-  end
-
-  def handle_authentication_error(error)
-    Sentry.capture_exception(error)
-    redirect_to_authentication_failure
   end
 
   def complete_sign_in(auth)
@@ -162,11 +157,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   end
 
-  def provision_failed_message(_email, error)
-    Sentry.capture_exception(error)
-    authentication_failed_message
-  end
-
   def persona_mismatch_message(email, actual, expected)
     return nil unless Rails.env.development?
 
@@ -176,7 +166,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def create_case_worker_from_auth(info, raw)
     email = info.email.to_s.downcase
 
-    provision_user(email) do
+    provision_user do
       user = create_user_from_auth!(info, raw, email)
       create_case_worker_persona!(user, raw)
       user
@@ -207,7 +197,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def create_external_user_from_auth(info, raw)
     email = info.email.to_s.downcase
 
-    provision_user(email) do
+    provision_user do
       provider = find_or_create_provider_for_external_user(raw)
       roles = extract_external_user_roles(raw, provider)
       supplier_number = chamber_advocate_supplier_number(provider, roles, raw)
@@ -236,7 +226,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def create_super_admin_from_auth(info)
     email = info.email.to_s.downcase
 
-    provision_user(email) do
+    provision_user do
       user = create_user_from_auth!(info, {}, email)
       create_super_admin_persona!(user)
       user
@@ -249,15 +239,15 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     super_admin.save!
   end
 
-  def provision_user(email)
+  def provision_user
     user = nil
     User.transaction { user = yield }
 
     [user, nil]
   rescue InvalidClaims
     [nil, invalid_claims_message, :important]
-  rescue StandardError => e
-    [nil, provision_failed_message(email, e)]
+  rescue StandardError
+    [nil, authentication_failed_message]
   end
 
   def auto_create_providers_from_silas?

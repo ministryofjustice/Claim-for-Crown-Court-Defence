@@ -6,6 +6,7 @@
 - unless user_signed_in?
   %p.govuk-body
     = t('.survey_intro_html', sign_in_link: govuk_link_to(t('.return_to_sign_in'), sign_in_path))
+  %br
 
 = javascript_tag nonce: true, id: 'ss-embed-2909982' do
   :plain

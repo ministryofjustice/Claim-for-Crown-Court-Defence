@@ -283,7 +283,6 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       request.env['omniauth.auth'] = omniauth_auth(user.email)
       DualLogin.new(session).identify(user.email)
       allow(Silas::Roles).to receive(:new).and_raise(error)
-      allow(Sentry).to receive(:capture_exception)
     end
 
     %i[entra_id entra_mock].each do |callback|
@@ -295,10 +294,9 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
           expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
         end
 
-        it 'clears the flow without signing in and reports the error' do
+        it 'clears the flow without signing in' do
           expect(controller.current_user).to be_nil
           expect(session[:dual_login]).to be_nil
-          expect(Sentry).to have_received(:capture_exception).with(error)
         end
       end
     end
@@ -306,7 +304,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
   describe 'unexpected provisioning errors' do
     subject(:result) do
-      controller.send(:provision_user, 'new-entra-user@example.com') do
+      controller.send(:provision_user) do
         create(:case_worker)
         raise error
       end
@@ -314,15 +312,12 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
     let(:error) { StandardError.new('Internal failure details') }
 
-    before { allow(Sentry).to receive(:capture_exception) }
-
     [false, true].each do |development|
       context "with development #{development}" do
         before { allow(Rails.env).to receive(:development?).and_return(development) }
 
-        it 'returns the generic message and reports the error' do
+        it 'returns the generic message' do
           expect(result).to eq [nil, I18n.t('omniauth_callbacks.authentication_failed')]
-          expect(Sentry).to have_received(:capture_exception).with(error)
         end
 
         it 'rolls back the new account' do

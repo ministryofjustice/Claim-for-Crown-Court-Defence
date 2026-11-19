@@ -10,10 +10,9 @@ RSpec.describe 'Session routing' do
       expect(response).to have_http_status(:success)
     end
 
-    it 'does not mark the email field as invalid or reference a missing error', :aggregate_failures do
+    it 'does not mark the email field as invalid or reference a missing error' do
       expect(response.parsed_body.at_css('input#email').attributes.keys)
-        .not_to include('aria-invalid')
-      expect(response.parsed_body.at_css('input#email')['aria-describedby']).to eq 'email-hint'
+        .not_to include('aria-invalid', 'aria-describedby')
     end
   end
 
@@ -21,7 +20,7 @@ RSpec.describe 'Session routing' do
     shared_examples 'an accessible email error' do
       it 'associates the invalid email field with its inline error' do
         expect(Capybara.string(response.body)).to have_css(
-          'input#email[aria-invalid="true"][aria-describedby="email-hint email-error"]'
+          'input#email[aria-invalid="true"][aria-describedby="email-error"]'
         )
       end
 
@@ -117,8 +116,8 @@ RSpec.describe 'Session routing' do
         expect(response).to have_http_status(:success)
       end
 
-      it 'displays the identified email address' do
-        expect(Capybara.string(response.body)).to have_text('legacy@example.com')
+      it 'prefills the identified email address' do
+        expect(response.body).to include('value="legacy@example.com"')
       end
     end
   end

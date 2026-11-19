@@ -1,11 +1,4 @@
 - flash.each do |key, value|
   - unless %w{hidden ga timedout}.include? key
-    - if key == 'error_summary'
-      .govuk-error-summary{ data: { module: 'govuk-error-summary' } }
-        %div{ role: 'alert' }
-          %h2.govuk-error-summary__title= t('devise.shared.error_messages.error_summary_title')
-          .govuk-error-summary__body
-            %p.govuk-body= value
-    - else
-      = govuk_notification_banner(title_text: key == 'signed_out' ? 'Important' : key.capitalize, success: key == 'notice', classes: "auto-dismiss-banner") do |nb|
-        - nb.with_heading(text: value)
+    = govuk_notification_banner(title_text: key.capitalize, success: key == 'notice', classes: "auto-dismiss-banner") do |nb|
+      - nb.with_heading(text: value)

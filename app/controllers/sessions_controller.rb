@@ -51,9 +51,6 @@ class SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy(non_navigational_status: :no_content)
-    flash[:signed_out] = flash[:notice] if flash.key?(:notice)
-    flash.delete(:notice)
-
     respond_to do |format|
       format.all { head non_navigational_status }
       format.any(*navigational_formats) do

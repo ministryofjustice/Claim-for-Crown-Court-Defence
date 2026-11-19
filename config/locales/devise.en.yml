@@ -94,9 +94,7 @@ en:
         page_heading: Sign in
         password: Password
         sign_in: Sign in
-        password_page_heading: Enter your password
-        signing_in_as: Signing in as
-        continue: Continue
+        change_email: Change email address
       user:
         signed_in: Signed in successfully
         signed_out: You have signed out

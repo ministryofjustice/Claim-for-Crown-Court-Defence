@@ -1,9 +1,6 @@
 # rubocop:disable-next Metrics/ClassLength
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_load_and_authorize_resource
-  rescue_from StandardError, with: :handle_authentication_error
-
-  class InvalidClaims < ArgumentError; end
 
   PERSONA_CASE_WORKER = CaseWorker.name
   PERSONA_EXTERNAL_USER = ExternalUser.name
@@ -31,9 +28,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.find_by(email: info.email.to_s.downcase)
 
     find_user_by_persona(user, info, raw)
-  rescue Silas::Roles::NoApplicableRoles
-    [nil, I18n.t('omniauth_callbacks.no_applicable_roles')]
-  rescue ActiveRecord::RecordInvalid
+  rescue Silas::Roles::NoApplicableRoles, ActiveRecord::RecordInvalid
     [nil, authentication_failed_message]
   end
 
@@ -49,36 +44,27 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     complete_sign_in(auth)
   ensure
-    flow&.clear
-  end
-
-  def handle_authentication_error(error)
-    Sentry.capture_exception(error)
-    redirect_to_authentication_failure
+    flow.clear
   end
 
   def complete_sign_in(auth)
     log_omniauth_payload(auth)
-    user, error_message, flash_key = find_existing_user_from_auth(auth)
+    user, error_message = find_existing_user_from_auth(auth)
     return sign_in_and_redirect(user, event: :authentication) if user
 
-    redirect_to sign_in_path, flash: { flash_key || :error_summary => error_message || authentication_failed_message }
+    redirect_to sign_in_path, alert: error_message || authentication_failed_message
   end
 
   def redirect_to_authentication_failure
-    redirect_to sign_in_path, flash: { error_summary: authentication_failed_message }
+    redirect_to sign_in_path, alert: authentication_failed_message
   end
 
   def redirect_to_email_mismatch
-    redirect_to sign_in_path, flash: { error_summary: I18n.t('omniauth_callbacks.email_mismatch') }
+    redirect_to sign_in_path, alert: I18n.t('omniauth_callbacks.email_mismatch')
   end
 
   def authentication_failed_message
     I18n.t('omniauth_callbacks.authentication_failed')
-  end
-
-  def invalid_claims_message
-    I18n.t('omniauth_callbacks.invalid_claims')
   end
 
   def identified_email_matches?(email)
@@ -162,9 +148,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   end
 
-  def provision_failed_message(_email, error)
-    Sentry.capture_exception(error)
-    authentication_failed_message
+  def provision_failed_message(email, error)
+    return nil unless Rails.env.development?
+
+    "Failed to provision user for #{email}: #{error.message}"
   end
 
   def persona_mismatch_message(email, actual, expected)
@@ -192,10 +179,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def extract_case_worker_roles(raw)
     role_mapping = Silas::Roles.new(raw)
-    raise InvalidClaims, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
 
     mapped = role_mapping.case_worker_roles
-    raise InvalidClaims, 'No valid case worker roles found in LAA_ROLES' if mapped.empty?
+    raise ArgumentError, 'No valid case worker roles found in LAA_ROLES' if mapped.empty?
 
     mapped
   end
@@ -254,8 +241,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     User.transaction { user = yield }
 
     [user, nil]
-  rescue InvalidClaims
-    [nil, invalid_claims_message, :important]
   rescue StandardError => e
     [nil, provision_failed_message(email, e)]
   end
@@ -267,7 +252,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def required_name(info, raw, key)
     value = info.respond_to?(key) ? info.public_send(key) : nil
     value = value.presence || raw[key].presence
-    raise InvalidClaims, "Missing #{key} in auth payload" if value.blank?
+    raise ArgumentError, "Missing #{key} in auth payload" if value.blank?
 
     value
   end
@@ -295,7 +280,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def separate_agfs_and_lgfs_supplier_numbers(raw)
     accounts = normalized_supplier_numbers(raw)
-    raise InvalidClaims, 'Missing LAA_ACCOUNTS in auth payload' if accounts.empty?
+    raise ArgumentError, 'Missing LAA_ACCOUNTS in auth payload' if accounts.empty?
 
     accounts.each_with_object([[], []]) do |supplier_number, (agfs_numbers, lgfs_numbers)|
       valid_agfs, valid_lgfs = supplier_number_types(supplier_number)
@@ -320,7 +305,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def ensure_valid_supplier_number!(supplier_number, valid_agfs, valid_lgfs)
     return if valid_agfs || valid_lgfs
 
-    raise InvalidClaims, "Invalid LAA_ACCOUNTS supplier number format: #{supplier_number}"
+    raise ArgumentError, "Invalid LAA_ACCOUNTS supplier number format: #{supplier_number}"
   end
 
   def extract_agfs_supplier_number_from_laa_accounts(raw)
@@ -383,20 +368,20 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def extract_external_user_roles(raw, provider)
     role_mapping = Silas::Roles.new(raw)
-    raise InvalidClaims, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
+    raise ArgumentError, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
 
     mapped = role_mapping.external_user_roles
-    raise InvalidClaims, 'No valid external user roles found in LAA_ROLES' if mapped.empty?
+    raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if mapped.empty?
 
     roles = provider.available_external_user_roles & mapped
-    raise InvalidClaims, 'No valid external user roles found in LAA_ROLES' if roles.empty?
+    raise ArgumentError, 'No valid external user roles found in LAA_ROLES' if roles.empty?
 
     roles
   end
 
   def extract_provider_name(raw)
     name = raw['FIRM_NAME'].to_s.strip
-    raise InvalidClaims, 'Missing FIRM_NAME in auth payload' if name.empty?
+    raise ArgumentError, 'Missing FIRM_NAME in auth payload' if name.empty?
 
     name
   end

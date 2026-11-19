@@ -270,10 +270,10 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
     end
 
     describe 'GET #index' do
-      it 'redirects to all claims page with a permission-denied message' do
+      it 'redirects to all claims page with Unauthorised in flash' do
         get :index
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq I18n.t('common.unauthorised')
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
@@ -286,27 +286,27 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
       it 'doesnt show the details for a different user' do
         get :show, params: { id: other_external_user }
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq I18n.t('common.unauthorised')
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
     describe 'GET #new' do
-      it 'redirects to all claims page with a permission-denied message' do
+      it 'redirects to all claims page with Unauthorised in flash' do
         get :new
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq I18n.t('common.unauthorised')
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
     describe 'POST #create' do
-      it 'redirects to all claims page with a permission-denied message' do
+      it 'redirects to all claims page with Unauthorised in flash' do
         post :create,
              params: { external_user: {
                user_attributes: { email: 'foo@foobar.com', password: 'PasswordForTest',
                                   password_confirmation: 'xxx' }, roles: ['advocate']
              } }
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq I18n.t('common.unauthorised')
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
@@ -343,7 +343,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
         it 'does not allow any updates' do
           put :update, params: params_updating_email(other_external_user)
           expect(response).to redirect_to(external_users_root_path)
-          expect(flash[:alert]).to eq I18n.t('common.unauthorised')
+          expect(flash[:alert]).to eq 'Unauthorised'
         end
       end
     end
@@ -352,13 +352,13 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
       it 'does not allow user to delete himself' do
         delete :destroy, params: { id: external_user }
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq I18n.t('common.unauthorised')
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
 
       it 'does not allow user to delete other user' do
         delete :destroy, params: { id: other_external_user }
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq I18n.t('common.unauthorised')
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 

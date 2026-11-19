@@ -340,7 +340,7 @@ RSpec.describe 'providers external users management' do
       let(:user) { other_external_user.user }
 
       it { expect(response).to redirect_to external_users_root_path }
-      it { expect(flash[:alert]).to eq(I18n.t('common.unauthorised')) }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
     end
 
     context 'when logged in as super_admin with an enabled user' do
@@ -384,7 +384,7 @@ RSpec.describe 'providers external users management' do
 
       it { expect(external_user).to be_enabled }
       it { expect(response).to redirect_to sign_in_path }
-      it { expect(flash[:alert]).to eq(I18n.t('common.unauthorised')) }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
     end
 
     context 'when logged in as super admin' do
@@ -433,7 +433,7 @@ RSpec.describe 'providers external users management' do
 
       it { expect(external_user.reload).to be_enabled }
       it { expect(response).to redirect_to external_users_root_path }
-      it { expect(flash[:alert]).to eq(I18n.t('common.unauthorised')) }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
     end
 
     context 'when logged in as a caseworker' do
@@ -444,7 +444,7 @@ RSpec.describe 'providers external users management' do
 
       it { expect(external_user.reload).to be_enabled }
       it { expect(response).to redirect_to case_workers_root_path }
-      it { expect(flash[:alert]).to eq(I18n.t('common.unauthorised')) }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
     end
   end
 
@@ -469,7 +469,7 @@ RSpec.describe 'providers external users management' do
 
       it { expect(external_user.reload).to be_disabled }
       it { expect(response).to redirect_to sign_in_path }
-      it { expect(flash[:alert]).to eq(I18n.t('common.unauthorised')) }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
     end
 
     context 'when logged in as super admin' do
@@ -518,7 +518,7 @@ RSpec.describe 'providers external users management' do
 
       it { expect(external_user).to be_disabled }
       it { expect(response).to redirect_to external_users_root_path }
-      it { expect(flash[:alert]).to eq(I18n.t('common.unauthorised')) }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
     end
 
     context 'when logged in as a caseworker' do
@@ -529,7 +529,7 @@ RSpec.describe 'providers external users management' do
 
       it { expect(external_user.reload).to be_disabled }
       it { expect(response).to redirect_to case_workers_root_path }
-      it { expect(flash[:alert]).to eq(I18n.t('common.unauthorised')) }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
     end
   end
 end

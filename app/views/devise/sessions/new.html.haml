@@ -2,9 +2,7 @@
   = t('.page_title')
 
 - if identified_password_step?
-  .govuk-grid-row
-    .govuk-grid-column-two-thirds
-      %h1#page-h1.govuk-heading-l= t('.password_page_heading')
+  = render partial: 'layouts/page_heading', locals: { page_heading: t('.password_page_heading') }
 - else
   = render partial: 'layouts/page_heading', locals: {page_heading: t('.page_heading')}
 

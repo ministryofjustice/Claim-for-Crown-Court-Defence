@@ -68,11 +68,11 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
         before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['Litigator'] }
 
-        it 'rejects sign-in with an authentication failure message' do
+        it 'rejects sign-in with a no applicable roles message' do
           get :entra_mock
           expect(controller.current_user).to be_nil
           expect(response).to redirect_to sign_in_path
-          expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+          expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
         end
       end
     end
@@ -93,7 +93,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
       it 'explains the email mismatch' do
         get :entra_mock
-        expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.email_mismatch')
+        expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.email_mismatch')
       end
 
       it 'clears the identified email' do
@@ -133,11 +133,11 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
           context "with #{roles.inspect} supplied roles" do
             before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles }
 
-            it 'rejects sign-in with an authentication failure message' do
+            it 'rejects sign-in with a no applicable roles message' do
               get callback
               expect(controller.current_user).to be_nil
               expect(response).to redirect_to sign_in_path
-              expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
             end
 
             it 'clears identification without changing the stored persona' do
@@ -174,11 +174,11 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
             context "with #{roles.inspect} supplied roles" do
               before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles }
 
-              it 'rejects sign-in with an authentication failure message' do
+              it 'rejects sign-in with a no applicable roles message' do
                 get callback
                 expect(controller.current_user).to be_nil
                 expect(response).to redirect_to sign_in_path
-                expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+                expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
               end
 
               it 'clears identification without changing stored roles' do
@@ -199,7 +199,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
               get callback
               expect(controller.current_user).to be_nil
               expect(response).to redirect_to sign_in_path
-              expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
             end
           end
 
@@ -235,7 +235,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
           get callback
           expect(controller.current_user).to be_nil
           expect(response).to redirect_to sign_in_path
-          expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+          expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
         end
 
         it 'preserves stored roles and does not populate the supplier number from SiLAS' do
@@ -268,6 +268,65 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
             expect(response).to redirect_to external_users_root_path
             expect(user.persona.reload).to have_attributes(roles: %w[advocate admin], supplier_number: '456CD')
           end
+        end
+      end
+    end
+  end
+
+  describe 'unexpected callback errors' do
+    let(:error) { StandardError.new('Internal failure details') }
+
+    before do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+      user.login_route.update!(login_method: LoginRoute::ENTRA)
+      request.env['devise.mapping'] = Devise.mappings[:user]
+      request.env['omniauth.auth'] = omniauth_auth(user.email)
+      DualLogin.new(session).identify(user.email)
+      allow(Silas::Roles).to receive(:new).and_raise(error)
+      allow(Sentry).to receive(:capture_exception)
+    end
+
+    %i[entra_id entra_mock].each do |callback|
+      context "with #{callback}" do
+        before { get callback }
+
+        it 'returns the generic error summary' do
+          expect(response).to redirect_to sign_in_path
+          expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.authentication_failed')
+        end
+
+        it 'clears the flow without signing in and reports the error' do
+          expect(controller.current_user).to be_nil
+          expect(session[:dual_login]).to be_nil
+          expect(Sentry).to have_received(:capture_exception).with(error)
+        end
+      end
+    end
+  end
+
+  describe 'unexpected provisioning errors' do
+    subject(:result) do
+      controller.send(:provision_user, 'new-entra-user@example.com') do
+        create(:case_worker)
+        raise error
+      end
+    end
+
+    let(:error) { StandardError.new('Internal failure details') }
+
+    before { allow(Sentry).to receive(:capture_exception) }
+
+    [false, true].each do |development|
+      context "with development #{development}" do
+        before { allow(Rails.env).to receive(:development?).and_return(development) }
+
+        it 'returns the generic message and reports the error' do
+          expect(result).to eq [nil, I18n.t('omniauth_callbacks.authentication_failed')]
+          expect(Sentry).to have_received(:capture_exception).with(error)
+        end
+
+        it 'rolls back the new account' do
+          expect { result }.not_to change(User, :count)
         end
       end
     end
@@ -327,6 +386,45 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       get :entra_id
       expect(controller.current_user).to be_nil
       expect(response).to redirect_to sign_in_path
+    end
+  end
+
+  describe 'invalid claims during provisioning' do
+    subject(:result) { controller.send(:find_existing_user_from_auth, auth) }
+
+    let(:auth) do
+      OmniAuth::AuthHash.new(
+        info: { email: 'new-entra-user@example.com', first_name: 'Test', last_name: 'User' },
+        extra: { raw_info: raw }
+      )
+    end
+
+    around do |example|
+      Dotenv.modify('AUTO_CREATE_PROVIDERS_FROM_SILAS' => 'true') { example.run }
+    end
+
+    {
+      'missing case worker roles' => {},
+      'missing firm name' => { 'LAA_ROLES' => ['Litigator'] },
+      'missing accounts' => { 'LAA_ROLES' => ['Litigator'], 'FIRM_NAME' => 'New Entra Firm' },
+      'invalid accounts' => {
+        'LAA_ROLES' => ['Litigator'], 'FIRM_NAME' => 'New Entra Firm', 'LAA_ACCOUNTS' => ['INVALID']
+      },
+      'missing external user roles' => {
+        'persona' => 'ExternalUser', 'FIRM_NAME' => 'New Entra Firm', 'LAA_ACCOUNTS' => ['9A123B']
+      }
+    }.each do |description, claims|
+      context "with #{description}" do
+        let(:raw) { claims }
+
+        it 'returns the technical problem message with the important flash key' do
+          expect(result).to eq [nil, I18n.t('omniauth_callbacks.invalid_claims'), :important]
+        end
+
+        it 'does not persist a user or provider' do
+          expect { result }.not_to(change { [User.count, Provider.count] })
+        end
+      end
     end
   end
 

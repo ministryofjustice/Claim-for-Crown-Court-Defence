@@ -103,25 +103,77 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
     follow_redirect!
     expect { follow_redirect! }.not_to change(User, :count)
     expect(response).to redirect_to sign_in_path
-    expect(flash[:alert]).to eq I18n.t('omniauth_callbacks.email_mismatch')
+    expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.email_mismatch')
     get '/users/auth/entra_id'
     expect(response).to redirect_to sign_in_path
+  end
+
+  it 'rejects mismatched callback identity during public rollout' do
+    allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+    identify_entra(approved: false)
+    OmniAuth.config.add_mock(:entra_id, uid: 'other-uid', info: { email: 'unknown@example.com' })
+    follow_redirect!
+    expect { follow_redirect! }.not_to change(User, :count)
+    expect(response).to redirect_to sign_in_path
+    expect(request.env['warden'].user).to be_nil
+    follow_redirect!
+    expect(response).to redirect_to dual_login_path
+    follow_redirect!
+    expect(response).to have_http_status(:ok)
+    expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.email_mismatch')
+    expect(Capybara.string(response.body)).to have_css(
+      '.govuk-error-summary', text: I18n.t('omniauth_callbacks.email_mismatch')
+    )
+  end
+
+  [false, true].each do |enabled|
+    it "returns the no applicable roles error summary to sign-in with public rollout #{enabled}" do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(enabled)
+      identify_entra
+      OmniAuth.config.add_mock(
+        :entra_id, uid: 'test-uid', info: { email: user.email }, extra: { raw_info: { LAA_ROLES: [] } }
+      )
+      follow_redirect!
+      expect { follow_redirect! }.not_to change { user.persona.reload.roles }
+      expect(request.env['warden'].user).to be_nil
+      expect(response).to redirect_to sign_in_path
+      follow_redirect!
+      follow_redirect! if enabled
+      expect(response).to have_http_status(:ok)
+      expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
+      expect(Capybara.string(response.body)).to have_css(
+        '.govuk-error-summary', text: I18n.t('omniauth_callbacks.no_applicable_roles')
+      )
+      get '/users/auth/entra_id'
+      expect(response).to redirect_to sign_in_path
+    end
   end
 
   it 'clears state on provider failure' do
     identify_entra
     get '/users/auth/failure', params: { message: 'access_denied' }
     expect(response).to redirect_to sign_in_path
+    follow_redirect!
+    expect(Capybara.string(response.body)).to have_css(
+      '.govuk-error-summary', text: I18n.t('omniauth_callbacks.authentication_failed')
+    )
     get '/users/auth/entra_id'
     expect(response).to redirect_to sign_in_path
   end
 
   it 'recovers from a provider authentication failure without retaining state' do
-    identify_entra
+    allow(Settings).to receive(:dual_login_enabled?).and_return(true)
+    identify_entra(approved: false)
     OmniAuth.config.mock_auth[:entra_id] = :access_denied
     follow_redirect!
     follow_redirect!
     expect(response).to redirect_to sign_in_path
+    follow_redirect!
+    expect(response).to redirect_to dual_login_path
+    follow_redirect!
+    expect(Capybara.string(response.body)).to have_css(
+      '.govuk-error-summary', text: I18n.t('omniauth_callbacks.authentication_failed')
+    )
     get '/users/auth/entra_id'
     expect(response).to redirect_to sign_in_path
   end

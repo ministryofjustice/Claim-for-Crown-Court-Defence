@@ -40,13 +40,33 @@ RSpec.describe 'Dual-login pilot', :aggregate_failures do
     expect(response).to redirect_to case_workers_root_path
   end
 
-  it 'shows the pilot-only message in a green notification banner' do
-    get dual_login_path
-    expect(response.parsed_body.at_css('.govuk-notification-banner__title')&.text&.strip).to eq 'Notice'
-    expect(Capybara.string(response.body)).to have_css(
-      '.govuk-notification-banner--success',
-      text: 'This sign-in page is for approved testers only.'
-    )
+  it 'authenticates an approved tester with only a password and the session email' do
+    user.login_route.update!(dual_login_tester: true)
+    identify
+    post user_session_path, params: { user: { password: password } }
+    expect(response).to redirect_to case_workers_root_path
+    expect(request.env['warden'].user).to eq user
+  end
+
+  [false, true].product([false, true]).each do |rollout, authenticated|
+    it "completes sign-out with public rollout #{rollout} and signed-in state #{authenticated}" do
+      allow(Settings).to receive(:dual_login_enabled?).and_return(rollout)
+      if authenticated
+        user.login_route.update!(dual_login_tester: true)
+        identify
+        submit_password
+        expect(response).to redirect_to case_workers_root_path
+      end
+
+      delete destroy_user_session_path
+      expect(flash[:signed_out]).to eq 'You have signed out'
+      expect(flash[:notice]).to be_nil
+      expect(request.env['warden'].user).to be_nil
+      follow_redirect!
+      follow_redirect! if response.redirect?
+
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   [false, true].product(%i[existing unknown]).each do |rollout, account|

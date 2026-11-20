@@ -23,6 +23,10 @@ describe 'layouts/_primary_navigation.html.haml' do
         href: super_admins_stats_path
       )
     end
+
+    it 'links to tester management' do
+      expect(rendered).to have_link('Dual-login testing', href: super_admins_dual_login_testing_index_path)
+    end
   end
 
   context 'when the current user is a case worker admin' do

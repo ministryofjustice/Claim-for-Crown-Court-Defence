@@ -9,7 +9,9 @@ class FeatureFlag
     end
 
     def active_features
-      Settings.active_features || []
+      features = Array(Settings.active_features).map(&:to_sym)
+      features |= [:dual_login] if Settings.dual_login_enabled?
+      features
     end
   end
 end

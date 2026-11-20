@@ -1,0 +1,23 @@
+en:
+  super_admins:
+    dual_login_testing:
+      missing_route: This account has no login route. Arrange a separate routing repair before changing its sign-in settings.
+      approval_updated: Tester approval updated. The login method has not changed.
+      approval_failed: "Unable to update tester approval: %{errors}"
+      login_method_updated: Login method updated. Tester approval has not changed.
+      login_method_failed: "Unable to update login method: %{errors}"
+      index:
+        page_title: Dual-login testing
+        hint: Find an existing account to manage tester approval and its login method separately. Neither control changes the global rollout setting.
+        email: Email address
+        find: Find account
+        login_method: "Login method: %{method}"
+        change_login_method: Change login method
+        legacy: Legacy
+        entra: Entra
+        save_login_method: Save login method
+        approved: Approved for testing
+        not_approved: Not approved for testing
+        approve: Approve testing
+        revoke: Revoke testing
+        not_found: No account found with this email address.

@@ -14,6 +14,8 @@
 #
 
 class ExternalUser < ApplicationRecord
+  class InvalidProviderRolesError < RuntimeError; end
+
   SUPPLIER_NUMBER_REGEX = /\A[0-9A-Z]{5}\z/
 
   auto_strip_attributes :supplier_number, squish: true, nullify: true
@@ -62,15 +64,12 @@ class ExternalUser < ApplicationRecord
   def available_roles
     return %w[admin] if provider.nil?
 
-    if provider.agfs? && provider.lgfs?
-      %w[admin advocate litigator]
-    elsif provider.agfs?
-      %w[admin advocate]
-    elsif provider.lgfs?
-      %w[admin litigator]
-    else
-      raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
+    available_roles = provider.available_external_user_roles
+    if available_roles.empty?
+      raise InvalidProviderRolesError, "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
     end
+
+    available_roles
   end
 
   def advocate_claim_types

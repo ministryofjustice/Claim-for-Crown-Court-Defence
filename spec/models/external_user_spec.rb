@@ -317,6 +317,12 @@ RSpec.describe ExternalUser do
 
     let(:user) { create(:external_user, :advocate, provider:) }
 
+    context 'without a provider' do
+      let(:user) { build(:external_user, provider: nil) }
+
+      it { is_expected.to eq ['admin'] }
+    end
+
     context "when the user's provider handles both AGFS and LGFS claims" do
       let(:provider) { build(:provider, :agfs_lgfs) }
 
@@ -341,7 +347,17 @@ RSpec.describe ExternalUser do
       before { user.provider.roles = %w[invalid_role] }
 
       it 'raises an error' do
-        expect { user.available_roles }.to raise_error(RuntimeError)
+        expect { user.available_roles }
+          .to raise_error(ExternalUser::InvalidProviderRolesError, 'Provider has no valid roles available: agfs, lgfs')
+      end
+    end
+
+    context 'when the provider has no roles' do
+      let(:user) { build(:external_user, provider: build(:provider, roles: [])) }
+
+      it 'raises an error' do
+        expect { user.available_roles }
+          .to raise_error(ExternalUser::InvalidProviderRolesError, 'Provider has no valid roles available: agfs, lgfs')
       end
     end
   end

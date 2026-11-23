@@ -1,8 +1,8 @@
 module UserHelper
   def sign_in(user, password)
     using_wait_time 10 do
-      visit new_user_session_path
-      expect(current_path).to eql(new_user_session_path)
+      visit sign_in_path
+      expect(page).to have_current_path(sign_in_path)
     end
 
     using_wait_time 6 do

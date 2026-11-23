@@ -67,6 +67,27 @@ en:
       hint_text: "For any queries about your claim, contact the following:"
       advocate_hint: "Advocates’ graduated fee scheme"
       litigator_hint: "Litigators’ graduated fee scheme"
+
+  omniauth_callbacks:
+    authentication_failed: We could not sign you in. If the problem continues, report a fault.
+    invalid_claims: We are experiencing technical problems. Please try again later.
+    no_applicable_roles: Your account does not have a role that allows you to sign in. Report a fault to get help.
+    email_mismatch: The account you selected does not match the email address you entered
+  session_routing:
+    pilot_link: Try the new sign-in (approved testers only)
+    pilot_banner: This sign-in page is for approved testers only.
+    unavailable: Unable to continue with this sign-in method. Use the standard sign-in page.
+    standard_sign_in: Back to standard sign-in
+    new:
+      page_title: Sign in to claim for Crown Court defence
+      page_heading: Sign in
+      hint: We’ll use your email address to find the right way for you to sign in.
+      email: Email address
+      sign_in: Sign in
+      error_prefix: "Error:"
+      errors:
+        blank_email: Enter your email address
+        invalid_email: Enter an email address in the correct format, like name@example.com
   errors:
     internal_server_error:
       page_heading: 500 - internal server error
@@ -394,7 +415,7 @@ en:
     description: Description
     warning: 'Warning'
     send: &send Send
-    unauthorised: Unauthorised
+    unauthorised: You are not authorised to access that page.
   link:
     add_claim: Start a claim
     back: Back

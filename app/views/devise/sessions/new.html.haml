@@ -1,13 +1,28 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/page_heading', locals: {page_heading: t('.page_heading')}
+- if identified_password_step?
+  = render partial: 'layouts/page_heading', locals: { page_heading: t('.password_page_heading') }
+- else
+  = render partial: 'layouts/page_heading', locals: {page_heading: t('.page_heading')}
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with(model: resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f|
-      = f.govuk_text_field :email, label: { text: t('.email') }, autofocus: true
-      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off'
-      = f.govuk_submit t('.sign_in')
+    = form_with(model: resource, as: resource_name, url: identified_password_step? ? session_path(resource_name) : sign_in_path, html: { autocomplete: 'off' }) do |f|
+      - if identified_password_step?
+        %h2.govuk-heading-s= t('.signing_in_as')
+        %p.govuk-body.cccd-sign-in-email= resource.email
+      - else
+        = f.govuk_text_field :email, label: { text: t('.email') }, value: resource.email, autofocus: resource.email.blank?
+      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off', autofocus: params[:email].present?
+      = f.govuk_submit(identified_password_step? ? t('.continue') : t('.sign_in'))
 
-    = render "devise/shared/links"
+    - if identified_password_step?
+      - if devise_mapping.recoverable?
+        %p.govuk-body= govuk_link_to t('devise.shared.links.forgot_your_password'), new_password_path(resource_name)
+    - else
+      = render "devise/shared/links"
+
+    - if !identified_password_step? && !DualLogin.public_rollout?
+      %p.govuk-body{ class: 'govuk-!-margin-top-6' }
+        = govuk_link_to t('session_routing.pilot_link'), dual_login_path

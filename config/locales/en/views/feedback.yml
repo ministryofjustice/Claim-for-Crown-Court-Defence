@@ -18,5 +18,7 @@ en:
       reason: What were you aiming to achieve on Claim for crown court defence today?
       reason_other: Enter your comment
       report_fault_html: If you have found an issue or a bug, <a class='govuk-link' href="%{bug_report_link}" rel='noreferrer noopener' target='_blank'>report a fault (opens in a new tab)</a>
+      return_to_sign_in: return to the Claim for Crown Court defence homepage
+      survey_intro_html: You can complete the optional survey below or %{sign_in_link}.
       task_legend: Were you able to complete the tasks you aimed to on Claim for crown court defence today?
       send: Send

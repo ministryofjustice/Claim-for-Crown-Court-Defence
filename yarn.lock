@@ -212,13 +212,13 @@
   integrity sha512-R76UKbvsqI68DJJVTVyqFKqU98CN4+B+acxNfEA2IFarSzP0SjtKf/3+fFiXzTyv5Fj3PxLkGHe2wnVWWMxobQ==
 
 "@eslint/config-array@^0.23.5":
-  version "0.23.5"
-  resolved "https://registry.yarnpkg.com/@eslint/config-array/-/config-array-0.23.5.tgz#56e86d243049195d8acc0c06a1b3dfdc3fa3de95"
-  integrity sha512-Y3kKLvC1dvTOT+oGlqNQ1XLqK6D1HU2YXPc52NmAlJZbMMWDzGYXMiPRJ8TYD39muD/OTjlZmNJ4ib7dvSrMBA==
+  version "0.23.6"
+  resolved "https://registry.yarnpkg.com/@eslint/config-array/-/config-array-0.23.6.tgz#cf69071fd9dc0950e90c352e2716fa8a26e631a4"
+  integrity sha512-WrTH7nioI9QPY4NZGnsywmecswJdgeq4BCM76qok9VgjTO29ZgUzUvcuJLVPYVQM4uDbaPBU0M33R9DIxI8X3w==
   dependencies:
     "@eslint/object-schema" "^3.0.5"
     debug "^4.3.1"
-    minimatch "^10.2.4"
+    minimatch "^11.0.5"
 
 "@eslint/config-helpers@^0.7.0":
   version "0.7.0"
@@ -1596,14 +1596,14 @@ mime-types@^3.0.2:
   dependencies:
     mime-db "^1.54.0"
 
-minimatch@^10.2.2, minimatch@^10.2.4, minimatch@^10.2.6:
+minimatch@^10.2.2, minimatch@^10.2.6:
   version "10.2.6"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-10.2.6.tgz#fd956bbe0b77241e9f15ac5dccb1c638060968ef"
   integrity sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==
   dependencies:
     brace-expansion "^5.0.8"
 
-minimatch@^11.0.1:
+minimatch@^11.0.1, minimatch@^11.0.5:
   version "11.0.9"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-11.0.9.tgz#00d0088671fa0d872ba1e2578f5abf3be0fe878e"
   integrity sha512-KCFkfyjqerNlSstjlhIGNXIKZGA/6O4V4RlhZ+Dsr621SPPw0mzlypE9D9ZOoPiVefHID+j7/XuMMlqfD/F60Q==

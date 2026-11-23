@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_15_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_12_132500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "uuid-ossp"
@@ -555,6 +555,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_15_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "roles"
+    t.integer "firm_code"
     t.index ["firm_agfs_supplier_number"], name: "index_providers_on_firm_agfs_supplier_number"
     t.index ["name"], name: "index_providers_on_name"
     t.index ["provider_type"], name: "index_providers_on_provider_type"

@@ -100,14 +100,14 @@ RSpec.describe Silas::Roles do
     context 'without the role claim' do
       let(:raw) { {} }
 
-      it 'preserves existing eligibility' do
-        expect { role_mapping.validate_super_admin! }.not_to raise_error
+      it 'rejects sign-in' do
+        expect { role_mapping.validate_super_admin! }.to raise_error(described_class::NoApplicableRoles)
       end
     end
 
     [
       ['Super Administrator'],
-      ['Caseworker', 'Super Administrator', 'Advocate'],
+      ['Caseworker', 'Super Administrator'],
       ' Super Administrator '
     ].each do |roles|
       context "with #{roles.inspect} supplied roles" do
@@ -119,7 +119,15 @@ RSpec.describe Silas::Roles do
       end
     end
 
-    [[], nil, ['', ' ', nil], ['Unknown'], %w[Caseworker Advocate], ['LAA Administrator']].each do |roles|
+    context 'with internal and external roles' do
+      let(:laa_roles) { ['Caseworker', 'Super Administrator', 'Advocate'] }
+
+      it 'rejects sign-in even with the superadmin role' do
+        expect { role_mapping.validate_super_admin! }.to raise_error(described_class::MixedPersonaRoles)
+      end
+    end
+
+    [[], nil, ['', ' ', nil], ['Unknown'], ['LAA Administrator']].each do |roles|
       context "with #{roles.inspect} supplied roles" do
         let(:laa_roles) { roles }
 
@@ -134,18 +142,32 @@ RSpec.describe Silas::Roles do
 
   describe '#sync!' do
     let(:user) { create(:case_worker).user }
-    let(:laa_roles) { ['Caseworker', 'Advocate', 'LAA Administrator', 'Administrator'] }
+    let(:laa_roles) { ['Caseworker', 'LAA Administrator'] }
 
     {
-      case_worker: %w[case_worker admin],
-      external_user: %w[advocate admin]
-    }.each do |persona, expected_roles|
+      case_worker: [['Caseworker', 'LAA Administrator'], %w[case_worker admin]],
+      external_user: [%w[Advocate Administrator], %w[advocate admin]]
+    }.each do |persona, (roles, expected_roles)|
       context "with a #{persona}" do
         let(:user) { create(persona).user }
+        let(:laa_roles) { roles }
 
         it 'persists only the roles appropriate to the existing persona' do
           role_mapping.sync!(user)
           expect(user.persona.reload.roles).to eq expected_roles
+        end
+      end
+    end
+
+    %i[case_worker external_user].each do |persona|
+      context "with mixed persona roles for a #{persona}" do
+        let(:user) { create(persona, :admin).user }
+        let(:laa_roles) { %w[Caseworker Advocate] }
+
+        it 'rejects synchronisation without changing stored roles', :aggregate_failures do
+          expect do
+            expect { role_mapping.sync!(user) }.to raise_error(described_class::MixedPersonaRoles)
+          end.not_to change { user.persona.reload.roles }
         end
       end
     end
@@ -225,8 +247,10 @@ RSpec.describe Silas::Roles do
     context 'without the role claim' do
       let(:raw) { {} }
 
-      it 'preserves the current roles' do
-        expect { role_mapping.sync!(user) }.not_to change { user.persona.reload.roles }
+      it 'rejects synchronisation without changing the current roles', :aggregate_failures do
+        expect do
+          expect { role_mapping.sync!(user) }.to raise_error(described_class::NoApplicableRoles)
+        end.not_to change { user.persona.reload.roles }
       end
     end
 

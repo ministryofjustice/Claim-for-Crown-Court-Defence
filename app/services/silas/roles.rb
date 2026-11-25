@@ -1,6 +1,7 @@
 module Silas
   class Roles
     class NoApplicableRoles < StandardError; end
+    class MixedPersonaRoles < StandardError; end
 
     INTERNAL_ROLE_MAPPINGS = {
       'Caseworker' => 'case_worker',
@@ -42,13 +43,15 @@ module Silas
     end
 
     def validate_super_admin!
-      return unless roles_supplied
+      validate_claims!
 
       raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' unless laa_roles.include?(SUPER_ADMIN_ROLE)
     end
 
     def sync!(user)
-      return unless roles_supplied && (user.case_worker? || user.external_user?)
+      return unless user.case_worker? || user.external_user?
+
+      validate_claims!
 
       mapped = roles_for(user)
       raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' if mapped.empty?
@@ -62,6 +65,13 @@ module Silas
     private
 
     attr_reader :laa_roles, :roles_supplied
+
+    def validate_claims!
+      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' unless roles_supplied
+      return if case_worker_roles.empty? || external_user_roles.empty?
+
+      raise MixedPersonaRoles, 'Both internal and external roles found in LAA_ROLES'
+    end
 
     def mapped_roles(mapping, valid_roles)
       laa_roles.filter_map { |role| mapping[role] } & valid_roles

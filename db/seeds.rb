@@ -37,6 +37,7 @@ SEED_FILES = %w[
   scheme_16
   lgfs_scheme_11
   scheme_17
+  scheme_18
 ]
 
 SEED_FILES.each do |file|

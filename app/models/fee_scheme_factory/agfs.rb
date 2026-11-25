@@ -14,7 +14,8 @@ module FeeSchemeFactory
         { scheme: 14, range: scheme_fourteen_range },
         { scheme: 15, range: scheme_fifteen_range },
         { scheme: 16, range: scheme_sixteen_range },
-        { scheme: 17, range: scheme_seventeen_range }
+        { scheme: 17, range: scheme_seventeen_range },
+        { scheme: 18, range: scheme_eighteen_range }
       ]
     end
 
@@ -43,7 +44,11 @@ module FeeSchemeFactory
     end
 
     def scheme_seventeen_range
-      Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date..Time.zone.today
+      Settings.agfs_scheme_17_additional_prep_fee_underspend_release_date..(Settings.agfs_scheme_18_start_date - 1.day)
+    end
+
+    def scheme_eighteen_range
+      Settings.agfs_scheme_18_start_date..Time.zone.today
     end
   end
 end

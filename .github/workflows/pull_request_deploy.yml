@@ -49,7 +49,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@8e902f54ebf3350ad43dbdc1f475322cc31967c6 # main as of 03/11/2026
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@7152e5b52e016ee20bca10b13d716c4f087599b4 # main as of 03/11/2026
     with:
       image_uri: ${{ format('{0}/{1}:app-{2}', vars.ECR_REGISTRY_HOST, vars.ECR_REPOSITORY, github.sha) }}
       dockerfile_path: docker/Dockerfile

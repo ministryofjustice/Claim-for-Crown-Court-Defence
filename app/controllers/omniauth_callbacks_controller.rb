@@ -30,6 +30,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     raw = auth.extra&.raw_info || {}
     user = User.find_by(email: info.email.to_s.downcase)
 
+    Silas::Roles.new(raw).validate_super_admin_claim!(user)
     find_user_by_persona(user, info, raw)
   rescue Silas::Roles::NoApplicableRoles, Silas::Roles::MixedPersonaRoles
     [nil, I18n.t('omniauth_callbacks.role_error')]
@@ -144,7 +145,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def find_super_admin(user, info, raw)
     email = info.email.to_s.downcase
-    return create_super_admin_from_auth(info) if user.nil?
+    raise Silas::Roles::NoApplicableRoles, Silas::Roles::NO_APPLICABLE_ROLES_MESSAGE if user.nil?
 
     if user.persona_type && user.persona_type != PERSONA_SUPER_ADMIN
       return [nil,
@@ -218,22 +219,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     )
     external_user.user = user
     external_user.save!
-  end
-
-  def create_super_admin_from_auth(info)
-    email = info.email.to_s.downcase
-
-    provision_user do
-      user = create_user_from_auth!(info, {}, email)
-      create_super_admin_persona!(user)
-      user
-    end
-  end
-
-  def create_super_admin_persona!(user)
-    super_admin = SuperAdmin.new
-    super_admin.user = user
-    super_admin.save!
   end
 
   def provision_user

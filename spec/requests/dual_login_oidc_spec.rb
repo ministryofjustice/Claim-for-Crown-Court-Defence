@@ -115,6 +115,18 @@ RSpec.describe 'Dual-login OpenID Connect authentication', :aggregate_failures d
     end
   end
 
+  context 'when SiLAS supplies a superadmin role alongside a caseworker role' do
+    let(:roles) { ['Caseworker', 'Super Administrator'] }
+
+    it 'rejects sign-in without changing stored permissions' do
+      expect { complete_oidc_flow }.not_to change { user.reload.sign_in_count }
+      expect(user.persona.reload.roles).to eq ['admin']
+      expect(request.env['warden'].user).to be_nil
+      expect(response).to redirect_to sign_in_path
+      expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
+    end
+  end
+
   context 'when the ID token is signed with an untrusted key' do
     let(:token_signing_key) { OpenSSL::PKey::RSA.new(2048) }
 

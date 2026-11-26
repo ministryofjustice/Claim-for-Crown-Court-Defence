@@ -108,7 +108,6 @@ RSpec.describe Silas::Roles do
 
     [
       ['Super Administrator'],
-      ['Caseworker', 'Super Administrator'],
       ' Super Administrator '
     ].each do |roles|
       context "with #{roles.inspect} supplied roles" do
@@ -116,6 +115,21 @@ RSpec.describe Silas::Roles do
 
         it 'accepts the superadmin role' do
           expect { role_mapping.validate_super_admin! }.not_to raise_error
+        end
+      end
+    end
+
+    [
+      ['Caseworker', 'Super Administrator'],
+      ['Advocate', 'Super Administrator'],
+      ['Unknown', 'Super Administrator'],
+      ['Super Administrator', 'Super Administrator']
+    ].each do |roles|
+      context "with #{roles.inspect} supplied roles" do
+        let(:laa_roles) { roles }
+
+        it 'rejects the superadmin role when it is not the only role' do
+          expect { role_mapping.validate_super_admin! }.to raise_error(described_class::NoApplicableRoles)
         end
       end
     end

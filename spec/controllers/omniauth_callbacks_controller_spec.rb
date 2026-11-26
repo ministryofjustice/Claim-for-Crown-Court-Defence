@@ -126,6 +126,12 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     all_personas = %i[case_worker external_user super_admin]
     invalid_roles = [[], nil, ['', ' ', nil], ['Unknown'], ['Super Administrator']]
     invalid_super_admin_roles = [[], nil, ['', ' ', nil], ['Unknown'], ['LAA Administrator']]
+    mixed_super_admin_roles = [
+      ['Super Administrator', 'Caseworker'],
+      ['Super Administrator', 'Advocate'],
+      ['Super Administrator', 'Unknown'],
+      ['Super Administrator', 'Super Administrator']
+    ]
 
     %i[entra_id entra_mock].each do |callback|
       context "with an existing superadmin using #{callback}" do
@@ -170,6 +176,22 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       end
 
       all_personas.each do |persona|
+        mixed_super_admin_roles.each do |roles|
+          context "with #{roles.inspect} for a #{persona} using #{callback}" do
+            let(:user) { create(persona).user }
+
+            before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles }
+
+            it 'rejects sign-in without changing the account' do
+              expect { get callback }.not_to change { user.persona.reload.attributes }
+              expect(controller.current_user).to be_nil
+              expect(response).to redirect_to sign_in_path
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
+              expect(session[:dual_login]).to be_nil
+            end
+          end
+        end
+
         context "with mixed persona roles for a #{persona} using #{callback}" do
           let(:user) { create(persona).user }
 
@@ -413,6 +435,32 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
         info: { email: 'new-entra-user@example.com', first_name: 'Test', last_name: 'User' },
         extra: { raw_info: { 'LAA_ROLES' => ['Caseworker', 'Beta Tester'] } }
       )
+    end
+
+    describe 'superadmin provisioning' do
+      let(:auth) do
+        OmniAuth::AuthHash.new(
+          info: { email: 'new-entra-user@example.com', first_name: 'Test', last_name: 'User' },
+          extra: { raw_info: raw }
+        )
+      end
+
+      [
+        { 'LAA_ROLES' => ['Super Administrator'] },
+        { 'LAA_ROLES' => ['Super Administrator', 'Caseworker'] },
+        { 'persona' => 'SuperAdmin' }
+      ].each do |claims|
+        context "with #{claims.inspect}" do
+          let(:raw) { claims }
+
+          it 'rejects the new account without creating records' do
+            expect do
+              expect(controller.send(:find_existing_user_from_auth, auth))
+                .to eq [nil, I18n.t('omniauth_callbacks.role_error')]
+            end.not_to(change { [User.count, SuperAdmin.count] })
+          end
+        end
+      end
     end
 
     it 'creates a case worker with the beta tester role from SiLAS' do

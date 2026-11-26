@@ -54,12 +54,20 @@ module Silas
     def validate_super_admin!
       validate_claims!
 
-      raise NoApplicableRoles, NO_APPLICABLE_ROLES_MESSAGE unless laa_roles.include?(SUPER_ADMIN_ROLE)
+      raise NoApplicableRoles, NO_APPLICABLE_ROLES_MESSAGE unless laa_roles == [SUPER_ADMIN_ROLE]
+    end
+
+    def validate_super_admin_claim!(user)
+      return unless laa_roles.include?(SUPER_ADMIN_ROLE)
+      return if laa_roles == [SUPER_ADMIN_ROLE] && user&.persona_type == SuperAdmin.name
+
+      raise NoApplicableRoles, NO_APPLICABLE_ROLES_MESSAGE
     end
 
     def sync!(user)
       return unless user.case_worker? || user.external_user?
 
+      validate_super_admin_claim!(user)
       validate_claims!
 
       mapped = roles_for(user)

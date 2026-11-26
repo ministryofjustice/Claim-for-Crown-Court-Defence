@@ -106,7 +106,7 @@ GEM
     auto_strip_attributes (3.0.0)
       activerecord (>= 7.1, < 9)
     aws-eventstream (1.4.1)
-    aws-partitions (1.1311.0)
+    aws-partitions (1.1312.0)
     aws-sdk-core (3.272.0)
       aws-eventstream (~> 1, >= 1.4.1)
       aws-partitions (~> 1, >= 1.992.0)
@@ -119,15 +119,15 @@ GEM
     aws-sdk-kms (1.145.0)
       aws-sdk-core (~> 3, >= 3.270.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.244.0)
+    aws-sdk-s3 (1.245.0)
       aws-sdk-core (~> 3, >= 3.269.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
-    aws-sdk-sns (1.132.0)
-      aws-sdk-core (~> 3, >= 3.269.0)
+    aws-sdk-sns (1.133.0)
+      aws-sdk-core (~> 3, >= 3.270.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-sqs (1.130.0)
-      aws-sdk-core (~> 3, >= 3.269.0)
+    aws-sdk-sqs (1.131.0)
+      aws-sdk-core (~> 3, >= 3.270.0)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
       aws-eventstream (~> 1, >= 1.0.2)
@@ -877,12 +877,12 @@ CHECKSUMS
   auth-sanitizer (0.2.5) sha256=eec0f5ee354931a1431be6f7025bc38d03db1731a2185726cbe6248e49bee177
   auto_strip_attributes (3.0.0) sha256=a8612fe3e877247813b8429eac47938177115896efbea4f9b1a2029fa7d535d8
   aws-eventstream (1.4.1) sha256=ceb6a99c61df4bb00344e54aed0351574beca24f87a0d1487d1d2ed80929ce96
-  aws-partitions (1.1311.0) sha256=de5d8bb04d3f184317e7c02bbf1ee4ee5f5095fe1461b8fbd618ebba607a6f93
+  aws-partitions (1.1312.0) sha256=0847fdfb5063e37a8f06dbe99a3a14fc09a84f3c2aa65b3d2b913de075edc1fa
   aws-sdk-core (3.272.0) sha256=decc1b6385865ea0756bb3d5926e7cef4628d8ec2b76d6748fd71df50997590d
   aws-sdk-kms (1.145.0) sha256=ddbe86fca434f9a28bd0480b68fc0ce8bae555b6fd41b370bb00caa2dcf58853
-  aws-sdk-s3 (1.244.0) sha256=6da6f21fc57bf4237061318b7a2ecbf9fbe55c2bd9f73acc74a123b0a7ce2f26
-  aws-sdk-sns (1.132.0) sha256=e02fbe54c6b284d0239c4ab846774508099e6126bf2534ccfdbc5f0bc53ac4ea
-  aws-sdk-sqs (1.130.0) sha256=6eed9a763426e3396c93e194aed510476f370a487d35c5da757f8fa17360f20b
+  aws-sdk-s3 (1.245.0) sha256=16f76ae1d8eb7cab0d0034c053398c1ae98d08f5b14feaa8628ac4e6cab9faf5
+  aws-sdk-sns (1.133.0) sha256=69a02ae093fe524847726a32c50c4c43a780272913d0dd0d0a2a5f31be17efc2
+  aws-sdk-sqs (1.131.0) sha256=836c9fb4a23cbca4d0b947ec9b1e7e396d483da134e7939611bdd62058baaa33
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
   axe-core-api (4.14.0) sha256=61fa8065b6643d3faa82527220fafff5b80d3beed4a19c198782f415d8ad8ac0
   axe-core-cucumber (4.14.0) sha256=5eaaef1a4d0b15b5788dbe0bd9dfbba3b50fbe32ada9e4cd8b527a1f799e2d59

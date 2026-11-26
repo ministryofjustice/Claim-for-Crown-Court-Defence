@@ -19,6 +19,7 @@ module Silas
     }.freeze
 
     SUPER_ADMIN_ROLE = 'Super Administrator'.freeze
+    NO_APPLICABLE_ROLES_MESSAGE = 'No applicable roles found in LAA_ROLES'.freeze
 
     def initialize(raw)
       @roles_supplied = raw.key?('LAA_ROLES')
@@ -33,7 +34,7 @@ module Silas
 
     def case_worker_roles!
       roles = case_worker_roles
-      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' if (roles - ['beta_tester']).empty?
+      raise NoApplicableRoles, NO_APPLICABLE_ROLES_MESSAGE if (roles - ['beta_tester']).empty?
 
       roles
     end
@@ -53,7 +54,7 @@ module Silas
     def validate_super_admin!
       validate_claims!
 
-      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' unless laa_roles.include?(SUPER_ADMIN_ROLE)
+      raise NoApplicableRoles, NO_APPLICABLE_ROLES_MESSAGE unless laa_roles.include?(SUPER_ADMIN_ROLE)
     end
 
     def sync!(user)
@@ -62,7 +63,7 @@ module Silas
       validate_claims!
 
       mapped = roles_for(user)
-      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' if mapped.empty?
+      raise NoApplicableRoles, NO_APPLICABLE_ROLES_MESSAGE if mapped.empty?
 
       return if Array(user.persona.roles).map(&:to_s).sort == mapped.sort
 
@@ -74,7 +75,7 @@ module Silas
     attr_reader :laa_roles, :roles_supplied
 
     def validate_claims!
-      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' unless roles_supplied
+      raise NoApplicableRoles, NO_APPLICABLE_ROLES_MESSAGE unless roles_supplied
       return if case_worker_roles.empty? || external_user_roles.empty?
 
       raise MixedPersonaRoles, 'Both internal and external roles found in LAA_ROLES'

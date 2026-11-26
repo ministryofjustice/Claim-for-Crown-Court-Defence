@@ -407,6 +407,22 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
   end
 
+  describe 'case worker provisioning' do
+    let(:auth) do
+      OmniAuth::AuthHash.new(
+        info: { email: 'new-entra-user@example.com', first_name: 'Test', last_name: 'User' },
+        extra: { raw_info: { 'LAA_ROLES' => ['Caseworker', 'Beta Tester'] } }
+      )
+    end
+
+    it 'creates a case worker with the beta tester role from SiLAS' do
+      user, error = controller.send(:find_existing_user_from_auth, auth)
+      expect(error).to be_nil
+      expect(user.persona).to be_a(CaseWorker)
+      expect(user.persona.reload.roles).to eq %w[case_worker beta_tester]
+    end
+  end
+
   describe 'invalid claims during provisioning' do
     subject(:result) { controller.send(:find_existing_user_from_auth, auth) }
 
@@ -444,6 +460,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     {
       'missing case worker roles' => {},
       'unrecognised case worker roles' => { 'LAA_ROLES' => ['Unknown'] },
+      'beta tester without an application role' => { 'LAA_ROLES' => ['Beta Tester', 'Unknown'] },
       'missing external user roles' => {
         'persona' => 'ExternalUser', 'FIRM_NAME' => 'New Entra Firm', 'LAA_ACCOUNTS' => ['9A123B']
       },

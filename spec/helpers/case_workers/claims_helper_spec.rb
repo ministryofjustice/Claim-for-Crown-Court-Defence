@@ -184,9 +184,15 @@ describe CaseWorkers::ClaimsHelper do
         it { is_expected.to be_truthy }
 
         it 'keeps the Court Data view enabled after SiLAS role synchronisation' do
-          Silas::Roles.new('LAA_ROLES' => ['Caseworker']).sync!(user)
+          Silas::Roles.new('LAA_ROLES' => ['Caseworker', 'Beta Tester']).sync!(user)
           user.persona.reload
           expect(helper).to be_cda_view_enabled
+        end
+
+        it 'disables the Court Data view when SiLAS removes beta tester access' do
+          Silas::Roles.new('LAA_ROLES' => ['Caseworker']).sync!(user)
+          user.persona.reload
+          expect(helper).not_to be_cda_view_enabled
         end
       end
 

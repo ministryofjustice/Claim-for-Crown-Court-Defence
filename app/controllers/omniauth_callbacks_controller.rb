@@ -184,10 +184,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     role_mapping = Silas::Roles.new(raw)
     raise Silas::Roles::NoApplicableRoles, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
 
-    mapped = role_mapping.case_worker_roles
-    raise Silas::Roles::NoApplicableRoles, 'No valid case worker roles found in LAA_ROLES' if mapped.empty?
-
-    mapped
+    role_mapping.case_worker_roles!
   end
 
   def default_case_worker_location

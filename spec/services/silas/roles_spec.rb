@@ -83,6 +83,7 @@ RSpec.describe Silas::Roles do
       [%w[Caseworker Advocate] + ['Super Administrator'], 'SuperAdmin'],
       [%w[Caseworker Advocate], 'ExternalUser'],
       [['Caseworker'], 'CaseWorker'],
+      [['Beta Tester'], 'CaseWorker'],
       [['Unknown'], nil],
       [[], nil]
     ].each do |roles, persona_type|
@@ -213,20 +214,20 @@ RSpec.describe Silas::Roles do
       end
     end
 
-    context 'with a locally managed beta tester role' do
+    context 'when SiLAS revokes beta tester access' do
       let(:user) { create(:case_worker, roles: %w[admin case_worker provider_management beta_tester]).user }
       let(:laa_roles) { ['Caseworker'] }
 
-      it 'preserves beta tester access while removing revoked SiLAS-managed roles' do
+      it 'removes beta tester access along with other revoked roles' do
         role_mapping.sync!(user)
-        expect(user.persona.reload.roles).to eq %w[case_worker beta_tester]
+        expect(user.persona.reload.roles).to eq ['case_worker']
       end
 
       [[], ['Unknown'], ['beta_tester']].each do |roles|
         context "with #{roles.inspect} supplied SiLAS roles" do
           let(:laa_roles) { roles }
 
-          it 'still rejects synchronisation without applicable SiLAS roles', :aggregate_failures do
+          it 'rejects synchronisation without applicable SiLAS roles', :aggregate_failures do
             expect do
               expect { role_mapping.sync!(user) }.to raise_error(described_class::NoApplicableRoles)
             end.not_to change { user.persona.reload.roles }
@@ -235,12 +236,45 @@ RSpec.describe Silas::Roles do
       end
     end
 
-    context 'when SiLAS supplies the locally managed role without an existing entitlement' do
-      let(:laa_roles) { %w[Caseworker beta_tester] }
+    context 'when SiLAS grants beta tester access' do
+      let(:laa_roles) { ['Caseworker', ' Beta Tester '] }
 
-      it 'does not grant beta tester access' do
+      it 'adds beta tester to the case worker roles' do
         role_mapping.sync!(user)
-        expect(user.persona.reload.roles).to eq ['case_worker']
+        expect(user.persona.reload.roles).to eq %w[case_worker beta_tester]
+      end
+    end
+
+    [['Beta Tester'], ['Beta Tester', 'Unknown']].each do |roles|
+      context "when the only recognised role is beta tester in #{roles.inspect}" do
+        let(:laa_roles) { roles }
+
+        it 'rejects synchronisation without changing stored roles', :aggregate_failures do
+          expect do
+            expect { role_mapping.sync!(user) }.to raise_error(described_class::NoApplicableRoles)
+          end.not_to change { user.persona.reload.roles }
+        end
+      end
+    end
+
+    { 'LAA Administrator' => 'admin', 'Provider Management' => 'provider_management' }.each do |role, expected|
+      context "when SiLAS supplies beta tester with #{role}" do
+        let(:laa_roles) { [role, 'Beta Tester'] }
+
+        it 'accepts and synchronises the roles' do
+          role_mapping.sync!(user)
+          expect(user.persona.reload.roles).to eq [expected, 'beta_tester']
+        end
+      end
+    end
+
+    context 'when SiLAS supplies beta tester and an external role' do
+      let(:laa_roles) { ['Beta Tester', 'Advocate'] }
+
+      it 'rejects mixed personas without changing stored roles', :aggregate_failures do
+        expect do
+          expect { role_mapping.sync!(user) }.to raise_error(described_class::MixedPersonaRoles)
+        end.not_to change { user.persona.reload.roles }
       end
     end
 

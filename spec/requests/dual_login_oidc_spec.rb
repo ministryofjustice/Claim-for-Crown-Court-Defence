@@ -40,6 +40,42 @@ RSpec.describe 'Dual-login OpenID Connect authentication', :aggregate_failures d
     end
   end
 
+  context 'when SiLAS grants beta tester access' do
+    let(:roles) { ['Caseworker', 'Beta Tester'] }
+
+    it 'synchronises beta tester access before signing in' do
+      complete_oidc_flow
+      expect(request.env['warden'].user).to eq user
+      expect(user.persona.reload.roles).to eq %w[case_worker beta_tester]
+      expect(response).to redirect_to case_workers_root_path
+    end
+  end
+
+  context 'when SiLAS revokes beta tester access' do
+    let(:user) { create(:case_worker, roles: %w[case_worker beta_tester]).user }
+
+    it 'removes beta tester access before signing in' do
+      complete_oidc_flow
+      expect(request.env['warden'].user).to eq user
+      expect(user.persona.reload.roles).to eq ['case_worker']
+      expect(response).to redirect_to case_workers_root_path
+    end
+  end
+
+  context 'when SiLAS supplies only the beta tester role' do
+    let(:roles) { ['Beta Tester'] }
+
+    it 'rejects sign-in without changing stored permissions or retaining identification' do
+      expect { complete_oidc_flow }.not_to change { user.reload.sign_in_count }
+      expect(user.persona.reload.roles).to eq ['admin']
+      expect(request.env['warden'].user).to be_nil
+      expect(response).to redirect_to sign_in_path
+      expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
+      get '/users/auth/entra_id'
+      expect(response).to redirect_to sign_in_path
+    end
+  end
+
   context 'when SiLAS explicitly removes all roles' do
     let(:roles) { [] }
 

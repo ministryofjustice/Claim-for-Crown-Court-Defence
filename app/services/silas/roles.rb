@@ -6,7 +6,8 @@ module Silas
     INTERNAL_ROLE_MAPPINGS = {
       'Caseworker' => 'case_worker',
       'Provider Management' => 'provider_management',
-      'LAA Administrator' => 'admin'
+      'LAA Administrator' => 'admin',
+      'Beta Tester' => 'beta_tester'
     }.freeze
 
     EXTERNAL_ROLE_MAPPINGS = {
@@ -28,6 +29,13 @@ module Silas
 
     def case_worker_roles
       mapped_roles(INTERNAL_ROLE_MAPPINGS, CaseWorker::ROLES)
+    end
+
+    def case_worker_roles!
+      roles = case_worker_roles
+      raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' if (roles - ['beta_tester']).empty?
+
+      roles
     end
 
     def external_user_roles
@@ -56,7 +64,6 @@ module Silas
       mapped = roles_for(user)
       raise NoApplicableRoles, 'No applicable roles found in LAA_ROLES' if mapped.empty?
 
-      mapped |= local_roles_for(user)
       return if Array(user.persona.roles).map(&:to_s).sort == mapped.sort
 
       user.persona.update!(roles: mapped)
@@ -77,14 +84,8 @@ module Silas
       laa_roles.filter_map { |role| mapping[role] } & valid_roles
     end
 
-    def local_roles_for(user)
-      return [] unless user.case_worker?
-
-      Array(user.persona.roles) & ['beta_tester']
-    end
-
     def roles_for(user)
-      return case_worker_roles if user.case_worker?
+      return case_worker_roles! if user.case_worker?
       return external_user_roles & user.persona.available_roles if user.external_user?
 
       []

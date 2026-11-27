@@ -30,9 +30,10 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     raw = auth.extra&.raw_info || {}
     user = User.find_by(email: info.email.to_s.downcase)
 
+    Silas::Roles.new(raw).validate_super_admin_claim!(user)
     find_user_by_persona(user, info, raw)
-  rescue Silas::Roles::NoApplicableRoles
-    [nil, I18n.t('omniauth_callbacks.no_applicable_roles')]
+  rescue Silas::Roles::NoApplicableRoles, Silas::Roles::MixedPersonaRoles
+    [nil, I18n.t('omniauth_callbacks.role_error')]
   rescue ActiveRecord::RecordInvalid
     [nil, authentication_failed_message]
   end
@@ -144,7 +145,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def find_super_admin(user, info, raw)
     email = info.email.to_s.downcase
-    return create_super_admin_from_auth(info) if user.nil?
+    raise Silas::Roles::NoApplicableRoles, Silas::Roles::NO_APPLICABLE_ROLES_MESSAGE if user.nil?
 
     if user.persona_type && user.persona_type != PERSONA_SUPER_ADMIN
       return [nil,
@@ -182,12 +183,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def extract_case_worker_roles(raw)
     role_mapping = Silas::Roles.new(raw)
-    raise InvalidClaims, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
+    raise Silas::Roles::NoApplicableRoles, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
 
-    mapped = role_mapping.case_worker_roles
-    raise InvalidClaims, 'No valid case worker roles found in LAA_ROLES' if mapped.empty?
-
-    mapped
+    role_mapping.case_worker_roles!
   end
 
   def default_case_worker_location
@@ -223,22 +221,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     external_user.save!
   end
 
-  def create_super_admin_from_auth(info)
-    email = info.email.to_s.downcase
-
-    provision_user do
-      user = create_user_from_auth!(info, {}, email)
-      create_super_admin_persona!(user)
-      user
-    end
-  end
-
-  def create_super_admin_persona!(user)
-    super_admin = SuperAdmin.new
-    super_admin.user = user
-    super_admin.save!
-  end
-
   def provision_user
     user = nil
     User.transaction { user = yield }
@@ -246,6 +228,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     [user, nil]
   rescue InvalidClaims
     [nil, invalid_claims_message, :important]
+  rescue Silas::Roles::NoApplicableRoles, Silas::Roles::MixedPersonaRoles
+    [nil, I18n.t('omniauth_callbacks.role_error'), :important]
   rescue StandardError
     [nil, authentication_failed_message]
   end
@@ -373,13 +357,13 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def extract_external_user_roles(raw, provider)
     role_mapping = Silas::Roles.new(raw)
-    raise InvalidClaims, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
+    raise Silas::Roles::NoApplicableRoles, 'Missing LAA_ROLES in auth payload' if role_mapping.empty?
 
     mapped = role_mapping.external_user_roles
-    raise InvalidClaims, 'No valid external user roles found in LAA_ROLES' if mapped.empty?
+    raise Silas::Roles::NoApplicableRoles, 'No valid external user roles found in LAA_ROLES' if mapped.empty?
 
     roles = provider.available_external_user_roles & mapped
-    raise InvalidClaims, 'No valid external user roles found in LAA_ROLES' if roles.empty?
+    raise Silas::Roles::NoApplicableRoles, 'No valid external user roles found in LAA_ROLES' if roles.empty?
 
     roles
   end

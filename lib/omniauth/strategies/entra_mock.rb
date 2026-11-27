@@ -63,7 +63,7 @@ module OmniAuth
           'first_name' => 'Mock',
           'last_name' => 'Caseworker',
           'persona' => 'CaseWorker',
-          'roles' => ['case_worker'],
+          'LAA_ROLES' => ['Caseworker'],
           'location' => 'Mock Location'
         }
       end

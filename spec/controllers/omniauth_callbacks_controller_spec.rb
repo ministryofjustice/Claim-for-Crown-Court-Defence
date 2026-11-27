@@ -10,6 +10,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       user.login_route.update!(login_method: LoginRoute::ENTRA)
       request.env['devise.mapping'] = Devise.mappings[:user]
       request.env['omniauth.auth'] = omniauth_auth(callback_email)
+      request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['Caseworker']
     end
 
     context 'when the Entra email matches the identified email' do
@@ -72,7 +73,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
           get :entra_mock
           expect(controller.current_user).to be_nil
           expect(response).to redirect_to sign_in_path
-          expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
+          expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
         end
       end
     end
@@ -122,8 +123,15 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
 
     personas = %i[case_worker external_user]
+    all_personas = %i[case_worker external_user super_admin]
     invalid_roles = [[], nil, ['', ' ', nil], ['Unknown'], ['Super Administrator']]
-    invalid_super_admin_roles = [[], nil, ['', ' ', nil], ['Unknown'], %w[Caseworker Advocate], ['LAA Administrator']]
+    invalid_super_admin_roles = [[], nil, ['', ' ', nil], ['Unknown'], ['LAA Administrator']]
+    mixed_super_admin_roles = [
+      ['Super Administrator', 'Caseworker'],
+      ['Super Administrator', 'Advocate'],
+      ['Super Administrator', 'Unknown'],
+      ['Super Administrator', 'Super Administrator']
+    ]
 
     %i[entra_id entra_mock].each do |callback|
       context "with an existing superadmin using #{callback}" do
@@ -137,7 +145,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
               get callback
               expect(controller.current_user).to be_nil
               expect(response).to redirect_to sign_in_path
-              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
             end
 
             it 'clears identification without changing the stored persona' do
@@ -158,10 +166,45 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
         end
 
         context 'without the role claim' do
-          it 'preserves existing sign-in behaviour and the stored persona' do
+          it 'rejects sign-in without changing the stored persona' do
             expect { get callback }.not_to change { user.reload.attributes.slice('persona_type', 'persona_id') }
-            expect(controller.current_user).to eq user
-            expect(response).to redirect_to super_admins_root_path
+            expect(controller.current_user).to be_nil
+            expect(response).to redirect_to sign_in_path
+            expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
+          end
+        end
+      end
+
+      all_personas.each do |persona|
+        mixed_super_admin_roles.each do |roles|
+          context "with #{roles.inspect} for a #{persona} using #{callback}" do
+            let(:user) { create(persona).user }
+
+            before { request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles }
+
+            it 'rejects sign-in without changing the account' do
+              expect { get callback }.not_to change { user.persona.reload.attributes }
+              expect(controller.current_user).to be_nil
+              expect(response).to redirect_to sign_in_path
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
+              expect(session[:dual_login]).to be_nil
+            end
+          end
+        end
+
+        context "with mixed persona roles for a #{persona} using #{callback}" do
+          let(:user) { create(persona).user }
+
+          before do
+            request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['Caseworker', 'Advocate', 'Super Administrator']
+          end
+
+          it 'rejects sign-in without changing the stored persona or roles' do
+            expect { get callback }.not_to change { user.persona.reload.attributes }
+            expect(controller.current_user).to be_nil
+            expect(response).to redirect_to sign_in_path
+            expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
+            expect(session[:dual_login]).to be_nil
           end
         end
       end
@@ -178,7 +221,7 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
                 get callback
                 expect(controller.current_user).to be_nil
                 expect(response).to redirect_to sign_in_path
-                expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
+                expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
               end
 
               it 'clears identification without changing stored roles' do
@@ -199,14 +242,16 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
               get callback
               expect(controller.current_user).to be_nil
               expect(response).to redirect_to sign_in_path
-              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
             end
           end
 
           context 'without the role claim' do
-            it 'preserves existing sign-in behaviour and stored roles' do
+            it 'rejects sign-in without changing stored roles' do
               get callback
-              expect(controller.current_user).to eq user
+              expect(controller.current_user).to be_nil
+              expect(response).to redirect_to sign_in_path
+              expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
               expect(user.persona.reload.roles).to eq ['admin']
             end
           end
@@ -333,19 +378,19 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
       user.login_route.update!(login_method: LoginRoute::ENTRA)
       request.env['devise.mapping'] = Devise.mappings[:user]
       request.env['omniauth.auth'] = omniauth_auth(user.email.upcase)
-      request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = ['Advocate', 'Caseworker', 'Super Administrator']
       DualLogin.new(session).identify(user.email)
     end
 
     {
-      case_worker: :case_workers_root_path,
-      external_user: :external_users_root_path,
-      super_admin: :super_admins_root_path
-    }.each do |persona, destination|
+      case_worker: [:case_workers_root_path, ['Caseworker']],
+      external_user: [:external_users_root_path, ['Advocate']],
+      super_admin: [:super_admins_root_path, ['Super Administrator']]
+    }.each do |persona, (destination, roles)|
       context "with an existing #{persona}" do
         let(:user) { create(persona).user }
 
         it 'signs in the existing account using its stored persona' do
+          request.env['omniauth.auth'].extra.raw_info['LAA_ROLES'] = roles
           expect { get :entra_id }.not_to change { user.reload.attributes.slice('persona_type', 'persona_id') }
           expect(controller.current_user).to eq user
           expect(response).to redirect_to public_send(destination)
@@ -384,6 +429,48 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
   end
 
+  describe 'case worker provisioning' do
+    let(:auth) do
+      OmniAuth::AuthHash.new(
+        info: { email: 'new-entra-user@example.com', first_name: 'Test', last_name: 'User' },
+        extra: { raw_info: { 'LAA_ROLES' => ['Caseworker', 'Beta Tester'] } }
+      )
+    end
+
+    describe 'superadmin provisioning' do
+      let(:auth) do
+        OmniAuth::AuthHash.new(
+          info: { email: 'new-entra-user@example.com', first_name: 'Test', last_name: 'User' },
+          extra: { raw_info: raw }
+        )
+      end
+
+      [
+        { 'LAA_ROLES' => ['Super Administrator'] },
+        { 'LAA_ROLES' => ['Super Administrator', 'Caseworker'] },
+        { 'persona' => 'SuperAdmin' }
+      ].each do |claims|
+        context "with #{claims.inspect}" do
+          let(:raw) { claims }
+
+          it 'rejects the new account without creating records' do
+            expect do
+              expect(controller.send(:find_existing_user_from_auth, auth))
+                .to eq [nil, I18n.t('omniauth_callbacks.role_error')]
+            end.not_to(change { [User.count, SuperAdmin.count] })
+          end
+        end
+      end
+    end
+
+    it 'creates a case worker with the beta tester role from SiLAS' do
+      user, error = controller.send(:find_existing_user_from_auth, auth)
+      expect(error).to be_nil
+      expect(user.persona).to be_a(CaseWorker)
+      expect(user.persona.reload.roles).to eq %w[case_worker beta_tester]
+    end
+  end
+
   describe 'invalid claims during provisioning' do
     subject(:result) { controller.send(:find_existing_user_from_auth, auth) }
 
@@ -399,14 +486,10 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
     end
 
     {
-      'missing case worker roles' => {},
       'missing firm name' => { 'LAA_ROLES' => ['Litigator'] },
       'missing accounts' => { 'LAA_ROLES' => ['Litigator'], 'FIRM_NAME' => 'New Entra Firm' },
       'invalid accounts' => {
         'LAA_ROLES' => ['Litigator'], 'FIRM_NAME' => 'New Entra Firm', 'LAA_ACCOUNTS' => ['INVALID']
-      },
-      'missing external user roles' => {
-        'persona' => 'ExternalUser', 'FIRM_NAME' => 'New Entra Firm', 'LAA_ACCOUNTS' => ['9A123B']
       }
     }.each do |description, claims|
       context "with #{description}" do
@@ -418,6 +501,27 @@ RSpec.describe OmniauthCallbacksController, :aggregate_failures do
 
         it 'does not persist a user or provider' do
           expect { result }.not_to(change { [User.count, Provider.count] })
+        end
+      end
+    end
+
+    {
+      'missing case worker roles' => {},
+      'unrecognised case worker roles' => { 'LAA_ROLES' => ['Unknown'] },
+      'beta tester without an application role' => { 'LAA_ROLES' => ['Beta Tester', 'Unknown'] },
+      'missing external user roles' => {
+        'persona' => 'ExternalUser', 'FIRM_NAME' => 'New Entra Firm', 'LAA_ACCOUNTS' => ['9A123B']
+      },
+      'roles not permitted by the provider' => {
+        'LAA_ROLES' => ['Advocate'], 'FIRM_NAME' => 'New Entra Firm', 'LAA_ACCOUNTS' => ['9A123B']
+      }
+    }.each do |description, claims|
+      context "with #{description}" do
+        let(:raw) { claims }
+
+        it 'returns the role error without persisting a user or provider' do
+          expect { expect(result).to eq [nil, I18n.t('omniauth_callbacks.role_error'), :important] }
+            .not_to(change { [User.count, Provider.count] })
         end
       end
     end

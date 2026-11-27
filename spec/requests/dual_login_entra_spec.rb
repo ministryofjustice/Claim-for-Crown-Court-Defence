@@ -22,7 +22,9 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
   def identify_entra(approved: true)
     user.login_route.update!(login_method: LoginRoute::ENTRA, dual_login_tester: approved)
     post dual_login_path, params: { email: user.email }
-    OmniAuth.config.add_mock(:entra_id, uid: 'test-uid', info: { email: user.email }, extra: { raw_info: {} })
+    OmniAuth.config.add_mock(
+      :entra_id, uid: 'test-uid', info: { email: user.email }, extra: { raw_info: { LAA_ROLES: ['Caseworker'] } }
+    )
   end
 
   def expect_rejection
@@ -140,9 +142,9 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
       follow_redirect!
       follow_redirect! if enabled
       expect(response).to have_http_status(:ok)
-      expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.no_applicable_roles')
+      expect(flash[:error_summary]).to eq I18n.t('omniauth_callbacks.role_error')
       expect(Capybara.string(response.body)).to have_css(
-        '.govuk-error-summary', text: I18n.t('omniauth_callbacks.no_applicable_roles')
+        '.govuk-error-summary', text: I18n.t('omniauth_callbacks.role_error')
       )
       get '/users/auth/entra_id'
       expect(response).to redirect_to sign_in_path
@@ -181,7 +183,7 @@ RSpec.describe 'Dual-login Entra gating', :aggregate_failures do
   it 'supports the real local mock strategy after approved identification' do
     identify_entra
     OmniAuth.config.test_mode = false
-    payload = { email: user.email, first_name: 'Test', last_name: 'Tester' }.to_json
+    payload = { email: user.email, first_name: 'Test', last_name: 'Tester', LAA_ROLES: ['Caseworker'] }.to_json
     Dotenv.modify('ENTRA_MOCK_JSON' => payload, 'ENTRA_MOCK_HTTP_STATUS' => '200') do
       get '/users/auth/entra_mock'
       follow_redirect!
